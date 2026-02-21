@@ -110,3 +110,5 @@ Designed for modern React / Next.js environments
 Uses pnpm lockfile for deterministic installs
 
 Optimized for server-side rendering and static generation
+
+Fragrances can be tailored in componets/scent-recommendation-engine.tsx
