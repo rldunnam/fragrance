@@ -329,11 +329,11 @@ export default function Home() {
                 description="Niche batch production size"
               />
               <MetricCard
-                metric="\u20AC50-\u20AC150"
+                metric="$55-$160"
                 description="Designer price range"
               />
               <MetricCard
-                metric="\u20AC100-\u20AC500+"
+                metric="$110-$550+"
                 description="Niche price range"
               />
             </>
@@ -343,13 +343,13 @@ export default function Home() {
             <p>
               <strong>Designer fragrances</strong> from houses like Dior and Chanel are
               mass-produced (100,000+ bottles), widely distributed through department stores, and
-              priced &euro;50-&euro;150. They prioritize broad appeal with familiar scent profiles
+              priced $55-$160. They prioritize broad appeal with familiar scent profiles
               designed for universal recognition.
             </p>
             <p>
               <strong>Niche fragrances</strong> from boutique houses take the opposite approach:
               small-batch production (1,000-5,000 bottles), selective distribution through
-              specialized retailers, and premium pricing (&euro;100-&euro;500+). They emphasize
+              specialized retailers, and premium pricing ($110-$550+). They emphasize
               artistic experimentation, rare ingredients, and creative freedom over market
               demands.
             </p>
