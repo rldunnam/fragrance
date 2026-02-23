@@ -1428,7 +1428,7 @@ export function ScentRecommendationEngine() {
 
     if (selectedFamilies.length > 0) {
       results = results.filter(f => 
-        f.family.some(fam => selectedFamilies.includes(fam))
+        selectedFamilies.every(fam => f.family.includes(fam))
       )
     }
 
