@@ -1931,7 +1931,7 @@ export function ScentRecommendationEngine() {
         <div className="border-t border-gold/20 bg-surface-elevated/30 px-6 py-6">
           <div className="mb-4 flex items-center justify-between gap-4 flex-wrap">
             <h4 className="text-sm font-medium uppercase tracking-[0.15em] text-gold">
-              Recommendations
+              {hasActiveFilters ? 'Filtered Results' : 'All Fragrances'}
             </h4>
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-1 rounded-lg border border-gold/20 bg-surface p-0.5 text-xs">
@@ -1969,14 +1969,7 @@ export function ScentRecommendationEngine() {
             </div>
           </div>
 
-          {!hasActiveFilters ? (
-            <div className="rounded-lg border border-dashed border-gold/20 bg-surface/50 px-6 py-12 text-center">
-              <Sparkles className="mx-auto mb-3 h-8 w-8 text-gold/40" />
-              <p className="text-cream-muted">
-                Select your preferences above to discover your perfect fragrance
-              </p>
-            </div>
-          ) : filteredFragrances.length === 0 ? (
+          {filteredFragrances.length === 0 ? (
             <div className="rounded-lg border border-dashed border-gold/20 bg-surface/50 px-6 py-12 text-center">
               <p className="text-cream-muted">
                 No fragrances match your current selection. Try adjusting your filters.
