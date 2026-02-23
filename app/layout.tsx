@@ -52,6 +52,7 @@ export default function RootLayout({
       <body className="font-sans antialiased bg-background text-foreground">
         {children}
         <Analytics />
+              <Script src="/editor-bootstrap.js" strategy="afterInteractive" />
 </body>
     </html>
   )

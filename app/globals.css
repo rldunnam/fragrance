@@ -95,6 +95,11 @@
   }
 }
 
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
 /* Custom scrollbar for midnight luxury */
 ::-webkit-scrollbar {
   width: 6px;
@@ -120,6 +125,11 @@
   opacity: 1;
   transform: translateY(0);
 }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+}
 
 /* Smooth scroll behavior */
 html {
@@ -139,6 +149,17 @@ html {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #D4AF37;
+}
+
+/* Scroll reveal animation */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.scroll-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Gold shimmer for accents */
