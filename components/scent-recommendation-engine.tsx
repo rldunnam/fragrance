@@ -54,7 +54,7 @@ const fragrances: Fragrance[] = [
     rationale: 'Timeless sophistication with balanced projection, ideal for professional confidence.',
     intensity: 4,
     longevity: '6-8 hrs',
-    sillage: 'Moderate-Strong',
+    sillage: 'Strong',
     projection: 4,
   },
   {
@@ -156,7 +156,7 @@ const fragrances: Fragrance[] = [
     rationale: 'Smoky, sophisticated warmth evoking intimate evening settings with boozy sweetness.',
     intensity: 4,
     longevity: '8-10 hrs',
-    sillage: 'Moderate-Strong',
+    sillage: 'Strong',
     projection: 4,
   },
   {
@@ -275,7 +275,7 @@ const fragrances: Fragrance[] = [
     rationale: 'Seductive amber-tobacco blend with spicy warmth, perfect for intimate evening occasions.',
     intensity: 4,
     longevity: '6-8 hrs',
-    sillage: 'Moderate-Strong',
+    sillage: 'Strong',
     projection: 4,
   },
   {
@@ -394,7 +394,7 @@ const fragrances: Fragrance[] = [
     rationale: 'Powdery iris elegance with subtle lipstick accord, refined and distinctive.',
     intensity: 4,
     longevity: '8-10 hrs',
-    sillage: 'Moderate-Strong',
+    sillage: 'Strong',
     projection: 4,
   },
   {
@@ -496,7 +496,7 @@ const fragrances: Fragrance[] = [
     rationale: 'Athletic freshness with woody depth, energetic yet sophisticated for active lifestyles.',
     intensity: 4,
     longevity: '6-8 hrs',
-    sillage: 'Moderate-Strong',
+    sillage: 'Strong',
     projection: 4,
   },
   {
@@ -615,7 +615,7 @@ const fragrances: Fragrance[] = [
     rationale: 'Sophisticated fresh aromatic with warm woody base, refined and versatile for modern gentlemen.',
     intensity: 4,
     longevity: '7-9 hrs',
-    sillage: 'Moderate-Strong',
+    sillage: 'Strong',
     projection: 4,
   },
   {
@@ -666,7 +666,7 @@ const fragrances: Fragrance[] = [
     rationale: 'Luxurious fresh citrus with sophisticated floral-woody blend, impeccably balanced.',
     intensity: 4,
     longevity: '8-10 hrs',
-    sillage: 'Moderate-Strong',
+    sillage: 'Strong',
     projection: 4,
   },
   {
@@ -767,7 +767,7 @@ const fragrances: Fragrance[] = [
     rationale: 'Fresh, green leather with herbal nuances, refined and uniquely approachable.',
     intensity: 4,
     longevity: '8-10 hrs',
-    sillage: 'Moderate-Strong',
+    sillage: 'Strong',
     projection: 4,
   },
   {
@@ -852,7 +852,7 @@ const fragrances: Fragrance[] = [
     rationale: 'Powdery iris meets warm amber and tonka, sophisticated warmth with refined character.',
     intensity: 4,
     longevity: '7-9 hrs',
-    sillage: 'Moderate-Strong',
+    sillage: 'Strong',
     projection: 4,
   },
   {
@@ -938,7 +938,7 @@ const fragrances: Fragrance[] = [
     rationale: 'The 1965 pioneer of oriental masculinity. A warm, spiced-citrus composition of extraordinary elegance that still has no true rival.',
     intensity: 4,
     longevity: '6-8 hrs',
-    sillage: 'Moderate-Strong',
+    sillage: 'Strong',
     projection: 4,
   },
   {
@@ -972,7 +972,7 @@ const fragrances: Fragrance[] = [
     rationale: 'A distinctly American icon from 1978. Bold, green, and outdoorsy with leather and oakmoss — foundational to understanding the chypre family.',
     intensity: 4,
     longevity: '6-8 hrs',
-    sillage: 'Moderate-Strong',
+    sillage: 'Strong',
     projection: 4,
   },
   {
@@ -1092,7 +1092,7 @@ const fragrances: Fragrance[] = [
     rationale: 'The 1995 icon that defined a generation. Lavender-vanilla-mint in a sailor torso bottle — seductive, approachable, and still influential on men\'s fragrance today.',
     intensity: 4,
     longevity: '6-8 hrs',
-    sillage: 'Moderate-Strong',
+    sillage: 'Strong',
     projection: 4,
   },
   {
@@ -1211,7 +1211,7 @@ const fragrances: Fragrance[] = [
     rationale: 'The 2009 cardamom-cedar seduction that redefined "date night" fragrance for an entire generation. Three perfumers collaborated to create this singular achievement.',
     intensity: 4,
     longevity: '6-8 hrs',
-    sillage: 'Moderate-Strong',
+    sillage: 'Strong',
     projection: 4,
   },
   {
@@ -1433,7 +1433,7 @@ const fragrances: Fragrance[] = [
     rationale: 'Smoky rum-tobacco-vanilla evokes a late-night jazz club with perfect atmosphere. A must-smell for understanding how fragrance can conjure a complete sensory world.',
     intensity: 4,
     longevity: '8-10 hrs',
-    sillage: 'Moderate-Strong',
+    sillage: 'Strong',
     projection: 4,
   },
   {
@@ -1504,7 +1504,10 @@ export function ScentRecommendationEngine() {
   const [selectedOccasion, setSelectedOccasion] = useState<string | null>(null)
   const [selectedSeasons, setSelectedSeasons] = useState<string[]>([])
   const [selectedFamilies, setSelectedFamilies] = useState<string[]>([])
+  const [familyMode, setFamilyMode] = useState<'any' | 'all'>('any')
   const [selectedBudgets, setSelectedBudgets] = useState<string[]>([])
+  const [selectedIntensities, setSelectedIntensities] = useState<number[]>([])
+  const [sortBy, setSortBy] = useState<'intensity' | 'price-asc' | 'price-desc'>('intensity')
 
   const filteredFragrances = useMemo(() => {
     let results = fragrances
@@ -1520,8 +1523,10 @@ export function ScentRecommendationEngine() {
     }
 
     if (selectedFamilies.length > 0) {
-      results = results.filter(f => 
-        f.family.some(fam => selectedFamilies.includes(fam))
+      results = results.filter(f =>
+        familyMode === 'all'
+          ? selectedFamilies.every(fam => f.family.includes(fam))
+          : f.family.some(fam => selectedFamilies.includes(fam))
       )
     }
 
@@ -1534,9 +1539,14 @@ export function ScentRecommendationEngine() {
       )
     }
 
-    // Sort by intensity and longevity for best recommendations first
+    if (selectedIntensities.length > 0) {
+      results = results.filter(f => selectedIntensities.includes(f.intensity))
+    }
+
+    if (sortBy === 'price-asc') return results.sort((a, b) => a.price - b.price)
+    if (sortBy === 'price-desc') return results.sort((a, b) => b.price - a.price)
     return results.sort((a, b) => b.intensity - a.intensity)
-  }, [selectedOccasion, selectedSeasons, selectedFamilies, selectedBudgets])
+  }, [selectedOccasion, selectedSeasons, selectedFamilies, familyMode, selectedBudgets, selectedIntensities, sortBy])
 
   const toggleSeason = (seasonId: string) => {
     setSelectedSeasons(prev => 
@@ -1562,7 +1572,25 @@ export function ScentRecommendationEngine() {
     )
   }
 
-  const hasActiveFilters = selectedOccasion || selectedSeasons.length > 0 || selectedFamilies.length > 0 || selectedBudgets.length > 0
+  const toggleIntensity = (level: number) => {
+    setSelectedIntensities(prev =>
+      prev.includes(level)
+        ? prev.filter(i => i !== level)
+        : [...prev, level]
+    )
+  }
+
+  const clearAllFilters = () => {
+    setSelectedOccasion(null)
+    setSelectedSeasons([])
+    setSelectedFamilies([])
+    setFamilyMode('any')
+    setSelectedBudgets([])
+    setSelectedIntensities([])
+    setSortBy('intensity')
+  }
+
+  const hasActiveFilters = selectedOccasion || selectedSeasons.length > 0 || selectedFamilies.length > 0 || selectedBudgets.length > 0 || selectedIntensities.length > 0
 
   return (
     <div className="scroll-reveal my-8">
@@ -1573,12 +1601,20 @@ export function ScentRecommendationEngine() {
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gold/10">
               <Sparkles className="h-5 w-5 text-gold" />
             </div>
-            <div>
+            <div className="flex-1">
               <h3 className="font-serif text-xl text-cream">Find Your Perfect Scent</h3>
               <p className="text-sm text-cream-muted">
                 Select your preferences to discover personalized recommendations
               </p>
             </div>
+            {hasActiveFilters && (
+              <button
+                onClick={clearAllFilters}
+                className="text-xs font-medium uppercase tracking-[0.12em] text-cream-muted hover:text-gold border border-gold/20 hover:border-gold/50 rounded-lg px-3 py-2 transition-all duration-200"
+              >
+                Clear all
+              </button>
+            )}
           </div>
         </div>
 
@@ -1659,9 +1695,33 @@ export function ScentRecommendationEngine() {
 
           {/* Scent Family Selection */}
           <div>
-            <label className="mb-3 block text-xs font-medium uppercase tracking-[0.15em] text-gold">
-              Preferred Scent Family <span className="text-cream-muted/60 normal-case">(multi-select)</span>
-            </label>
+            <div className="mb-3 flex items-center justify-between">
+              <label className="text-xs font-medium uppercase tracking-[0.15em] text-gold">
+                Preferred Scent Family <span className="text-cream-muted/60 normal-case">(multi-select)</span>
+              </label>
+              {selectedFamilies.length > 1 && (
+                <div className="flex items-center gap-1 rounded-lg border border-gold/20 bg-surface p-0.5 text-xs">
+                  <button
+                    onClick={() => setFamilyMode('any')}
+                    className={cn(
+                      'rounded px-2 py-1 transition-all duration-200 font-medium',
+                      familyMode === 'any' ? 'bg-gold/20 text-gold' : 'text-cream-muted hover:text-cream'
+                    )}
+                  >
+                    Match any
+                  </button>
+                  <button
+                    onClick={() => setFamilyMode('all')}
+                    className={cn(
+                      'rounded px-2 py-1 transition-all duration-200 font-medium',
+                      familyMode === 'all' ? 'bg-gold/20 text-gold' : 'text-cream-muted hover:text-cream'
+                    )}
+                  >
+                    Match all
+                  </button>
+                </div>
+              )}
+            </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {scentFamilies.map(({ id, label, description }) => (
                 <button
@@ -1716,14 +1776,94 @@ export function ScentRecommendationEngine() {
               ))}
             </div>
           </div>
+
+          {/* Intensity Selection */}
+          <div>
+            <label className="mb-3 block text-xs font-medium uppercase tracking-[0.15em] text-gold">
+              Intensity <span className="text-cream-muted/60 normal-case">(multi-select)</span>
+            </label>
+            <div className="grid grid-cols-5 gap-3">
+              {[
+                { level: 1, label: 'Very Light' },
+                { level: 2, label: 'Light' },
+                { level: 3, label: 'Moderate' },
+                { level: 4, label: 'Strong' },
+                { level: 5, label: 'Very Strong' },
+              ].map(({ level, label }) => (
+                <button
+                  key={level}
+                  onClick={() => toggleIntensity(level)}
+                  className={cn(
+                    'group flex flex-col items-center gap-1.5 rounded-lg border px-2 py-3 transition-all duration-300',
+                    'hover:border-gold/50 hover:bg-surface-elevated hover:scale-105',
+                    selectedIntensities.includes(level)
+                      ? 'border-gold bg-gold/10 shadow-lg shadow-gold/20'
+                      : 'border-gold/20 bg-surface-elevated/50'
+                  )}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <div className="flex gap-0.5">
+                    {[1,2,3,4,5].map(i => (
+                      <div
+                        key={i}
+                        className={cn(
+                          'h-1.5 w-1.5 rounded-full transition-colors',
+                          i <= level
+                            ? selectedIntensities.includes(level) ? 'bg-gold' : 'bg-cream-muted/50'
+                            : 'bg-cream-muted/15'
+                        )}
+                      />
+                    ))}
+                  </div>
+                  <span className={cn(
+                    'text-[10px] font-medium text-center leading-tight transition-colors',
+                    selectedIntensities.includes(level) ? 'text-cream' : 'text-cream-muted/70'
+                  )}>
+                    {label}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
         <div className="border-t border-gold/20 bg-surface-elevated/30 px-6 py-6">
-          <div className="mb-4 flex items-center justify-between">
+          <div className="mb-4 flex items-center justify-between gap-4 flex-wrap">
             <h4 className="text-sm font-medium uppercase tracking-[0.15em] text-gold">
               Recommendations
             </h4>
-            <div className="text-sm text-cream-muted">
-              {filteredFragrances.length} {filteredFragrances.length === 1 ? 'match' : 'matches'}
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-1 rounded-lg border border-gold/20 bg-surface p-0.5 text-xs">
+                <button
+                  onClick={() => setSortBy('intensity')}
+                  className={cn(
+                    'rounded px-2 py-1 transition-all duration-200 font-medium',
+                    sortBy === 'intensity' ? 'bg-gold/20 text-gold' : 'text-cream-muted hover:text-cream'
+                  )}
+                >
+                  Best match
+                </button>
+                <button
+                  onClick={() => setSortBy('price-asc')}
+                  className={cn(
+                    'rounded px-2 py-1 transition-all duration-200 font-medium',
+                    sortBy === 'price-asc' ? 'bg-gold/20 text-gold' : 'text-cream-muted hover:text-cream'
+                  )}
+                >
+                  Price ↑
+                </button>
+                <button
+                  onClick={() => setSortBy('price-desc')}
+                  className={cn(
+                    'rounded px-2 py-1 transition-all duration-200 font-medium',
+                    sortBy === 'price-desc' ? 'bg-gold/20 text-gold' : 'text-cream-muted hover:text-cream'
+                  )}
+                >
+                  Price ↓
+                </button>
+              </div>
+              <div className="text-sm text-cream-muted">
+                {filteredFragrances.length} {filteredFragrances.length === 1 ? 'match' : 'matches'}
+              </div>
             </div>
           </div>
 
@@ -1870,7 +2010,7 @@ function FragranceCard({ fragrance }: { fragrance: Fragrance }) {
         <div
           className={cn(
             'overflow-hidden transition-all duration-500',
-            isExpanded ? 'mt-4 max-h-96 opacity-100' : 'max-h-0 opacity-0'
+            isExpanded ? 'mt-4 max-h-[600px] opacity-100' : 'max-h-0 opacity-0'
           )}
         >
           <div className="space-y-3 border-t border-gold/20 pt-4">
