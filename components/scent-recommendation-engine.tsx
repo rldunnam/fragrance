@@ -1610,6 +1610,7 @@ export function ScentRecommendationEngine() {
   const [selectedBudgets, setSelectedBudgets] = useState<string[]>([])
   const [selectedIntensities, setSelectedIntensities] = useState<number[]>([])
   const [sortBy, setSortBy] = useState<'intensity' | 'price-asc' | 'price-desc'>('intensity')
+  const [searchQuery, setSearchQuery] = useState('')
 
   const filteredFragrances = useMemo(() => {
     let results = fragrances
@@ -1645,10 +1646,21 @@ export function ScentRecommendationEngine() {
       results = results.filter(f => selectedIntensities.includes(f.intensity))
     }
 
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase().trim()
+      results = results.filter(f =>
+        f.name.toLowerCase().includes(q) ||
+        f.house.toLowerCase().includes(q) ||
+        f.topNotes.some(n => n.toLowerCase().includes(q)) ||
+        f.heartNotes.some(n => n.toLowerCase().includes(q)) ||
+        f.baseNotes.some(n => n.toLowerCase().includes(q))
+      )
+    }
+
     if (sortBy === 'price-asc') return results.sort((a, b) => a.price - b.price)
     if (sortBy === 'price-desc') return results.sort((a, b) => b.price - a.price)
     return results.sort((a, b) => b.intensity - a.intensity)
-  }, [selectedOccasion, selectedSeasons, selectedFamilies, familyMode, selectedBudgets, selectedIntensities, sortBy])
+  }, [selectedOccasion, selectedSeasons, selectedFamilies, familyMode, selectedBudgets, selectedIntensities, sortBy, searchQuery])
 
   const toggleSeason = (seasonId: string) => {
     setSelectedSeasons(prev => 
@@ -1690,9 +1702,10 @@ export function ScentRecommendationEngine() {
     setSelectedBudgets([])
     setSelectedIntensities([])
     setSortBy('intensity')
+    setSearchQuery('')
   }
 
-  const hasActiveFilters = selectedOccasion || selectedSeasons.length > 0 || selectedFamilies.length > 0 || selectedBudgets.length > 0 || selectedIntensities.length > 0
+  const hasActiveFilters = selectedOccasion || selectedSeasons.length > 0 || selectedFamilies.length > 0 || selectedBudgets.length > 0 || selectedIntensities.length > 0 || searchQuery.length > 0
 
   return (
     <div className="scroll-reveal my-8">
@@ -1722,6 +1735,32 @@ export function ScentRecommendationEngine() {
 
         {/* Controls */}
         <div className="p-6 space-y-6">
+          {/* Search */}
+          <div className="relative">
+            <svg
+              className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-cream-muted/40 pointer-events-none"
+              fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
+            </svg>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              placeholder="Search by brand, name, or note — e.g. Dior, oud, vetiver…"
+              className="w-full rounded-lg border border-gold/20 bg-surface-elevated/50 pl-9 pr-9 py-3 text-sm text-cream placeholder:text-cream-muted/40 focus:outline-none focus:border-gold/50 focus:bg-surface-elevated transition-all duration-200"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-cream-muted/40 hover:text-cream-muted transition-colors"
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            )}
+          </div>
           {/* Occasion Selection */}
           <div>
             <label className="mb-3 block text-xs font-medium uppercase tracking-[0.15em] text-gold">
