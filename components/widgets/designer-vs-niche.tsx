@@ -28,12 +28,12 @@ const categories: CategoryData[] = [
     label: 'Price',
     icon: DollarSign,
     designer: {
-      value: '€50-€150',
+      value: '$55-$160',
       description: 'Accessible pricing for mass market appeal',
       icon: TrendingUp,
     },
     niche: {
-      value: '€100-€500+',
+      value: '$110-$550+',
       description: 'Premium pricing reflecting rare ingredients and craftsmanship',
       icon: Sparkles,
     },
