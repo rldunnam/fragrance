@@ -43,7 +43,7 @@ const FRAGRANCES: NicheFragrance[] = [
     house: "Creed",
     perfumer: "Olivier Creed & Erwin Creed",
     year: 2010,
-    price: "\u20AC280-\u20AC435",
+    price: "$300–$470",
     family: "Fruity Chypre",
     description:
       "The modern icon that launched a thousand clones. A bold celebration of strength, power, and success inspired by the dramatic life of Napoleon. Its smoky pineapple opening gives way to a rich, woody dry-down that has defined a generation of fragrance enthusiasts.",
@@ -76,7 +76,7 @@ const FRAGRANCES: NicheFragrance[] = [
     house: "Parfums de Marly",
     perfumer: "Hamid Merati-Kashani",
     year: 2016,
-    price: "\u20AC190-\u20AC310",
+    price: "$205–$335",
     family: "Woody Floral",
     description:
       "An intoxicating crowd-pleaser that bridges the gap between approachable and complex. The apple-lavender opening is instantly captivating, while the vanilla-guaiac wood base provides addictive warmth that keeps people leaning in closer.",
@@ -109,7 +109,7 @@ const FRAGRANCES: NicheFragrance[] = [
     house: "Maison Margiela",
     perfumer: "Alienor Massenet",
     year: 2013,
-    price: "\u20AC95-\u20AC150",
+    price: "$100–$160",
     family: "Tobacco Vanilla",
     description:
       "A sophisticated smoky-sweet composition that captures the ambiance of a late-night jazz lounge. Rum-soaked tobacco meets creamy vanilla in a warm, enveloping embrace. It's the olfactory equivalent of a velvet armchair by a fireplace.",
@@ -142,7 +142,7 @@ const FRAGRANCES: NicheFragrance[] = [
     house: "Amouage",
     perfumer: "Bertrand Duchaufour",
     year: 2008,
-    price: "\u20AC250-\u20AC400",
+    price: "$270–$430",
     family: "Oriental Woody",
     description:
       "An opulent oriental masterpiece of staggering complexity. Layer upon layer of spices, florals, and precious resins unfold over hours. This is a fragrance for connoisseurs who appreciate depth, artistry, and the finest raw materials money can buy.",
