@@ -681,14 +681,14 @@ function FragranceCard({
         ref={cardRef}
         className={cn(
           "scroll-reveal group relative flex flex-col rounded-xl overflow-hidden cursor-pointer",
-          "border transition-all duration-500",
+          "border transition-[border-color,box-shadow] duration-500",
           isHovered
             ? "border-[#D4AF37]/40 shadow-[0_0_30px_rgba(212,175,55,0.1)]"
             : "border-[#2A2A35] shadow-none"
         )}
         style={{
           backgroundColor: "#141419",
-          transitionDelay: `${index * 80}ms`,
+          transitionDelay: isHovered ? "0ms" : `${index * 80}ms`,
         }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
