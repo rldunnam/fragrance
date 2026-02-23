@@ -680,7 +680,7 @@ function FragranceCard({
       <div
         ref={cardRef}
         className={cn(
-          "scroll-reveal group relative flex flex-col rounded-xl overflow-hidden cursor-pointer",
+          "group relative flex flex-col rounded-xl overflow-hidden cursor-pointer",
           "border transition-[border-color,box-shadow] duration-500",
           isHovered
             ? "border-[#D4AF37]/40 shadow-[0_0_30px_rgba(212,175,55,0.1)]"
@@ -688,7 +688,7 @@ function FragranceCard({
         )}
         style={{
           backgroundColor: "#141419",
-          transitionDelay: isHovered ? "0ms" : `${index * 80}ms`,
+          animation: `cardReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${index * 80}ms both`,
         }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -831,6 +831,12 @@ function FragranceCard({
 export function TrendingFragranceCards() {
   return (
     <div className="my-8">
+      <style>{`
+        @keyframes cardReveal {
+          from { opacity: 0; transform: translateY(24px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
         {fragrances.map((fragrance, i) => (
           <FragranceCard key={fragrance.id} fragrance={fragrance} index={i} />
