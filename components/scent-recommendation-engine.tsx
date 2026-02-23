@@ -19,6 +19,7 @@ interface Fragrance {
   longevity: string
   sillage: string
   projection: number // 1-5 scale
+  price: number // USD, typical 100ml bottle
 }
 
 const fragrances: Fragrance[] = [
@@ -26,6 +27,7 @@ const fragrances: Fragrance[] = [
     id: 'sauvage-elixir',
     name: 'Sauvage Elixir',
     house: 'Dior',
+    price: 195,
     family: ['Woody', 'Amber'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],
@@ -42,6 +44,7 @@ const fragrances: Fragrance[] = [
     id: 'bleu-chanel',
     name: 'Bleu de Chanel EDP',
     house: 'Chanel',
+    price: 170,
     family: ['Woody', 'Amber'],
     occasion: ['Office', 'Formal'],
     season: ['Spring', 'Fall'],
@@ -58,6 +61,7 @@ const fragrances: Fragrance[] = [
     id: 'y-le-parfum',
     name: 'Y Le Parfum',
     house: 'YSL',
+    price: 130,
     family: ['Woody', 'Fresh'],
     occasion: ['Everyday', 'Date Night'],
     season: ['Spring', 'Summer'],
@@ -74,6 +78,7 @@ const fragrances: Fragrance[] = [
     id: 'aventus',
     name: 'Aventus',
     house: 'Creed',
+    price: 545,
     family: ['Woody', 'Fresh'],
     occasion: ['Office', 'Formal', 'Date Night'],
     season: ['Spring', 'Summer', 'Fall'],
@@ -90,6 +95,7 @@ const fragrances: Fragrance[] = [
     id: 'light-blue',
     name: 'Light Blue Eau Intense',
     house: 'Dolce & Gabbana',
+    price: 95,
     family: ['Fresh', 'Floral'],
     occasion: ['Everyday', 'Office'],
     season: ['Spring', 'Summer'],
@@ -106,6 +112,7 @@ const fragrances: Fragrance[] = [
     id: 'layton',
     name: 'Layton',
     house: 'Parfums de Marly',
+    price: 320,
     family: ['Woody', 'Floral'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],
@@ -122,6 +129,7 @@ const fragrances: Fragrance[] = [
     id: 'versace-eros',
     name: 'Eros',
     house: 'Versace',
+    price: 85,
     family: ['Fresh', 'Woody'],
     occasion: ['Date Night', 'Everyday'],
     season: ['Spring', 'Summer', 'Fall'],
@@ -138,6 +146,7 @@ const fragrances: Fragrance[] = [
     id: 'jazz-club',
     name: 'Jazz Club',
     house: 'Maison Margiela',
+    price: 165,
     family: ['Woody', 'Amber'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],
@@ -154,6 +163,7 @@ const fragrances: Fragrance[] = [
     id: 'acqua-di-gio',
     name: 'Acqua di Giò Profumo',
     house: 'Giorgio Armani',
+    price: 125,
     family: ['Fresh', 'Woody'],
     occasion: ['Office', 'Everyday'],
     season: ['Spring', 'Summer'],
@@ -170,6 +180,7 @@ const fragrances: Fragrance[] = [
     id: 'stronger-with-you',
     name: 'Stronger With You Intensely',
     house: 'Emporio Armani',
+    price: 105,
     family: ['Amber', 'Woody'],
     occasion: ['Date Night', 'Everyday'],
     season: ['Fall', 'Winter'],
@@ -186,6 +197,7 @@ const fragrances: Fragrance[] = [
     id: 'terre-hermes',
     name: 'Terre d\'Hermès',
     house: 'Hermès',
+    price: 175,
     family: ['Woody', 'Fresh'],
     occasion: ['Office', 'Formal', 'Everyday'],
     season: ['Spring', 'Summer', 'Fall'],
@@ -202,6 +214,7 @@ const fragrances: Fragrance[] = [
     id: 'spicebomb-extreme',
     name: 'Spicebomb Extreme',
     house: 'Viktor & Rolf',
+    price: 120,
     family: ['Amber', 'Woody'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],
@@ -218,6 +231,7 @@ const fragrances: Fragrance[] = [
     id: 'tom-ford-oud',
     name: 'Oud Wood',
     house: 'Tom Ford',
+    price: 290,
     family: ['Woody', 'Amber'],
     occasion: ['Formal', 'Date Night'],
     season: ['Fall', 'Winter'],
@@ -234,6 +248,7 @@ const fragrances: Fragrance[] = [
     id: 'prada-lhomme',
     name: 'L\'Homme Prada',
     house: 'Prada',
+    price: 115,
     family: ['Fresh', 'Amber'],
     occasion: ['Office', 'Everyday'],
     season: ['Spring', 'Summer', 'Fall'],
@@ -250,6 +265,7 @@ const fragrances: Fragrance[] = [
     id: 'the-one-edp',
     name: 'The One EDP',
     house: 'Dolce & Gabbana',
+    price: 110,
     family: ['Amber', 'Woody'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter', 'Spring'],
@@ -266,6 +282,7 @@ const fragrances: Fragrance[] = [
     id: 'one-million',
     name: 'One Million Parfum',
     house: 'Paco Rabanne',
+    price: 120,
     family: ['Woody', 'Amber'],
     occasion: ['Date Night', 'Everyday'],
     season: ['Fall', 'Winter'],
@@ -282,6 +299,7 @@ const fragrances: Fragrance[] = [
     id: 'givenchy-gentleman',
     name: 'Gentleman Réserve Privée',
     house: 'Givenchy',
+    price: 135,
     family: ['Woody', 'Amber'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],
@@ -298,6 +316,7 @@ const fragrances: Fragrance[] = [
     id: 'valentino-uomo',
     name: 'Uomo Intense',
     house: 'Valentino',
+    price: 110,
     family: ['Amber', 'Woody'],
     occasion: ['Office', 'Everyday', 'Date Night'],
     season: ['Fall', 'Winter', 'Spring'],
@@ -314,6 +333,7 @@ const fragrances: Fragrance[] = [
     id: 'green-irish-tweed',
     name: 'Green Irish Tweed',
     house: 'Creed',
+    price: 495,
     family: ['Fresh', 'Woody'],
     occasion: ['Office', 'Everyday', 'Formal'],
     season: ['Spring', 'Summer', 'Fall'],
@@ -330,6 +350,7 @@ const fragrances: Fragrance[] = [
     id: 'tobacco-vanille',
     name: 'Tobacco Vanille',
     house: 'Tom Ford',
+    price: 290,
     family: ['Amber', 'Woody'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],
@@ -346,6 +367,7 @@ const fragrances: Fragrance[] = [
     id: 'mont-blanc-legend',
     name: 'Legend Spirit',
     house: 'Mont Blanc',
+    price: 65,
     family: ['Fresh', 'Woody'],
     occasion: ['Office', 'Everyday'],
     season: ['Spring', 'Summer'],
@@ -362,6 +384,7 @@ const fragrances: Fragrance[] = [
     id: 'dior-homme-intense',
     name: 'Dior Homme Intense',
     house: 'Dior',
+    price: 155,
     family: ['Floral', 'Woody'],
     occasion: ['Office', 'Date Night', 'Formal'],
     season: ['Fall', 'Winter', 'Spring'],
@@ -378,6 +401,7 @@ const fragrances: Fragrance[] = [
     id: 'jpg-ultra-male',
     name: 'Ultra Male',
     house: 'Jean Paul Gaultier',
+    price: 90,
     family: ['Amber', 'Fresh'],
     occasion: ['Date Night', 'Everyday'],
     season: ['Fall', 'Winter'],
@@ -394,6 +418,7 @@ const fragrances: Fragrance[] = [
     id: 'bvlgari-man',
     name: 'Man in Black',
     house: 'Bvlgari',
+    price: 110,
     family: ['Amber', 'Woody'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],
@@ -410,6 +435,7 @@ const fragrances: Fragrance[] = [
     id: 'azzaro-wanted',
     name: 'The Most Wanted Parfum',
     house: 'Azzaro',
+    price: 85,
     family: ['Amber', 'Woody'],
     occasion: ['Date Night', 'Everyday'],
     season: ['Fall', 'Winter'],
@@ -426,6 +452,7 @@ const fragrances: Fragrance[] = [
     id: 'burberry-london',
     name: 'London for Men',
     house: 'Burberry',
+    price: 75,
     family: ['Woody', 'Fresh'],
     occasion: ['Office', 'Formal', 'Everyday'],
     season: ['Fall', 'Winter', 'Spring'],
@@ -442,6 +469,7 @@ const fragrances: Fragrance[] = [
     id: 'carolina-herrera',
     name: 'Bad Boy Cobalt',
     house: 'Carolina Herrera',
+    price: 120,
     family: ['Amber', 'Fresh'],
     occasion: ['Date Night', 'Everyday'],
     season: ['Spring', 'Summer', 'Fall'],
@@ -458,6 +486,7 @@ const fragrances: Fragrance[] = [
     id: 'chanel-allure-sport',
     name: 'Allure Homme Sport Eau Extrême',
     house: 'Chanel',
+    price: 160,
     family: ['Fresh', 'Woody'],
     occasion: ['Office', 'Everyday'],
     season: ['Spring', 'Summer', 'Fall'],
@@ -474,6 +503,7 @@ const fragrances: Fragrance[] = [
     id: 'mancera-cedrat-boise',
     name: 'Cedrat Boise',
     house: 'Mancera',
+    price: 185,
     family: ['Woody', 'Fresh'],
     occasion: ['Office', 'Everyday', 'Date Night'],
     season: ['Spring', 'Summer', 'Fall'],
@@ -490,6 +520,7 @@ const fragrances: Fragrance[] = [
     id: 'armaf-cdnim',
     name: 'Club de Nuit Intense Man',
     house: 'Armaf',
+    price: 35,
     family: ['Woody', 'Fresh'],
     occasion: ['Office', 'Everyday', 'Date Night'],
     season: ['Spring', 'Summer', 'Fall'],
@@ -506,6 +537,7 @@ const fragrances: Fragrance[] = [
     id: 'pdm-pegasus',
     name: 'Pegasus',
     house: 'Parfums de Marly',
+    price: 295,
     family: ['Amber', 'Woody'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter', 'Spring'],
@@ -522,6 +554,7 @@ const fragrances: Fragrance[] = [
     id: 'versace-dylan-blue',
     name: 'Dylan Blue',
     house: 'Versace',
+    price: 80,
     family: ['Fresh', 'Woody'],
     occasion: ['Office', 'Everyday'],
     season: ['Spring', 'Summer', 'Fall'],
@@ -538,6 +571,7 @@ const fragrances: Fragrance[] = [
     id: 'creed-aventus-cologne',
     name: 'Aventus Cologne',
     house: 'Creed',
+    price: 430,
     family: ['Fresh', 'Woody'],
     occasion: ['Office', 'Everyday'],
     season: ['Spring', 'Summer'],
@@ -554,6 +588,7 @@ const fragrances: Fragrance[] = [
     id: 'le-labo-santal',
     name: 'Santal 33',
     house: 'Le Labo',
+    price: 310,
     family: ['Woody', 'Amber'],
     occasion: ['Everyday', 'Office', 'Date Night'],
     season: ['Spring', 'Summer', 'Fall', 'Winter'],
@@ -570,6 +605,7 @@ const fragrances: Fragrance[] = [
     id: 'ysl-lhomme',
     name: 'L\'Homme Ultime',
     house: 'YSL',
+    price: 130,
     family: ['Woody', 'Fresh'],
     occasion: ['Office', 'Date Night', 'Formal'],
     season: ['Spring', 'Fall', 'Winter'],
@@ -586,6 +622,7 @@ const fragrances: Fragrance[] = [
     id: 'amouage-interlude',
     name: 'Interlude Man',
     house: 'Amouage',
+    price: 380,
     family: ['Amber', 'Woody'],
     occasion: ['Formal', 'Date Night'],
     season: ['Fall', 'Winter'],
@@ -602,6 +639,7 @@ const fragrances: Fragrance[] = [
     id: 'nasomatto-black-afgano',
     name: 'Black Afgano',
     house: 'Nasomatto',
+    price: 225,
     family: ['Woody', 'Amber'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],
@@ -618,6 +656,7 @@ const fragrances: Fragrance[] = [
     id: 'roja-elysium',
     name: 'Elysium Pour Homme',
     house: 'Roja Parfums',
+    price: 595,
     family: ['Fresh', 'Woody'],
     occasion: ['Office', 'Formal', 'Everyday'],
     season: ['Spring', 'Summer', 'Fall'],
@@ -634,6 +673,7 @@ const fragrances: Fragrance[] = [
     id: 'byredo-bal-dafrique',
     name: 'Bal d\'Afrique',
     house: 'Byredo',
+    price: 265,
     family: ['Woody', 'Floral'],
     occasion: ['Everyday', 'Date Night'],
     season: ['Spring', 'Summer', 'Fall'],
@@ -650,6 +690,7 @@ const fragrances: Fragrance[] = [
     id: 'initio-side-effect',
     name: 'Side Effect',
     house: 'Initio',
+    price: 285,
     family: ['Amber', 'Woody'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],
@@ -666,6 +707,7 @@ const fragrances: Fragrance[] = [
     id: 'atelier-cologne-orange-sanguine',
     name: 'Orange Sanguine',
     house: 'Atelier Cologne',
+    price: 165,
     family: ['Fresh'],
     occasion: ['Everyday', 'Office'],
     season: ['Spring', 'Summer'],
@@ -682,6 +724,7 @@ const fragrances: Fragrance[] = [
     id: 'penhaligon-halfeti',
     name: 'Halfeti',
     house: 'Penhaligon\'s',
+    price: 290,
     family: ['Woody', 'Amber'],
     occasion: ['Formal', 'Date Night'],
     season: ['Fall', 'Winter'],
@@ -714,6 +757,7 @@ const fragrances: Fragrance[] = [
     id: 'memo-irish-leather',
     name: 'Irish Leather',
     house: 'Memo Paris',
+    price: 310,
     family: ['Woody', 'Amber'],
     occasion: ['Office', 'Everyday', 'Formal'],
     season: ['Fall', 'Winter', 'Spring'],
@@ -730,6 +774,7 @@ const fragrances: Fragrance[] = [
     id: 'hermessence-vetiver-tonka',
     name: 'Vétiver Tonka',
     house: 'Hermès',
+    price: 220,
     family: ['Woody'],
     occasion: ['Office', 'Everyday', 'Formal'],
     season: ['Spring', 'Summer', 'Fall', 'Winter'],
@@ -746,6 +791,7 @@ const fragrances: Fragrance[] = [
     id: 'frederic-malle-musc-ravageur',
     name: 'Musc Ravageur',
     house: 'Frédéric Malle',
+    price: 295,
     family: ['Amber'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],
@@ -762,6 +808,7 @@ const fragrances: Fragrance[] = [
     id: 'parfums-de-nicolai-new-york',
     name: 'New York',
     house: 'Parfums de Nicolaï',
+    price: 175,
     family: ['Woody', 'Fresh'],
     occasion: ['Office', 'Everyday'],
     season: ['Spring', 'Summer', 'Fall'],
@@ -778,6 +825,7 @@ const fragrances: Fragrance[] = [
     id: 'nishane-hacivat',
     name: 'Hacivat',
     house: 'Nishane',
+    price: 195,
     family: ['Woody', 'Fresh'],
     occasion: ['Office', 'Everyday', 'Date Night'],
     season: ['Spring', 'Summer', 'Fall'],
@@ -794,6 +842,7 @@ const fragrances: Fragrance[] = [
     id: 'prada-lhomme-intense',
     name: 'L\'Homme Prada Intense',
     house: 'Prada',
+    price: 125,
     family: ['Amber', 'Woody'],
     occasion: ['Office', 'Date Night', 'Formal'],
     season: ['Fall', 'Winter', 'Spring'],
@@ -810,6 +859,7 @@ const fragrances: Fragrance[] = [
     id: 'montale-intense-cafe',
     name: 'Intense Café',
     house: 'Montale',
+    price: 110,
     family: ['Amber'],
     occasion: ['Date Night', 'Everyday'],
     season: ['Fall', 'Winter'],
@@ -827,6 +877,7 @@ const fragrances: Fragrance[] = [
     id: 'dior-eau-sauvage',
     name: 'Eau Sauvage',
     house: 'Dior',
+    price: 130,
     family: ['Fresh'],
     occasion: ['Everyday', 'Office', 'Formal'],
     season: ['Spring', 'Summer', 'Fall'],
@@ -843,6 +894,7 @@ const fragrances: Fragrance[] = [
     id: 'guerlain-vetiver',
     name: 'Vetiver',
     house: 'Guerlain',
+    price: 120,
     family: ['Woody', 'Fresh'],
     occasion: ['Office', 'Formal', 'Everyday'],
     season: ['Spring', 'Summer', 'Fall'],
@@ -859,6 +911,7 @@ const fragrances: Fragrance[] = [
     id: 'ysl-kouros',
     name: 'Kouros',
     house: 'YSL',
+    price: 80,
     family: ['Amber'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],
@@ -875,6 +928,7 @@ const fragrances: Fragrance[] = [
     id: 'guerlain-habit-rouge',
     name: 'Habit Rouge',
     house: 'Guerlain',
+    price: 115,
     family: ['Amber', 'Woody'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],
@@ -891,6 +945,7 @@ const fragrances: Fragrance[] = [
     id: 'drakkar-noir',
     name: 'Drakkar Noir',
     house: 'Guy Laroche',
+    price: 45,
     family: ['Woody', 'Fresh'],
     occasion: ['Date Night', 'Everyday'],
     season: ['Fall', 'Winter'],
@@ -907,6 +962,7 @@ const fragrances: Fragrance[] = [
     id: 'polo-green',
     name: 'Polo Green',
     house: 'Ralph Lauren',
+    price: 60,
     family: ['Woody', 'Fresh'],
     occasion: ['Everyday', 'Office'],
     season: ['Spring', 'Summer', 'Fall'],
@@ -923,6 +979,7 @@ const fragrances: Fragrance[] = [
     id: 'davidoff-cool-water',
     name: 'Cool Water',
     house: 'Davidoff',
+    price: 50,
     family: ['Fresh'],
     occasion: ['Everyday', 'Office'],
     season: ['Spring', 'Summer'],
@@ -939,6 +996,7 @@ const fragrances: Fragrance[] = [
     id: 'dior-fahrenheit',
     name: 'Fahrenheit',
     house: 'Dior',
+    price: 140,
     family: ['Woody', 'Amber'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],
@@ -955,6 +1013,7 @@ const fragrances: Fragrance[] = [
     id: 'aramis-classic',
     name: 'Aramis',
     house: 'Aramis',
+    price: 55,
     family: ['Woody', 'Amber'],
     occasion: ['Office', 'Formal'],
     season: ['Fall', 'Winter'],
@@ -971,6 +1030,7 @@ const fragrances: Fragrance[] = [
     id: 'givenchy-gentleman-original',
     name: 'Gentleman (Original 1974)',
     house: 'Givenchy',
+    price: 95,
     family: ['Amber', 'Woody'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],
@@ -988,6 +1048,7 @@ const fragrances: Fragrance[] = [
     id: 'terre-hermes-parfum',
     name: 'Terre d\'Hermès Parfum',
     house: 'Hermès',
+    price: 195,
     family: ['Woody', 'Amber'],
     occasion: ['Office', 'Formal', 'Date Night'],
     season: ['Fall', 'Winter', 'Spring'],
@@ -1004,6 +1065,7 @@ const fragrances: Fragrance[] = [
     id: 'bleu-chanel-parfum',
     name: 'Bleu de Chanel Parfum',
     house: 'Chanel',
+    price: 195,
     family: ['Woody', 'Amber'],
     occasion: ['Office', 'Formal', 'Date Night'],
     season: ['Fall', 'Winter', 'Spring'],
@@ -1020,6 +1082,7 @@ const fragrances: Fragrance[] = [
     id: 'jpg-le-male',
     name: 'Le Male',
     house: 'Jean Paul Gaultier',
+    price: 75,
     family: ['Fresh', 'Amber'],
     occasion: ['Date Night', 'Everyday'],
     season: ['Spring', 'Summer', 'Fall'],
@@ -1036,6 +1099,7 @@ const fragrances: Fragrance[] = [
     id: 'acqua-di-gio-original',
     name: 'Acqua di Giò',
     house: 'Giorgio Armani',
+    price: 85,
     family: ['Fresh'],
     occasion: ['Everyday', 'Office'],
     season: ['Spring', 'Summer'],
@@ -1052,6 +1116,7 @@ const fragrances: Fragrance[] = [
     id: 'dior-homme-parfum',
     name: 'Dior Homme Parfum',
     house: 'Dior',
+    price: 175,
     family: ['Floral', 'Woody'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],
@@ -1068,6 +1133,7 @@ const fragrances: Fragrance[] = [
     id: 'jpg-le-male-le-parfum',
     name: 'Le Male Le Parfum',
     house: 'Jean Paul Gaultier',
+    price: 110,
     family: ['Amber', 'Woody'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],
@@ -1084,6 +1150,7 @@ const fragrances: Fragrance[] = [
     id: 'issey-miyake-leau',
     name: 'L\'Eau d\'Issey Pour Homme',
     house: 'Issey Miyake',
+    price: 80,
     family: ['Fresh', 'Woody'],
     occasion: ['Everyday', 'Office'],
     season: ['Spring', 'Summer'],
@@ -1100,6 +1167,7 @@ const fragrances: Fragrance[] = [
     id: 'hugo-boss-bottled',
     name: 'Boss Bottled',
     house: 'Hugo Boss',
+    price: 75,
     family: ['Woody', 'Amber'],
     occasion: ['Office', 'Everyday'],
     season: ['Spring', 'Fall'],
@@ -1116,6 +1184,7 @@ const fragrances: Fragrance[] = [
     id: 'paco-1-million-original',
     name: '1 Million',
     house: 'Paco Rabanne',
+    price: 95,
     family: ['Amber', 'Woody'],
     occasion: ['Date Night', 'Everyday'],
     season: ['Fall', 'Winter'],
@@ -1132,6 +1201,7 @@ const fragrances: Fragrance[] = [
     id: 'ysl-la-nuit',
     name: 'La Nuit de L\'Homme',
     house: 'YSL',
+    price: 100,
     family: ['Woody', 'Amber'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],
@@ -1148,6 +1218,7 @@ const fragrances: Fragrance[] = [
     id: 'dior-sauvage-edp',
     name: 'Sauvage EDP',
     house: 'Dior',
+    price: 155,
     family: ['Fresh', 'Woody'],
     occasion: ['Office', 'Everyday', 'Date Night'],
     season: ['Spring', 'Summer', 'Fall'],
@@ -1164,6 +1235,7 @@ const fragrances: Fragrance[] = [
     id: 'armani-stronger-with-you',
     name: 'Stronger With You Intensely',
     house: 'Giorgio Armani',
+    price: 115,
     family: ['Amber', 'Woody'],
     occasion: ['Date Night', 'Everyday'],
     season: ['Fall', 'Winter'],
@@ -1180,6 +1252,7 @@ const fragrances: Fragrance[] = [
     id: 'chanel-allure-sport-original',
     name: 'Allure Homme Sport',
     house: 'Chanel',
+    price: 150,
     family: ['Fresh', 'Woody'],
     occasion: ['Everyday', 'Office'],
     season: ['Spring', 'Summer'],
@@ -1197,6 +1270,7 @@ const fragrances: Fragrance[] = [
     id: 'kilian-angels-share',
     name: 'Angels\' Share',
     house: 'By Kilian',
+    price: 295,
     family: ['Amber', 'Woody'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],
@@ -1213,6 +1287,7 @@ const fragrances: Fragrance[] = [
     id: 'serge-lutens-ambre-sultan',
     name: 'Ambre Sultan',
     house: 'Serge Lutens',
+    price: 175,
     family: ['Amber'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],
@@ -1229,6 +1304,7 @@ const fragrances: Fragrance[] = [
     id: 'pdm-althaïr',
     name: 'Althaïr',
     house: 'Parfums de Marly',
+    price: 320,
     family: ['Amber', 'Woody'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],
@@ -1245,6 +1321,7 @@ const fragrances: Fragrance[] = [
     id: 'fm-portrait-of-a-lady',
     name: 'Portrait of a Lady',
     house: 'Frédéric Malle',
+    price: 310,
     family: ['Floral', 'Woody'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],
@@ -1261,6 +1338,7 @@ const fragrances: Fragrance[] = [
     id: 'mfk-baccarat-rouge-540',
     name: 'Baccarat Rouge 540',
     house: 'Maison Francis Kurkdjian',
+    price: 325,
     family: ['Amber', 'Floral'],
     occasion: ['Date Night', 'Formal', 'Everyday'],
     season: ['Spring', 'Fall', 'Winter'],
@@ -1277,6 +1355,7 @@ const fragrances: Fragrance[] = [
     id: 'xerjoff-erba-pura',
     name: 'Erba Pura',
     house: 'Xerjoff',
+    price: 245,
     family: ['Fresh', 'Amber'],
     occasion: ['Everyday', 'Date Night'],
     season: ['Spring', 'Summer'],
@@ -1293,6 +1372,7 @@ const fragrances: Fragrance[] = [
     id: 'lv-ombre-nomade',
     name: 'Ombre Nomade',
     house: 'Louis Vuitton',
+    price: 475,
     family: ['Woody', 'Amber'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],
@@ -1309,6 +1389,7 @@ const fragrances: Fragrance[] = [
     id: 'amouage-reflection-man',
     name: 'Reflection Man',
     house: 'Amouage',
+    price: 360,
     family: ['Floral', 'Woody'],
     occasion: ['Office', 'Everyday', 'Formal'],
     season: ['Spring', 'Summer', 'Fall'],
@@ -1325,6 +1406,7 @@ const fragrances: Fragrance[] = [
     id: 'amouage-jubilation-xxv',
     name: 'Jubilation XXV Man',
     house: 'Amouage',
+    price: 395,
     family: ['Amber', 'Woody'],
     occasion: ['Formal', 'Date Night'],
     season: ['Fall', 'Winter'],
@@ -1341,6 +1423,7 @@ const fragrances: Fragrance[] = [
     id: 'maison-margiela-jazz-club',
     name: 'Jazz Club',
     house: 'Maison Margiela',
+    price: 165,
     family: ['Amber', 'Woody'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],
@@ -1357,6 +1440,7 @@ const fragrances: Fragrance[] = [
     id: 'tom-ford-neroli-portofino',
     name: 'Neroli Portofino',
     house: 'Tom Ford',
+    price: 290,
     family: ['Fresh', 'Floral'],
     occasion: ['Everyday', 'Office', 'Date Night'],
     season: ['Spring', 'Summer'],
@@ -1373,6 +1457,7 @@ const fragrances: Fragrance[] = [
     id: 'amouage-decision',
     name: 'Decision',
     house: 'Amouage',
+    price: 375,
     family: ['Amber', 'Woody'],
     occasion: ['Office', 'Formal', 'Date Night'],
     season: ['Spring', 'Fall', 'Winter'],
@@ -1408,10 +1493,18 @@ const scentFamilies = [
   { id: 'Floral', label: 'Floral', description: 'Rose, jasmine, lavender' },
 ]
 
+const budgetRanges = [
+  { id: 'under-75',    label: 'Under $75',      min: 0,   max: 75  },
+  { id: '75-150',      label: '$75 – $150',      min: 75,  max: 150 },
+  { id: '150-300',     label: '$150 – $300',     min: 150, max: 300 },
+  { id: 'over-300',    label: 'Over $300',       min: 300, max: Infinity },
+]
+
 export function ScentRecommendationEngine() {
   const [selectedOccasion, setSelectedOccasion] = useState<string | null>(null)
   const [selectedSeasons, setSelectedSeasons] = useState<string[]>([])
   const [selectedFamilies, setSelectedFamilies] = useState<string[]>([])
+  const [selectedBudgets, setSelectedBudgets] = useState<string[]>([])
 
   const filteredFragrances = useMemo(() => {
     let results = fragrances
@@ -1428,13 +1521,22 @@ export function ScentRecommendationEngine() {
 
     if (selectedFamilies.length > 0) {
       results = results.filter(f => 
-        selectedFamilies.every(fam => f.family.includes(fam))
+        f.family.some(fam => selectedFamilies.includes(fam))
+      )
+    }
+
+    if (selectedBudgets.length > 0) {
+      results = results.filter(f =>
+        selectedBudgets.some(budgetId => {
+          const range = budgetRanges.find(b => b.id === budgetId)
+          return range ? f.price >= range.min && f.price < range.max : false
+        })
       )
     }
 
     // Sort by intensity and longevity for best recommendations first
     return results.sort((a, b) => b.intensity - a.intensity)
-  }, [selectedOccasion, selectedSeasons, selectedFamilies])
+  }, [selectedOccasion, selectedSeasons, selectedFamilies, selectedBudgets])
 
   const toggleSeason = (seasonId: string) => {
     setSelectedSeasons(prev => 
@@ -1452,7 +1554,15 @@ export function ScentRecommendationEngine() {
     )
   }
 
-  const hasActiveFilters = selectedOccasion || selectedSeasons.length > 0 || selectedFamilies.length > 0
+  const toggleBudget = (budgetId: string) => {
+    setSelectedBudgets(prev =>
+      prev.includes(budgetId)
+        ? prev.filter(b => b !== budgetId)
+        : [...prev, budgetId]
+    )
+  }
+
+  const hasActiveFilters = selectedOccasion || selectedSeasons.length > 0 || selectedFamilies.length > 0 || selectedBudgets.length > 0
 
   return (
     <div className="scroll-reveal my-8">
@@ -1577,9 +1687,36 @@ export function ScentRecommendationEngine() {
               ))}
             </div>
           </div>
+          {/* Budget Selection */}
+          <div>
+            <label className="mb-3 block text-xs font-medium uppercase tracking-[0.15em] text-gold">
+              Budget <span className="text-cream-muted/60 normal-case">(multi-select)</span>
+            </label>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {budgetRanges.map(({ id, label }) => (
+                <button
+                  key={id}
+                  onClick={() => toggleBudget(id)}
+                  className={cn(
+                    'group flex items-center justify-center gap-2 rounded-lg border px-4 py-3 transition-all duration-300',
+                    'hover:border-gold/50 hover:bg-surface-elevated hover:scale-105',
+                    selectedBudgets.includes(id)
+                      ? 'border-gold bg-gold/10 shadow-lg shadow-gold/20'
+                      : 'border-gold/20 bg-surface-elevated/50'
+                  )}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <span className={cn(
+                    'text-sm font-medium transition-colors',
+                    selectedBudgets.includes(id) ? 'text-cream' : 'text-cream-muted'
+                  )}>
+                    {label}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
-
-        {/* Results */}
         <div className="border-t border-gold/20 bg-surface-elevated/30 px-6 py-6">
           <div className="mb-4 flex items-center justify-between">
             <h4 className="text-sm font-medium uppercase tracking-[0.15em] text-gold">
@@ -1675,20 +1812,23 @@ function FragranceCard({ fragrance }: { fragrance: Fragrance }) {
         <div className="mb-3">
           <div className="mb-1 flex items-start justify-between gap-2">
             <h5 className="font-serif text-lg leading-tight text-cream">{fragrance.name}</h5>
-            <div className={cn(
-              'flex h-6 w-6 items-center justify-center rounded-full border transition-all',
-              isExpanded 
-                ? 'border-gold bg-gold/20 rotate-180' 
-                : 'border-gold/30 bg-gold/5'
-            )}>
-              <svg
-                className={cn('h-3 w-3', isExpanded ? 'text-gold' : 'text-cream-muted')}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-gold whitespace-nowrap">${fragrance.price}</span>
+              <div className={cn(
+                'flex h-6 w-6 items-center justify-center rounded-full border transition-all',
+                isExpanded 
+                  ? 'border-gold bg-gold/20 rotate-180' 
+                  : 'border-gold/30 bg-gold/5'
+              )}>
+                <svg
+                  className={cn('h-3 w-3', isExpanded ? 'text-gold' : 'text-cream-muted')}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
             </div>
           </div>
           <div className="text-sm text-gold-light">{fragrance.house}</div>
