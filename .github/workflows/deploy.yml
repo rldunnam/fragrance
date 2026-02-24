@@ -35,6 +35,7 @@ jobs:
           severity: HIGH,CRITICAL
           exit-code: 1
           format: table
+          trivyignores: .trivyignore
 
   build:
     needs: kics-job
