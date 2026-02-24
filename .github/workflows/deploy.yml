@@ -13,14 +13,24 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Create KICS config
+        run: |
+          cat <<'EOF' > kics.config
+          {
+            "type": "Dockerfile",
+            "exclude-paths": "node_modules,pnpm-lock.yaml,package.json,/home/runner",
+            "exclude-queries": "9bcd6b9f-3a04-4571-8e5e-13d178fb70ea",
+            "fail-on": "high,medium",
+            "output-path": "kics-results",
+            "report-formats": "json"
+          }
+          EOF
+
       - name: Run KICS scan on Dockerfile
-        uses: checkmarx/kics-github-action@v2.1.19
+        uses: checkmarx/kics-github-action@v2.1.3
         with:
           path: Dockerfile
-          type: Dockerfile
-          exclude_queries: 9bcd6b9f-3a04-4571-8e5e-13d178fb70ea
-          exclude_paths: "pnpm-lock.yaml,package.json,node_modules"
-          fail_on: high,medium
+          config_path: kics.config
           output_path: kics-results
           output_formats: json
 
