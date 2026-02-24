@@ -128,6 +128,7 @@ function TraitBar({
   delay,
   isVisible,
 }: {
+  key?: React.Key
   label: string
   value: number
   accentColor: string
@@ -201,6 +202,7 @@ function PlatformTab({
   isActive,
   onClick,
 }: {
+  key?: React.Key
   platform: PlatformData
   isActive: boolean
   onClick: () => void
@@ -241,6 +243,7 @@ function HighlightPill({
   delay,
   isVisible,
 }: {
+  key?: React.Key
   text: string
   accentColor: string
   delay: number
