@@ -1883,6 +1883,16 @@ export function ScentRecommendationEngine() {
   const [selectedIntensities, setSelectedIntensities] = useState<number[]>([])
   const [sortBy, setSortBy] = useState<'intensity' | 'price-asc' | 'price-desc'>('intensity')
   const [searchQuery, setSearchQuery] = useState('')
+  const [shortlist, setShortlist] = useState<string[]>([])
+  const [drawerOpen, setDrawerOpen] = useState(false)
+
+  const toggleShortlist = (id: string) => {
+    setShortlist(prev => {
+      if (prev.includes(id)) return prev.filter(s => s !== id)
+      if (prev.length >= 3) return prev
+      return [...prev, id]
+    })
+  }
 
   const filteredFragrances = useMemo(() => {
     let results = fragrances
@@ -2289,10 +2299,140 @@ export function ScentRecommendationEngine() {
           ) : (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {filteredFragrances.map((fragrance) => (
-                <FragranceCard key={fragrance.id} fragrance={fragrance} />
+                <FragranceCard
+                  key={fragrance.id}
+                  fragrance={fragrance}
+                  isShortlisted={shortlist.includes(fragrance.id)}
+                  canShortlist={shortlist.length < 3 || shortlist.includes(fragrance.id)}
+                  onToggleShortlist={() => toggleShortlist(fragrance.id)}
+                />
               ))}
             </div>
           )}
+        </div>
+      </div>
+
+      {/* Floating Compare Button */}
+      {shortlist.length > 0 && (
+        <div className="fixed bottom-6 right-6 z-50">
+          <button
+            onClick={() => setDrawerOpen(v => !v)}
+            className="flex items-center gap-2 rounded-full bg-gold px-5 py-3 text-sm font-medium text-surface shadow-lg shadow-gold/30 transition-all duration-200 hover:bg-gold-light hover:shadow-xl hover:shadow-gold/40"
+          >
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2zm0 0V9a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v10m-6 0a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2m0 0V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v14a2 2 0 0 0-2 2h-2a2 2 0 0 0-2-2z" />
+            </svg>
+            Compare {shortlist.length}
+          </button>
+        </div>
+      )}
+
+      {/* Comparison Drawer */}
+      <div
+        className={cn(
+          'fixed bottom-0 left-0 right-0 z-40 transition-transform duration-500',
+          drawerOpen ? 'translate-y-0' : 'translate-y-full'
+        )}
+        style={{ transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}
+      >
+        <div className="border-t border-gold/20 bg-[#0D0D12]/97 shadow-2xl backdrop-blur-xl">
+
+          {/* Drag handle / close */}
+          <button
+            onClick={() => setDrawerOpen(false)}
+            className="flex w-full items-center justify-center py-3 hover:opacity-70 transition-opacity"
+            aria-label="Close comparison"
+          >
+            <div className="h-1 w-10 rounded-full bg-gold/25" />
+          </button>
+
+          <div className="mx-auto max-w-[1100px] px-4 pb-6 sm:px-6 lg:px-8">
+
+            {/* Header row */}
+            <div className="mb-4 flex items-center justify-between">
+              <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-gold">
+                Side-by-Side Comparison
+              </span>
+              <button
+                onClick={() => { setShortlist([]); setDrawerOpen(false) }}
+                className="rounded border border-white/10 px-3 py-1 text-xs text-cream-muted transition-colors hover:border-gold/30 hover:text-cream"
+              >
+                Clear All
+              </button>
+            </div>
+
+            {/* Grid: label column + one column per shortlisted fragrance */}
+            <div
+              className="grid gap-3"
+              style={{ gridTemplateColumns: `120px repeat(${shortlist.length}, 1fr)` }}
+            >
+              {/* Row labels */}
+              <div className="flex flex-col pt-[68px]">
+                {['Family', 'Longevity', 'Sillage', 'Intensity', 'Projection', 'Top Notes', 'Heart Notes', 'Base Notes'].map(label => (
+                  <div
+                    key={label}
+                    className="border-b border-white/[0.04] py-2.5 text-[10px] font-medium uppercase tracking-[0.1em] text-cream-muted/40"
+                  >
+                    {label}
+                  </div>
+                ))}
+              </div>
+
+              {/* One column per shortlisted fragrance */}
+              {shortlist.map(id => {
+                const f = fragrances.find(fr => fr.id === id)!
+                return (
+                  <div key={id} className="overflow-hidden rounded-lg border border-gold/20 bg-surface-elevated">
+
+                    {/* Card header */}
+                    <div className="relative border-b border-gold/10 bg-gold/[0.04] p-3 pr-7">
+                      <button
+                        onClick={() => toggleShortlist(id)}
+                        className="absolute right-2 top-2 flex h-5 w-5 items-center justify-center rounded-full border border-white/10 text-cream-muted/40 transition-colors hover:border-gold/40 hover:text-gold"
+                        aria-label={`Remove ${f.name}`}
+                      >
+                        <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                      <div className="font-serif text-sm leading-snug text-cream">{f.name}</div>
+                      <div className="mt-0.5 text-[10px] uppercase tracking-wider text-gold-light">{f.house}</div>
+                      <div className="mt-1 text-sm font-medium text-gold">${f.price}</div>
+                    </div>
+
+                    {/* Data rows */}
+                    <div className="divide-y divide-white/[0.04] px-3">
+                      <div className="py-2.5 text-xs text-cream-muted">{f.family.join(', ')}</div>
+                      <div className="py-2.5 text-xs text-cream-muted">{f.longevity}</div>
+                      <div className="py-2.5 text-xs text-cream-muted">{f.sillage}</div>
+                      <div className="py-2.5">
+                        <div className="mb-1.5 text-xs text-cream-muted">{f.intensity}/5</div>
+                        <div className="h-1 w-full overflow-hidden rounded-full bg-surface">
+                          <div
+                            className="h-full rounded-full bg-gradient-to-r from-gold-dark to-gold"
+                            style={{ width: `${(f.intensity / 5) * 100}%` }}
+                          />
+                        </div>
+                      </div>
+                      <div className="py-2.5">
+                        <div className="mb-1.5 text-xs text-cream-muted">{f.projection}/5</div>
+                        <div className="h-1 w-full overflow-hidden rounded-full bg-surface">
+                          <div
+                            className="h-full rounded-full bg-gradient-to-r from-gold-dark to-gold"
+                            style={{ width: `${(f.projection / 5) * 100}%` }}
+                          />
+                        </div>
+                      </div>
+                      <div className="py-2.5 text-xs text-cream-muted leading-relaxed">{f.topNotes.join(', ')}</div>
+                      <div className="py-2.5 text-xs text-cream-muted leading-relaxed">{f.heartNotes.join(', ')}</div>
+                      <div className="py-2.5 text-xs text-cream-muted leading-relaxed">{f.baseNotes.join(', ')}</div>
+                    </div>
+
+                  </div>
+                )
+              })}
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -2338,7 +2478,17 @@ function ProjectionRating({ rating }: { rating: number }) {
   )
 }
 
-function FragranceCard({ fragrance }: { fragrance: Fragrance }) {
+function FragranceCard({
+  fragrance,
+  isShortlisted,
+  canShortlist,
+  onToggleShortlist,
+}: {
+  fragrance: Fragrance
+  isShortlisted: boolean
+  canShortlist: boolean
+  onToggleShortlist: () => void
+}) {
   const [isExpanded, setIsExpanded] = useState(false)
 
   return (
@@ -2346,7 +2496,8 @@ function FragranceCard({ fragrance }: { fragrance: Fragrance }) {
       className={cn(
         'group relative overflow-hidden rounded-lg border border-gold/30 bg-gradient-to-br from-surface-elevated to-surface transition-all duration-500',
         'hover:border-gold hover:shadow-lg hover:shadow-gold/20 hover:scale-[1.02]',
-        isExpanded ? 'border-gold shadow-lg shadow-gold/20' : ''
+        isExpanded ? 'border-gold shadow-lg shadow-gold/20' : '',
+        isShortlisted ? 'border-gold/60 shadow-md shadow-gold/15' : ''
       )}
       style={{ cursor: 'pointer' }}
     >
@@ -2358,12 +2509,33 @@ function FragranceCard({ fragrance }: { fragrance: Fragrance }) {
         <div className="mb-3">
           <div className="mb-1 flex items-start justify-between gap-2">
             <h5 className="font-serif text-lg leading-tight text-cream">{fragrance.name}</h5>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 shrink-0">
               <span className="text-sm font-medium text-gold whitespace-nowrap">${fragrance.price}</span>
+
+              {/* Shortlist / compare button */}
+              <button
+                onClick={(e) => { e.stopPropagation(); onToggleShortlist() }}
+                disabled={!canShortlist}
+                title={isShortlisted ? 'Remove from comparison' : canShortlist ? 'Add to comparison' : 'Max 3 fragrances selected'}
+                className={cn(
+                  'flex h-6 w-6 items-center justify-center rounded-full border transition-all duration-200',
+                  isShortlisted
+                    ? 'border-gold bg-gold text-surface'
+                    : canShortlist
+                    ? 'border-gold/30 bg-gold/5 text-cream-muted hover:border-gold hover:bg-gold/10 hover:text-gold'
+                    : 'border-white/10 bg-transparent text-white/20 cursor-not-allowed'
+                )}
+              >
+                <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2zm0 0V9a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v10m-6 0a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2m0 0V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v14a2 2 0 0 0-2 2h-2a2 2 0 0 0-2-2z" />
+                </svg>
+              </button>
+
+              {/* Expand chevron */}
               <div className={cn(
                 'flex h-6 w-6 items-center justify-center rounded-full border transition-all',
-                isExpanded 
-                  ? 'border-gold bg-gold/20 rotate-180' 
+                isExpanded
+                  ? 'border-gold bg-gold/20 rotate-180'
                   : 'border-gold/30 bg-gold/5'
               )}>
                 <svg
