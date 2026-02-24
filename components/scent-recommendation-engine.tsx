@@ -2523,6 +2523,61 @@ export function ScentRecommendationEngine() {
           </div>
         </div>
         <div className="border-t border-gold/20 bg-surface-elevated/30 px-6 py-6">
+
+          {/* Active filter pills */}
+          {hasActiveFilters && (
+            <div className="mb-4 flex flex-wrap items-center gap-2">
+              {selectedOccasion && (
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/10 pl-3 pr-1.5 py-1 text-xs font-medium text-gold">
+                  {occasions.find(o => o.id === selectedOccasion)?.label}
+                  <button onClick={() => setSelectedOccasion(null)} className="flex h-4 w-4 items-center justify-center rounded-full hover:bg-gold/20 transition-colors" aria-label="Remove occasion filter">
+                    <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                  </button>
+                </span>
+              )}
+              {selectedSeasons.map(s => (
+                <span key={s} className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/10 pl-3 pr-1.5 py-1 text-xs font-medium text-gold">
+                  {seasons.find(x => x.id === s)?.label}
+                  <button onClick={() => toggleSeason(s)} className="flex h-4 w-4 items-center justify-center rounded-full hover:bg-gold/20 transition-colors" aria-label={`Remove ${s} filter`}>
+                    <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                  </button>
+                </span>
+              ))}
+              {selectedFamilies.map(f => (
+                <span key={f} className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/10 pl-3 pr-1.5 py-1 text-xs font-medium text-gold">
+                  {scentFamilies.find(x => x.id === f)?.label}
+                  <button onClick={() => toggleFamily(f)} className="flex h-4 w-4 items-center justify-center rounded-full hover:bg-gold/20 transition-colors" aria-label={`Remove ${f} filter`}>
+                    <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                  </button>
+                </span>
+              ))}
+              {selectedBudgets.map(b => (
+                <span key={b} className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/10 pl-3 pr-1.5 py-1 text-xs font-medium text-gold">
+                  {budgetRanges.find(x => x.id === b)?.label}
+                  <button onClick={() => toggleBudget(b)} className="flex h-4 w-4 items-center justify-center rounded-full hover:bg-gold/20 transition-colors" aria-label={`Remove ${b} filter`}>
+                    <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                  </button>
+                </span>
+              ))}
+              {selectedIntensities.map(i => (
+                <span key={i} className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/10 pl-3 pr-1.5 py-1 text-xs font-medium text-gold">
+                  Intensity {i}
+                  <button onClick={() => toggleIntensity(i)} className="flex h-4 w-4 items-center justify-center rounded-full hover:bg-gold/20 transition-colors" aria-label={`Remove intensity ${i} filter`}>
+                    <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                  </button>
+                </span>
+              ))}
+              {searchQuery && (
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/10 pl-3 pr-1.5 py-1 text-xs font-medium text-gold">
+                  &ldquo;{searchQuery}&rdquo;
+                  <button onClick={() => setSearchQuery('')} className="flex h-4 w-4 items-center justify-center rounded-full hover:bg-gold/20 transition-colors" aria-label="Clear search">
+                    <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                  </button>
+                </span>
+              )}
+            </div>
+          )}
+
           <div className="mb-4 flex items-center justify-between gap-4 flex-wrap">
             <h4 className="text-sm font-medium uppercase tracking-[0.15em] text-gold">
               {hasActiveFilters ? 'Filtered Results' : 'All Fragrances'}
@@ -2578,6 +2633,12 @@ export function ScentRecommendationEngine() {
                   isShortlisted={shortlist.includes(fragrance.id)}
                   canShortlist={shortlist.length < 3 || shortlist.includes(fragrance.id)}
                   onToggleShortlist={() => toggleShortlist(fragrance.id)}
+                  onNoteClick={(note) => {
+                    const terms = searchQuery.trim().split(/[\s,]+/).filter(Boolean)
+                    if (!terms.map(t => t.toLowerCase()).includes(note.toLowerCase())) {
+                      setSearchQuery(prev => prev.trim() ? `${prev.trim()} ${note}` : note)
+                    }
+                  }}
                 />
               ))}
             </div>
@@ -2756,12 +2817,14 @@ function FragranceCard({
   isShortlisted,
   canShortlist,
   onToggleShortlist,
+  onNoteClick,
 }: {
   key?: React.Key
   fragrance: Fragrance
   isShortlisted: boolean
   canShortlist: boolean
   onToggleShortlist: () => void
+  onNoteClick: (note: string) => void
 }) {
   const [isExpanded, setIsExpanded] = useState(false)
 
@@ -2873,24 +2936,29 @@ function FragranceCard({
 
             {/* Notes */}
             <div className="space-y-2">
-              <div>
-                <div className="mb-1 text-xs font-medium uppercase tracking-wider text-gold/80">
-                  Top Notes
+              {([
+                { label: 'Top Notes', notes: fragrance.topNotes },
+                { label: 'Heart Notes', notes: fragrance.heartNotes },
+                { label: 'Base Notes', notes: fragrance.baseNotes },
+              ] as { label: string; notes: string[] }[]).map(({ label, notes }) => (
+                <div key={label}>
+                  <div className="mb-1.5 text-xs font-medium uppercase tracking-wider text-gold/80">
+                    {label}
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {notes.map(note => (
+                      <button
+                        key={note}
+                        onClick={(e) => { e.stopPropagation(); onNoteClick(note) }}
+                        className="rounded-full border border-gold/20 bg-surface px-2.5 py-0.5 text-xs text-cream-muted transition-all duration-200 hover:border-gold/60 hover:bg-gold/10 hover:text-gold cursor-pointer"
+                        title={`Filter by ${note}`}
+                      >
+                        {note}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-                <div className="text-sm text-cream-muted">{fragrance.topNotes.join(', ')}</div>
-              </div>
-              <div>
-                <div className="mb-1 text-xs font-medium uppercase tracking-wider text-gold/80">
-                  Heart Notes
-                </div>
-                <div className="text-sm text-cream-muted">{fragrance.heartNotes.join(', ')}</div>
-              </div>
-              <div>
-                <div className="mb-1 text-xs font-medium uppercase tracking-wider text-gold/80">
-                  Base Notes
-                </div>
-                <div className="text-sm text-cream-muted">{fragrance.baseNotes.join(', ')}</div>
-              </div>
+              ))}
             </div>
 
             {/* Intensity Bar */}
