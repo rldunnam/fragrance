@@ -1,6 +1,25 @@
-# Trivy filesystem scan ignore rules
-#
 # DS026 - Package manager (npm/pnpm) packages not pinned to a specific version.
-# False positive: this project uses pnpm with --frozen-lockfile which provides
-# equivalent guarantees to pinned versions. The lockfile is the source of truth.
+# False positive: project uses pnpm with --frozen-lockfile which provides
+# equivalent guarantees to pinned versions.
 DS026
+
+# The following CVEs affect packages vendored internally by Next.js 16.1.6.
+# These are not direct or transitive dependencies of this project — they are
+# bundled inside next/package.json and cannot be resolved via pnpm overrides.
+# Confirmed via: grep -E "cross-spawn|glob|minimatch|tar" node_modules/next/package.json
+# Suppression should be reviewed when upgrading Next.js to a newer version.
+
+# cross-spawn ReDoS - vendored by Next.js, not callable from app code
+CVE-2024-21538
+
+# glob command injection via malicious filenames - vendored by Next.js
+CVE-2025-64756
+
+# minimatch DoS via crafted glob patterns - vendored by Next.js
+CVE-2026-26996
+
+# node-tar arbitrary file overwrite/read/write (4 CVEs) - vendored by Next.js
+CVE-2026-23745
+CVE-2026-23950
+CVE-2026-24842
+CVE-2026-26960
