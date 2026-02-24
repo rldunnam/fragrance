@@ -1,4 +1,4 @@
-name: Build and Deploy Container
+name: Scan, Build, and Deploy Container
 
 on:
   push:
@@ -6,29 +6,27 @@ on:
   workflow_dispatch:
 
 jobs:
-  scan:
+  kics-job:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-
+    name: kics-github-action
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
+      - name: mkdir results-dir
+        run: mkdir -p results-dir
       - name: Run KICS scan on Dockerfile
-        uses: checkmarx/kics-github-action@v2
+        uses: checkmarx/kics-github-action@v2.1.19
         with:
           path: Dockerfile
           fail_on: high,medium
           output_path: kics-results
           output_formats: json
 
-     - name: Show KICS results
+      - name: Show KICS results
         run: |
           cat results-dir/results.json
 
   build:
-    needs: scan
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 30
     permissions:
