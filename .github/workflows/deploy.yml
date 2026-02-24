@@ -29,7 +29,6 @@ jobs:
           cat results-dir/results.json
 
   build:
-    needs: scan
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 30
     permissions:
