@@ -799,6 +799,7 @@ function FragranceCard({
   fragrance,
   index,
 }: {
+  key?: React.Key
   fragrance: Fragrance
   index: number
 }) {
