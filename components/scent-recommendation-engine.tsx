@@ -2837,11 +2837,9 @@ function FragranceCard({
         isShortlisted ? 'border-gold/60 shadow-md shadow-gold/15' : ''
       )}
       style={{ cursor: 'pointer' }}
+      onClick={() => setIsExpanded(!isExpanded)}
     >
-      <button
-        onClick={() => setIsExpanded(!isExpanded)}
-        className="w-full text-left p-5"
-      >
+      <div className="w-full text-left p-5">
         {/* Header */}
         <div className="mb-3">
           <div className="mb-1 flex items-start justify-between gap-2">
@@ -2976,7 +2974,7 @@ function FragranceCard({
             </div>
           </div>
         </div>
-      </button>
+      </div>
     </div>
   )
 }
