@@ -21,9 +21,10 @@ jobs:
           exit-code: 1
           format: table
           trivyignores: .trivyignore
-          # scanners includes config so Trivy checks Dockerfile misconfigurations
-          # in addition to vulnerable dependencies — replacing KICS coverage.
           scanners: vuln,config
+          # Exclude build output and caches — Trivy should only scan source
+          # files and the lockfile, not generated Next.js artefacts.
+          skip-dirs: .next,node_modules,.pnpm-store
 
   build:
     needs: trivy-fs
@@ -98,6 +99,9 @@ jobs:
       packages: write
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Login to GHCR
         uses: docker/login-action@v3
         with:
@@ -113,6 +117,7 @@ jobs:
           severity: HIGH,CRITICAL
           exit-code: 1
           format: table
+          trivyignores: .trivyignore
 
   merge:
     runs-on: ubuntu-latest
