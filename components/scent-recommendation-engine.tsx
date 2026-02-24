@@ -1990,7 +1990,7 @@ export function ScentRecommendationEngine() {
   const hasActiveFilters = selectedOccasion || selectedSeasons.length > 0 || selectedFamilies.length > 0 || selectedBudgets.length > 0 || selectedIntensities.length > 0 || searchQuery.length > 0
 
   return (
-    <div className="scroll-reveal my-8">
+    <div className="my-8">
       <div className="rounded-lg border border-gold/20 bg-surface overflow-hidden">
         {/* Header */}
         <div className="bg-gradient-to-r from-surface-elevated to-surface-hover px-6 py-5 border-b border-gold/20">
@@ -2314,7 +2314,7 @@ export function ScentRecommendationEngine() {
 
       {/* Floating Compare Button */}
       {shortlist.length > 0 && (
-        <div className="fixed bottom-6 right-6 z-50">
+        <div className="fixed bottom-6 right-6 z-[9999]">
           <button
             onClick={() => setDrawerOpen(v => !v)}
             className="flex items-center gap-2 rounded-full bg-gold px-5 py-3 text-sm font-medium text-surface shadow-lg shadow-gold/30 transition-all duration-200 hover:bg-gold-light hover:shadow-xl hover:shadow-gold/40"
@@ -2330,7 +2330,7 @@ export function ScentRecommendationEngine() {
       {/* Comparison Drawer */}
       <div
         className={cn(
-          'fixed bottom-0 left-0 right-0 z-40 transition-transform duration-500',
+          'fixed bottom-0 left-0 right-0 z-[9998] transition-transform duration-500',
           drawerOpen ? 'translate-y-0' : 'translate-y-full'
         )}
         style={{ transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}
