@@ -12,24 +12,23 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: mkdir results-dir
-        run: mkdir -p results-dir
+
       - name: Run KICS scan on Dockerfile
         uses: checkmarx/kics-github-action@v2.1.19
         with:
           path: Dockerfile
-          platform_type: Dockerfile
+          type: Dockerfile
           exclude_queries: 965a08d7-ef86-4f14-8792-4a3b2098937e
-          exclude_paths: "package.json"
           fail_on: high,medium
           output_path: kics-results
           output_formats: json
 
       - name: Show KICS results
-        run: |
-          cat results-dir/results.json
+        if: always()
+        run: cat kics-results/results.json
 
   build:
+    needs: kics-job
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 30
     permissions:
