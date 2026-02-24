@@ -156,9 +156,31 @@ jobs:
             --tag "${REPO}:${SHA}" \
             $(printf "${REPO}@sha256:%s " *)
 
-  cleanup:
+  deploy-fly:
     runs-on: ubuntu-latest
     needs: merge
+    permissions:
+      contents: read
+      packages: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Deploy to Fly.io
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        run: |
+          flyctl deploy \
+            --image ghcr.io/${{ github.repository }}:${{ github.sha }} \
+            --ha=false
+
+  cleanup:
+    runs-on: ubuntu-latest
+    needs: deploy-fly
     permissions:
       packages: write
 
