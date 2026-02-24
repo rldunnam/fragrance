@@ -574,6 +574,7 @@ function NicheCard({
   onClick,
   index,
 }: {
+  key?: React.Key
   fragrance: NicheFragrance
   onClick: () => void
   index: number
