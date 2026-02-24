@@ -19,6 +19,7 @@ jobs:
           path: Dockerfile
           type: Dockerfile
           exclude_queries: 9bcd6b9f-3a04-4571-8e5e-13d178fb70ea
+          exclude_paths: "pnpm-lock.yaml,package.json,node_modules"
           fail_on: high,medium
           output_path: kics-results
           output_formats: json
