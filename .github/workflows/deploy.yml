@@ -1,4 +1,4 @@
-name: Scan, Build, and Deploy Container
+name: Build and Deploy Container
 
 on:
   push:
@@ -6,27 +6,35 @@ on:
   workflow_dispatch:
 
 jobs:
-  kics-job:
+  scan:
     runs-on: ubuntu-latest
-    name: kics-github-action
+    permissions:
+      contents: read
+      security-events: write
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: mkdir results-dir
-        run: mkdir -p results-dir
+
       - name: Run KICS scan on Dockerfile
-        uses: checkmarx/kics-github-action@v2.1.19
+        uses: checkmarx/kics-github-action@v2
         with:
           path: Dockerfile
           fail_on: high,medium
           output_path: kics-results
-          output_formats: json
+          output_formats: sarif,json
+          # Suppress npm version pinning check — false positive for pnpm
+          # projects using --frozen-lockfile, which provides equivalent guarantees.
+          exclude_queries: 965a08d7-ef86-4f14-8792-4a3b2098937e
 
-      - name: Show KICS results
-        run: |
-          cat results-dir/results.json
+      - name: Upload KICS SARIF to GitHub Security tab
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: kics-results/results.sarif
 
   build:
+    needs: scan
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 30
     permissions:
@@ -113,12 +121,15 @@ jobs:
 
       - name: Create and push multi-arch manifest
         working-directory: /tmp/digests
+        env:
+          REPO: ghcr.io/${{ github.repository }}
+          SHA: ${{ github.sha }}
         run: |
           [ "$(ls -A .)" ] || { echo "No digests found, aborting."; exit 1; }
           docker buildx imagetools create \
-            --tag ghcr.io/${{ github.repository }}:latest \
-            --tag ghcr.io/${{ github.repository }}:${{ github.sha }} \
-            $(printf 'ghcr.io/${{ github.repository }}@sha256:%s ' *)
+            --tag "${REPO}:latest" \
+            --tag "${REPO}:${SHA}" \
+            $(printf "${REPO}@sha256:%s " *)
 
   cleanup:
     runs-on: ubuntu-latest
