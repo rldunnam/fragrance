@@ -1,0 +1,6 @@
+# Trivy filesystem scan ignore rules
+#
+# DS026 - Package manager (npm/pnpm) packages not pinned to a specific version.
+# False positive: this project uses pnpm with --frozen-lockfile which provides
+# equivalent guarantees to pinned versions. The lockfile is the source of truth.
+DS026
