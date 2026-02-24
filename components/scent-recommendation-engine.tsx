@@ -2211,9 +2211,9 @@ export function ScentRecommendationEngine() {
       })
     }
 
-    if (sortBy === 'price-asc') return results.sort((a, b) => a.price - b.price)
-    if (sortBy === 'price-desc') return results.sort((a, b) => b.price - a.price)
-    return results.sort((a, b) => b.intensity - a.intensity)
+    if (sortBy === 'price-asc') return [...results].sort((a, b) => a.price - b.price)
+    if (sortBy === 'price-desc') return [...results].sort((a, b) => b.price - a.price)
+    return [...results].sort((a, b) => b.intensity - a.intensity)
   }, [selectedOccasion, selectedSeasons, selectedFamilies, familyMode, selectedBudgets, selectedIntensities, sortBy, searchQuery])
 
   const toggleSeason = (seasonId: string) => {
