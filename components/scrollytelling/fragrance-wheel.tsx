@@ -882,10 +882,11 @@ function SidebarContent({
               key={frag.name}
               className="group flex items-start gap-3 rounded-lg border border-border/60 bg-surface/60 px-4 py-3 transition-all duration-300 hover:border-gold/20 hover:bg-surface-elevated cursor-default"
             >
-              <BottleIcon
-                className="mt-0.5 h-7 w-auto flex-shrink-0 transition-colors duration-300"
-                style={{ color: `${family.color}50` } as React.CSSProperties}
-              />
+              <div style={{ color: `${family.color}50` }} className="flex-shrink-0">
+                <BottleIcon
+                  className="mt-0.5 h-7 w-auto transition-colors duration-300"
+                />
+              </div>
               <div className="min-w-0">
                 <div className="font-serif text-sm font-semibold text-cream group-hover:text-gold-light transition-colors duration-300">
                   {frag.name}

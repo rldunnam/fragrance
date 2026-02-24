@@ -2160,8 +2160,8 @@ export function ScentRecommendationEngine() {
   const [drawerOpen, setDrawerOpen] = useState(false)
 
   const toggleShortlist = (id: string) => {
-    setShortlist(prev => {
-      if (prev.includes(id)) return prev.filter(s => s !== id)
+    setShortlist((prev: string[]) => {
+      if (prev.includes(id)) return prev.filter((s: string) => s !== id)
       if (prev.length >= 3) return prev
       return [...prev, id]
     })
@@ -2757,6 +2757,7 @@ function FragranceCard({
   canShortlist,
   onToggleShortlist,
 }: {
+  key?: React.Key
   fragrance: Fragrance
   isShortlisted: boolean
   canShortlist: boolean
