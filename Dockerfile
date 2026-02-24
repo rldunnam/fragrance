@@ -86,22 +86,22 @@ FROM node:20-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
-# Run as a non-root user. If the container is compromised, the attacker only
-# has the permissions of this unprivileged user rather than full root access.
+# Create a non-root user to run the application.
+# If the container is compromised, the attacker only has the permissions of
+# this unprivileged user rather than full root access.
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
-# Copy the standalone server and its traced node_modules.
-# This is the only node_modules in the final image — much smaller than a full
-# install because Next.js has already removed everything not needed at runtime.
-COPY --from=builder --chown=appuser:appgroup /app/.next/standalone ./
+# Copy files as root (KICS best practice: executables owned by root, not the
+# running user). The appuser will have execute permissions via file mode bits
+# but root retains ownership, limiting what a compromised process can modify.
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/public ./public
 
-# Copy static assets (JS chunks, CSS, images referenced in _next/static).
-# These must live at .next/static relative to the server root.
-COPY --from=builder --chown=appuser:appgroup /app/.next/static ./.next/static
+# Grant appuser read+execute access to the app directory.
+RUN chown -R root:root /app && chmod -R 755 /app
 
-# Copy public folder (favicons, og images, robots.txt, etc.)
-COPY --from=builder --chown=appuser:appgroup /app/public ./public
-
+# Switch to non-root user for runtime.
 USER appuser
 
 EXPOSE 3000
@@ -111,5 +111,11 @@ EXPOSE 3000
 # PORT and HOSTNAME can be overridden at runtime via environment variables.
 ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
+
+# Verify the server is responding. Start period gives Next.js time to
+# initialise before health checks begin counting failures.
+HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
+  CMD wget -qO- http://localhost:3000/ || exit 1
+
 CMD ["node", "server.js"]
 #CMD ["pnpm", "start"]
