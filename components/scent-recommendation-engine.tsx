@@ -809,7 +809,6 @@ const fragrances: Fragrance[] = [
     id: 'xerjoff-naxos',
     name: 'Naxos',
     house: 'Xerjoff',
-    price: 295,
     family: ['Amber', 'Woody'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],
@@ -2117,176 +2116,6 @@ const fragrances: Fragrance[] = [
     sillage: 'Moderate',
     projection: 3,
   },
-  {
-    id: 'creed-original-vetiver',
-    name: 'Original Vetiver',
-    house: 'Creed',
-    price: 365,
-    family: ['Fresh'],
-    occasion: ['Everyday', 'Office', 'Date Night'],
-    season: ['Spring', 'Summer', 'Fall'],
-    topNotes: ['Bergamot', 'Mandarin', 'Ginger'],
-    heartNotes: ['Haitian Vetiver', 'Mysore Sandalwood', 'Florentine Iris'],
-    baseNotes: ['Musk', 'Ambergris'],
-    rationale: 'Creed\'s unconventional take on vetiver — uses the leaves rather than the root for a soapy, fresh green profile rather than dark earthiness. Opens with sparkling bergamot and ginger before a clean, mossy vetiver emerges. Far closer to a luxury eau de cologne than a dark vetiver; often compared to Mugler Cologne but with more natural quality. Uniquely versatile in Creed\'s lineup.',
-    intensity: 2,
-    longevity: '7-9 hrs',
-    sillage: 'Moderate',
-    projection: 2,
-  },
-  {
-    id: 'ea-stronger-with-you-absolutely',
-    name: 'Stronger With You Absolutely',
-    house: 'Emporio Armani',
-    price: 130,
-    family: ['Amber', 'Woody'],
-    occasion: ['Date Night', 'Formal'],
-    season: ['Fall', 'Winter'],
-    topNotes: ['Rum', 'Elemi', 'Bergamot'],
-    heartNotes: ['Lavender', 'Davana'],
-    baseNotes: ['Madagascar Vanilla', 'Chestnut', 'Cedar', 'Patchouli'],
-    rationale: 'The richest, most complex entry in the Stronger With You lineup — boozy rum and earthy patchouli elevate the signature chestnut-vanilla DNA into fall/winter territory. Beast-mode projection with genuine compliment-getting power. The ideal step-up for anyone who loves SWY Intensely but wants something more sophisticated and mature for colder months.',
-    intensity: 4,
-    longevity: '10-12 hrs',
-    sillage: 'Strong',
-    projection: 4,
-  },
-  {
-    id: 'louis-vuitton-imagination',
-    name: 'Imagination',
-    house: 'Louis Vuitton',
-    price: 280,
-    family: ['Fresh'],
-    occasion: ['Everyday', 'Office', 'Date Night'],
-    season: ['Spring', 'Summer', 'Fall'],
-    topNotes: ['Citron', 'Calabrian Bergamot', 'Sicilian Orange'],
-    heartNotes: ['Tunisian Neroli', 'Nigerian Ginger', 'Ceylon Cinnamon'],
-    baseNotes: ['Chinese Black Tea', 'Ambroxan', 'Guaiac Wood', 'Olibanum'],
-    rationale: 'Built around a rare Chinese black tea CO2 extraction and heavy Ambroxan — these give a citrus freshie genuine longevity and soul beyond the genre norm. The "new Aventus" for fresh fragrance lovers: universally complimented, clean, and sophisticated. Exclusive to Louis Vuitton directly. A genuine investment piece for those who live in fresh-citrus territory.',
-    intensity: 2,
-    longevity: '8-10 hrs',
-    sillage: 'Moderate',
-    projection: 2,
-  },
-  {
-    id: 'rabanne-1-million-lucky',
-    name: '1 Million Lucky',
-    house: 'Paco Rabanne',
-    price: 85,
-    family: ['Amber', 'Woody'],
-    occasion: ['Everyday', 'Date Night'],
-    season: ['Fall', 'Winter', 'Spring'],
-    topNotes: ['Grapefruit', 'Bergamot', 'Plum'],
-    heartNotes: ['Honey', 'Hazelnut', 'Cedar', 'Cashmere Wood'],
-    baseNotes: ['Patchouli', 'Oakmoss', 'Vetiver', 'Amberwood'],
-    rationale: 'The flanker that eclipses the original in versatility — green plum and hazelnut-honey give it a distinctive identity that\'s addictive without being loud. Far more subdued than the gold-brick original; perfectly positioned for casual-to-smart-casual in cooler weather. Genuinely unisex, popular with women as well. One of the most distinctive sweet-woody scents under $100.',
-    intensity: 3,
-    longevity: '7-8 hrs',
-    sillage: 'Moderate',
-    projection: 3,
-  },
-  {
-    id: 'rabanne-invictus-parfum',
-    name: 'Invictus Parfum',
-    house: 'Paco Rabanne',
-    price: 120,
-    family: ['Fresh', 'Woody'],
-    occasion: ['Everyday', 'Office', 'Date Night'],
-    season: ['Spring', 'Summer', 'Fall'],
-    topNotes: ['Marine Notes', 'Lavender', 'Pink Pepper'],
-    heartNotes: ['Soap', 'Violet Leaf', 'Myrtle'],
-    baseNotes: ['Musk', 'Cashmeran', 'Sandalwood'],
-    rationale: 'A 2024 evolution of the Invictus DNA into parfum concentration — cashmeran and sandalwood in the base add a warm, woody richness absent from earlier flankers. Soapy and clean throughout but more mature and polished than the original EDT. The best-refined version for fans of clean-aquatic masculines who want something office-appropriate year-round.',
-    intensity: 3,
-    longevity: '7-9 hrs',
-    sillage: 'Moderate',
-    projection: 3,
-  },
-  {
-    id: 'pdm-oajan',
-    name: 'Oajan',
-    house: 'Parfums de Marly',
-    price: 305,
-    family: ['Amber'],
-    occasion: ['Date Night', 'Formal'],
-    season: ['Fall', 'Winter'],
-    topNotes: ['Cinnamon', 'Honey', 'Osmanthus'],
-    heartNotes: ['Benzoin', 'Labdanum', 'Ambergris', 'Artemisia'],
-    baseNotes: ['Vanilla', 'Tonka Bean', 'Musk', 'Patchouli'],
-    rationale: 'PDM\'s acclaimed gourmand-oriental: cinnamon, honey, and osmanthus open with a spiced apple-pie warmth, deepening through boozy benzoin and davana into a rich vanilla-patchouli base. Often compared to Kilian\'s Angel\'s Share but with a sharper cinnamon edge and more masculine character. Extremely compliment-worthy at dinner events or holiday gatherings.',
-    intensity: 4,
-    longevity: '9-11 hrs',
-    sillage: 'Strong',
-    projection: 4,
-  },
-  {
-    id: 'tom-ford-ombre-leather',
-    name: 'Ombré Leather',
-    house: 'Tom Ford',
-    price: 220,
-    family: ['Woody', 'Amber'],
-    occasion: ['Date Night', 'Formal', 'Office'],
-    season: ['Fall', 'Winter'],
-    topNotes: ['Cardamom'],
-    heartNotes: ['Black Leather', 'Jasmine Sambac', 'White Moss'],
-    baseNotes: ['Patchouli', 'Amber'],
-    rationale: 'The benchmark leather fragrance in the designer-to-premium range. Cardamom and jasmine sambac soften the arrival of a clean, suederol-based leather — think new car seats or a luxury jacket store, not harsh chemicals. Patchouli and amber ground it with warmth. Unisex in practice; airier and more approachable than Tuscan Leather. The one leather fragrance to own.',
-    intensity: 3,
-    longevity: '8-10 hrs',
-    sillage: 'Moderate',
-    projection: 3,
-  },
-  {
-    id: 'versace-man-eau-fraiche',
-    name: 'Man Eau Fraîche',
-    house: 'Versace',
-    price: 85,
-    family: ['Fresh'],
-    occasion: ['Everyday'],
-    season: ['Spring', 'Summer'],
-    topNotes: ['White Lemon', 'Bergamot', 'Rosewood', 'Starfruit'],
-    heartNotes: ['Cedar', 'Tarragon', 'Sage', 'Pepper'],
-    baseNotes: ['Amber', 'Musk', 'Saffron', 'Sycamore Wood'],
-    rationale: 'A Mediterranean summer classic since 2006 — the starfruit-lemon opening is genuinely unique among mainstream freshies, giving it an exotic juicy sweetness that separates it from generic aquatics. Cedar, tarragon, and sage cool it into satisfying herbal territory. Best bang-for-buck summer EDT from a luxury-adjacent brand. Blind buy safe for any citrus-aquatic fan.',
-    intensity: 2,
-    longevity: '5-7 hrs',
-    sillage: 'Light',
-    projection: 2,
-  },
-  {
-    id: 'ysl-y-edp',
-    name: 'Y Eau de Parfum',
-    house: 'YSL',
-    price: 115,
-    family: ['Fresh', 'Woody'],
-    occasion: ['Everyday', 'Office', 'Date Night'],
-    season: ['Spring', 'Summer', 'Fall', 'Winter'],
-    topNotes: ['Apple', 'Ginger', 'Bergamot'],
-    heartNotes: ['Sage', 'Juniper Berries', 'Geranium'],
-    baseNotes: ['Amberwood', 'Tonka Bean', 'Cedar', 'Vetiver', 'Olibanum'],
-    rationale: 'The fragrance that made fresh-blue mainstream again — the apple-sage-amberwood trio is distinctive enough to avoid generic blue status while remaining universally appealing. One of the most complimented designer masculines of the last decade with true four-season versatility. Y Le Parfum (also in catalog) is smoother; this one has a more energetic, apple-forward opening.',
-    intensity: 3,
-    longevity: '8-10 hrs',
-    sillage: 'Moderate',
-    projection: 3,
-  },
-  {
-    id: 'ysl-tuxedo-sharp-patchouli',
-    name: 'Tuxedo Sharp Patchouli',
-    house: 'YSL',
-    price: 300,
-    family: ['Amber', 'Woody'],
-    occasion: ['Date Night', 'Formal'],
-    season: ['Fall', 'Winter'],
-    topNotes: ['Violet Leaf', 'Coriander', 'Bergamot'],
-    heartNotes: ['Rose', 'Lily-of-the-Valley', 'Black Pepper'],
-    baseNotes: ['Patchouli', 'Ambergris', 'Bourbon Vanilla'],
-    rationale: 'YSL\'s Le Vestiaire flagship — a patchouli soliflore that approaches niche quality at designer pricing. Violet leaf, black pepper, and coriander sharpen the opening; rose and lily-of-the-valley add floral refinement; the patchouli base is earthy and smoky but masterfully controlled by ambergris and vanilla. Patchouli for people who think they don\'t like patchouli.',
-    intensity: 3,
-    longevity: '6-8 hrs',
-    sillage: 'Moderate',
-    projection: 3,
-  },
 ]
 
 const occasions = [
@@ -2372,14 +2201,14 @@ export function ScentRecommendationEngine() {
     }
 
     if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase().trim()
-      results = results.filter(f =>
-        f.name.toLowerCase().includes(q) ||
-        f.house.toLowerCase().includes(q) ||
-        f.topNotes.some(n => n.toLowerCase().includes(q)) ||
-        f.heartNotes.some(n => n.toLowerCase().includes(q)) ||
-        f.baseNotes.some(n => n.toLowerCase().includes(q))
-      )
+      const terms = searchQuery.toLowerCase().trim().split(/[\s,]+/).filter(Boolean)
+      results = results.filter(f => {
+        const searchable = [
+          f.name, f.house,
+          ...f.topNotes, ...f.heartNotes, ...f.baseNotes
+        ].map(s => s.toLowerCase())
+        return terms.every(term => searchable.some(s => s.includes(term)))
+      })
     }
 
     if (sortBy === 'price-asc') return results.sort((a, b) => a.price - b.price)
@@ -2472,7 +2301,7 @@ export function ScentRecommendationEngine() {
               type="text"
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              placeholder="Search by brand, name, or note — e.g. Dior, oud, vetiver…"
+              placeholder="Search by brand, name, or note — e.g. iris vetiver, Dior oud…"
               className="w-full rounded-lg border border-gold/20 bg-surface-elevated/50 pl-9 pr-9 py-3 text-sm text-cream placeholder:text-cream-muted/40 focus:outline-none focus:border-gold/50 focus:bg-surface-elevated transition-all duration-200"
             />
             {searchQuery && (
