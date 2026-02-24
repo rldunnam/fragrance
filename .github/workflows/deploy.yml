@@ -18,7 +18,7 @@ jobs:
         with:
           path: Dockerfile
           type: Dockerfile
-          exclude_queries: e36d8880-3f78-4546-b9a1-12f0745ca0d5
+          exclude_queries: 9bcd6b9f-3a04-4571-8e5e-13d178fb70ea
           fail_on: high,medium
           output_path: kics-results
           output_formats: json
@@ -27,6 +27,15 @@ jobs:
         if: always()
         run: cat kics-results/results.json
 
+      - name: Run Trivy filesystem scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: fs
+          scan-ref: .
+          severity: HIGH,CRITICAL
+          exit-code: 1
+          format: table
+
   build:
     needs: kics-job
     runs-on: ${{ matrix.runner }}
@@ -34,6 +43,10 @@ jobs:
     permissions:
       contents: read
       packages: write
+    outputs:
+      # Export the amd64 digest for Trivy image scanning.
+      # We only need one arch — CVEs are identical across platforms.
+      digest-amd64: ${{ matrix.platform == 'linux/amd64' && steps.build.outputs.digest || '' }}
 
     strategy:
       fail-fast: false
@@ -88,9 +101,33 @@ jobs:
           if-no-files-found: error
           retention-days: 1
 
-  merge:
+  trivy-image:
     runs-on: ubuntu-latest
     needs: build
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run Trivy image scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: image
+          image-ref: ghcr.io/${{ github.repository }}@${{ needs.build.outputs.digest-amd64 }}
+          severity: HIGH,CRITICAL
+          exit-code: 1
+          format: table
+
+  merge:
+    runs-on: ubuntu-latest
+    needs: trivy-image
     permissions:
       contents: read
       packages: write
