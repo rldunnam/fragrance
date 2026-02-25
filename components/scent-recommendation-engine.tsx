@@ -2147,6 +2147,42 @@ const budgetRanges = [
   { id: 'over-300',    label: 'Over $300',       min: 300, max: Infinity },
 ]
 
+/* ─── Similarity Scoring ─── */
+
+function getSimilarFragrances(target: Fragrance, all: Fragrance[], count = 4): Fragrance[] {
+  const targetNotes = new Set(
+    [...target.topNotes, ...target.heartNotes, ...target.baseNotes].map(n => n.toLowerCase())
+  )
+
+  const scored = all
+    .filter(f => f.id !== target.id)
+    .map(f => {
+      let score = 0
+
+      // Family overlap — strongest signal (shared DNA)
+      const famOverlap = f.family.filter(fam => target.family.includes(fam)).length
+      score += famOverlap * 3
+
+      // Note overlap across all layers
+      const fNotes = new Set([...f.topNotes, ...f.heartNotes, ...f.baseNotes].map(n => n.toLowerCase()))
+      const noteOverlap = [...targetNotes].filter(n => fNotes.has(n)).length
+      score += noteOverlap * 2
+
+      // Season overlap
+      const seasonOverlap = f.season.filter(s => target.season.includes(s)).length
+      score += seasonOverlap * 1
+
+      // Intensity proximity — penalise big gaps
+      score += Math.max(0, 2 - Math.abs(f.intensity - target.intensity))
+
+      return { fragrance: f, score }
+    })
+    .filter(({ score }) => score > 0)
+    .sort((a, b) => b.score - a.score)
+
+  return scored.slice(0, count).map(s => s.fragrance)
+}
+
 export function ScentRecommendationEngine() {
   const [selectedOccasion, setSelectedOccasion] = useState<string | null>(null)
   const [selectedSeasons, setSelectedSeasons] = useState<string[]>([])
@@ -2639,6 +2675,18 @@ export function ScentRecommendationEngine() {
                       setSearchQuery(prev => prev.trim() ? `${prev.trim()} ${note}` : note)
                     }
                   }}
+                  allFragrances={fragrances}
+                  onSimilarClick={(id) => {
+                    setSearchQuery('')
+                    clearAllFilters()
+                    setTimeout(() => {
+                      const el = document.getElementById(`fragrance-card-${id}`)
+                      if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                        el.click()
+                      }
+                    }, 150)
+                  }}
                 />
               ))}
             </div>
@@ -2816,15 +2864,19 @@ function FragranceCard({
   fragrance,
   isShortlisted,
   canShortlist,
+  allFragrances,
   onToggleShortlist,
   onNoteClick,
+  onSimilarClick,
 }: {
   key?: React.Key
   fragrance: Fragrance
   isShortlisted: boolean
   canShortlist: boolean
+  allFragrances: Fragrance[]
   onToggleShortlist: () => void
   onNoteClick: (note: string) => void
+  onSimilarClick: (id: string) => void
 }) {
   const [isExpanded, setIsExpanded] = useState(false)
 
@@ -2836,6 +2888,7 @@ function FragranceCard({
         isExpanded ? 'border-gold shadow-lg shadow-gold/20' : '',
         isShortlisted ? 'border-gold/60 shadow-md shadow-gold/15' : ''
       )}
+      id={`fragrance-card-${fragrance.id}`}
       style={{ cursor: 'pointer' }}
       onClick={() => setIsExpanded(!isExpanded)}
     >
@@ -2923,7 +2976,7 @@ function FragranceCard({
         <div
           className={cn(
             'overflow-hidden transition-all duration-500',
-            isExpanded ? 'mt-4 max-h-[600px] opacity-100' : 'max-h-0 opacity-0'
+            isExpanded ? 'mt-4 max-h-[900px] opacity-100' : 'max-h-0 opacity-0'
           )}
         >
           <div className="space-y-3 border-t border-gold/20 pt-4">
@@ -2972,6 +3025,50 @@ function FragranceCard({
                 />
               </div>
             </div>
+
+            {/* You Might Also Like */}
+            {(() => {
+              const similar = getSimilarFragrances(fragrance, allFragrances)
+              if (similar.length === 0) return null
+              return (
+                <div className="border-t border-gold/10 pt-3">
+                  <div className="mb-2 text-xs font-medium uppercase tracking-wider text-gold/80">
+                    You Might Also Like
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    {similar.map(s => (
+                      <button
+                        key={s.id}
+                        onClick={(e) => { e.stopPropagation(); onSimilarClick(s.id) }}
+                        className="flex items-center justify-between rounded-lg border border-gold/15 bg-surface px-3 py-2 text-left transition-all duration-200 hover:border-gold/40 hover:bg-gold/5 group"
+                      >
+                        <div>
+                          <div className="text-xs font-medium text-cream group-hover:text-gold-light transition-colors">
+                            {s.name}
+                          </div>
+                          <div className="text-[10px] text-cream-muted/50 uppercase tracking-wider mt-0.5">
+                            {s.house}
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2 shrink-0 ml-2">
+                          <span className="text-xs text-gold/60">${s.price}</span>
+                          <div className="flex gap-0.5">
+                            {s.family.map(fam => (
+                              <span
+                                key={fam}
+                                className="rounded-full border border-gold/20 bg-gold/8 px-1.5 py-0.5 text-[9px] text-gold-light"
+                              >
+                                {fam}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )
+            })()}
           </div>
         </div>
       </div>
