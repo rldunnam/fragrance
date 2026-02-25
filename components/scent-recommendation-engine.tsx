@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, Fragment, type ReactNode } from 'react'
 import { cn } from '@/lib/utils'
 import { Sparkles, Sun, Snowflake, Briefcase, Heart, Wine, Users } from 'lucide-react'
 
@@ -2760,77 +2760,93 @@ export function ScentRecommendationEngine() {
               </button>
             </div>
 
-            {/* Grid: label column + one column per shortlisted fragrance */}
-            <div
-              className="grid gap-3"
-              style={{ gridTemplateColumns: `120px repeat(${shortlist.length}, 1fr)` }}
-            >
-              {/* Row labels */}
-              <div className="flex flex-col pt-[68px]">
-                {['Family', 'Longevity', 'Sillage', 'Intensity', 'Projection', 'Top Notes', 'Heart Notes', 'Base Notes'].map(label => (
-                  <div
-                    key={label}
-                    className="border-b border-white/[0.04] py-2.5 text-[10px] font-medium uppercase tracking-[0.1em] text-cream-muted/40"
-                  >
-                    {label}
-                  </div>
-                ))}
-              </div>
+            {/* True row-aligned grid — label + all fragrance values in same grid row */}
+            {(() => {
+              const cols = shortlist.length
+              const fragrancesInList = shortlist.map(id => fragrances.find(fr => fr.id === id)!)
 
-              {/* One column per shortlisted fragrance */}
-              {shortlist.map(id => {
-                const f = fragrances.find(fr => fr.id === id)!
-                return (
-                  <div key={id} className="overflow-hidden rounded-lg border border-gold/20 bg-surface-elevated">
-
-                    {/* Card header */}
-                    <div className="relative border-b border-gold/10 bg-gold/[0.04] p-3 pr-7">
-                      <button
-                        onClick={() => toggleShortlist(id)}
-                        className="absolute right-2 top-2 flex h-5 w-5 items-center justify-center rounded-full border border-white/10 text-cream-muted/40 transition-colors hover:border-gold/40 hover:text-gold"
-                        aria-label={`Remove ${f.name}`}
-                      >
-                        <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                      </button>
-                      <div className="font-serif text-sm leading-snug text-cream">{f.name}</div>
-                      <div className="mt-0.5 text-[10px] uppercase tracking-wider text-gold-light">{f.house}</div>
-                      <div className="mt-1 text-sm font-medium text-gold">${f.price}</div>
+              const rows: { label: string; render: (f: typeof fragrancesInList[0]) => ReactNode }[] = [
+                { label: 'Family',      render: f => f.family.join(', ') },
+                { label: 'Longevity',   render: f => f.longevity },
+                { label: 'Sillage',     render: f => f.sillage },
+                { label: 'Intensity',   render: f => (
+                  <div>
+                    <div className="mb-1 text-xs text-cream-muted">{f.intensity}/5</div>
+                    <div className="h-1 w-full overflow-hidden rounded-full bg-surface">
+                      <div className="h-full rounded-full bg-gradient-to-r from-gold-dark to-gold" style={{ width: `${(f.intensity / 5) * 100}%` }} />
                     </div>
-
-                    {/* Data rows */}
-                    <div className="divide-y divide-white/[0.04] px-3">
-                      <div className="py-2.5 text-xs text-cream-muted">{f.family.join(', ')}</div>
-                      <div className="py-2.5 text-xs text-cream-muted">{f.longevity}</div>
-                      <div className="py-2.5 text-xs text-cream-muted">{f.sillage}</div>
-                      <div className="py-2.5">
-                        <div className="mb-1.5 text-xs text-cream-muted">{f.intensity}/5</div>
-                        <div className="h-1 w-full overflow-hidden rounded-full bg-surface">
-                          <div
-                            className="h-full rounded-full bg-gradient-to-r from-gold-dark to-gold"
-                            style={{ width: `${(f.intensity / 5) * 100}%` }}
-                          />
-                        </div>
-                      </div>
-                      <div className="py-2.5">
-                        <div className="mb-1.5 text-xs text-cream-muted">{f.projection}/5</div>
-                        <div className="h-1 w-full overflow-hidden rounded-full bg-surface">
-                          <div
-                            className="h-full rounded-full bg-gradient-to-r from-gold-dark to-gold"
-                            style={{ width: `${(f.projection / 5) * 100}%` }}
-                          />
-                        </div>
-                      </div>
-                      <div className="py-2.5 text-xs text-cream-muted leading-relaxed">{f.topNotes.join(', ')}</div>
-                      <div className="py-2.5 text-xs text-cream-muted leading-relaxed">{f.heartNotes.join(', ')}</div>
-                      <div className="py-2.5 text-xs text-cream-muted leading-relaxed">{f.baseNotes.join(', ')}</div>
-                    </div>
-
                   </div>
-                )
-              })}
-            </div>
+                )},
+                { label: 'Projection',  render: f => (
+                  <div>
+                    <div className="mb-1 text-xs text-cream-muted">{f.projection}/5</div>
+                    <div className="h-1 w-full overflow-hidden rounded-full bg-surface">
+                      <div className="h-full rounded-full bg-gradient-to-r from-gold-dark to-gold" style={{ width: `${(f.projection / 5) * 100}%` }} />
+                    </div>
+                  </div>
+                )},
+                { label: 'Top Notes',   render: f => <span className="leading-relaxed">{f.topNotes.join(', ')}</span> },
+                { label: 'Heart Notes', render: f => <span className="leading-relaxed">{f.heartNotes.join(', ')}</span> },
+                { label: 'Base Notes',  render: f => <span className="leading-relaxed">{f.baseNotes.join(', ')}</span> },
+              ]
+
+              return (
+                <div
+                  className="grid gap-x-3"
+                  style={{ gridTemplateColumns: `110px repeat(${cols}, 1fr)` }}
+                >
+                  {/* Header row: empty label cell + one card header per fragrance */}
+                  <div /> {/* spacer */}
+                  {fragrancesInList.map(f => (
+                    <div key={f.id} className="overflow-hidden rounded-t-lg border border-b-0 border-gold/20 bg-surface-elevated">
+                      <div className="relative border-b border-gold/10 bg-gold/[0.04] p-3 pr-7">
+                        <button
+                          onClick={() => toggleShortlist(f.id)}
+                          className="absolute right-2 top-2 flex h-5 w-5 items-center justify-center rounded-full border border-white/10 text-cream-muted/40 transition-colors hover:border-gold/40 hover:text-gold"
+                          aria-label={`Remove ${f.name}`}
+                        >
+                          <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                        <div className="font-serif text-sm leading-snug text-cream">{f.name}</div>
+                        <div className="mt-0.5 text-[10px] uppercase tracking-wider text-gold-light">{f.house}</div>
+                        <div className="mt-1 text-sm font-medium text-gold">${f.price}</div>
+                      </div>
+                    </div>
+                  ))}
+
+                  {/* Data rows — label cell + one value cell per fragrance, all in same grid row */}
+                  {rows.map((row, ri) => {
+                    const isLast = ri === rows.length - 1
+                    return (
+                      <Fragment key={row.label}>
+                        {/* Label cell */}
+                        <div className="flex items-center border-b border-white/[0.04] py-2.5 text-[10px] font-medium uppercase tracking-[0.1em] text-cream-muted/40">
+                          {row.label}
+                        </div>
+                        {/* Value cells */}
+                        {fragrancesInList.map((f, fi) => (
+                          <div
+                            key={f.id}
+                            className={cn(
+                              'border-x border-b border-white/[0.04] bg-surface-elevated px-3 py-2.5 text-xs text-cream-muted',
+                              fi === 0 && 'border-l-gold/20',
+                              fi === cols - 1 && 'border-r-gold/20',
+                              isLast && fi === 0 && 'rounded-bl-lg border-b-gold/20',
+                              isLast && fi === cols - 1 && 'rounded-br-lg border-b-gold/20',
+                              isLast && 'border-b-gold/20',
+                            )}
+                          >
+                            {row.render(f)}
+                          </div>
+                        ))}
+                      </Fragment>
+                    )
+                  })}
+                </div>
+              )
+            })()}
           </div>
         </div>
       </div>
