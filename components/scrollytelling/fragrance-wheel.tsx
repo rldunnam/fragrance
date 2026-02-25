@@ -6,12 +6,19 @@ import { X, Droplets, Flame, TreePine, Wind } from "lucide-react"
 
 /* ─── Data ─── */
 
+interface SubfamilyFragrance {
+  name: string
+  house: string
+  notes: string
+}
+
 interface Subfamily {
   name: string
   description: string
   notes: string[]
   startAngle: number
   endAngle: number
+  fragrances?: SubfamilyFragrance[]
 }
 
 interface FragranceFamily {
@@ -45,6 +52,11 @@ const FAMILIES: FragranceFamily[] = [
         notes: ["Rose", "Peony", "Powder", "Aldehyde"],
         startAngle: 0,
         endAngle: 30,
+        fragrances: [
+          { name: "Chanel No.5", house: "Chanel", notes: "Aldehyde, rose, jasmine, sandalwood" },
+          { name: "Guerlain Mon Guerlain", house: "Guerlain", notes: "Lavender, peony, vanilla, sandalwood" },
+          { name: "Dior Miss Dior", house: "Dior", notes: "Rose, peony, musk, patchouli" },
+        ],
       },
       {
         name: "Floral",
@@ -52,6 +64,11 @@ const FAMILIES: FragranceFamily[] = [
         notes: ["Jasmine", "Lily", "Tuberose", "Iris"],
         startAngle: 30,
         endAngle: 60,
+        fragrances: [
+          { name: "Dior Homme", house: "Dior", notes: "Iris, lavender, cocoa, vetiver" },
+          { name: "Le Labo Rose 31", house: "Le Labo", notes: "Rose, cumin, cedar, musk" },
+          { name: "Creed Fleurissimo", house: "Creed", notes: "Tuberose, violet, lily, musk" },
+        ],
       },
       {
         name: "Floral Amber",
@@ -59,6 +76,11 @@ const FAMILIES: FragranceFamily[] = [
         notes: ["Orange Blossom", "Ylang-Ylang", "Sweet Spice"],
         startAngle: 60,
         endAngle: 90,
+        fragrances: [
+          { name: "Frederic Malle Portrait of a Lady", house: "Frederic Malle", notes: "Rose, patchouli, frankincense, amber" },
+          { name: "YSL Black Opium", house: "YSL", notes: "Coffee, vanilla, orange blossom" },
+          { name: "Guerlain L'Homme Ideal", house: "Guerlain", notes: "Almond, orange blossom, tonka, leather" },
+        ],
       },
     ],
     fragrances: [
@@ -85,6 +107,11 @@ const FAMILIES: FragranceFamily[] = [
         notes: ["Incense", "Amber", "Vanilla", "Powder"],
         startAngle: 90,
         endAngle: 120,
+        fragrances: [
+          { name: "YSL La Nuit de L'Homme", house: "YSL", notes: "Cardamom, lavender, cedar, amber" },
+          { name: "Maison Margiela Jazz Club", house: "Maison Margiela", notes: "Rum, tobacco, vanilla, amber" },
+          { name: "Prada L'Homme", house: "Prada", notes: "Iris, amber, cedar, musk" },
+        ],
       },
       {
         name: "Amber",
@@ -92,6 +119,11 @@ const FAMILIES: FragranceFamily[] = [
         notes: ["Oud", "Myrrh", "Benzoin", "Labdanum"],
         startAngle: 120,
         endAngle: 150,
+        fragrances: [
+          { name: "Amouage Jubilation XXV", house: "Amouage", notes: "Spices, rose, oud, amber, myrrh" },
+          { name: "Montale Black Aoud", house: "Montale", notes: "Oud, rose, musk, patchouli" },
+          { name: "Tom Ford Oud Wood", house: "Tom Ford", notes: "Oud, rosewood, cardamom, amber" },
+        ],
       },
       {
         name: "Woody Amber",
@@ -99,6 +131,11 @@ const FAMILIES: FragranceFamily[] = [
         notes: ["Sandalwood", "Amber", "Tonka", "Patchouli"],
         startAngle: 150,
         endAngle: 180,
+        fragrances: [
+          { name: "Tom Ford Tobacco Vanille", house: "Tom Ford", notes: "Tobacco, vanilla, sandalwood, cacao" },
+          { name: "Parfums de Marly Herod", house: "PdM", notes: "Tobacco, vanilla, patchouli, cinnamon" },
+          { name: "Xerjoff Naxos", house: "Xerjoff", notes: "Honey, tobacco, vanilla, tonka" },
+        ],
       },
     ],
     fragrances: [
@@ -125,6 +162,11 @@ const FAMILIES: FragranceFamily[] = [
         notes: ["Cedar", "Sandalwood", "Guaiac Wood"],
         startAngle: 180,
         endAngle: 210,
+        fragrances: [
+          { name: "Terre d'Hermes", house: "Hermes", notes: "Orange, flint, cedar, vetiver" },
+          { name: "Bleu de Chanel", house: "Chanel", notes: "Grapefruit, cedar, sandalwood, musk" },
+          { name: "Bois 1920 Sushi Imperiale", house: "Bois 1920", notes: "Yuzu, guaiac wood, cedar, musk" },
+        ],
       },
       {
         name: "Mossy Woods",
@@ -132,6 +174,11 @@ const FAMILIES: FragranceFamily[] = [
         notes: ["Oakmoss", "Patchouli", "Earth", "Vetiver"],
         startAngle: 210,
         endAngle: 240,
+        fragrances: [
+          { name: "Creed Aventus", house: "Creed", notes: "Pineapple, birch, oakmoss, musk" },
+          { name: "Chanel Pour Monsieur", house: "Chanel", notes: "Lemon, vetiver, oakmoss, cedar" },
+          { name: "Guerlain Vetiver", house: "Guerlain", notes: "Vetiver, tobacco, earth, oakmoss" },
+        ],
       },
       {
         name: "Dry Woods",
@@ -139,6 +186,11 @@ const FAMILIES: FragranceFamily[] = [
         notes: ["Leather", "Smoke", "Tobacco", "Birch"],
         startAngle: 240,
         endAngle: 270,
+        fragrances: [
+          { name: "Knize Ten", house: "Knize", notes: "Leather, birch tar, sandalwood, tobacco" },
+          { name: "Parfums de Marly Layton", house: "PdM", notes: "Apple, lavender, vanilla, birch" },
+          { name: "Memo Marfa", house: "Memo", notes: "Leather, smoke, cedar, vetiver" },
+        ],
       },
     ],
     fragrances: [
@@ -165,6 +217,11 @@ const FAMILIES: FragranceFamily[] = [
         notes: ["Lavender", "Sage", "Rosemary", "Thyme"],
         startAngle: 270,
         endAngle: 300,
+        fragrances: [
+          { name: "Dior Sauvage", house: "Dior", notes: "Bergamot, ambroxan, pepper, lavender" },
+          { name: "Versace Pour Homme", house: "Versace", notes: "Neroli, citron, sage, amber" },
+          { name: "Penhaligon's Sartorial", house: "Penhaligon's", notes: "Lavender, beeswax, musk, sandalwood" },
+        ],
       },
       {
         name: "Citrus",
@@ -172,6 +229,11 @@ const FAMILIES: FragranceFamily[] = [
         notes: ["Bergamot", "Lemon", "Grapefruit", "Neroli"],
         startAngle: 300,
         endAngle: 330,
+        fragrances: [
+          { name: "Acqua di Gio", house: "Armani", notes: "Bergamot, neroli, jasmine, musk" },
+          { name: "Creed Millesime Imperial", house: "Creed", notes: "Lemon, bergamot, sea salt, musk" },
+          { name: "Atelier Cologne Cedre Atlas", house: "Atelier Cologne", notes: "Grapefruit, cedar, musk, amber" },
+        ],
       },
       {
         name: "Water",
@@ -179,6 +241,11 @@ const FAMILIES: FragranceFamily[] = [
         notes: ["Sea Salt", "Ambroxan", "Calone", "Seaweed"],
         startAngle: 330,
         endAngle: 360,
+        fragrances: [
+          { name: "Acqua di Gio Profumo", house: "Armani", notes: "Bergamot, aquatic, patchouli, incense" },
+          { name: "Davidoff Cool Water", house: "Davidoff", notes: "Mint, sea water, sandalwood, musk" },
+          { name: "Issey Miyake L'Eau d'Issey", house: "Issey Miyake", notes: "Calone, freesia, cedar, musk" },
+        ],
       },
     ],
     fragrances: [
@@ -259,6 +326,7 @@ function BottleIcon({ className }: { className?: string }) {
 
 export function FragranceWheel() {
   const [activeFamily, setActiveFamily] = useState<number | null>(null)
+  const [activeSubfamily, setActiveSubfamily] = useState<string | null>(null)
   const [hoveredFamily, setHoveredFamily] = useState<number | null>(null)
   const [hoveredSubfamily, setHoveredSubfamily] = useState<{ family: number; sub: number } | null>(null)
   const [tooltip, setTooltip] = useState<{
@@ -280,7 +348,11 @@ export function FragranceWheel() {
   const GAP = 1.5 // degrees gap between segments
 
   const handleFamilyClick = useCallback((index: number) => {
-    setActiveFamily((prev) => (prev === index ? null : index))
+    setActiveFamily((prev) => {
+      if (prev === index) { setActiveSubfamily(null); return null }
+      setActiveSubfamily(null)
+      return index
+    })
     setTooltip(null)
   }, [])
 
@@ -791,7 +863,9 @@ export function FragranceWheel() {
           {activeFamily !== null && (
             <SidebarContent
               family={FAMILIES[activeFamily]}
-              onClose={() => setActiveFamily(null)}
+              onClose={() => { setActiveFamily(null); setActiveSubfamily(null) }}
+              activeSubfamily={activeSubfamily}
+              onSubfamilyClick={(name) => setActiveSubfamily(prev => prev === name ? null : name)}
             />
           )}
         </div>
@@ -805,9 +879,13 @@ export function FragranceWheel() {
 function SidebarContent({
   family,
   onClose,
+  activeSubfamily,
+  onSubfamilyClick,
 }: {
   family: FragranceFamily
   onClose: () => void
+  activeSubfamily: string | null
+  onSubfamilyClick: (name: string) => void
 }) {
   const Icon = family.icon
 
@@ -853,55 +931,77 @@ function SidebarContent({
 
       {/* Subfamilies */}
       <div className="mt-5 flex flex-wrap gap-2">
-        {family.subfamilies.map((sub) => (
-          <span
-            key={sub.name}
-            className="inline-block rounded-full border px-3 py-1 text-xs"
-            style={{
-              borderColor: `${family.color}30`,
-              color: family.colorLight,
-              backgroundColor: `${family.color}10`,
-            }}
-          >
-            {sub.name}
-          </span>
-        ))}
+        {family.subfamilies.map((sub) => {
+          const isActive = activeSubfamily === sub.name
+          return (
+            <button
+              key={sub.name}
+              onClick={() => onSubfamilyClick(sub.name)}
+              className="inline-block rounded-full border px-3 py-1 text-xs transition-all duration-200 cursor-pointer"
+              style={{
+                borderColor: isActive ? family.color : `${family.color}30`,
+                color: isActive ? family.colorDark : family.colorLight,
+                backgroundColor: isActive ? family.color : `${family.color}10`,
+                fontWeight: isActive ? 600 : 400,
+              }}
+            >
+              {sub.name}
+            </button>
+          )
+        })}
       </div>
 
       {/* Divider */}
       <div className="my-5 h-px w-full bg-border" />
 
-      {/* Popular Fragrances */}
-      <div>
-        <p className="text-xs font-medium uppercase tracking-[0.15em] text-gold/70 mb-3">
-          Popular Fragrances
-        </p>
-        <div className="space-y-3">
-          {family.fragrances.map((frag) => (
-            <div
-              key={frag.name}
-              className="group flex items-start gap-3 rounded-lg border border-border/60 bg-surface/60 px-4 py-3 transition-all duration-300 hover:border-gold/20 hover:bg-surface-elevated cursor-default"
-            >
-              <div style={{ color: `${family.color}50` }} className="flex-shrink-0">
-                <BottleIcon
-                  className="mt-0.5 h-7 w-auto transition-colors duration-300"
-                />
-              </div>
-              <div className="min-w-0">
-                <div className="font-serif text-sm font-semibold text-cream group-hover:text-gold-light transition-colors duration-300">
-                  {frag.name}
-                </div>
-                <div className="text-[11px] text-cream-muted/50 uppercase tracking-wider mt-0.5">
-                  {frag.house}
-                </div>
-                <div className="mt-1 text-xs text-cream-muted/70 leading-relaxed">
-                  {frag.notes}
-                </div>
-              </div>
+      {/* Fragrances — swap between subfamily and family level */}
+      {(() => {
+        const activeSub = activeSubfamily
+          ? family.subfamilies.find(s => s.name === activeSubfamily)
+          : null
+        const fragrances = activeSub?.fragrances ?? family.fragrances
+        const label = activeSub ? activeSub.name : family.name
+
+        return (
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <p className="text-xs font-medium uppercase tracking-[0.15em] text-gold/70">
+                {label} Examples
+              </p>
+              {activeSub && (
+                <span className="text-[10px] text-cream-muted/40 leading-relaxed">
+                  — {activeSub.description}
+                </span>
+              )}
             </div>
-          ))}
-        </div>
-      </div>
+            <div className="space-y-3">
+              {fragrances?.map((frag) => (
+                <div
+                  key={frag.name}
+                  className="group flex items-start gap-3 rounded-lg border border-border/60 bg-surface/60 px-4 py-3 transition-all duration-300 hover:border-gold/20 hover:bg-surface-elevated cursor-default"
+                >
+                  <div style={{ color: `${family.color}50` }} className="flex-shrink-0">
+                    <BottleIcon
+                      className="mt-0.5 h-7 w-auto transition-colors duration-300"
+                    />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="font-serif text-sm font-semibold text-cream group-hover:text-gold-light transition-colors duration-300">
+                      {frag.name}
+                    </div>
+                    <div className="text-[11px] text-cream-muted/50 uppercase tracking-wider mt-0.5">
+                      {frag.house}
+                    </div>
+                    <div className="mt-1 text-xs text-cream-muted/70 leading-relaxed">
+                      {frag.notes}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )
+      })()}
     </div>
   )
 }
