@@ -2208,7 +2208,7 @@ export function ScentRecommendationEngine() {
           f.name, f.house,
           ...f.topNotes, ...f.heartNotes, ...f.baseNotes
         ].map(s => s.toLowerCase())
-        return terms.every(term => searchable.some(s => s.includes(term)))
+        return terms.every(term => searchable.some(s => new RegExp(`(?<![a-z])${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![a-z])`, 'i').test(s)))
       })
     }
 
