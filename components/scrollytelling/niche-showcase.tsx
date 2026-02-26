@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect, useCallback } from "react"
+import { createPortal } from "react-dom"
 import { cn } from "@/lib/utils"
 import { X, ChevronLeft, ChevronRight, Star, Droplets, Wind, Clock } from "lucide-react"
 
@@ -417,14 +418,15 @@ function DetailView({
       if (e.key === "Escape") onClose()
     }
     document.addEventListener("keydown", handleKey)
+    const prev = document.body.style.overflow
     document.body.style.overflow = "hidden"
     return () => {
       document.removeEventListener("keydown", handleKey)
-      document.body.style.overflow = ""
+      document.body.style.overflow = prev
     }
   }, [onClose])
 
-  return (
+  return createPortal(
     <div
       ref={overlayRef}
       className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8"
@@ -563,7 +565,8 @@ function DetailView({
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
 
