@@ -55,7 +55,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 # NEXT_PUBLIC_* vars must be present at build time (baked into client bundle).
 # Pass via fly.toml [build.args] or: fly deploy --build-arg NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_live_xxx
-ARG NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+ARG NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_live_placeholder_for_build
 ENV NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=$NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 RUN pnpm build
 
