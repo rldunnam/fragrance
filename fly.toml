@@ -7,11 +7,6 @@ app = 'fragrance'
 primary_region = 'ord'
 
 [build]
-  [build.args]
-    # Clerk publishable key — safe to expose, is baked into the client bundle.
-    # Update this value whenever you rotate your Clerk publishable key.
-    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY = "pk_test_cHJvdmVuLWRhc3NpZS01MS5jbGVyay5hY2NvdW50cy5kZXYk"
-
 
 [http_service]
   internal_port = 3000
