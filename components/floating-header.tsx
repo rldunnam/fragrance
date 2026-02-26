@@ -4,8 +4,6 @@ import { useEffect, useState } from 'react'
 import { SignInButton, SignedIn, SignedOut, UserButton, useUser } from '@clerk/nextjs'
 import { User } from 'lucide-react'
 
-const hasClerk = !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
-
 export function FloatingHeader() {
   const [scrolled, setScrolled] = useState(false)
   const { user } = useUser()
