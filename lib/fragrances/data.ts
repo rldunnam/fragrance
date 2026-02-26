@@ -98,7 +98,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'dg-pour-homme',
-    name: 'Pour Homme',
+    name: 'Pour Homme EDT',
     house: 'Dolce & Gabbana',
     price: 80,
     concentration: 'EDT',
@@ -135,7 +135,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'versace-eros',
-    name: 'Eros',
+    name: 'Eros EDT',
     house: 'Versace',
     price: 85,
     concentration: 'EDT',
@@ -154,7 +154,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'versace-pour-homme',
-    name: 'Pour Homme',
+    name: 'Pour Homme EDT',
     house: 'Versace',
     price: 75,
     concentration: 'EDT',
@@ -266,7 +266,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'spicebomb-extreme',
-    name: 'Spicebomb Extreme',
+    name: 'Spicebomb Extreme EDP',
     house: 'Viktor & Rolf',
     price: 120,
     concentration: 'EDP',
@@ -361,7 +361,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'givenchy-gentleman',
-    name: 'Gentleman Réserve Privée',
+    name: 'Gentleman Réserve Privée EDP',
     house: 'Givenchy',
     price: 135,
     concentration: 'EDP',
@@ -436,7 +436,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'mont-blanc-legend',
-    name: 'Legend Spirit',
+    name: 'Legend Spirit EDT',
     house: 'Mont Blanc',
     price: 65,
     concentration: 'EDT',
@@ -473,7 +473,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'jpg-ultra-male',
-    name: 'Ultra Male',
+    name: 'Ultra Male EDP',
     house: 'Jean Paul Gaultier',
     price: 90,
     concentration: 'EDP',
@@ -492,7 +492,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'bvlgari-man',
-    name: 'Man in Black',
+    name: 'Man in Black EDP',
     house: 'Bvlgari',
     price: 110,
     concentration: 'EDP',
@@ -548,7 +548,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'burberry-london',
-    name: 'London for Men',
+    name: 'London for Men EDT',
     house: 'Burberry',
     price: 75,
     concentration: 'EDT',
@@ -566,7 +566,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'carolina-herrera',
-    name: 'Bad Boy Cobalt',
+    name: 'Bad Boy Cobalt EDP',
     house: 'Carolina Herrera',
     price: 120,
     concentration: 'EDP',
@@ -659,7 +659,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'versace-dylan-blue',
-    name: 'Dylan Blue',
+    name: 'Dylan Blue EDT',
     house: 'Versace',
     price: 80,
     concentration: 'EDT',
@@ -829,7 +829,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'atelier-cologne-orange-sanguine',
-    name: 'Orange Sanguine',
+    name: 'Orange Sanguine Cologne Absolue',
     house: 'Atelier Cologne',
     price: 165,
     concentration: 'Cologne Absolue',
@@ -1015,7 +1015,7 @@ export const fragrances: Fragrance[] = [
   // ── TIMELESS CLASSICS (Pre-1990) ──────────────────────────────────────────
   {
     id: 'dior-eau-sauvage',
-    name: 'Eau Sauvage',
+    name: 'Eau Sauvage EDT',
     house: 'Dior',
     price: 130,
     concentration: 'EDT',
@@ -1033,7 +1033,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'guerlain-vetiver',
-    name: 'Vetiver',
+    name: 'Vetiver EDT',
     house: 'Guerlain',
     price: 120,
     concentration: 'EDT',
@@ -1051,7 +1051,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'ysl-kouros',
-    name: 'Kouros',
+    name: 'Kouros EDT',
     house: 'YSL',
     price: 80,
     concentration: 'EDT',
@@ -1069,7 +1069,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'guerlain-habit-rouge',
-    name: 'Habit Rouge',
+    name: 'Habit Rouge EDT',
     house: 'Guerlain',
     price: 115,
     concentration: 'EDT',
@@ -1087,7 +1087,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'drakkar-noir',
-    name: 'Drakkar Noir',
+    name: 'Drakkar Noir EDT',
     house: 'Guy Laroche',
     price: 45,
     concentration: 'EDT',
@@ -1105,7 +1105,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'polo-green',
-    name: 'Polo Green',
+    name: 'Polo Green EDT',
     house: 'Ralph Lauren',
     price: 60,
     concentration: 'EDT',
@@ -1123,7 +1123,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'davidoff-cool-water',
-    name: 'Cool Water',
+    name: 'Cool Water EDT',
     house: 'Davidoff',
     price: 50,
     concentration: 'EDT',
@@ -1141,7 +1141,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'dior-fahrenheit',
-    name: 'Fahrenheit',
+    name: 'Fahrenheit EDT',
     house: 'Dior',
     price: 140,
     concentration: 'EDT',
@@ -1159,7 +1159,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'aramis-classic',
-    name: 'Aramis',
+    name: 'Aramis EDT',
     house: 'Aramis',
     price: 55,
     concentration: 'EDT',
@@ -1177,7 +1177,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'givenchy-gentleman-original',
-    name: 'Gentleman (Original 1974)',
+    name: 'Gentleman (Original 1974) EDT',
     house: 'Givenchy',
     price: 95,
     concentration: 'EDT',
@@ -1232,7 +1232,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'jpg-le-male',
-    name: 'Le Male',
+    name: 'Le Male EDT',
     house: 'Jean Paul Gaultier',
     price: 75,
     concentration: 'EDT',
@@ -1250,7 +1250,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'acqua-di-gio-original',
-    name: 'Acqua di Giò',
+    name: 'Acqua di Giò EDT',
     house: 'Giorgio Armani',
     price: 85,
     concentration: 'EDT',
@@ -1322,7 +1322,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'hugo-boss-bottled',
-    name: 'Boss Bottled',
+    name: 'Boss Bottled EDT',
     house: 'Hugo Boss',
     price: 75,
     concentration: 'EDT',
@@ -1376,7 +1376,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'stetson-classic',
-    name: 'Stetson Classic',
+    name: 'Stetson Classic Cologne',
     house: 'Coty',
     price: 20,
     concentration: 'Cologne',
@@ -1394,7 +1394,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'paco-1-million-original',
-    name: '1 Million',
+    name: '1 Million EDT',
     house: 'Paco Rabanne',
     price: 95,
     concentration: 'EDT',
@@ -1432,7 +1432,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'ysl-myslf',
-    name: 'MYSLF',
+    name: 'MYSLF EDP',
     house: 'YSL',
     price: 130,
     concentration: 'EDP',
@@ -1489,7 +1489,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'chanel-allure-sport-original',
-    name: 'Allure Homme Sport',
+    name: 'Allure Homme Sport EDT',
     house: 'Chanel',
     price: 150,
     concentration: 'EDT',
@@ -1735,7 +1735,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'jpg-le-beau',
-    name: 'Le Beau',
+    name: 'Le Beau EDT',
     house: 'Jean Paul Gaultier',
     price: 95,
     concentration: 'EDT',
@@ -1754,7 +1754,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'azzaro-pour-homme',
-    name: 'Azzaro Pour Homme',
+    name: 'Azzaro Pour Homme EDT',
     house: 'Azzaro',
     price: 55,
     concentration: 'EDT',
@@ -1773,7 +1773,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'azzaro-chrome',
-    name: 'Chrome',
+    name: 'Chrome EDT',
     house: 'Azzaro',
     price: 60,
     concentration: 'EDT',
@@ -1810,7 +1810,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'paco-rabanne-pour-homme',
-    name: 'Paco Rabanne Pour Homme',
+    name: 'Paco Rabanne Pour Homme EDT',
     house: 'Paco Rabanne',
     price: 65,
     concentration: 'EDT',
@@ -1847,7 +1847,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'paco-phantom',
-    name: 'Phantom',
+    name: 'Phantom EDT',
     house: 'Paco Rabanne',
     price: 105,
     concentration: 'EDT',
@@ -1901,7 +1901,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'prada-paradigme',
-    name: 'Paradoxe Pour Homme',
+    name: 'Paradoxe Pour Homme EDP',
     house: 'Prada',
     price: 135,
     concentration: 'EDP',
@@ -1919,7 +1919,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'prada-luna-rossa-black',
-    name: 'Luna Rossa Black',
+    name: 'Luna Rossa Black EDP',
     house: 'Prada',
     price: 115,
     concentration: 'EDP',
@@ -1938,7 +1938,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'jo-malone-wood-sage-sea-salt',
-    name: 'Wood Sage & Sea Salt',
+    name: 'Wood Sage & Sea Salt Cologne',
     house: 'Jo Malone',
     price: 165,
     concentration: 'Cologne',
@@ -2067,7 +2067,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'montblanc-legend-night',
-    name: 'Legend Night',
+    name: 'Legend Night EDP',
     house: 'Montblanc',
     price: 65,
     concentration: 'EDP',
@@ -2086,7 +2086,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'montblanc-legend-red',
-    name: 'Legend Red',
+    name: 'Legend Red EDT',
     house: 'Montblanc',
     price: 65,
     concentration: 'EDT',
@@ -2123,7 +2123,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'montblanc-explorer-platinum',
-    name: 'Explorer Platinum',
+    name: 'Explorer Platinum EDP',
     house: 'Montblanc',
     price: 85,
     concentration: 'EDP',
