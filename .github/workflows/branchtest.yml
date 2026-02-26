@@ -1,8 +1,6 @@
 name: Test Build and Push Multi-Arch Image
 
 on:
-  push:
-    branches: [ "v2-test" ]
   workflow_dispatch:
 
 jobs:
