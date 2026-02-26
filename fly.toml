@@ -7,6 +7,9 @@ app = 'fragrance'
 primary_region = 'ord'
 
 [build]
+  [build.args]
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY = ""
+
 
 [http_service]
   internal_port = 3000
