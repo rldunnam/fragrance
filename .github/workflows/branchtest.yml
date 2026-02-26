@@ -31,6 +31,7 @@ jobs:
         run: |
           docker buildx build \
             --platform linux/${ARCH} \
+            --build-arg NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }} \
             --tag ${REPO}:test-${SHA}-${ARCH} \
             --push \
             .
@@ -66,3 +67,23 @@ jobs:
         run: |
           docker pull ${REPO}:test-${SHA}
           docker run --rm ${REPO}:test-${SHA} echo "Smoke test passed"
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: smoke-test
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Fly CLI
+        run: curl -L https://fly.io/install.sh | sh
+
+      - name: Deploy to Fly using pre-built image
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          REPO: ghcr.io/${{ github.repository }}
+          SHA: ${{ github.sha }}
+        run: |
+          export PATH="$HOME/.fly/bin:$PATH"
+          fly deploy --image ${REPO}:test-${SHA}
