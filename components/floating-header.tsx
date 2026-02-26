@@ -1,13 +1,14 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { SignInButton, SignedIn, SignedOut, UserButton, useUser } from '@clerk/nextjs'
+import { useClerk, SignedIn, SignedOut, UserButton, useUser } from '@clerk/nextjs'
 import { User } from 'lucide-react'
 
 export function FloatingHeader() {
   const [scrolled, setScrolled] = useState(false)
   const [clerkReady, setClerkReady] = useState(false)
   const { user } = useUser()
+  const { openSignIn } = useClerk()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -37,19 +38,18 @@ export function FloatingHeader() {
           <>
             {/* Signed out — show a minimal sign-in button */}
             <SignedOut>
-              <SignInButton mode="modal" asChild>
-                <button
-                  className={[
-                    'flex items-center gap-2 rounded-full border px-3 py-1.5',
-                    'text-xs font-medium tracking-wide transition-all duration-200',
-                    'border-gold/30 text-cream-muted hover:border-gold hover:text-gold',
-                    scrolled ? '' : 'border-white/10 text-white/40 hover:border-gold/40 hover:text-gold/70',
-                  ].join(' ')}
-                >
-                  <User size={12} />
-                  Sign in
-                </button>
-              </SignInButton>
+              <button
+                onClick={() => openSignIn()}
+                className={[
+                  'flex items-center gap-2 rounded-full border px-3 py-1.5',
+                  'text-xs font-medium tracking-wide transition-all duration-200',
+                  'border-gold/30 text-cream-muted hover:border-gold hover:text-gold',
+                  scrolled ? '' : 'border-white/10 text-white/40 hover:border-gold/40 hover:text-gold/70',
+                ].join(' ')}
+              >
+                <User size={12} />
+                Sign in
+              </button>
             </SignedOut>
 
             {/* Signed in — show Clerk's UserButton (avatar + dropdown) */}
