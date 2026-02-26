@@ -52,7 +52,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <ClerkProvider publishableKey={clerkKey} dynamic>
+    <ClerkProvider publishableKey={clerkKey}>
       <html lang="en">
         <body className="font-sans antialiased bg-background text-foreground">
           <FloatingHeader />
