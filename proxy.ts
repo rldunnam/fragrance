@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 // Minimal proxy — Clerk middleware temporarily disabled for debugging
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   return NextResponse.next()
 }
 
