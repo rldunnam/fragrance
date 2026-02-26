@@ -1,4 +1,4 @@
-name: Build and Push Multi-Arch Image
+name: Test Build and Push Multi-Arch Image
 
 on:
   push:
