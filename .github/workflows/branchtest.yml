@@ -33,6 +33,7 @@ jobs:
         run: |
           docker buildx build \
             --platform linux/${ARCH} \
+            --build-arg NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }} \
             --tag ${REPO}:test-${SHA}-${ARCH} \
             --push \
             .
