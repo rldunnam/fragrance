@@ -15,7 +15,7 @@ importers:
   .:
     dependencies:
       '@clerk/nextjs':
-        specifier: ^6.38.2
+        specifier: ^6.12.12
         version: 6.38.2(next@16.1.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@hookform/resolvers':
         specifier: ^3.9.1
