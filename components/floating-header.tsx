@@ -37,7 +37,7 @@ export function FloatingHeader() {
           <>
             {/* Signed out — show a minimal sign-in button */}
             <SignedOut>
-              <SignInButton mode="modal">
+              <SignInButton mode="modal" asChild>
                 <button
                   className={[
                     'flex items-center gap-2 rounded-full border px-3 py-1.5',
