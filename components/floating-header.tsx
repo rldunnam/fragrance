@@ -4,21 +4,26 @@ import { useEffect, useState } from 'react'
 import { SignInButton, SignedIn, SignedOut, UserButton, useUser } from '@clerk/nextjs'
 import { User } from 'lucide-react'
 
-const hasClerk = !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
-
 export function FloatingHeader() {
   const [scrolled, setScrolled] = useState(false)
+  const [clerkReady, setClerkReady] = useState(false)
   const { user } = useUser()
 
-  // Subtle background once user scrolls — stays invisible at top
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  // Evaluate key client-side only — NEXT_PUBLIC_ vars are available
+  // in the browser bundle once baked in at build time
+  useEffect(() => {
+    setClerkReady(!!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY)
+  }, [])
+
   return (
-    <div className="fixed top-0 right-0 z-40 flex items-center justify-end p-4 pointer-events-none">
+    // z-60 keeps this above the sticky nav (z-50)
+    <div className="fixed top-0 right-0 z-60 flex items-center justify-end p-4 pointer-events-none">
       <div
         className={[
           'flex items-center gap-3 rounded-full px-4 py-2 pointer-events-auto',
@@ -28,7 +33,7 @@ export function FloatingHeader() {
             : 'border-transparent bg-transparent',
         ].join(' ')}
       >
-        {hasClerk && (
+        {clerkReady && (
           <>
             {/* Signed out — show a minimal sign-in button */}
             <SignedOut>
