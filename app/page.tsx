@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { HeroSection } from "@/components/scrollytelling/hero-section"
 import { SectionWrapper } from "@/components/scrollytelling/section-wrapper"
 import { SectionHeading } from "@/components/scrollytelling/section-heading"
