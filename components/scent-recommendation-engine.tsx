@@ -8,10 +8,10 @@ import type { Fragrance } from '@/lib/fragrances/types'
 import { fragrances } from '@/lib/fragrances/data'
 import { occasions, seasons, scentFamilies, budgetRanges } from '@/lib/fragrances/filters'
 import { getSimilarFragrances } from '@/lib/fragrances/similarity'
-import { useFragranceCollection } from '@/hooks/useFragranceCollection'
+import { useCollection } from '@/lib/collection-context'
 
 export function ScentRecommendationEngine() {
-  const collection = useFragranceCollection()
+  const collection = useCollection()
   const [selectedOccasion, setSelectedOccasion] = useState<string | null>(null)
   const [selectedSeasons, setSelectedSeasons] = useState<string[]>([])
   const [selectedFamilies, setSelectedFamilies] = useState<string[]>([])
