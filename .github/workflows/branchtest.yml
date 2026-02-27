@@ -201,30 +201,6 @@ jobs:
             --tag "${REPO}:test-${SHA}" \
             $(printf "${REPO}@sha256:%s " *)
 
-  deploy-fly:
-    runs-on: ubuntu-latest
-    needs: merge
-    permissions:
-      contents: read
-      packages: read
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Install flyctl
-        uses: superfly/flyctl-actions/setup-flyctl@master
-        with:
-          version: '0.3.56'
-
-      - name: Deploy to Fly.io
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-        run: |
-          flyctl deploy \
-            --image ghcr.io/${{ github.repository }}:test-${{ github.sha }} \
-            --ha=false
-
   cleanup:
     runs-on: ubuntu-latest
     needs: deploy-fly
