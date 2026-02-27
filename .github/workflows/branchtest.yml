@@ -214,6 +214,8 @@ jobs:
 
       - name: Install flyctl
         uses: superfly/flyctl-actions/setup-flyctl@master
+        with:
+          version: '0.3.56'
 
       - name: Deploy to Fly.io
         env:
