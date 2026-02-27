@@ -8,7 +8,7 @@ import type { Fragrance } from '@/lib/fragrances/types'
 import { fragrances } from '@/lib/fragrances/data'
 import { occasions, seasons, scentFamilies, budgetRanges } from '@/lib/fragrances/filters'
 import { getSimilarFragrances } from '@/lib/fragrances/similarity'
-import { useFragranceCollection } from '@/lib/hooks/useFragranceCollection'
+import { useFragranceCollection } from '@/hooks/useFragranceCollection'
 
 export function ScentRecommendationEngine() {
   const collection = useFragranceCollection()
