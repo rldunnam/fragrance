@@ -8,7 +8,6 @@ import { BookMarked, Heart, Star, ArrowLeft, Sparkles } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { fragrances } from '@/lib/fragrances/data'
 import { useFragranceCollection } from '@/hooks/useFragranceCollection'
-import { StickyNav } from '@/components/scrollytelling/sticky-nav'
 import type { Fragrance } from '@/lib/fragrances/types'
 
 type Tab = 'cabinet' | 'wishlist'
@@ -29,8 +28,7 @@ export default function CollectionPage() {
   if (isLoaded && !isSignedIn) {
     return (
       <>
-        <StickyNav />
-        <main className="min-h-screen bg-background pt-24 pb-16">
+          <main className="min-h-screen bg-background pt-24 pb-16">
           <div className="mx-auto max-w-2xl px-6 text-center">
             <div className="mb-6 flex justify-center">
               <div className="flex h-16 w-16 items-center justify-center rounded-full border border-gold/20 bg-surface-elevated">
@@ -55,7 +53,6 @@ export default function CollectionPage() {
 
   return (
     <>
-      <StickyNav />
       <main className="min-h-screen bg-background pt-16 pb-16">
 
         {/* Page header */}
