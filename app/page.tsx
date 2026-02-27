@@ -20,12 +20,10 @@ import { LayeringGuide } from "@/components/scrollytelling/widget-layering-guide
 import { Footer } from "@/components/scrollytelling/footer"
 import { DesignerVsNiche } from "@/components/widgets/designer-vs-niche"
 import { ScentRecommendationEngine } from "@/components/scent-recommendation-engine"
-import { StickyNav } from "@/components/scrollytelling/sticky-nav"
 
 export default function Home() {
   return (
     <main>
-      <StickyNav />
       {/* ─── Hero ─── */}
       <HeroSection />
 
