@@ -7,14 +7,14 @@ import { useAuth } from '@clerk/nextjs'
 import { BookMarked, Heart, Star, ArrowLeft, Sparkles } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { fragrances } from '@/lib/fragrances/data'
-import { useFragranceCollection } from '@/hooks/useFragranceCollection'
+import { useCollection } from '@/lib/collection-context'
 import type { Fragrance } from '@/lib/fragrances/types'
 
 type Tab = 'cabinet' | 'wishlist'
 
 export default function CollectionPage() {
   const { isSignedIn, isLoaded } = useAuth()
-  const collection = useFragranceCollection()
+  const collection = useCollection()
   const [activeTab, setActiveTab] = useState<Tab>('cabinet')
   const [hoverRatings, setHoverRatings] = useState<Record<string, number>>({})
 
