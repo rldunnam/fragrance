@@ -1,15 +1,17 @@
 'use client'
 
-import { useState, useMemo, Fragment, type ReactNode } from 'react'
+import { useState, useMemo, Fragment, useCallback, type ReactNode } from 'react'
 import Image from 'next/image'
 import { cn } from '@/lib/utils'
-import { Sparkles } from 'lucide-react'
+import { Sparkles, BookMarked, Heart, Star } from 'lucide-react'
 import type { Fragrance } from '@/lib/fragrances/types'
 import { fragrances } from '@/lib/fragrances/data'
 import { occasions, seasons, scentFamilies, budgetRanges } from '@/lib/fragrances/filters'
 import { getSimilarFragrances } from '@/lib/fragrances/similarity'
+import { useFragranceCollection } from '@/hooks/useFragranceCollection'
 
 export function ScentRecommendationEngine() {
+  const collection = useFragranceCollection()
   const [selectedOccasion, setSelectedOccasion] = useState<string | null>(null)
   const [selectedSeasons, setSelectedSeasons] = useState<string[]>([])
   const [selectedFamilies, setSelectedFamilies] = useState<string[]>([])
@@ -495,6 +497,13 @@ export function ScentRecommendationEngine() {
                   isShortlisted={shortlist.includes(fragrance.id)}
                   canShortlist={shortlist.length < 3 || shortlist.includes(fragrance.id)}
                   onToggleShortlist={() => toggleShortlist(fragrance.id)}
+                  inCabinet={collection.cabinet.has(fragrance.id)}
+                  inWishlist={collection.wishlist.has(fragrance.id)}
+                  userRating={collection.ratings.get(fragrance.id)}
+                  onToggleCabinet={() => collection.toggleCabinet(fragrance.id)}
+                  onToggleWishlist={() => collection.toggleWishlist(fragrance.id)}
+                  onSetRating={(score) => collection.setRating(fragrance.id, score)}
+                  onRemoveRating={() => collection.removeRating(fragrance.id)}
                   onNoteClick={(note) => {
                     const terms = searchQuery.trim().split(/[\s,]+/).filter(Boolean)
                     if (!terms.map(t => t.toLowerCase()).includes(note.toLowerCase())) {
@@ -742,6 +751,13 @@ function FragranceCard({
   onToggleShortlist,
   onNoteClick,
   onSimilarClick,
+  inCabinet,
+  inWishlist,
+  userRating,
+  onToggleCabinet,
+  onToggleWishlist,
+  onSetRating,
+  onRemoveRating,
 }: {
   key?: React.Key
   fragrance: Fragrance
@@ -751,8 +767,16 @@ function FragranceCard({
   onToggleShortlist: () => void
   onNoteClick: (note: string) => void
   onSimilarClick: (id: string) => void
+  inCabinet: boolean
+  inWishlist: boolean
+  userRating?: number
+  onToggleCabinet: () => void
+  onToggleWishlist: () => void
+  onSetRating: (score: number) => void
+  onRemoveRating: () => void
 }) {
   const [isExpanded, setIsExpanded] = useState(false)
+  const [hoverRating, setHoverRating] = useState(0)
 
   return (
     <div
@@ -781,6 +805,34 @@ function FragranceCard({
             <h5 className="font-serif text-lg leading-tight text-cream">{fragrance.name}</h5>
             <div className="flex items-center gap-1.5 shrink-0">
               <span className="text-sm font-medium text-gold whitespace-nowrap">${fragrance.price}</span>
+
+              {/* Cabinet button */}
+              <button
+                onClick={(e) => { e.stopPropagation(); onToggleCabinet() }}
+                title={inCabinet ? 'Remove from cabinet' : 'Add to cabinet'}
+                className={cn(
+                  'flex h-6 w-6 items-center justify-center rounded-full border transition-all duration-200',
+                  inCabinet
+                    ? 'border-gold bg-gold text-surface'
+                    : 'border-gold/30 bg-gold/5 text-cream-muted hover:border-gold hover:bg-gold/10 hover:text-gold'
+                )}
+              >
+                <BookMarked className="h-3 w-3" />
+              </button>
+
+              {/* Wishlist button */}
+              <button
+                onClick={(e) => { e.stopPropagation(); onToggleWishlist() }}
+                title={inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
+                className={cn(
+                  'flex h-6 w-6 items-center justify-center rounded-full border transition-all duration-200',
+                  inWishlist
+                    ? 'border-rose-400/80 bg-rose-400/20 text-rose-400'
+                    : 'border-gold/30 bg-gold/5 text-cream-muted hover:border-rose-400/50 hover:bg-rose-400/10 hover:text-rose-400'
+                )}
+              >
+                <Heart className={cn('h-3 w-3', inWishlist && 'fill-current')} />
+              </button>
 
               {/* Shortlist / compare button */}
               <button
@@ -905,6 +957,40 @@ function FragranceCard({
                   className="h-full rounded-full bg-gradient-to-r from-gold-dark to-gold transition-all duration-1000"
                   style={{ width: `${(fragrance.intensity / 5) * 100}%` }}
                 />
+              </div>
+            </div>
+
+            {/* Personal Rating */}
+            <div className="border-t border-gold/10 pt-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-medium uppercase tracking-wider text-gold/80">My Rating</span>
+                <div className="flex items-center gap-1">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        userRating === star ? onRemoveRating() : onSetRating(star)
+                      }}
+                      onMouseEnter={() => setHoverRating(star)}
+                      onMouseLeave={() => setHoverRating(0)}
+                      className="transition-transform duration-100 hover:scale-110"
+                      title={userRating === star ? 'Remove rating' : `Rate ${star}/5`}
+                    >
+                      <Star
+                        className={cn(
+                          'h-4 w-4 transition-colors duration-150',
+                          (hoverRating || userRating || 0) >= star
+                            ? 'text-gold fill-gold'
+                            : 'text-gold/20'
+                        )}
+                      />
+                    </button>
+                  ))}
+                  {userRating && (
+                    <span className="ml-1 text-[10px] text-cream-muted/50">{userRating}/5</span>
+                  )}
+                </div>
               </div>
             </div>
 
