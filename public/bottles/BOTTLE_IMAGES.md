@@ -107,3 +107,19 @@ If a `.jpg` file is missing for an entry that has `imageUrl` set, the Next.js
 `imageUrl` to entries where you have the file ready — or keep the field present
 and rely on the `onError` handler in the card component to fall back to the
 bottle silhouette icon automatically.
+## New Entries Added (Concentration Variants)
+
+| Filename | Fragrance | Brand Website |
+|----------|-----------|---------------|
+| `dior-homme-edt.jpg` | Dior Homme EDT | parfums.christian-dior.com |
+| `bleu-chanel-edt.jpg` | Bleu de Chanel EDT | chanel.com/fragrance |
+| `paco-invictus-edt.jpg` | Invictus EDT | pacorabanne.com |
+| `jpg-scandal-pour-homme.jpg` | Scandal Pour Homme EDT | jeanpaulgaultier.com |
+| `jpg-le-beau-edp.jpg` | Le Beau EDP | jeanpaulgaultier.com |
+| `acqua-di-gio-edp.jpg` | Acqua di Giò EDP | giorgioarmani.com |
+| `ysl-y-edt.jpg` | Y EDT | yslbeauty.com |
+| `hugo-boss-bottled-edp.jpg` | Boss Bottled EDP | hugoboss.com |
+| `dg-light-blue-edt.jpg` | Light Blue EDT | dolcegabbana.com |
+| `polo-blue-edt.jpg` | Polo Blue EDT | ralphlauren.com |
+| `guerlain-habit-rouge-edp.jpg` | Habit Rouge EDP | guerlain.com |
+| `issey-miyake-leau-edp.jpg` | L'Eau d'Issey EDP | isseymiyake.com |
