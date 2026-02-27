@@ -22,8 +22,6 @@ jobs:
           format: table
           trivyignores: .trivyignore
           scanners: vuln,config
-          # Exclude build output and caches — Trivy should only scan source
-          # files and the lockfile, not generated Next.js artefacts.
           skip-dirs: .next,node_modules,.pnpm-store
 
   build:
@@ -34,8 +32,6 @@ jobs:
       contents: read
       packages: write
     outputs:
-      # Export the amd64 digest for Trivy image scanning.
-      # We only need one arch — CVEs are identical across platforms.
       digest-amd64: ${{ matrix.platform == 'linux/amd64' && steps.build.outputs.digest || '' }}
 
     strategy:
@@ -76,6 +72,10 @@ jobs:
           outputs: type=image,name=ghcr.io/${{ github.repository }},push-by-digest=true,name-canonical=true
           cache-from: type=gha,scope=${{ matrix.platform }}-${{ github.ref_name }}
           cache-to: type=gha,mode=max,scope=${{ matrix.platform }}-${{ github.ref_name }}
+          build-args: |
+            NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+            #NEXT_PUBLIC_SUPABASE_URL=${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+            #NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
 
       - name: Export digest
         run: |
