@@ -24,7 +24,7 @@ export interface TasteProfile {
 
   // Confidence
   ratingCount: number
-  confidenceLevel: 'none' | 'low' | 'medium' | 'high'
+  confidenceLevel: 'none' | 'medium' | 'high'
   confidenceWeight: number         // 0–1, how much to blend personal score
   ratingsNeededForNext: number     // 0 when at max tier
 
@@ -59,7 +59,7 @@ function getConfidence(count: number): {
   needed: number
 } {
   if (count < 3)  return { level: 'none',   weight: 0,    needed: 3 - count }
-  if (count < 5)  return { level: 'low',    weight: 0,    needed: 5 - count }
+  if (count < 5)  return { level: 'medium', weight: 0,    needed: 5 - count }
   if (count < 10) return { level: 'medium', weight: 0.30, needed: 10 - count }
   if (count < 20) return { level: 'medium', weight: 0.60, needed: 20 - count }
   return             { level: 'high',   weight: 0.85, needed: 0 }
