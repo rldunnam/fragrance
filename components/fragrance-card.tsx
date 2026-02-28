@@ -186,7 +186,14 @@ export function FragranceCard({
         {/* Header row */}
         <div className="mb-3">
           <div className="mb-1 flex items-start justify-between gap-2">
-            <h5 className="font-serif text-lg leading-tight text-cream">{fragrance.name}</h5>
+            <div className="flex items-baseline gap-2 flex-wrap">
+              <h5 className="font-serif text-lg leading-tight text-cream">{fragrance.name}</h5>
+              {fragrance.concentration && (
+                <span className="shrink-0 text-[10px] font-medium uppercase tracking-wider text-gold/60 border border-gold/20 rounded px-1.5 py-0.5 leading-none">
+                  {fragrance.concentration}
+                </span>
+              )}
+            </div>
             <div className="flex items-center gap-1.5 shrink-0">
               <span className="text-sm font-medium text-gold whitespace-nowrap">${fragrance.price}</span>
 
