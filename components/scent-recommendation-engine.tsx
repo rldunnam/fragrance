@@ -1,14 +1,13 @@
 'use client'
 
-import { useState, useMemo, Fragment, useCallback, type ReactNode } from 'react'
-import Image from 'next/image'
+import { useState, useMemo, Fragment, type ReactNode } from 'react'
 import { cn } from '@/lib/utils'
-import { Sparkles, BookMarked, Heart, Star } from 'lucide-react'
+import { Sparkles } from 'lucide-react'
 import type { Fragrance } from '@/lib/fragrances/types'
 import { fragrances } from '@/lib/fragrances/data'
 import { occasions, seasons, scentFamilies, budgetRanges } from '@/lib/fragrances/filters'
-import { getSimilarFragrances } from '@/lib/fragrances/similarity'
 import { useCollection } from '@/lib/collection-context'
+import { FragranceCard } from '@/components/fragrance-card'
 
 export function ScentRecommendationEngine() {
   const collection = useCollection()
