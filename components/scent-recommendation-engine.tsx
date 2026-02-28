@@ -7,10 +7,14 @@ import type { Fragrance } from '@/lib/fragrances/types'
 import { fragrances } from '@/lib/fragrances/data'
 import { occasions, seasons, scentFamilies, budgetRanges } from '@/lib/fragrances/filters'
 import { useCollection } from '@/lib/collection-context'
+import { useAuth } from '@clerk/nextjs'
 import { FragranceCard } from '@/components/fragrance-card'
+import { buildTasteProfile, blendScore } from '@/lib/fragrances/taste-profile'
+import { BookMarked } from 'lucide-react'
 
 export function ScentRecommendationEngine() {
   const collection = useCollection()
+  const { isSignedIn } = useAuth()
   const [selectedOccasion, setSelectedOccasion] = useState<string | null>(null)
   const [selectedSeasons, setSelectedSeasons] = useState<string[]>([])
   const [selectedFamilies, setSelectedFamilies] = useState<string[]>([])
@@ -21,6 +25,7 @@ export function ScentRecommendationEngine() {
   const [searchQuery, setSearchQuery] = useState('')
   const [shortlist, setShortlist] = useState<string[]>([])
   const [drawerOpen, setDrawerOpen] = useState(false)
+  const [cabinetFilter, setCabinetFilter] = useState(false)
 
   const toggleShortlist = (id: string) => {
     setShortlist((prev: string[]) => {
@@ -29,6 +34,13 @@ export function ScentRecommendationEngine() {
       return [...prev, id]
     })
   }
+
+  // Build taste profile from current ratings
+  const tasteProfile = useMemo(() => {
+    const ratings = Array.from(collection.ratings.entries()).map(([fragranceId, score]) => ({ fragranceId, score }))
+    if (ratings.length === 0) return null
+    return buildTasteProfile(ratings, fragrances)
+  }, [collection.ratings])
 
   const filteredFragrances = useMemo(() => {
     let results = fragrances
@@ -75,10 +87,29 @@ export function ScentRecommendationEngine() {
       })
     }
 
+    // Cabinet filter
+    if (cabinetFilter) {
+      results = results.filter(f => collection.cabinet.has(f.id))
+    }
+
+    // Personalised ranking — blend personal score with default sort
+    if (tasteProfile && tasteProfile.confidenceWeight > 0) {
+      if (sortBy === 'price-asc') return [...results].sort((a, b) => a.price - b.price)
+      if (sortBy === 'price-desc') return [...results].sort((a, b) => b.price - a.price)
+      return [...results].sort((a, b) => {
+        const aPersonal = blendScore(tasteProfile.scoreFragrance(a), tasteProfile.confidenceWeight)
+        const bPersonal = blendScore(tasteProfile.scoreFragrance(b), tasteProfile.confidenceWeight)
+        // Blend: personal score + normalised intensity as tiebreaker
+        const aScore = aPersonal + (a.intensity / 5) * (1 - tasteProfile.confidenceWeight)
+        const bScore = bPersonal + (b.intensity / 5) * (1 - tasteProfile.confidenceWeight)
+        return bScore - aScore
+      })
+    }
+
     if (sortBy === 'price-asc') return [...results].sort((a, b) => a.price - b.price)
     if (sortBy === 'price-desc') return [...results].sort((a, b) => b.price - a.price)
     return [...results].sort((a, b) => b.intensity - a.intensity)
-  }, [selectedOccasion, selectedSeasons, selectedFamilies, familyMode, selectedBudgets, selectedIntensities, sortBy, searchQuery])
+  }, [selectedOccasion, selectedSeasons, selectedFamilies, familyMode, selectedBudgets, selectedIntensities, sortBy, searchQuery, cabinetFilter, collection.cabinet, tasteProfile])
 
   const toggleSeason = (seasonId: string) => {
     setSelectedSeasons(prev => 
@@ -121,9 +152,10 @@ export function ScentRecommendationEngine() {
     setSelectedIntensities([])
     setSortBy('intensity')
     setSearchQuery('')
+    setCabinetFilter(false)
   }
 
-  const hasActiveFilters = selectedOccasion || selectedSeasons.length > 0 || selectedFamilies.length > 0 || selectedBudgets.length > 0 || selectedIntensities.length > 0 || searchQuery.length > 0
+  const hasActiveFilters = selectedOccasion || selectedSeasons.length > 0 || selectedFamilies.length > 0 || selectedBudgets.length > 0 || selectedIntensities.length > 0 || searchQuery.length > 0 || cabinetFilter
 
   return (
     <div className="my-8">
@@ -441,10 +473,68 @@ export function ScentRecommendationEngine() {
             </div>
           )}
 
+          {/* Personalisation status */}
+          {isSignedIn && tasteProfile && tasteProfile.ratingCount >= 3 && (
+            <div className={cn(
+              "mb-4 flex items-center gap-2 rounded-lg border px-4 py-2.5 text-xs transition-all duration-500",
+              tasteProfile.confidenceLevel === 'high'
+                ? "border-gold/40 bg-gold/8 text-gold"
+                : "border-gold/20 bg-surface-elevated text-cream-muted"
+            )}>
+              <svg className="h-3.5 w-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                  d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.347.347a3.75 3.75 0 01-5.303 0l-.347-.347z" />
+              </svg>
+              {tasteProfile.confidenceLevel === 'medium' && tasteProfile.ratingCount < 10 && (
+                <span>
+                  Learning your taste — rate {tasteProfile.ratingsNeededForNext} more {tasteProfile.ratingsNeededForNext === 1 ? 'fragrance' : 'fragrances'} to improve recommendations
+                </span>
+              )}
+              {tasteProfile.confidenceLevel === 'medium' && tasteProfile.ratingCount >= 10 && (
+                <span>Personalised for you — results ranked by your taste profile</span>
+              )}
+              {tasteProfile.confidenceLevel === 'high' && (
+                <span className="text-gold font-medium">Highly personalised — ranked to match your taste</span>
+              )}
+            </div>
+          )}
+          {isSignedIn && tasteProfile && tasteProfile.ratingCount > 0 && tasteProfile.ratingCount < 3 && (
+            <div className="mb-4 flex items-center gap-2 rounded-lg border border-gold/10 bg-surface-elevated px-4 py-2.5 text-xs text-cream-muted/60">
+              <svg className="h-3.5 w-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                  d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+              </svg>
+              <span>Rate {3 - tasteProfile.ratingCount} more {3 - tasteProfile.ratingCount === 1 ? 'fragrance' : 'fragrances'} to unlock personalised recommendations</span>
+              <div className="ml-auto flex gap-1">
+                {[1,2,3].map(i => (
+                  <div key={i} className={cn("h-1.5 w-4 rounded-full", i <= tasteProfile.ratingCount ? "bg-gold/60" : "bg-border")} />
+                ))}
+              </div>
+            </div>
+          )}
+
           <div className="mb-4 flex items-center justify-between gap-4 flex-wrap">
-            <h4 className="text-sm font-medium uppercase tracking-[0.15em] text-gold">
-              {hasActiveFilters ? 'Filtered Results' : 'All Fragrances'}
-            </h4>
+            <div className="flex items-center gap-2">
+              <h4 className="text-sm font-medium uppercase tracking-[0.15em] text-gold">
+                {cabinetFilter ? 'My Cabinet' : hasActiveFilters ? 'Filtered Results' : 'All Fragrances'}
+              </h4>
+              {/* Cabinet filter toggle */}
+              {isSignedIn && collection.cabinet.size > 0 && (
+                <button
+                  onClick={() => setCabinetFilter(v => !v)}
+                  title={cabinetFilter ? 'Show all fragrances' : 'Show only my cabinet'}
+                  className={cn(
+                    'flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-medium uppercase tracking-wider transition-all duration-200',
+                    cabinetFilter
+                      ? 'border-gold bg-gold/15 text-gold'
+                      : 'border-gold/20 text-cream-muted/60 hover:border-gold/40 hover:text-gold/80'
+                  )}
+                >
+                  <BookMarked className="h-3 w-3" />
+                  Cabinet
+                </button>
+              )}
+            </div>
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-1 rounded-lg border border-gold/20 bg-surface p-0.5 text-xs">
                 <button
