@@ -2,13 +2,12 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { useAuth } from '@clerk/nextjs'
-import { BookMarked, Heart, Star, ArrowLeft, Sparkles } from 'lucide-react'
+import { BookMarked, Heart, ArrowLeft, Sparkles } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { fragrances } from '@/lib/fragrances/data'
 import { useCollection } from '@/lib/collection-context'
-import type { Fragrance } from '@/lib/fragrances/types'
+import { FragranceCard } from '@/components/fragrance-card'
 
 type Tab = 'cabinet' | 'wishlist'
 
@@ -16,7 +15,6 @@ export default function CollectionPage() {
   const { isSignedIn, isLoaded } = useAuth()
   const collection = useCollection()
   const [activeTab, setActiveTab] = useState<Tab>('cabinet')
-  const [hoverRatings, setHoverRatings] = useState<Record<string, number>>({})
 
   const cabinetFragrances = fragrances.filter(f => collection.cabinet.has(f.id))
   const wishlistFragrances = fragrances.filter(f => collection.wishlist.has(f.id))
@@ -110,18 +108,16 @@ export default function CollectionPage() {
           {!collection.loading && !isEmpty && (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {displayed.map(fragrance => (
-                <CollectionCard
+                <FragranceCard
                   key={fragrance.id}
                   fragrance={fragrance}
                   inCabinet={collection.cabinet.has(fragrance.id)}
                   inWishlist={collection.wishlist.has(fragrance.id)}
                   userRating={collection.ratings.get(fragrance.id)}
-                  hoverRating={hoverRatings[fragrance.id] || 0}
                   onToggleCabinet={() => collection.toggleCabinet(fragrance.id)}
                   onToggleWishlist={() => collection.toggleWishlist(fragrance.id)}
                   onSetRating={(score) => collection.setRating(fragrance.id, score)}
                   onRemoveRating={() => collection.removeRating(fragrance.id)}
-                  onHoverRating={(score) => setHoverRatings(p => ({ ...p, [fragrance.id]: score }))}
                 />
               ))}
             </div>
@@ -211,134 +207,6 @@ function EmptyState({ tab }: { tab: Tab }) {
         <Sparkles size={12} />
         Browse fragrances
       </Link>
-    </div>
-  )
-}
-
-/* ─── Collection Card ─── */
-function CollectionCard({
-  fragrance,
-  inCabinet,
-  inWishlist,
-  userRating,
-  hoverRating,
-  onToggleCabinet,
-  onToggleWishlist,
-  onSetRating,
-  onRemoveRating,
-  onHoverRating,
-}: {
-  fragrance: Fragrance
-  inCabinet: boolean
-  inWishlist: boolean
-  userRating?: number
-  hoverRating: number
-  onToggleCabinet: () => void
-  onToggleWishlist: () => void
-  onSetRating: (score: number) => void
-  onRemoveRating: () => void
-  onHoverRating: (score: number) => void
-}) {
-  const [imgFailed, setImgFailed] = useState(false)
-
-  return (
-    <div className="group flex flex-col rounded-lg border border-gold/20 bg-gradient-to-br from-surface-elevated to-surface overflow-hidden hover:border-gold/40 transition-all duration-300">
-
-      {/* Bottle image */}
-      {fragrance.imageUrl && !imgFailed ? (
-        <div className="relative flex h-32 items-center justify-center border-b border-gold/10 bg-gradient-to-b from-surface-elevated to-surface">
-          <Image
-            src={fragrance.imageUrl}
-            alt={fragrance.name}
-            width={70}
-            height={100}
-            className="h-24 w-auto object-contain drop-shadow-md transition-transform duration-500 group-hover:scale-105"
-            unoptimized
-            onError={() => setImgFailed(true)}
-          />
-        </div>
-      ) : (
-        <div className="flex h-32 items-center justify-center border-b border-gold/10 bg-surface-elevated">
-          <span className="text-2xl opacity-20">◈</span>
-        </div>
-      )}
-
-      {/* Content */}
-      <div className="flex flex-1 flex-col p-4">
-        <div className="mb-3 flex-1">
-          <h3 className="font-serif text-sm leading-snug text-cream">{fragrance.name}</h3>
-          <p className="mt-0.5 text-[11px] uppercase tracking-wider text-gold-light/70">{fragrance.house}</p>
-        </div>
-
-        {/* Family tags */}
-        <div className="mb-3 flex flex-wrap gap-1">
-          {fragrance.family.map(fam => (
-            <span
-              key={fam}
-              className="rounded-full border border-gold/15 bg-gold/5 px-2 py-px text-[10px] text-gold/60"
-            >
-              {fam}
-            </span>
-          ))}
-        </div>
-
-        {/* Star rating */}
-        <div className="mb-3 flex items-center gap-0.5">
-          {[1, 2, 3, 4, 5].map(star => (
-            <button
-              key={star}
-              onClick={() => userRating === star ? onRemoveRating() : onSetRating(star)}
-              onMouseEnter={() => onHoverRating(star)}
-              onMouseLeave={() => onHoverRating(0)}
-              className="transition-transform duration-100 hover:scale-110"
-              title={userRating === star ? 'Remove rating' : `Rate ${star}/5`}
-            >
-              <Star
-                className={cn(
-                  'h-3.5 w-3.5 transition-colors duration-150',
-                  (hoverRating || userRating || 0) >= star
-                    ? 'text-gold fill-gold'
-                    : 'text-gold/15'
-                )}
-              />
-            </button>
-          ))}
-          {userRating && (
-            <span className="ml-1 text-[10px] text-cream-muted/40">{userRating}/5</span>
-          )}
-        </div>
-
-        {/* Actions */}
-        <div className="flex items-center justify-between border-t border-gold/10 pt-3">
-          <span className="text-xs font-medium text-gold">${fragrance.price}</span>
-          <div className="flex items-center gap-1.5">
-            <button
-              onClick={onToggleCabinet}
-              title={inCabinet ? 'Remove from cabinet' : 'Add to cabinet'}
-              className={cn(
-                'flex h-6 w-6 items-center justify-center rounded-full border transition-all duration-200',
-                inCabinet
-                  ? 'border-gold bg-gold text-surface'
-                  : 'border-gold/20 text-cream-muted/40 hover:border-gold hover:text-gold'
-              )}
-            >
-              <BookMarked size={11} />
-            </button>
-            <button
-              onClick={onToggleWishlist}
-              title={inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
-              className={cn(
-                'flex h-6 w-6 items-center justify-center rounded-full border transition-all duration-200',
-                inWishlist
-                  ? 'border-rose-400/70 bg-rose-400/15 text-rose-400'
-                  : 'border-gold/20 text-cream-muted/40 hover:border-rose-400/50 hover:text-rose-400'
-              )}
-            >
-              <Heart className={cn('h-3 w-3', inWishlist && 'fill-current')} />
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
   )
 }
