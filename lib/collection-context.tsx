@@ -19,7 +19,7 @@ interface CollectionState {
 const CollectionContext = createContext<CollectionState | null>(null)
 
 export function CollectionProvider({ children }: { children: ReactNode }) {
-  const { isSignedIn, isLoaded, getToken } = useAuth()
+  const { isSignedIn, isLoaded, getToken, userId } = useAuth()
   const [cabinet,  setCabinet]  = useState<Set<string>>(new Set())
   const [wishlist, setWishlist] = useState<Set<string>>(new Set())
   const [ratings,  setRatings]  = useState<Map<string, number>>(new Map())
@@ -90,7 +90,7 @@ export function CollectionProvider({ children }: { children: ReactNode }) {
       if (inCabinet) {
         res = await client.from('cabinet').delete().eq('fragrance_id', fragranceId)
       } else {
-        res = await client.from('cabinet').insert({ fragrance_id: fragranceId })
+        res = await client.from('cabinet').insert({ fragrance_id: fragranceId, user_id: userId })
       }
       console.log('[Collection] cabinet write result:', res.error ?? 'OK')
     } catch (err) {
@@ -108,7 +108,7 @@ export function CollectionProvider({ children }: { children: ReactNode }) {
       if (inWishlist) {
         await client.from('wishlist').delete().eq('fragrance_id', fragranceId)
       } else {
-        await client.from('wishlist').insert({ fragrance_id: fragranceId })
+        await client.from('wishlist').insert({ fragrance_id: fragranceId, user_id: userId })
       }
     } catch (err) {
       console.error('Wishlist update failed:', err)
@@ -123,7 +123,7 @@ export function CollectionProvider({ children }: { children: ReactNode }) {
     try {
       const client = await getClient()
       await client.from('ratings').upsert(
-        { fragrance_id: fragranceId, score, updated_at: new Date().toISOString() },
+        { fragrance_id: fragranceId, score, user_id: userId, updated_at: new Date().toISOString() },
         { onConflict: 'user_id,fragrance_id' }
       )
     } catch (err) {
