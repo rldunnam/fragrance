@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { BookMarked, Heart, Star } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { getSimilarFragrances } from '@/lib/fragrances/similarity'
+import { deriveAccords } from '@/lib/fragrances/accords'
 import type { Fragrance } from '@/lib/fragrances/types'
 
 /* ─── Bottle Image Banner ─── */
@@ -55,6 +56,74 @@ function ProjectionRating({ rating }: { rating: number }) {
   )
 }
 
+/* ─── Radial Accord Chart ─── */
+
+function RadialAccordChart({ accords }: { accords: { name: string; strength: number }[] }) {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
+  const accent = '#D4AF37'
+  const size = 240
+  const cx = size / 2
+  const cy = size / 2
+  const maxR = 88
+  const rings = [25, 50, 75, 100]
+  const angleStep = (2 * Math.PI) / accords.length
+
+  const points = accords.map((a, i) => {
+    const angle = i * angleStep - Math.PI / 2
+    const r = (a.strength / 100) * maxR
+    return {
+      x: cx + r * Math.cos(angle),
+      y: cy + r * Math.sin(angle),
+      labelX: cx + (maxR + 22) * Math.cos(angle),
+      labelY: cy + (maxR + 22) * Math.sin(angle),
+      ...a,
+    }
+  })
+
+  const polygonPoints = points.map((p) => `${p.x},${p.y}`).join(' ')
+
+  return (
+    <svg viewBox={`0 0 ${size} ${size}`} className="w-full max-w-[240px] mx-auto">
+      {rings.map((pct) => (
+        <circle key={pct} cx={cx} cy={cy} r={(pct / 100) * maxR}
+          fill="none" stroke="#D4AF37" strokeOpacity="0.08" strokeWidth="0.5" />
+      ))}
+      {accords.map((_, i) => {
+        const angle = i * angleStep - Math.PI / 2
+        return (
+          <line key={i} x1={cx} y1={cy}
+            x2={cx + maxR * Math.cos(angle)} y2={cy + maxR * Math.sin(angle)}
+            stroke="#D4AF37" strokeOpacity="0.1" strokeWidth="0.5" />
+        )
+      })}
+      <polygon points={polygonPoints}
+        fill={accent} fillOpacity="0.12"
+        stroke={accent} strokeWidth="1.5" strokeOpacity="0.6" strokeLinejoin="round" />
+      {points.map((p, i) => (
+        <g key={i} onMouseEnter={() => setHoveredIndex(i)} onMouseLeave={() => setHoveredIndex(null)}
+          style={{ cursor: 'default' }}>
+          <circle cx={p.x} cy={p.y} r="10" fill="transparent" />
+          <circle cx={p.x} cy={p.y} r={hoveredIndex === i ? 5 : 3.5}
+            fill={accent} stroke="#0A0A0F" strokeWidth="1.5"
+            style={{ transition: 'r 0.2s ease' }} />
+          <text x={p.labelX} y={p.labelY} textAnchor="middle" dominantBaseline="middle"
+            fill={hoveredIndex === i ? '#F5F5F0' : '#8A8A8A'}
+            fontSize="9" fontFamily="Inter, sans-serif"
+            style={{ transition: 'fill 0.2s ease' }}>
+            {p.name}
+          </text>
+          {hoveredIndex === i && (
+            <text x={p.labelX} y={p.labelY + 11} textAnchor="middle" dominantBaseline="middle"
+              fill={accent} fontSize="8" fontWeight="600" fontFamily="Inter, sans-serif">
+              {p.strength}%
+            </text>
+          )}
+        </g>
+      ))}
+    </svg>
+  )
+}
+
 /* ─── Shared Fragrance Card ─── */
 
 export interface FragranceCardProps {
@@ -94,6 +163,7 @@ export function FragranceCard({
 }: FragranceCardProps) {
   const [isExpanded, setIsExpanded] = useState(false)
   const [hoverRating, setHoverRating] = useState(0)
+  const accords = deriveAccords(fragrance)
 
   return (
     <div
@@ -265,6 +335,14 @@ export function FragranceCard({
                 />
               </div>
             </div>
+
+            {/* Accord Profile */}
+            {accords.length > 0 && (
+              <div className="border-t border-gold/10 pt-3">
+                <div className="mb-2 text-xs font-medium uppercase tracking-wider text-gold/80">Accord Profile</div>
+                <RadialAccordChart accords={accords} />
+              </div>
+            )}
 
             {/* My Rating */}
             <div className="border-t border-gold/10 pt-3">
