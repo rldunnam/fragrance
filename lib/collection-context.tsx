@@ -41,23 +41,17 @@ export function CollectionProvider({ children }: { children: ReactNode }) {
 
     async function load() {
       setLoading(true)
-      console.log('[Collection] load() called — isLoaded:', isLoaded, 'isSignedIn:', isSignedIn)
       try {
         const client = await getClient()
-        console.log('[Collection] got client, querying Supabase...')
         const [cabinetRes, wishlistRes, ratingsRes] = await Promise.all([
           client.from('cabinet').select('fragrance_id'),
           client.from('wishlist').select('fragrance_id'),
           client.from('ratings').select('fragrance_id, score'),
         ])
-        console.log('[Collection] cabinet:', cabinetRes.data, cabinetRes.error)
-        console.log('[Collection] wishlist:', wishlistRes.data, wishlistRes.error)
-        console.log('[Collection] ratings:', ratingsRes.data, ratingsRes.error)
         if (cabinetRes.data)  setCabinet(new Set(cabinetRes.data.map(r => r.fragrance_id)))
         if (wishlistRes.data) setWishlist(new Set(wishlistRes.data.map(r => r.fragrance_id)))
         if (ratingsRes.data)  setRatings(new Map(ratingsRes.data.map(r => [r.fragrance_id, r.score])))
       } catch (err) {
-        console.error('[Collection] Failed to load collection:', err)
       } finally {
         setLoading(false)
       }
@@ -86,13 +80,11 @@ export function CollectionProvider({ children }: { children: ReactNode }) {
     setCabinet(prev => { const next = new Set(prev); inCabinet ? next.delete(fragranceId) : next.add(fragranceId); return next })
     try {
       const client = await getClient()
-      let res
       if (inCabinet) {
-        res = await client.from('cabinet').delete().eq('fragrance_id', fragranceId)
+        await client.from('cabinet').delete().eq('fragrance_id', fragranceId)
       } else {
-        res = await client.from('cabinet').insert({ fragrance_id: fragranceId, user_id: userId })
+        await client.from('cabinet').insert({ fragrance_id: fragranceId, user_id: userId })
       }
-      console.log('[Collection] cabinet write result:', res.error ?? 'OK')
     } catch (err) {
       console.error('Cabinet update failed:', err)
       setCabinet(prev => { const next = new Set(prev); inCabinet ? next.add(fragranceId) : next.delete(fragranceId); return next })
