@@ -485,7 +485,12 @@ export function ScentRecommendationEngine() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                   d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.347.347a3.75 3.75 0 01-5.303 0l-.347-.347z" />
               </svg>
-              {tasteProfile.confidenceLevel === 'medium' && tasteProfile.ratingCount < 10 && (
+              {tasteProfile.confidenceLevel === 'medium' && tasteProfile.ratingCount < 5 && (
+                <span>
+                  Almost there — rate {tasteProfile.ratingsNeededForNext} more {tasteProfile.ratingsNeededForNext === 1 ? 'fragrance' : 'fragrances'} to activate personalised ranking
+                </span>
+              )}
+              {tasteProfile.confidenceLevel === 'medium' && tasteProfile.ratingCount >= 5 && tasteProfile.ratingCount < 10 && (
                 <span>
                   Learning your taste — rate {tasteProfile.ratingsNeededForNext} more {tasteProfile.ratingsNeededForNext === 1 ? 'fragrance' : 'fragrances'} to improve recommendations
                 </span>
