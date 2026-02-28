@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useEffect, useState, useCallback, type ReactNode } from 'react'
+import { createContext, useContext, useEffect, useRef, useState, useCallback, type ReactNode } from 'react'
 import { useAuth } from '@clerk/nextjs'
 import { createAuthClient } from '@/lib/supabase'
 
@@ -25,11 +25,15 @@ export function CollectionProvider({ children }: { children: ReactNode }) {
   const [ratings,  setRatings]  = useState<Map<string, number>>(new Map())
   const [loading,  setLoading]  = useState(false)
 
+  // Use a ref so getClient is always stable and never causes effect re-runs
+  const getTokenRef = useRef(getToken)
+  useEffect(() => { getTokenRef.current = getToken }, [getToken])
+
   const getClient = useCallback(async () => {
-    const token = await getToken({ template: 'supabase' })
+    const token = await getTokenRef.current({ template: 'supabase' })
     if (!token) throw new Error('No auth token')
     return createAuthClient(token)
-  }, [getToken])
+  }, [])
 
   // Load all user data on sign-in
   useEffect(() => {
@@ -55,7 +59,8 @@ export function CollectionProvider({ children }: { children: ReactNode }) {
     }
 
     load()
-  }, [isLoaded, isSignedIn, getClient])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoaded, isSignedIn])
 
   // Clear on sign-out
   useEffect(() => {
