@@ -1,6 +1,8 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 
 const SECTIONS = [
@@ -13,6 +15,8 @@ const SECTIONS = [
 ]
 
 export function StickyNav() {
+  const pathname = usePathname()
+  const isHome = pathname === "/"
   const [visible, setVisible] = useState(false)
   const [activeId, setActiveId] = useState<string | null>(null)
   const [progress, setProgress] = useState(0)
@@ -85,7 +89,7 @@ export function StickyNav() {
       ref={navRef}
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out",
-        visible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
+        "translate-y-0 opacity-100"
       )}
     >
       {/* Progress bar — very top of screen */}
@@ -102,12 +106,12 @@ export function StickyNav() {
           <div className="flex items-center justify-between h-12">
 
             {/* Left: wordmark */}
-            <button
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            <Link
+              href="/"
               className="font-serif text-sm text-gold/70 hover:text-gold transition-colors duration-200 tracking-wider"
             >
               The Art & Science of Fragrance
-            </button>
+            </Link>
 
             {/* Centre: section dots (desktop) */}
             <div className="hidden md:flex items-center gap-1">
@@ -148,10 +152,21 @@ export function StickyNav() {
               })}
             </div>
 
-            {/* Right: mobile menu toggle + progress % */}
+            {/* Right: page nav + mobile menu toggle + progress % */}
             <div className="flex items-center gap-3">
+              <Link
+                href="/collection"
+                className={cn(
+                  "hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full border text-[11px] font-medium uppercase tracking-[0.12em] transition-all duration-200",
+                  pathname === "/collection"
+                    ? "border-gold/60 bg-gold/10 text-gold"
+                    : "border-gold/20 text-cream-muted/60 hover:border-gold/40 hover:text-gold/80"
+                )}
+              >
+                My Collection
+              </Link>
               <span className="hidden sm:block text-[10px] font-medium uppercase tracking-[0.15em] text-cream-muted/40 tabular-nums">
-                {Math.round(progress)}%
+                {isHome ? `${Math.round(progress)}%` : ""}
               </span>
 
               {/* Mobile hamburger */}
@@ -186,6 +201,20 @@ export function StickyNav() {
         )}
       >
         <div className="mx-auto max-w-[1200px] px-6 py-3 flex flex-col gap-1">
+          <Link
+            href="/collection"
+            onClick={() => setExpanded(false)}
+            className={cn(
+              "flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-all duration-200",
+              pathname === "/collection"
+                ? "bg-gold/10 text-gold"
+                : "text-cream-muted hover:bg-surface-elevated hover:text-cream"
+            )}
+          >
+            <span className="text-[10px] font-medium uppercase tracking-widest w-6 text-cream-muted/30">★</span>
+            <span className="text-sm font-medium">My Collection</span>
+          </Link>
+          <div className="my-1 border-t border-gold/10" />
           {SECTIONS.map(({ id, label, short }, i) => {
             const isActive = id === activeId
             const isPast = activeIndex > i

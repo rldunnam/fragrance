@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from 'next'
 import { Inter, Playfair_Display } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
 import { FloatingHeader } from '@/components/floating-header'
+import { StickyNav } from '@/components/scrollytelling/sticky-nav'
+import { CollectionProvider } from '@/lib/collection-context'
 import './globals.css'
 
 const _inter = Inter({
@@ -51,8 +53,11 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className="font-sans antialiased bg-background text-foreground">
-          <FloatingHeader />
-          {children}
+          <CollectionProvider>
+            <StickyNav />
+            <FloatingHeader />
+            {children}
+          </CollectionProvider>
         </body>
       </html>
     </ClerkProvider>
