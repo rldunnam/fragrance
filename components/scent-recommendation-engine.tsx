@@ -809,6 +809,7 @@ const fragrances: Fragrance[] = [
     id: 'xerjoff-naxos',
     name: 'Naxos',
     house: 'Xerjoff',
+    price: 290,
     family: ['Amber', 'Woody'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],
