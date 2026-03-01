@@ -416,9 +416,9 @@ export const fragrances: Fragrance[] = [
     projection: 5,
   },
   {
-    id: 'mont-blanc-legend',
+    id: 'montblanc-legend-spirit',
     name: 'Legend Spirit',
-    house: 'Mont Blanc',
+    house: 'Montblanc',
     price: 65,
     concentration: 'EDT',
     family: ['Fresh', 'Woody'],
