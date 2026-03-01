@@ -2190,7 +2190,7 @@ export const fragrances: Fragrance[] = [
 
   {
     id: 'issey-miyake-leau-edp',
-    name: "L'Eau d'Issey EDP",
+    name: "L'Eau d'Issey",
     house: 'Issey Miyake',
     price: 95,
     concentration: 'EDP',
