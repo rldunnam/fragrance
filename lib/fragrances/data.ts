@@ -774,6 +774,27 @@ export const fragrances: Fragrance[] = [
     projection: 3,
   },
 
+  // ─── Maison Margiela ──────────────────────────────────────────────────────
+  {
+    id: 'maison-margiela-jazz-club',
+    name: 'Jazz Club',
+    house: 'Maison Margiela',
+    price: 155,
+    concentration: 'EDT',
+    imageUrl: '/bottles/maison-margiela-jazz-club.jpg',
+    family: ['Amber', 'Woody'],
+    occasion: ['Date Night', 'Formal', 'Everyday'],
+    season: ['Fall', 'Winter'],
+    topNotes: ['Pink Pepper', 'Neroli', 'Lemon'],
+    heartNotes: ['Tobacco Leaf', 'Rum', 'Clary Sage'],
+    baseNotes: ['Vanilla', 'Vetiver', 'Musk'],
+    rationale: "Part of the iconic Replica line, Jazz Club captures the atmosphere of a dimly lit Brooklyn basement bar — the scent of premium cigars, rum cocktails, and warm wood. Perfumer Aliénor Massenet built a seamless arc from spiced-boozy opening to a creamy tobacco-vanilla drydown. One of the most consistently complimented date-night fragrances in contemporary niche perfumery, and a staple cold-weather signature.",
+    intensity: 3,
+    longevity: '6-8 hrs',
+    sillage: 'Moderate',
+    projection: 3,
+  },
+
   {
     id: 'hermessence-vetiver-tonka',
     name: 'Vétiver Tonka',
