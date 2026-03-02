@@ -85,6 +85,8 @@ export function StickyNav() {
 
   if (!isGuide) return null
 
+  const p = pathname as string
+
   return (
     <div
       ref={navRef}
@@ -159,7 +161,7 @@ export function StickyNav() {
                 href="/collection"
                 className={cn(
                   "hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full border text-[11px] font-medium uppercase tracking-[0.12em] transition-all duration-200",
-                  pathname === "/collection"
+                  p === "/collection"
                     ? "border-gold/60 bg-gold/10 text-gold"
                     : "border-gold/20 text-cream-muted/60 hover:border-gold/40 hover:text-gold/80"
                 )}
@@ -207,7 +209,7 @@ export function StickyNav() {
             onClick={() => setExpanded(false)}
             className={cn(
               "flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-all duration-200",
-              pathname === "/collection"
+              p === "/collection"
                 ? "bg-gold/10 text-gold"
                 : "text-cream-muted hover:bg-surface-elevated hover:text-cream"
             )}
