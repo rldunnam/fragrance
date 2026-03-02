@@ -26,7 +26,7 @@ export function ScentRecommendationEngine() {
   const [shortlist, setShortlist] = useState<string[]>([])
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [cabinetFilter, setCabinetFilter] = useState(false)
-  const [pageSize, setPageSize] = useState<20 | 50 | 'all'>(20)
+  const [pageSize, setPageSize] = useState<15 | 30 | 45 | 'all'>(15)
   const [currentPage, setCurrentPage] = useState(1)
 
   const toggleShortlist = (id: string) => {
@@ -590,7 +590,7 @@ export function ScentRecommendationEngine() {
               </div>
               {/* Page size selector */}
               <div className="flex items-center gap-1 rounded-lg border border-gold/20 bg-surface p-0.5 text-xs">
-                {([20, 50, 'all'] as const).map((size) => (
+                {([15, 30, 45, 'all'] as const).map((size) => (
                   <button
                     key={size}
                     onClick={() => { setPageSize(size); setCurrentPage(1) }}
