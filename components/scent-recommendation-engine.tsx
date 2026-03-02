@@ -552,7 +552,8 @@ export function ScentRecommendationEngine() {
                 </button>
               )}
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col items-end gap-2">
+              {/* Sort controls */}
               <div className="flex items-center gap-1 rounded-lg border border-gold/20 bg-surface p-0.5 text-xs">
                 <button
                   onClick={() => setSortBy('intensity')}
@@ -582,6 +583,8 @@ export function ScentRecommendationEngine() {
                   Price ↓
                 </button>
               </div>
+              {/* Count + page size row */}
+              <div className="flex items-center gap-2">
               <div className="text-sm text-cream-muted">
                 {pageSize === 'all'
                   ? `${totalResults} ${totalResults === 1 ? 'match' : 'matches'}`
@@ -602,6 +605,7 @@ export function ScentRecommendationEngine() {
                     {size === 'all' ? 'All' : size}
                   </button>
                 ))}
+              </div>
               </div>
             </div>
           </div>
