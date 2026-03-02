@@ -56,7 +56,7 @@ export function SelectorHero() {
   return (
     <div
       ref={heroRef}
-      className="relative flex min-h-[55vh] items-center justify-center overflow-hidden bg-background pt-14"
+      className="relative flex min-h-[45vh] items-center justify-center overflow-hidden bg-background pt-14"
     >
       {/* Radial glow */}
       <div className="pointer-events-none absolute inset-0">
