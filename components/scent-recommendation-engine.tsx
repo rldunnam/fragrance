@@ -613,105 +613,104 @@ export function ScentRecommendationEngine() {
               </p>
             </div>
           ) : (
-            <>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {paginatedFragrances.map((fragrance) => (
-                <FragranceCard
-                  key={fragrance.id}
-                  fragrance={fragrance}
-                  isShortlisted={shortlist.includes(fragrance.id)}
-                  canShortlist={shortlist.length < 3 || shortlist.includes(fragrance.id)}
-                  onToggleShortlist={() => toggleShortlist(fragrance.id)}
-                  inCabinet={collection.cabinet.has(fragrance.id)}
-                  inWishlist={collection.wishlist.has(fragrance.id)}
-                  userRating={collection.ratings.get(fragrance.id)}
-                  onToggleCabinet={() => collection.toggleCabinet(fragrance.id)}
-                  onToggleWishlist={() => collection.toggleWishlist(fragrance.id)}
-                  onSetRating={(score) => collection.setRating(fragrance.id, score)}
-                  onRemoveRating={() => collection.removeRating(fragrance.id)}
-                  onNoteClick={(note) => {
-                    const terms = searchQuery.trim().split(/[\s,]+/).filter(Boolean)
-                    if (!terms.map(t => t.toLowerCase()).includes(note.toLowerCase())) {
-                      setSearchQuery(prev => prev.trim() ? `${prev.trim()} ${note}` : note)
-                    }
-                  }}
-                  allFragrances={fragrances}
-                  onSimilarClick={(id) => {
-                    setSearchQuery('')
-                    clearAllFilters()
-                    setTimeout(() => {
-                      const el = document.getElementById(`fragrance-card-${id}`)
-                      if (el) {
-                        el.scrollIntoView({ behavior: 'smooth', block: 'center' })
-                        el.click()
+            <Fragment>
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                {paginatedFragrances.map((fragrance) => (
+                  <FragranceCard
+                    key={fragrance.id}
+                    fragrance={fragrance}
+                    isShortlisted={shortlist.includes(fragrance.id)}
+                    canShortlist={shortlist.length < 3 || shortlist.includes(fragrance.id)}
+                    onToggleShortlist={() => toggleShortlist(fragrance.id)}
+                    inCabinet={collection.cabinet.has(fragrance.id)}
+                    inWishlist={collection.wishlist.has(fragrance.id)}
+                    userRating={collection.ratings.get(fragrance.id)}
+                    onToggleCabinet={() => collection.toggleCabinet(fragrance.id)}
+                    onToggleWishlist={() => collection.toggleWishlist(fragrance.id)}
+                    onSetRating={(score) => collection.setRating(fragrance.id, score)}
+                    onRemoveRating={() => collection.removeRating(fragrance.id)}
+                    onNoteClick={(note) => {
+                      const terms = searchQuery.trim().split(/[\s,]+/).filter(Boolean)
+                      if (!terms.map(t => t.toLowerCase()).includes(note.toLowerCase())) {
+                        setSearchQuery(prev => prev.trim() ? `${prev.trim()} ${note}` : note)
                       }
-                    }, 150)
-                  }}
-                />
-              ))}
-            </div>
-
-            {/* Pagination controls */}
-            {pageSize !== 'all' && totalPages > 1 && (
-              <div className="mt-8 flex items-center justify-center gap-2">
-                <button
-                  onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                  disabled={currentPage === 1}
-                  className={cn(
-                    'rounded-lg border px-3 py-1.5 text-xs font-medium transition-all duration-200',
-                    currentPage === 1
-                      ? 'border-gold/10 text-cream-muted/30 cursor-not-allowed'
-                      : 'border-gold/20 text-cream-muted hover:border-gold/40 hover:text-gold cursor-pointer'
-                  )}
-                >
-                  ← Prev
-                </button>
-
-                <div className="flex items-center gap-1">
-                  {Array.from({ length: totalPages }, (_, i) => i + 1)
-                    .filter(p => p === 1 || p === totalPages || Math.abs(p - currentPage) <= 1)
-                    .reduce<(number | '...')[]>((acc, p, idx, arr) => {
-                      if (idx > 0 && (p as number) - (arr[idx - 1] as number) > 1) acc.push('...')
-                      acc.push(p)
-                      return acc
-                    }, [])
-                    .map((p, idx) =>
-                      p === '...' ? (
-                        <span key={`ellipsis-${idx}`} className="px-1 text-xs text-cream-muted/40">…</span>
-                      ) : (
-                        <button
-                          key={p}
-                          onClick={() => setCurrentPage(p as number)}
-                          className={cn(
-                            'h-7 w-7 rounded-lg border text-xs font-medium transition-all duration-200',
-                            currentPage === p
-                              ? 'border-gold bg-gold/20 text-gold'
-                              : 'border-gold/20 text-cream-muted hover:border-gold/40 hover:text-gold cursor-pointer'
-                          )}
-                        >
-                          {p}
-                        </button>
-                      )
-                    )
-                  }
-                </div>
-
-                <button
-                  onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                  disabled={currentPage === totalPages}
-                  className={cn(
-                    'rounded-lg border px-3 py-1.5 text-xs font-medium transition-all duration-200',
-                    currentPage === totalPages
-                      ? 'border-gold/10 text-cream-muted/30 cursor-not-allowed'
-                      : 'border-gold/20 text-cream-muted hover:border-gold/40 hover:text-gold cursor-pointer'
-                  )}
-                >
-                  Next →
-                </button>
+                    }}
+                    allFragrances={fragrances}
+                    onSimilarClick={(id) => {
+                      setSearchQuery('')
+                      clearAllFilters()
+                      setTimeout(() => {
+                        const el = document.getElementById(`fragrance-card-${id}`)
+                        if (el) {
+                          el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                          el.click()
+                        }
+                      }, 150)
+                    }}
+                  />
+                ))}
               </div>
-            )}
-            </>
-          </div>
+
+              {pageSize !== 'all' && totalPages > 1 && (
+                <div className="mt-8 flex items-center justify-center gap-2">
+                  <button
+                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                    disabled={currentPage === 1}
+                    className={cn(
+                      'rounded-lg border px-3 py-1.5 text-xs font-medium transition-all duration-200',
+                      currentPage === 1
+                        ? 'border-gold/10 text-cream-muted/30 cursor-not-allowed'
+                        : 'border-gold/20 text-cream-muted hover:border-gold/40 hover:text-gold cursor-pointer'
+                    )}
+                  >
+                    ← Prev
+                  </button>
+
+                  <div className="flex items-center gap-1">
+                    {Array.from({ length: totalPages }, (_, i) => i + 1)
+                      .filter(p => p === 1 || p === totalPages || Math.abs(p - currentPage) <= 1)
+                      .reduce<(number | '...')[]>((acc, p, idx, arr) => {
+                        if (idx > 0 && (p as number) - (arr[idx - 1] as number) > 1) acc.push('...')
+                        acc.push(p)
+                        return acc
+                      }, [])
+                      .map((p, idx) =>
+                        p === '...' ? (
+                          <span key={`ellipsis-${idx}`} className="px-1 text-xs text-cream-muted/40">…</span>
+                        ) : (
+                          <button
+                            key={p}
+                            onClick={() => setCurrentPage(p as number)}
+                            className={cn(
+                              'h-7 w-7 rounded-lg border text-xs font-medium transition-all duration-200',
+                              currentPage === p
+                                ? 'border-gold bg-gold/20 text-gold'
+                                : 'border-gold/20 text-cream-muted hover:border-gold/40 hover:text-gold cursor-pointer'
+                            )}
+                          >
+                            {p}
+                          </button>
+                        )
+                      )
+                    }
+                  </div>
+
+                  <button
+                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                    disabled={currentPage === totalPages}
+                    className={cn(
+                      'rounded-lg border px-3 py-1.5 text-xs font-medium transition-all duration-200',
+                      currentPage === totalPages
+                        ? 'border-gold/10 text-cream-muted/30 cursor-not-allowed'
+                        : 'border-gold/20 text-cream-muted hover:border-gold/40 hover:text-gold cursor-pointer'
+                    )}
+                  >
+                    Next →
+                  </button>
+                </div>
+              )}
+            </Fragment>
+          )}
         </div>
       </div>
 
