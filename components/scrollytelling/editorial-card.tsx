@@ -354,7 +354,7 @@ export function EditorialCard({
         ref={cardRef}
         onClick={() => setSelected(true)}
         className={cn(
-          'group relative flex-shrink-0 w-[280px] md:w-[300px] rounded-xl',
+          'group relative w-full rounded-xl',
           'border-2 bg-surface overflow-hidden text-left',
           'transition-all duration-500 ease-out',
           'hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(212,175,55,0.12)]',
@@ -448,7 +448,7 @@ export function EditorialCard({
   )
 }
 
-/* ─── Scroll Carousel Wrapper ─── */
+/* ─── Grid Wrapper ─── */
 
 export function EditorialCarousel({
   children,
@@ -459,74 +459,16 @@ export function EditorialCarousel({
   label?: string
   sublabel?: string
 }) {
-  const scrollRef = useRef<HTMLDivElement>(null)
-  const [canLeft, setCanLeft] = useState(false)
-  const [canRight, setCanRight] = useState(true)
-
-  const updateState = useCallback(() => {
-    const el = scrollRef.current
-    if (!el) return
-    setCanLeft(el.scrollLeft > 10)
-    setCanRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 10)
-  }, [])
-
-  useEffect(() => {
-    const el = scrollRef.current
-    if (!el) return
-    el.addEventListener('scroll', updateState, { passive: true })
-    updateState()
-    return () => el.removeEventListener('scroll', updateState)
-  }, [updateState])
-
-  const scroll = (dir: 'left' | 'right') => {
-    scrollRef.current?.scrollBy({ left: dir === 'left' ? -330 : 330, behavior: 'smooth' })
-  }
-
   return (
     <div className="scroll-reveal my-8">
       {(label || sublabel) && (
-        <div className="flex items-end justify-between mb-6">
-          <div>
-            {label && <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-gold/70">{label}</span>}
-            {sublabel && <p className="mt-1 text-sm text-cream-muted/60">{sublabel}</p>}
-          </div>
-          <div className="hidden md:flex items-center gap-2">
-            {(['left', 'right'] as const).map(dir => (
-              <button key={dir}
-                onClick={() => scroll(dir)}
-                disabled={dir === 'left' ? !canLeft : !canRight}
-                className={cn(
-                  'rounded-full border border-border bg-surface-elevated p-2 transition-all duration-200 cursor-pointer',
-                  (dir === 'left' ? canLeft : canRight)
-                    ? 'hover:border-gold/40 hover:text-gold text-cream-muted'
-                    : 'opacity-30 cursor-not-allowed text-cream-muted/40'
-                )}
-                aria-label={`Scroll ${dir}`}
-              >
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                    d={dir === 'left' ? 'M15 19l-7-7 7-7' : 'M9 5l7 7-7 7'} />
-                </svg>
-              </button>
-            ))}
-          </div>
+        <div className="mb-6">
+          {label && <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-gold/70">{label}</span>}
+          {sublabel && <p className="mt-1 text-sm text-cream-muted/60">{sublabel}</p>}
         </div>
       )}
-
-      <div className="relative">
-        {canLeft && (
-          <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-12 z-10 bg-gradient-to-r from-background to-transparent" />
-        )}
-        {canRight && (
-          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-12 z-10 bg-gradient-to-l from-background to-transparent" />
-        )}
-        <div
-          ref={scrollRef}
-          className="flex gap-5 overflow-x-auto pb-4"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}
-        >
-          {children}
-        </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        {children}
       </div>
     </div>
   )
