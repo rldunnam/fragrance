@@ -1,7 +1,5 @@
 export const dynamic = 'force-dynamic'
 
-import { GoldDivider } from "@/components/scrollytelling/gold-divider"
-import { TrendingFragranceCards } from "@/components/scrollytelling/trending-fragrance-cards"
 import { Footer } from "@/components/scrollytelling/footer"
 import { ScentRecommendationEngine } from "@/components/scent-recommendation-engine"
 import { SelectorHero } from "@/components/selector-hero"
@@ -11,15 +9,8 @@ export default function Home() {
     <main>
       <SelectorHero />
 
-      {/* Trending — gives first-time visitors immediate orientation */}
-      <div className="mx-auto max-w-[1200px] px-6 lg:px-8 pt-12">
-        <TrendingFragranceCards />
-      </div>
-
-      <GoldDivider />
-
       {/* Scent Selector */}
-      <div id="selector" className="mx-auto max-w-[1200px] px-6 lg:px-8 py-12">
+      <div id="selector" className="mx-auto max-w-[1200px] px-6 lg:px-8 pt-6 pb-12">
         <div className="mb-8">
           <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-gold/70">
             Scent Selector
