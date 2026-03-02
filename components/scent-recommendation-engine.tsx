@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo, Fragment, type ReactNode } from 'react'
+import { useState, useMemo, useEffect, Fragment, type ReactNode } from 'react'
 import { cn } from '@/lib/utils'
 import { Sparkles } from 'lucide-react'
 import type { Fragrance } from '@/lib/fragrances/types'
@@ -26,6 +26,8 @@ export function ScentRecommendationEngine() {
   const [shortlist, setShortlist] = useState<string[]>([])
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [cabinetFilter, setCabinetFilter] = useState(false)
+  const [pageSize, setPageSize] = useState<20 | 50 | 'all'>(20)
+  const [currentPage, setCurrentPage] = useState(1)
 
   const toggleShortlist = (id: string) => {
     setShortlist((prev: string[]) => {
@@ -153,7 +155,17 @@ export function ScentRecommendationEngine() {
     setSortBy('intensity')
     setSearchQuery('')
     setCabinetFilter(false)
+    setCurrentPage(1)
   }
+
+  const totalResults = filteredFragrances.length
+  const totalPages = pageSize === 'all' ? 1 : Math.ceil(totalResults / pageSize)
+  const paginatedFragrances = pageSize === 'all'
+    ? filteredFragrances
+    : filteredFragrances.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+
+  // Reset to page 1 whenever the filtered set changes
+  useEffect(() => { setCurrentPage(1) }, [filteredFragrances])
 
   const hasActiveFilters = selectedOccasion || selectedSeasons.length > 0 || selectedFamilies.length > 0 || selectedBudgets.length > 0 || selectedIntensities.length > 0 || searchQuery.length > 0 || cabinetFilter
 
@@ -571,7 +583,25 @@ export function ScentRecommendationEngine() {
                 </button>
               </div>
               <div className="text-sm text-cream-muted">
-                {filteredFragrances.length} {filteredFragrances.length === 1 ? 'match' : 'matches'}
+                {pageSize === 'all'
+                  ? `${totalResults} ${totalResults === 1 ? 'match' : 'matches'}`
+                  : `${Math.min((currentPage - 1) * pageSize + 1, totalResults)}–${Math.min(currentPage * (pageSize as number), totalResults)} of ${totalResults}`
+                }
+              </div>
+              {/* Page size selector */}
+              <div className="flex items-center gap-1 rounded-lg border border-gold/20 bg-surface p-0.5 text-xs">
+                {([20, 50, 'all'] as const).map((size) => (
+                  <button
+                    key={size}
+                    onClick={() => { setPageSize(size); setCurrentPage(1) }}
+                    className={cn(
+                      'rounded px-2 py-1 transition-all duration-200 font-medium',
+                      pageSize === size ? 'bg-gold/20 text-gold' : 'text-cream-muted hover:text-cream'
+                    )}
+                  >
+                    {size === 'all' ? 'All' : size}
+                  </button>
+                ))}
               </div>
             </div>
           </div>
@@ -584,7 +614,7 @@ export function ScentRecommendationEngine() {
             </div>
           ) : (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {filteredFragrances.map((fragrance) => (
+              {paginatedFragrances.map((fragrance) => (
                 <FragranceCard
                   key={fragrance.id}
                   fragrance={fragrance}
@@ -619,7 +649,67 @@ export function ScentRecommendationEngine() {
                 />
               ))}
             </div>
-          )}
+
+            {/* Pagination controls */}
+            {pageSize !== 'all' && totalPages > 1 && (
+              <div className="mt-8 flex items-center justify-center gap-2">
+                <button
+                  onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                  disabled={currentPage === 1}
+                  className={cn(
+                    'rounded-lg border px-3 py-1.5 text-xs font-medium transition-all duration-200',
+                    currentPage === 1
+                      ? 'border-gold/10 text-cream-muted/30 cursor-not-allowed'
+                      : 'border-gold/20 text-cream-muted hover:border-gold/40 hover:text-gold cursor-pointer'
+                  )}
+                >
+                  ← Prev
+                </button>
+
+                <div className="flex items-center gap-1">
+                  {Array.from({ length: totalPages }, (_, i) => i + 1)
+                    .filter(p => p === 1 || p === totalPages || Math.abs(p - currentPage) <= 1)
+                    .reduce<(number | '...')[]>((acc, p, idx, arr) => {
+                      if (idx > 0 && (p as number) - (arr[idx - 1] as number) > 1) acc.push('...')
+                      acc.push(p)
+                      return acc
+                    }, [])
+                    .map((p, idx) =>
+                      p === '...' ? (
+                        <span key={`ellipsis-${idx}`} className="px-1 text-xs text-cream-muted/40">…</span>
+                      ) : (
+                        <button
+                          key={p}
+                          onClick={() => setCurrentPage(p as number)}
+                          className={cn(
+                            'h-7 w-7 rounded-lg border text-xs font-medium transition-all duration-200',
+                            currentPage === p
+                              ? 'border-gold bg-gold/20 text-gold'
+                              : 'border-gold/20 text-cream-muted hover:border-gold/40 hover:text-gold cursor-pointer'
+                          )}
+                        >
+                          {p}
+                        </button>
+                      )
+                    )
+                  }
+                </div>
+
+                <button
+                  onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                  disabled={currentPage === totalPages}
+                  className={cn(
+                    'rounded-lg border px-3 py-1.5 text-xs font-medium transition-all duration-200',
+                    currentPage === totalPages
+                      ? 'border-gold/10 text-cream-muted/30 cursor-not-allowed'
+                      : 'border-gold/20 text-cream-muted hover:border-gold/40 hover:text-gold cursor-pointer'
+                  )}
+                >
+                  Next →
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
