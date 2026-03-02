@@ -613,6 +613,7 @@ export function ScentRecommendationEngine() {
               </p>
             </div>
           ) : (
+            <>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {paginatedFragrances.map((fragrance) => (
                 <FragranceCard
@@ -709,6 +710,7 @@ export function ScentRecommendationEngine() {
                 </button>
               </div>
             )}
+            </>
           </div>
         </div>
       </div>
