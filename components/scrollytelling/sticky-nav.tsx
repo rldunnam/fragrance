@@ -16,14 +16,13 @@ const SECTIONS = [
 
 export function StickyNav() {
   const pathname = usePathname()
-  const isHome = pathname === "/"
+  const isGuide = pathname === '/guide'
   const [visible, setVisible] = useState(false)
   const [activeId, setActiveId] = useState<string | null>(null)
   const [progress, setProgress] = useState(0)
   const [expanded, setExpanded] = useState(false)
   const navRef = useRef<HTMLDivElement>(null)
 
-  // Show nav once user scrolls past the hero
   useEffect(() => {
     const handleScroll = () => {
       const heroHeight = window.innerHeight
@@ -83,6 +82,10 @@ export function StickyNav() {
   }
 
   const activeIndex = SECTIONS.findIndex(s => s.id === activeId)
+
+  if (!isGuide) return null
+
+  const p = pathname as string
 
   return (
     <div
@@ -158,15 +161,15 @@ export function StickyNav() {
                 href="/collection"
                 className={cn(
                   "hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full border text-[11px] font-medium uppercase tracking-[0.12em] transition-all duration-200",
-                  pathname === "/collection"
+                  p === "/collection"
                     ? "border-gold/60 bg-gold/10 text-gold"
                     : "border-gold/20 text-cream-muted/60 hover:border-gold/40 hover:text-gold/80"
                 )}
               >
-                My Collection
+                Collection
               </Link>
               <span className="hidden sm:block text-[10px] font-medium uppercase tracking-[0.15em] text-cream-muted/40 tabular-nums">
-                {isHome ? `${Math.round(progress)}%` : ""}
+                {`${Math.round(progress)}%`}
               </span>
 
               {/* Mobile hamburger */}
@@ -206,13 +209,13 @@ export function StickyNav() {
             onClick={() => setExpanded(false)}
             className={cn(
               "flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-all duration-200",
-              pathname === "/collection"
+              p === "/collection"
                 ? "bg-gold/10 text-gold"
                 : "text-cream-muted hover:bg-surface-elevated hover:text-cream"
             )}
           >
             <span className="text-[10px] font-medium uppercase tracking-widest w-6 text-cream-muted/30">★</span>
-            <span className="text-sm font-medium">My Collection</span>
+            <span className="text-sm font-medium">Collection</span>
           </Link>
           <div className="my-1 border-t border-gold/10" />
           {SECTIONS.map(({ id, label, short }, i) => {

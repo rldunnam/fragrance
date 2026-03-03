@@ -35,7 +35,7 @@ export default function CollectionPage() {
             </div>
             <h1 className="font-serif text-3xl text-cream mb-3">Your Collection</h1>
             <p className="text-cream-muted mb-8">
-              Sign in to save fragrances to your cabinet, build a wishlist, and track your ratings.
+              Sign in to save fragrances to your collection, build a wishlist, and track your ratings.
             </p>
             <button
               onClick={() => window.dispatchEvent(new CustomEvent('fragrance:signin-required'))}
@@ -61,7 +61,7 @@ export default function CollectionPage() {
               className="mb-4 inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-cream-muted/50 hover:text-gold/70 transition-colors"
             >
               <ArrowLeft size={12} />
-              Back to guide
+              Back to selector
             </Link>
             <h1 className="font-serif text-3xl text-cream">My Collection</h1>
             <p className="mt-1 text-sm text-cream-muted/60">
@@ -78,7 +78,7 @@ export default function CollectionPage() {
               active={activeTab === 'cabinet'}
               onClick={() => setActiveTab('cabinet')}
               icon={<BookMarked size={14} />}
-              label="Cabinet"
+              label="Collection"
               count={cabinetFragrances.length}
             />
             <TabButton
@@ -128,7 +128,7 @@ export default function CollectionPage() {
             <div className="mt-12 flex items-center justify-between border-t border-gold/10 pt-6">
               <p className="text-xs text-cream-muted/40 uppercase tracking-wider">
                 {activeTab === 'cabinet'
-                  ? `${cabinetFragrances.length} fragrance${cabinetFragrances.length !== 1 ? 's' : ''} in your cabinet`
+                  ? `${cabinetFragrances.length} fragrance${cabinetFragrances.length !== 1 ? 's' : ''} in your collection`
                   : `${wishlistFragrances.length} fragrance${wishlistFragrances.length !== 1 ? 's' : ''} on your wishlist`
                 }
               </p>
@@ -192,11 +192,11 @@ function EmptyState({ tab }: { tab: Tab }) {
         </div>
       </div>
       <p className="text-sm font-medium text-cream-muted/60 mb-1">
-        {tab === 'cabinet' ? 'Your cabinet is empty' : 'Your wishlist is empty'}
+        {tab === 'cabinet' ? 'Your collection is empty' : 'Your wishlist is empty'}
       </p>
       <p className="text-xs text-cream-muted/40 mb-6">
         {tab === 'cabinet'
-          ? 'Add fragrances you own using the bookmark icon on any card'
+          ? 'Add fragrances you own to your collection using the bookmark icon on any card'
           : 'Add fragrances you want to try using the heart icon on any card'
         }
       </p>

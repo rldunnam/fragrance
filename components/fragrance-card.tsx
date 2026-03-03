@@ -200,7 +200,7 @@ export function FragranceCard({
               {/* Cabinet */}
               <button
                 onClick={(e) => { e.stopPropagation(); onToggleCabinet() }}
-                title={inCabinet ? 'Remove from cabinet' : 'Add to cabinet'}
+                title={inCabinet ? 'Remove from collection' : 'Add to collection'}
                 className={cn(
                   'flex h-6 w-6 items-center justify-center rounded-full border transition-all duration-200',
                   inCabinet
