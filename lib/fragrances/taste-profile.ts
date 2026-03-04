@@ -240,3 +240,66 @@ export function blendScore(
   const normalised = personalScore / (Math.abs(personalScore) + 5)
   return normalised * confidenceWeight
 }
+
+/* ─── Quiz profile → fragrance boost ─── */
+// Maps quiz axis scores and families to a fragrance score bonus.
+// Used as a cold-start signal before the user has enough ratings.
+// Quiz influence is intentionally modest — ratings should dominate over time.
+
+export interface QuizBoostProfile {
+  primaryFamily:   string
+  secondaryFamily: string
+  accentFamily:    string
+  projection:      number  // quiz axis score -10 to +10
+  sweetness:       number
+  thermal:         number
+}
+
+// Maps quiz scent family names to fragrance catalog family strings
+const FAMILY_MAP: Record<string, string[]> = {
+  'Woody Spicy':     ['Woody', 'Spicy', 'Woody Spicy'],
+  'Fresh Aromatic':  ['Fresh', 'Aromatic', 'Citrus', 'Aquatic'],
+  'Amber Sweet':     ['Amber', 'Oriental', 'Sweet'],
+  'Spicy Oriental':  ['Spicy', 'Oriental', 'Amber'],
+  'Leather Tobacco': ['Leather', 'Tobacco', 'Woody'],
+  'Green Herbal':    ['Green', 'Aromatic', 'Fresh'],
+  'Gourmand':        ['Gourmand', 'Sweet', 'Amber'],
+  'Mineral':         ['Fresh', 'Aromatic', 'Aquatic'],
+  'Citrus Aromatic': ['Citrus', 'Fresh', 'Aromatic'],
+}
+
+export function quizBoostScore(
+  fragrance: Fragrance,
+  quiz: QuizBoostProfile,
+  ratingCount: number
+): number {
+  // Fade quiz influence as ratings accumulate — fully fades by 10 ratings
+  const quizWeight = Math.max(0, 1 - ratingCount / 10) * 0.4
+
+  if (quizWeight === 0) return 0
+
+  let boost = 0
+
+  // Family matching — primary gets full boost, secondary half, accent quarter
+  const fragranceFamily = fragrance.family?.toLowerCase() ?? ''
+  const primaryMatches  = (FAMILY_MAP[quiz.primaryFamily]   ?? []).some(f => fragranceFamily.includes(f.toLowerCase()))
+  const secondaryMatches= (FAMILY_MAP[quiz.secondaryFamily] ?? []).some(f => fragranceFamily.includes(f.toLowerCase()))
+  const accentMatches   = (FAMILY_MAP[quiz.accentFamily]    ?? []).some(f => fragranceFamily.includes(f.toLowerCase()))
+
+  if (primaryMatches)   boost += 3.0
+  if (secondaryMatches) boost += 1.5
+  if (accentMatches)    boost += 0.75
+
+  // Projection alignment — quiz projection axis (-10 to +10) maps to catalog (1-5)
+  const quizProjection = (quiz.projection + 10) / 20 * 4 + 1  // normalise to 1-5
+  const projDiff = Math.abs(fragrance.projection - quizProjection)
+  boost += (2.5 - projDiff) * 0.3
+
+  // Sweetness/thermal are note-level signals — lighter touch
+  if (quiz.sweetness > 3 && fragrance.scentFamily?.toLowerCase().includes('sweet')) boost += 0.5
+  if (quiz.thermal   > 3 && fragrance.scentFamily?.toLowerCase().includes('warm'))  boost += 0.5
+  if (quiz.sweetness < -3 && fragrance.scentFamily?.toLowerCase().includes('dry'))  boost += 0.5
+  if (quiz.thermal   < -3 && fragrance.scentFamily?.toLowerCase().includes('fresh')) boost += 0.5
+
+  return boost * quizWeight
+}
