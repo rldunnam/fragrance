@@ -3,7 +3,7 @@
 import { useState, useCallback, useMemo } from 'react'
 import { useAuth } from '@clerk/nextjs'
 import { cn } from '@/lib/utils'
-import { runQuiz, type QuizAnswers, type QuizResult } from '@/lib/fragrances/quiz-engine'
+import { runQuiz, quizResultToFilters, encodeFiltersToParams, type QuizAnswers, type QuizResult } from '@/lib/fragrances/quiz-engine'
 import { quizBoostScore } from '@/lib/fragrances/taste-profile'
 import { useCollection } from '@/lib/collection-context'
 import { fragrances } from '@/lib/fragrances/data'
@@ -222,7 +222,7 @@ function MiniFragranceCard({ fragrance, rank }: { fragrance: Fragrance; rank: nu
 
 // ─── Result Display ───────────────────────────────────────────────────────────
 
-function QuizResultCard({ result, onRetake, topMatches }: { result: QuizResult; onRetake: () => void; topMatches: Fragrance[] }) {
+function QuizResultCard({ result, onRetake, topMatches, filterUrl }: { result: QuizResult; onRetake: () => void; topMatches: Fragrance[]; filterUrl: string }) {
   return (
     <div className="mx-auto max-w-2xl">
 
@@ -305,7 +305,7 @@ function QuizResultCard({ result, onRetake, topMatches }: { result: QuizResult; 
       {/* CTAs */}
       <div className="flex flex-col sm:flex-row items-center gap-3">
         <Link
-          href="/"
+          href={`/?${filterUrl}`}
           className="flex-1 text-center rounded-full bg-gold/15 border border-gold/30 px-6 py-3 text-sm font-medium text-gold hover:bg-gold/25 transition-all duration-200"
         >
           Explore Recommendations →
@@ -330,6 +330,7 @@ export function FragranceQuiz() {
   const [answers, setAnswers] = useState<Partial<QuizAnswers>>({})
   const [textInput, setTextInput] = useState('')
   const [result, setResult] = useState<QuizResult | null>(null)
+  const [finalAnswers, setFinalAnswers] = useState<QuizAnswers | null>(null)
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
 
@@ -337,6 +338,10 @@ export function FragranceQuiz() {
   const progress = (currentIndex / QUESTIONS.length) * 100
 
   const topMatches = useMemo(() => result ? getTopMatches(result, 5) : [], [result])
+  const filterUrl  = useMemo(() => {
+    if (!result || !finalAnswers) return ''
+    return encodeFiltersToParams(quizResultToFilters(result, finalAnswers))
+  }, [result, finalAnswers])
 
   const handleAnswer = useCallback(async (value: string) => {
     const newAnswers = { ...answers, [current.id]: value }
@@ -352,6 +357,7 @@ export function FragranceQuiz() {
       } as QuizAnswers
       const quizResult = runQuiz(finalAnswers)
       setResult(quizResult)
+      setFinalAnswers(finalAnswers)
 
       if (isSignedIn) {
         setSaving(true)
@@ -381,6 +387,7 @@ export function FragranceQuiz() {
     setAnswers({})
     setTextInput('')
     setResult(null)
+    setFinalAnswers(null)
     setSaved(false)
   }
 
@@ -407,7 +414,7 @@ export function FragranceQuiz() {
         {saved && (
           <p className="mb-6 text-center text-xs text-gold/60 uppercase tracking-wider">Profile saved — your selector is now personalised.</p>
         )}
-        <QuizResultCard result={result} onRetake={handleRetake} topMatches={topMatches} />
+        <QuizResultCard result={result} onRetake={handleRetake} topMatches={topMatches} filterUrl={filterUrl} />
       </div>
     )
   }
