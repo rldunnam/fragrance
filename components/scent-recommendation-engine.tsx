@@ -33,10 +33,12 @@ export function ScentRecommendationEngine() {
 
   // Apply quiz-derived filters when arriving from /quiz
   const appliedQuizParams = useRef(false)
+  const [fromQuiz, setFromQuiz] = useState(false)
   useEffect(() => {
     if (appliedQuizParams.current) return
     if (!searchParams.get('fromQuiz')) return
     appliedQuizParams.current = true
+    setFromQuiz(true)
 
     const families = searchParams.get('families')
     const seasons  = searchParams.get('seasons')
@@ -112,6 +114,19 @@ export function ScentRecommendationEngine() {
       results = results.filter(f => collection.cabinet.has(f.id))
     }
 
+    // Quiz mode — sort purely by quiz score so results match quiz top picks exactly
+    if (fromQuiz && collection.quizProfile) {
+      if (sortBy === 'price-asc') return [...results].sort((a, b) => a.price - b.price)
+      if (sortBy === 'price-desc') return [...results].sort((a, b) => b.price - a.price)
+      const qp = collection.quizProfile
+      return [...results].sort((a, b) => {
+        const aScore = quizBoostScore(a, { primaryFamily: qp.primaryFamily, secondaryFamily: qp.secondaryFamily, accentFamily: qp.accentFamily, projection: qp.projection, sweetness: qp.sweetness, thermal: qp.thermal }, 0)
+        const bScore = quizBoostScore(b, { primaryFamily: qp.primaryFamily, secondaryFamily: qp.secondaryFamily, accentFamily: qp.accentFamily, projection: qp.projection, sweetness: qp.sweetness, thermal: qp.thermal }, 0)
+        // Pure quiz score — intensity only as tiebreaker
+        return bScore !== aScore ? bScore - aScore : b.intensity - a.intensity
+      })
+    }
+
     // Personalised ranking — blend personal score with default sort
     if (tasteProfile && tasteProfile.confidenceWeight > 0) {
       if (sortBy === 'price-asc') return [...results].sort((a, b) => a.price - b.price)
@@ -140,7 +155,7 @@ export function ScentRecommendationEngine() {
       })
     }
     return [...results].sort((a, b) => b.intensity - a.intensity)
-  }, [selectedOccasion, selectedSeasons, selectedFamilies, familyMode, selectedBudgets, selectedIntensities, sortBy, searchQuery, cabinetFilter, collection.cabinet, collection.quizProfile, tasteProfile])
+  }, [selectedOccasion, selectedSeasons, selectedFamilies, familyMode, selectedBudgets, selectedIntensities, sortBy, searchQuery, cabinetFilter, collection.cabinet, collection.quizProfile, fromQuiz, tasteProfile])
 
   const toggleSeason = (seasonId: string) => {
     setSelectedSeasons(prev => 
