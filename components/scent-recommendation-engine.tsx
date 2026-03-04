@@ -9,7 +9,7 @@ import { occasions, seasons, scentFamilies, budgetRanges } from '@/lib/fragrance
 import { useCollection } from '@/lib/collection-context'
 import { useAuth } from '@clerk/nextjs'
 import { FragranceCard } from '@/components/fragrance-card'
-import { buildTasteProfile, blendScore } from '@/lib/fragrances/taste-profile'
+import { buildTasteProfile, blendScore, quizBoostScore } from '@/lib/fragrances/taste-profile'
 import { BookMarked } from 'lucide-react'
 
 export function ScentRecommendationEngine() {
@@ -101,17 +101,28 @@ export function ScentRecommendationEngine() {
       return [...results].sort((a, b) => {
         const aPersonal = blendScore(tasteProfile.scoreFragrance(a), tasteProfile.confidenceWeight)
         const bPersonal = blendScore(tasteProfile.scoreFragrance(b), tasteProfile.confidenceWeight)
-        // Blend: personal score + normalised intensity as tiebreaker
-        const aScore = aPersonal + (a.intensity / 5) * (1 - tasteProfile.confidenceWeight)
-        const bScore = bPersonal + (b.intensity / 5) * (1 - tasteProfile.confidenceWeight)
+        const qp = collection.quizProfile
+        const aQuiz = qp ? quizBoostScore(a, { primaryFamily: qp.primaryFamily, secondaryFamily: qp.secondaryFamily, accentFamily: qp.accentFamily, projection: qp.projection, sweetness: qp.sweetness, thermal: qp.thermal }, tasteProfile.ratingCount) : 0
+        const bQuiz = qp ? quizBoostScore(b, { primaryFamily: qp.primaryFamily, secondaryFamily: qp.secondaryFamily, accentFamily: qp.accentFamily, projection: qp.projection, sweetness: qp.sweetness, thermal: qp.thermal }, tasteProfile.ratingCount) : 0
+        const aScore = aPersonal + aQuiz + (a.intensity / 5) * (1 - tasteProfile.confidenceWeight)
+        const bScore = bPersonal + bQuiz + (b.intensity / 5) * (1 - tasteProfile.confidenceWeight)
         return bScore - aScore
       })
     }
 
     if (sortBy === 'price-asc') return [...results].sort((a, b) => a.price - b.price)
     if (sortBy === 'price-desc') return [...results].sort((a, b) => b.price - a.price)
+    // No ratings yet — use quiz boost alone if available, else intensity
+    if (collection.quizProfile) {
+      const qp = collection.quizProfile
+      return [...results].sort((a, b) => {
+        const aBoost = quizBoostScore(a, { primaryFamily: qp.primaryFamily, secondaryFamily: qp.secondaryFamily, accentFamily: qp.accentFamily, projection: qp.projection, sweetness: qp.sweetness, thermal: qp.thermal }, 0)
+        const bBoost = quizBoostScore(b, { primaryFamily: qp.primaryFamily, secondaryFamily: qp.secondaryFamily, accentFamily: qp.accentFamily, projection: qp.projection, sweetness: qp.sweetness, thermal: qp.thermal }, 0)
+        return (bBoost + b.intensity / 5) - (aBoost + a.intensity / 5)
+      })
+    }
     return [...results].sort((a, b) => b.intensity - a.intensity)
-  }, [selectedOccasion, selectedSeasons, selectedFamilies, familyMode, selectedBudgets, selectedIntensities, sortBy, searchQuery, cabinetFilter, collection.cabinet, tasteProfile])
+  }, [selectedOccasion, selectedSeasons, selectedFamilies, familyMode, selectedBudgets, selectedIntensities, sortBy, searchQuery, cabinetFilter, collection.cabinet, collection.quizProfile, tasteProfile])
 
   const toggleSeason = (seasonId: string) => {
     setSelectedSeasons(prev => 
