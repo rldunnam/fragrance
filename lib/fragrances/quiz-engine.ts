@@ -257,3 +257,65 @@ export function runQuiz(answers: QuizAnswers): QuizResult {
     experienceLevel,
   }
 }
+
+// ─── Quiz Result → Selector Filter Params ────────────────────────────────────
+// Maps quiz output to selector filter state, encoded as URL search params.
+
+export interface QuizFilterParams {
+  families:  string[]   // catalog family IDs: Fresh | Woody | Amber | Floral
+  seasons:   string[]   // catalog season IDs: Spring | Summer | Fall | Winter
+  occasion:  string | null  // catalog occasion ID
+}
+
+// Quiz scent family → catalog family IDs
+const QUIZ_TO_CATALOG_FAMILY: Record<string, string[]> = {
+  'Woody Spicy':     ['Woody'],
+  'Fresh Aromatic':  ['Fresh'],
+  'Amber Sweet':     ['Amber'],
+  'Spicy Oriental':  ['Amber'],
+  'Leather Tobacco': ['Woody'],
+  'Green Herbal':    ['Fresh'],
+  'Gourmand':        ['Amber'],
+  'Mineral':         ['Fresh'],
+  'Citrus Aromatic': ['Fresh'],
+}
+
+// Q15 climate → catalog seasons
+const CLIMATE_TO_SEASONS: Record<string, string[]> = {
+  'Hot/Humid':  ['Summer', 'Spring'],
+  'Mild':       [],
+  'Cold/Dry':   ['Fall', 'Winter'],
+}
+
+// Q16 environment → catalog occasion
+const ENV_TO_OCCASION: Record<string, string | null> = {
+  'Corporate':       'Office',
+  'Business Casual': 'Everyday',
+  'Creative':        null,
+}
+
+export function quizResultToFilters(result: QuizResult, answers: QuizAnswers): QuizFilterParams {
+  // Families — dedupe primary + secondary mapped to catalog
+  const familySet = new Set<string>([
+    ...(QUIZ_TO_CATALOG_FAMILY[result.primaryFamily]   ?? []),
+    ...(QUIZ_TO_CATALOG_FAMILY[result.secondaryFamily] ?? []),
+  ])
+
+  const seasons = answers.Q15 ? (CLIMATE_TO_SEASONS[answers.Q15] ?? []) : []
+  const occasion = answers.Q16 ? (ENV_TO_OCCASION[answers.Q16] ?? null) : null
+
+  return {
+    families:  Array.from(familySet),
+    seasons,
+    occasion,
+  }
+}
+
+export function encodeFiltersToParams(filters: QuizFilterParams): string {
+  const params = new URLSearchParams()
+  if (filters.families.length)  params.set('families',  filters.families.join(','))
+  if (filters.seasons.length)   params.set('seasons',   filters.seasons.join(','))
+  if (filters.occasion)         params.set('occasion',  filters.occasion)
+  params.set('fromQuiz', '1')
+  return params.toString()
+}
