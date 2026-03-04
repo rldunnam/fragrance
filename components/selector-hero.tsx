@@ -100,7 +100,7 @@ export function SelectorHero() {
             href="/quiz"
             className="rounded-full bg-gold/15 border border-gold/30 px-6 py-2.5 text-sm font-medium text-gold hover:bg-gold/25 transition-all duration-200"
           >
-            Find Your Scent →
+            Build Your Scent Profile →
           </Link>
           <Link
             href="/guide"
