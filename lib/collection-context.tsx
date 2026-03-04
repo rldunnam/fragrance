@@ -4,15 +4,29 @@ import { createContext, useContext, useEffect, useRef, useState, useCallback, ty
 import { useAuth } from '@clerk/nextjs'
 import { createAuthClient } from '@/lib/supabase'
 
+interface QuizProfile {
+  archetype:       string
+  expression:      number
+  tradition:       number
+  thermal:         number
+  sweetness:       number
+  projection:      number
+  primaryFamily:   string
+  secondaryFamily: string
+  accentFamily:    string
+}
+
 interface CollectionState {
   cabinet: Set<string>
   wishlist: Set<string>
   ratings: Map<string, number>
+  quizProfile: QuizProfile | null
   loading: boolean
   toggleCabinet:  (fragranceId: string) => Promise<void>
   toggleWishlist: (fragranceId: string) => Promise<void>
   setRating:      (fragranceId: string, score: number) => Promise<void>
   removeRating:   (fragranceId: string) => Promise<void>
+  saveQuizProfile:(profile: QuizProfile) => Promise<void>
   promptSignIn:   () => void
 }
 
@@ -23,6 +37,7 @@ export function CollectionProvider({ children }: { children: ReactNode }) {
   const [cabinet,  setCabinet]  = useState<Set<string>>(new Set())
   const [wishlist, setWishlist] = useState<Set<string>>(new Set())
   const [ratings,  setRatings]  = useState<Map<string, number>>(new Map())
+  const [quizProfile, setQuizProfile] = useState<QuizProfile | null>(null)
   const [loading,  setLoading]  = useState(false)
 
   // Use a ref so getClient is always stable and never causes effect re-runs
@@ -43,14 +58,26 @@ export function CollectionProvider({ children }: { children: ReactNode }) {
       setLoading(true)
       try {
         const client = await getClient()
-        const [cabinetRes, wishlistRes, ratingsRes] = await Promise.all([
+        const [cabinetRes, wishlistRes, ratingsRes, quizRes] = await Promise.all([
           client.from('cabinet').select('fragrance_id'),
           client.from('wishlist').select('fragrance_id'),
           client.from('ratings').select('fragrance_id, score'),
+          client.from('quiz_results').select('*').single(),
         ])
         if (cabinetRes.data)  setCabinet(new Set(cabinetRes.data.map(r => r.fragrance_id)))
         if (wishlistRes.data) setWishlist(new Set(wishlistRes.data.map(r => r.fragrance_id)))
         if (ratingsRes.data)  setRatings(new Map(ratingsRes.data.map(r => [r.fragrance_id, r.score])))
+        if (quizRes.data) setQuizProfile({
+          archetype:       quizRes.data.archetype,
+          expression:      quizRes.data.expression,
+          tradition:       quizRes.data.tradition,
+          thermal:         quizRes.data.thermal,
+          sweetness:       quizRes.data.sweetness,
+          projection:      quizRes.data.projection,
+          primaryFamily:   quizRes.data.primary_family,
+          secondaryFamily: quizRes.data.secondary_family,
+          accentFamily:    quizRes.data.accent_family,
+        })
       } catch (err) {
       } finally {
         setLoading(false)
@@ -67,6 +94,7 @@ export function CollectionProvider({ children }: { children: ReactNode }) {
       setCabinet(new Set())
       setWishlist(new Set())
       setRatings(new Map())
+      setQuizProfile(null)
     }
   }, [isLoaded, isSignedIn])
 
@@ -124,6 +152,30 @@ export function CollectionProvider({ children }: { children: ReactNode }) {
     }
   }, [isSignedIn, ratings, getClient, promptSignIn])
 
+  const saveQuizProfile = useCallback(async (profile: QuizProfile) => {
+    if (!isSignedIn) { promptSignIn(); return }
+    setQuizProfile(profile)
+    try {
+      const client = await getClient()
+      await client.from('quiz_results').upsert({
+        user_id:          userId,
+        archetype:        profile.archetype,
+        expression:       profile.expression,
+        tradition:        profile.tradition,
+        thermal:          profile.thermal,
+        sweetness:        profile.sweetness,
+        projection:       profile.projection,
+        primary_family:   profile.primaryFamily,
+        secondary_family: profile.secondaryFamily,
+        accent_family:    profile.accentFamily,
+        taken_at:         new Date().toISOString(),
+      }, { onConflict: 'user_id' })
+    } catch (err) {
+      console.error('Quiz profile save failed:', err)
+      setQuizProfile(null)
+    }
+  }, [isSignedIn, getClient, promptSignIn, userId])
+
   const removeRating = useCallback(async (fragranceId: string) => {
     if (!isSignedIn) return
     const prevScore = ratings.get(fragranceId)
@@ -139,8 +191,8 @@ export function CollectionProvider({ children }: { children: ReactNode }) {
 
   return (
     <CollectionContext.Provider value={{
-      cabinet, wishlist, ratings, loading,
-      toggleCabinet, toggleWishlist, setRating, removeRating, promptSignIn,
+      cabinet, wishlist, ratings, quizProfile, loading,
+      toggleCabinet, toggleWishlist, setRating, removeRating, saveQuizProfile, promptSignIn,
     }}>
       {children}
     </CollectionContext.Provider>

@@ -96,17 +96,17 @@ export function SelectorHero() {
           Rate what you own and let your taste profile sharpen every recommendation.
         </p>
         <div className="mt-8 flex items-center justify-center gap-4">
-          <a
-            href="#selector"
+          <Link
+            href="/quiz"
             className="rounded-full bg-gold/15 border border-gold/30 px-6 py-2.5 text-sm font-medium text-gold hover:bg-gold/25 transition-all duration-200"
           >
-            Start Exploring
-          </a>
+            Take the Scent Quiz →
+          </Link>
           <Link
             href="/guide"
             className="rounded-full border border-gold/10 px-6 py-2.5 text-sm font-medium text-cream-muted/60 hover:border-gold/30 hover:text-gold/80 transition-all duration-200"
           >
-            Read the Guide →
+            Read the Guide
           </Link>
         </div>
       </div>
