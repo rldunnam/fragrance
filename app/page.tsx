@@ -1,5 +1,6 @@
 export const dynamic = 'force-dynamic'
 
+import { Suspense } from "react"
 import { Footer } from "@/components/scrollytelling/footer"
 import { ScentRecommendationEngine } from "@/components/scent-recommendation-engine"
 import { SelectorHero } from "@/components/selector-hero"
@@ -24,7 +25,9 @@ export default function Home() {
             ranking. Build a shortlist and compare side by side.
           </p>
         </div>
-        <ScentRecommendationEngine />
+        <Suspense fallback={null}>
+          <ScentRecommendationEngine />
+        </Suspense>
       </div>
 
       <Footer />
