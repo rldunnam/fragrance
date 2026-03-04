@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useMemo, useEffect, Fragment, type ReactNode } from 'react'
+import { useState, useMemo, useEffect, useRef, Fragment, type ReactNode } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { Sparkles } from 'lucide-react'
 import type { Fragrance } from '@/lib/fragrances/types'
@@ -15,6 +16,7 @@ import { BookMarked } from 'lucide-react'
 export function ScentRecommendationEngine() {
   const collection = useCollection()
   const { isSignedIn } = useAuth()
+  const searchParams = useSearchParams()
   const [selectedOccasion, setSelectedOccasion] = useState<string | null>(null)
   const [selectedSeasons, setSelectedSeasons] = useState<string[]>([])
   const [selectedFamilies, setSelectedFamilies] = useState<string[]>([])
@@ -28,6 +30,22 @@ export function ScentRecommendationEngine() {
   const [cabinetFilter, setCabinetFilter] = useState(false)
   const [pageSize, setPageSize] = useState<15 | 30 | 45 | 'all'>(15)
   const [currentPage, setCurrentPage] = useState(1)
+
+  // Apply quiz-derived filters when arriving from /quiz
+  const appliedQuizParams = useRef(false)
+  useEffect(() => {
+    if (appliedQuizParams.current) return
+    if (!searchParams.get('fromQuiz')) return
+    appliedQuizParams.current = true
+
+    const families = searchParams.get('families')
+    const seasons  = searchParams.get('seasons')
+    const occasion = searchParams.get('occasion')
+
+    if (families) setSelectedFamilies(families.split(',').filter(Boolean))
+    if (seasons)  setSelectedSeasons(seasons.split(',').filter(Boolean))
+    if (occasion) setSelectedOccasion(occasion)
+  }, [searchParams])
 
   const toggleShortlist = (id: string) => {
     setShortlist((prev: string[]) => {
