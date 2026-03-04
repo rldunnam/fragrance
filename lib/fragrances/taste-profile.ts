@@ -281,10 +281,10 @@ export function quizBoostScore(
   let boost = 0
 
   // Family matching — primary gets full boost, secondary half, accent quarter
-  const fragranceFamily = fragrance.family?.toLowerCase() ?? ''
-  const primaryMatches  = (FAMILY_MAP[quiz.primaryFamily]   ?? []).some(f => fragranceFamily.includes(f.toLowerCase()))
-  const secondaryMatches= (FAMILY_MAP[quiz.secondaryFamily] ?? []).some(f => fragranceFamily.includes(f.toLowerCase()))
-  const accentMatches   = (FAMILY_MAP[quiz.accentFamily]    ?? []).some(f => fragranceFamily.includes(f.toLowerCase()))
+  const fragranceFamilies = fragrance.family.map(f => f.toLowerCase())
+  const primaryMatches   = (FAMILY_MAP[quiz.primaryFamily]   ?? []).some(f => fragranceFamilies.some(ff => ff.includes(f.toLowerCase())))
+  const secondaryMatches = (FAMILY_MAP[quiz.secondaryFamily] ?? []).some(f => fragranceFamilies.some(ff => ff.includes(f.toLowerCase())))
+  const accentMatches    = (FAMILY_MAP[quiz.accentFamily]    ?? []).some(f => fragranceFamilies.some(ff => ff.includes(f.toLowerCase())))
 
   if (primaryMatches)   boost += 3.0
   if (secondaryMatches) boost += 1.5
@@ -296,10 +296,11 @@ export function quizBoostScore(
   boost += (2.5 - projDiff) * 0.3
 
   // Sweetness/thermal are note-level signals — lighter touch
-  if (quiz.sweetness > 3 && fragrance.scentFamily?.toLowerCase().includes('sweet')) boost += 0.5
-  if (quiz.thermal   > 3 && fragrance.scentFamily?.toLowerCase().includes('warm'))  boost += 0.5
-  if (quiz.sweetness < -3 && fragrance.scentFamily?.toLowerCase().includes('dry'))  boost += 0.5
-  if (quiz.thermal   < -3 && fragrance.scentFamily?.toLowerCase().includes('fresh')) boost += 0.5
+  const allFamilies = fragranceFamilies.join(' ')
+  if (quiz.sweetness > 3  && allFamilies.includes('sweet'))  boost += 0.5
+  if (quiz.thermal   > 3  && allFamilies.includes('warm'))   boost += 0.5
+  if (quiz.sweetness < -3 && allFamilies.includes('dry'))    boost += 0.5
+  if (quiz.thermal   < -3 && allFamilies.includes('fresh'))  boost += 0.5
 
   return boost * quizWeight
 }
