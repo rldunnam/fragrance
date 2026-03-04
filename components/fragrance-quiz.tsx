@@ -1,10 +1,13 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useMemo } from 'react'
 import { useAuth } from '@clerk/nextjs'
 import { cn } from '@/lib/utils'
 import { runQuiz, type QuizAnswers, type QuizResult } from '@/lib/fragrances/quiz-engine'
+import { quizBoostScore } from '@/lib/fragrances/taste-profile'
 import { useCollection } from '@/lib/collection-context'
+import { fragrances } from '@/lib/fragrances/data'
+import type { Fragrance } from '@/lib/fragrances/types'
 import Link from 'next/link'
 
 // ─── Question Definitions ─────────────────────────────────────────────────────
@@ -168,22 +171,72 @@ const QUESTIONS: Question[] = [
   },
 ]
 
+// ─── Top Matches ─────────────────────────────────────────────────────────────
+
+function getTopMatches(result: QuizResult, count = 5): Fragrance[] {
+  const profile = {
+    primaryFamily:   result.primaryFamily,
+    secondaryFamily: result.secondaryFamily,
+    accentFamily:    result.accentFamily,
+    projection:      result.axisScores.Projection,
+    sweetness:       result.axisScores.Sweetness,
+    thermal:         result.axisScores.Thermal,
+  }
+  return [...fragrances]
+    .map(f => ({ fragrance: f, score: quizBoostScore(f, profile, 0) }))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, count)
+    .map(({ fragrance }) => fragrance)
+}
+
+// ─── Mini Fragrance Card ──────────────────────────────────────────────────────
+
+function MiniFragranceCard({ fragrance, rank }: { fragrance: Fragrance; rank: number }) {
+  const allNotes = [...fragrance.topNotes, ...fragrance.heartNotes, ...fragrance.baseNotes].slice(0, 4)
+  return (
+    <div className="flex items-start gap-4 rounded-xl border border-gold/15 bg-surface p-4 hover:border-gold/30 transition-all duration-200">
+      {/* Rank */}
+      <div className="flex-shrink-0 flex h-8 w-8 items-center justify-center rounded-full border border-gold/20 bg-surface-elevated">
+        <span className="font-serif text-sm text-gold/60">{rank}</span>
+      </div>
+      {/* Info */}
+      <div className="flex-1 min-w-0">
+        <div className="flex items-start justify-between gap-2">
+          <div>
+            <p className="text-sm font-medium text-cream leading-snug">{fragrance.name}</p>
+            <p className="text-xs text-cream-muted/60 mt-0.5">{fragrance.house}</p>
+          </div>
+          <span className="flex-shrink-0 text-xs text-cream-muted/40 font-medium">${fragrance.price}</span>
+        </div>
+        <div className="mt-2 flex flex-wrap gap-1">
+          {allNotes.map(note => (
+            <span key={note} className="rounded-full bg-surface-elevated border border-gold/10 px-2 py-0.5 text-[10px] text-cream-muted/60">
+              {note}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ─── Result Display ───────────────────────────────────────────────────────────
 
-function QuizResultCard({ result, onRetake }: { result: QuizResult; onRetake: () => void }) {
+function QuizResultCard({ result, onRetake, topMatches }: { result: QuizResult; onRetake: () => void; topMatches: Fragrance[] }) {
   return (
     <div className="mx-auto max-w-2xl">
-      {/* Archetype */}
+
+      {/* Archetype header */}
       <div className="text-center mb-10">
-        <span className="text-[10px] font-medium uppercase tracking-[0.25em] text-gold/70">Your Fragrance Identity</span>
-        <h2 className="mt-3 font-serif text-3xl sm:text-4xl text-cream">{result.archetype}</h2>
-        <div className="mx-auto mt-4 h-px w-16 bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
-        <p className="mt-5 text-sm text-cream-muted leading-relaxed max-w-lg mx-auto">{result.description}</p>
+        <span className="text-[11px] font-medium uppercase tracking-[0.3em] text-gold/70">Your Fragrance Identity</span>
+        <h2 className="mt-4 font-serif text-4xl sm:text-5xl text-cream leading-tight">{result.archetype}</h2>
+        <div className="mx-auto mt-5 h-px w-20 bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
+        <p className="mt-6 text-base text-cream-muted leading-relaxed max-w-lg mx-auto">{result.description}</p>
       </div>
 
       {/* Scent Families */}
-      <div className="mb-8 rounded-xl border border-gold/15 bg-surface p-6">
-        <h3 className="mb-4 text-[11px] font-medium uppercase tracking-[0.2em] text-gold/70">Scent Families</h3>
+      <div className="mb-6 rounded-xl border border-gold/15 bg-surface p-6">
+        <h3 className="mb-5 text-[11px] font-medium uppercase tracking-[0.2em] text-gold/70">Scent Families</h3>
         <div className="grid grid-cols-3 gap-4">
           {[
             { label: 'Primary', value: result.primaryFamily, weight: '60%' },
@@ -191,41 +244,41 @@ function QuizResultCard({ result, onRetake }: { result: QuizResult; onRetake: ()
             { label: 'Accent', value: result.accentFamily, weight: '10%' },
           ].map(({ label, value, weight }) => (
             <div key={label} className="text-center">
-              <div className="text-[10px] uppercase tracking-wider text-cream-muted/50 mb-1">{label}</div>
-              <div className="text-sm font-medium text-cream">{value}</div>
-              <div className="text-[10px] text-gold/50 mt-0.5">{weight}</div>
+              <div className="text-[10px] uppercase tracking-wider text-cream-muted/50 mb-2">{label}</div>
+              <div className="text-sm font-medium text-cream leading-snug">{value}</div>
+              <div className="text-[10px] text-gold/50 mt-1">{weight}</div>
             </div>
           ))}
         </div>
       </div>
 
       {/* Notes */}
-      <div className="mb-8 grid grid-cols-2 gap-4">
+      <div className="mb-6 grid grid-cols-2 gap-4">
         <div className="rounded-xl border border-gold/15 bg-surface p-5">
-          <h3 className="mb-3 text-[11px] font-medium uppercase tracking-[0.2em] text-gold/70">Notes to Seek</h3>
-          <ul className="space-y-1.5">
+          <h3 className="mb-4 text-[11px] font-medium uppercase tracking-[0.2em] text-gold/70">Seek</h3>
+          <ul className="space-y-2">
             {result.notesToSeek.map(note => (
               <li key={note} className="flex items-center gap-2 text-sm text-cream-muted">
-                <span className="text-gold text-xs">+</span>{note}
+                <span className="text-gold text-xs leading-none">+</span>{note}
               </li>
             ))}
           </ul>
         </div>
-        <div className="rounded-xl border border-gold/15 bg-surface p-5">
-          <h3 className="mb-3 text-[11px] font-medium uppercase tracking-[0.2em] text-cream-muted/40">Notes to Avoid</h3>
-          <ul className="space-y-1.5">
+        <div className="rounded-xl border border-gold/10 bg-surface p-5">
+          <h3 className="mb-4 text-[11px] font-medium uppercase tracking-[0.2em] text-cream-muted/30">Avoid</h3>
+          <ul className="space-y-2">
             {result.notesToAvoid.map(note => (
-              <li key={note} className="flex items-center gap-2 text-sm text-cream-muted/60">
-                <span className="text-cream-muted/30 text-xs">–</span>{note}
+              <li key={note} className="flex items-center gap-2 text-sm text-cream-muted/50">
+                <span className="text-cream-muted/30 text-xs leading-none">–</span>{note}
               </li>
             ))}
           </ul>
         </div>
       </div>
 
-      {/* Diversification */}
+      {/* Collection Insights */}
       {result.diversification.length > 0 && (
-        <div className="mb-8 rounded-xl border border-gold/15 bg-surface p-5">
+        <div className="mb-6 rounded-xl border border-gold/15 bg-surface p-5">
           <h3 className="mb-3 text-[11px] font-medium uppercase tracking-[0.2em] text-gold/70">Collection Insights</h3>
           <ul className="space-y-2">
             {result.diversification.map((tip, i) => (
@@ -235,17 +288,31 @@ function QuizResultCard({ result, onRetake }: { result: QuizResult; onRetake: ()
         </div>
       )}
 
+      {/* Top Matches */}
+      {topMatches.length > 0 && (
+        <div className="mb-8">
+          <h3 className="mb-4 text-[11px] font-medium uppercase tracking-[0.2em] text-gold/70">
+            Your Top {topMatches.length} Matches
+          </h3>
+          <div className="space-y-3">
+            {topMatches.map((f, i) => (
+              <MiniFragranceCard key={f.id} fragrance={f} rank={i + 1} />
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* CTAs */}
-      <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
+      <div className="flex flex-col sm:flex-row items-center gap-3">
         <Link
           href="/"
-          className="flex-1 text-center rounded-full bg-gold/15 border border-gold/30 px-6 py-2.5 text-sm font-medium text-gold hover:bg-gold/25 transition-all duration-200"
+          className="flex-1 text-center rounded-full bg-gold/15 border border-gold/30 px-6 py-3 text-sm font-medium text-gold hover:bg-gold/25 transition-all duration-200"
         >
           Explore Recommendations →
         </Link>
         <button
           onClick={onRetake}
-          className="flex-1 text-center rounded-full border border-gold/10 px-6 py-2.5 text-sm font-medium text-cream-muted/50 hover:border-gold/20 hover:text-cream-muted transition-all duration-200"
+          className="flex-1 text-center rounded-full border border-gold/10 px-6 py-3 text-sm font-medium text-cream-muted/50 hover:border-gold/20 hover:text-cream-muted transition-all duration-200"
         >
           Retake Quiz
         </button>
@@ -267,7 +334,9 @@ export function FragranceQuiz() {
   const [saved, setSaved] = useState(false)
 
   const current = QUESTIONS[currentIndex]
-  const progress = ((currentIndex) / QUESTIONS.length) * 100
+  const progress = (currentIndex / QUESTIONS.length) * 100
+
+  const topMatches = useMemo(() => result ? getTopMatches(result, 5) : [], [result])
 
   const handleAnswer = useCallback(async (value: string) => {
     const newAnswers = { ...answers, [current.id]: value }
@@ -276,12 +345,14 @@ export function FragranceQuiz() {
     if (currentIndex < QUESTIONS.length - 1) {
       setCurrentIndex(i => i + 1)
     } else {
-      // Final question answered — run engine
-      const finalAnswers = { ...newAnswers, Q1: newAnswers.Q1 ?? 'reinvent', Q2: newAnswers.Q2 ?? 'moderate' } as QuizAnswers
+      const finalAnswers = {
+        ...newAnswers,
+        Q1: (newAnswers.Q1 ?? 'reinvent') as QuizAnswers['Q1'],
+        Q2: (newAnswers.Q2 ?? 'moderate') as QuizAnswers['Q2'],
+      } as QuizAnswers
       const quizResult = runQuiz(finalAnswers)
       setResult(quizResult)
 
-      // Save for signed-in users
       if (isSignedIn) {
         setSaving(true)
         await collection.saveQuizProfile({
@@ -313,7 +384,7 @@ export function FragranceQuiz() {
     setSaved(false)
   }
 
-  // Result screen
+  // ── Result screen ──
   if (result) {
     return (
       <div>
@@ -336,32 +407,33 @@ export function FragranceQuiz() {
         {saved && (
           <p className="mb-6 text-center text-xs text-gold/60 uppercase tracking-wider">Profile saved — your selector is now personalised.</p>
         )}
-        <QuizResultCard result={result} onRetake={handleRetake} />
+        <QuizResultCard result={result} onRetake={handleRetake} topMatches={topMatches} />
       </div>
     )
   }
 
-  // Quiz screen
+  // ── Quiz screen ──
   return (
     <div className="mx-auto max-w-xl">
-      {/* Progress */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-[10px] uppercase tracking-[0.2em] text-gold/60">{current.phase}</span>
-          <span className="text-[10px] uppercase tracking-[0.15em] text-cream-muted/40">
+
+      {/* Progress bar */}
+      <div className="mb-10">
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-xs font-medium uppercase tracking-[0.2em] text-gold/60">{current.phase}</span>
+          <span className="text-xs text-cream-muted/40 tabular-nums">
             {currentIndex + 1} / {QUESTIONS.length}
           </span>
         </div>
-        <div className="h-px w-full bg-surface-elevated">
+        <div className="h-[2px] w-full bg-surface-elevated rounded-full overflow-hidden">
           <div
-            className="h-full bg-gradient-to-r from-gold-dark to-gold transition-all duration-500 ease-out"
-            style={{ width: `${progress}%` }}
+            className="h-full bg-gradient-to-r from-gold-dark to-gold transition-all duration-500 ease-out rounded-full"
+            style={{ width: `${Math.max(progress, 2)}%` }}
           />
         </div>
       </div>
 
       {/* Question */}
-      <h2 className="font-serif text-xl sm:text-2xl text-cream mb-8 leading-snug">
+      <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl text-cream mb-10 leading-snug">
         {current.question}
       </h2>
 
@@ -374,13 +446,13 @@ export function FragranceQuiz() {
             onChange={e => setTextInput(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && handleTextSubmit()}
             placeholder="e.g. Bleu de Chanel, Dior Sauvage…"
-            className="w-full rounded-xl border border-gold/20 bg-surface px-4 py-3 text-sm text-cream placeholder:text-cream-muted/30 focus:border-gold/40 focus:outline-none transition-colors"
+            className="w-full rounded-xl border border-gold/20 bg-surface px-5 py-4 text-base text-cream placeholder:text-cream-muted/30 focus:border-gold/40 focus:outline-none transition-colors"
           />
           <button
             onClick={handleTextSubmit}
-            className="w-full rounded-xl border border-gold/30 bg-gold/10 px-6 py-3 text-sm font-medium text-gold hover:bg-gold/20 transition-all duration-200"
+            className="w-full rounded-xl border border-gold/30 bg-gold/10 px-6 py-4 text-sm font-medium text-gold hover:bg-gold/20 transition-all duration-200"
           >
-            {textInput ? 'Continue' : 'Skip'}
+            {textInput ? 'Continue →' : 'Skip →'}
           </button>
         </div>
       ) : (
@@ -390,32 +462,34 @@ export function FragranceQuiz() {
               key={option.value}
               onClick={() => handleAnswer(option.value)}
               className={cn(
-                'w-full rounded-xl border px-5 py-4 text-left transition-all duration-200',
-                'border-gold/15 bg-surface hover:border-gold/40 hover:bg-surface-elevated',
-                'group'
+                'group w-full rounded-xl border border-gold/15 bg-surface px-6 py-5 text-left',
+                'hover:border-gold/50 hover:bg-surface-elevated',
+                'transition-all duration-200 active:scale-[0.99]'
               )}
             >
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <div className="text-sm font-medium text-cream group-hover:text-gold transition-colors duration-200">
+                  <div className="text-base font-medium text-cream group-hover:text-gold transition-colors duration-200">
                     {option.label}
                   </div>
                   {option.sublabel && (
-                    <div className="mt-0.5 text-xs text-cream-muted/50">{option.sublabel}</div>
+                    <div className="mt-1 text-sm text-cream-muted/50">{option.sublabel}</div>
                   )}
                 </div>
-                <span className="text-gold/30 group-hover:text-gold/60 transition-colors duration-200 text-lg">→</span>
+                <span className="flex-shrink-0 text-xl text-gold/20 group-hover:text-gold/70 group-hover:translate-x-1 transition-all duration-200">
+                  →
+                </span>
               </div>
             </button>
           ))}
         </div>
       )}
 
-      {/* Back button */}
+      {/* Back */}
       {currentIndex > 0 && (
         <button
           onClick={() => setCurrentIndex(i => i - 1)}
-          className="mt-6 text-xs text-cream-muted/40 hover:text-cream-muted transition-colors"
+          className="mt-8 text-sm text-cream-muted/40 hover:text-cream-muted transition-colors"
         >
           ← Back
         </button>
