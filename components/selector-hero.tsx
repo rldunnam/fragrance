@@ -109,6 +109,12 @@ export function SelectorHero() {
             Read the Guide →
           </Link>
         </div>
+        <p className="mt-5 text-xs text-cream-muted/40">
+          Not sure where to start?{' '}
+          <Link href="/quiz" className="text-gold/60 hover:text-gold underline underline-offset-2 transition-colors">
+            Take the quiz →
+          </Link>
+        </p>
       </div>
 
       {/* Scroll cue */}
