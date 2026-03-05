@@ -11,7 +11,7 @@ const SECTIONS = [
   { id: "popular-fragrances",label: "Popular Fragrances", short: "III" },
   { id: "community",         label: "Community",          short: "IV"  },
   { id: "designer-vs-niche", label: "Designer vs Niche",  short: "V"   },
-  { id: "practical-guide",   label: "Practical Guide",    short: "VI"  },
+  { id: "practical-guide",   label: "Application & Layering", short: "VI"  },
 ]
 
 export function StickyNav() {
@@ -23,6 +23,7 @@ export function StickyNav() {
   const [expanded, setExpanded] = useState(false)
   const navRef = useRef<HTMLDivElement>(null)
 
+  const isGuide = pathname === '/guide'
   useEffect(() => {
     const handleScroll = () => {
       const heroHeight = window.innerHeight
@@ -84,8 +85,6 @@ export function StickyNav() {
   const activeIndex = SECTIONS.findIndex(s => s.id === activeId)
 
   if (!isGuide) return null
-
-  const p = pathname as string
 
   return (
     <div
@@ -161,7 +160,7 @@ export function StickyNav() {
                 href="/collection"
                 className={cn(
                   "hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full border text-[11px] font-medium uppercase tracking-[0.12em] transition-all duration-200",
-                  p === "/collection"
+                  pathname === "/collection"
                     ? "border-gold/60 bg-gold/10 text-gold"
                     : "border-gold/20 text-cream-muted/60 hover:border-gold/40 hover:text-gold/80"
                 )}
@@ -209,7 +208,7 @@ export function StickyNav() {
             onClick={() => setExpanded(false)}
             className={cn(
               "flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-all duration-200",
-              p === "/collection"
+              pathname === "/collection"
                 ? "bg-gold/10 text-gold"
                 : "text-cream-muted hover:bg-surface-elevated hover:text-cream"
             )}
