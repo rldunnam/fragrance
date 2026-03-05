@@ -23,7 +23,6 @@ export function StickyNav() {
   const [expanded, setExpanded] = useState(false)
   const navRef = useRef<HTMLDivElement>(null)
 
-  const isGuide = pathname === '/guide'
   useEffect(() => {
     const handleScroll = () => {
       const heroHeight = window.innerHeight
