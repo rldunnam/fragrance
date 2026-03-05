@@ -58,6 +58,13 @@ function ProjectionRating({ rating }: { rating: number }) {
 
 /* ─── Radial Accord Chart ─── */
 
+// Fixed axis order — always the same 10 categories in the same positions.
+// Every fragrance plots against this shared grid; absent accords score 0.
+const ACCORD_AXES = [
+  'Citrus', 'Woody', 'Aromatic', 'Floral', 'Spicy',
+  'Warm', 'Aquatic', 'Gourmand', 'Smoky', 'Fruity',
+]
+
 function RadialAccordChart({ accords }: { accords: { name: string; strength: number }[] }) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const accent = '#D4AF37'
@@ -66,17 +73,25 @@ function RadialAccordChart({ accords }: { accords: { name: string; strength: num
   const cy = size / 2
   const maxR = 88
   const rings = [25, 50, 75, 100]
-  const angleStep = (2 * Math.PI) / accords.length
+  const n = ACCORD_AXES.length
+  const angleStep = (2 * Math.PI) / n
 
-  const points = accords.map((a, i) => {
+  // Build lookup from accord name → strength, default 0 for absent categories
+  const strengthMap = Object.fromEntries(accords.map(a => [a.name, a.strength]))
+
+  const points = ACCORD_AXES.map((name, i) => {
     const angle = i * angleStep - Math.PI / 2
-    const r = (a.strength / 100) * maxR
+    const strength = strengthMap[name] ?? 0
+    const r = (strength / 100) * maxR
     return {
       x: cx + r * Math.cos(angle),
       y: cy + r * Math.sin(angle),
+      axisX: cx + maxR * Math.cos(angle),
+      axisY: cy + maxR * Math.sin(angle),
       labelX: cx + (maxR + 22) * Math.cos(angle),
       labelY: cy + (maxR + 22) * Math.sin(angle),
-      ...a,
+      name,
+      strength,
     }
   })
 
@@ -84,11 +99,13 @@ function RadialAccordChart({ accords }: { accords: { name: string; strength: num
 
   return (
     <svg viewBox={`0 0 ${size} ${size}`} className="w-full max-w-[240px] mx-auto">
+      {/* Rings */}
       {rings.map((pct) => (
         <circle key={pct} cx={cx} cy={cy} r={(pct / 100) * maxR}
           fill="none" stroke="#D4AF37" strokeOpacity="0.08" strokeWidth="0.5" />
       ))}
-      {accords.map((_, i) => {
+      {/* Fixed axis spokes */}
+      {ACCORD_AXES.map((_, i) => {
         const angle = i * angleStep - Math.PI / 2
         return (
           <line key={i} x1={cx} y1={cy}
@@ -96,23 +113,29 @@ function RadialAccordChart({ accords }: { accords: { name: string; strength: num
             stroke="#D4AF37" strokeOpacity="0.1" strokeWidth="0.5" />
         )
       })}
+      {/* Fragrance polygon */}
       <polygon points={polygonPoints}
         fill={accent} fillOpacity="0.12"
         stroke={accent} strokeWidth="1.5" strokeOpacity="0.6" strokeLinejoin="round" />
+      {/* Points + labels */}
       {points.map((p, i) => (
         <g key={i} onMouseEnter={() => setHoveredIndex(i)} onMouseLeave={() => setHoveredIndex(null)}
           style={{ cursor: 'default' }}>
-          <circle cx={p.x} cy={p.y} r="10" fill="transparent" />
-          <circle cx={p.x} cy={p.y} r={hoveredIndex === i ? 5 : 3.5}
-            fill={accent} stroke="#0A0A0F" strokeWidth="1.5"
-            style={{ transition: 'r 0.2s ease' }} />
+          {/* Invisible hit area */}
+          <circle cx={p.axisX} cy={p.axisY} r="10" fill="transparent" />
+          {/* Only render a dot if this accord is present */}
+          {p.strength > 0 && (
+            <circle cx={p.x} cy={p.y} r={hoveredIndex === i ? 5 : 3.5}
+              fill={accent} stroke="#0A0A0F" strokeWidth="1.5"
+              style={{ transition: 'r 0.2s ease' }} />
+          )}
           <text x={p.labelX} y={p.labelY} textAnchor="middle" dominantBaseline="middle"
-            fill={hoveredIndex === i ? '#F5F5F0' : '#8A8A8A'}
+            fill={hoveredIndex === i ? '#F5F5F0' : p.strength > 0 ? '#8A8A8A' : '#4A4A4A'}
             fontSize="9" fontFamily="Inter, sans-serif"
             style={{ transition: 'fill 0.2s ease' }}>
             {p.name}
           </text>
-          {hoveredIndex === i && (
+          {hoveredIndex === i && p.strength > 0 && (
             <text x={p.labelX} y={p.labelY + 11} textAnchor="middle" dominantBaseline="middle"
               fill={accent} fontSize="8" fontWeight="600" fontFamily="Inter, sans-serif">
               {p.strength}%
