@@ -15,10 +15,12 @@ export const seasons = [
 ]
 
 export const scentFamilies = [
-  { id: 'Fresh', label: 'Fresh', description: 'Citrus, aquatic, green' },
-  { id: 'Woody', label: 'Woody', description: 'Cedar, sandalwood, vetiver' },
-  { id: 'Amber', label: 'Amber', description: 'Vanilla, spice, warmth' },
-  { id: 'Floral', label: 'Floral', description: 'Rose, jasmine, lavender' },
+  { id: 'Fresh',    label: 'Fresh',    description: 'Citrus, aquatic, green' },
+  { id: 'Woody',    label: 'Woody',    description: 'Cedar, sandalwood, vetiver' },
+  { id: 'Amber',    label: 'Amber',    description: 'Vanilla, spice, warmth' },
+  { id: 'Floral',   label: 'Floral',   description: 'Rose, jasmine, lavender' },
+  { id: 'Fougère',  label: 'Fougère',  description: 'Lavender, oakmoss, coumarin' },
+  { id: 'Aromatic', label: 'Aromatic', description: 'Herbs, lavender, sage' },
 ]
 
 export const budgetRanges = [
