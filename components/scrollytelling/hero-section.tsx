@@ -8,7 +8,7 @@ const SECTIONS = [
   { id: "popular-fragrances", label: "Popular Fragrances" },
   { id: "community", label: "Community" },
   { id: "designer-vs-niche", label: "Designer vs Niche" },
-  { id: "practical-guide", label: "Practical Guide" },
+  { id: "practical-guide", label: "Application & Layering" },
 ]
 
 function BottleSilhouette({ className, delay }: { className?: string; delay: number }) {

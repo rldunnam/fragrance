@@ -73,6 +73,11 @@ export default function GuidePage() {
               depth for 6-8 hours. <strong>Parfum (Extrait)</strong> reaches 20-40%, the most
               concentrated and enduring form.
             </p>
+            <p>
+              Concentration affects more than just longevity — it shapes the fragrance&apos;s
+              character. An EDT and EDP of the same fragrance often smell meaningfully different,
+              with the EDP emphasising base notes and the EDT leading with brighter top notes.
+            </p>
           </Prose>
           <ConcentrationChart />
         </div>
@@ -83,11 +88,22 @@ export default function GuidePage() {
             <h3>Performance Metrics</h3>
             <p>
               <strong>Sillage</strong> describes the scent trail you leave&mdash;your olfactory
-              wake. <strong>Projection</strong> measures how far the fragrance radiates from your
-              body. <strong>Longevity</strong> indicates total wear time.{" "}
-              <strong>Dry-down</strong> refers to the final stage when base notes dominate.
+              wake. A high-sillage fragrance announces your presence and lingers after you&apos;ve
+              left the room. <strong>Projection</strong> measures how far the fragrance radiates
+              from your body in the moment you&apos;re wearing it.{" "}
+              <strong>Longevity</strong> indicates total wear time from first spray to fadeout.{" "}
+              <strong>Dry-down</strong> refers to the final stage when base notes fully dominate
+              and the fragrance settles into its true character — often the most important phase
+              for judging long-term wearability.
             </p>
           </Prose>
+          <InsightBox>
+            <p>
+              <strong>Always test before buying:</strong> top notes dominate the first spray and
+              can be misleading. A fragrance you love in the bottle may smell very different two
+              hours later. Give it time — the dry-down is where a fragrance reveals itself.
+            </p>
+          </InsightBox>
         </div>
       </SectionWrapper>
 
@@ -98,14 +114,14 @@ export default function GuidePage() {
       <SectionWrapper id="scent-profiling">
         <SectionHeading
           label="Section II"
-          title="Scent Profiling & Classification"
-          subtitle="Understanding fragrance architecture requires mastering two interconnected frameworks: the fragrance wheel and the note pyramid."
+          title="Scent Families & Classification"
+          subtitle="Every fragrance belongs to a family — a shared DNA of ingredients and character. Knowing the families is the fastest shortcut to finding what you'll love."
         />
 
         <ContentWithSidebar
           sidebar={
             <>
-              <MetricCard metric="4" description="Primary fragrance families" />
+              <MetricCard metric="5" description="Primary fragrance families covered here" />
               <MetricCard metric="12+" description="Subfamilies within the wheel" />
             </>
           }
@@ -115,7 +131,9 @@ export default function GuidePage() {
             <p>
               Developed by perfume taxonomist Michael Edwards, the fragrance wheel organizes
               scents into four primary families positioned around a circular spectrum. Adjacent
-              families share characteristics, while opposite families offer contrast.
+              families share characteristics and blend naturally; opposite families offer contrast
+              and tension. Most fragrances sit at the boundary between two families rather than
+              squarely in one.
             </p>
           </Prose>
 
@@ -123,51 +141,82 @@ export default function GuidePage() {
 
           <Prose>
             <p>
-              <strong>Floral Family:</strong> Iris, rose, orange blossom. In masculine perfumery
-              florals are cool, powdery, and structured — far from conventional flowers.
+              <strong>Floral Family:</strong> Iris, rose, orange blossom. In masculine perfumery,
+              florals appear cool, powdery, and structured — far from conventional flowers. Think
+              iris-forward compositions or lavender used as an architectural note rather than a
+              garden scent.
             </p>
             <p>
-              <strong>Amber Family:</strong> Warm, sensual compositions featuring vanilla,
-              incense, and exotic resins. Includes Soft Amber and Woody Amber variants.
+              <strong>Amber Family:</strong> Warm, sensual compositions built on vanilla,
+              labdanum, incense, and exotic resins. The amber family splits into Soft Amber
+              (powdery, approachable) and Woody Amber (denser, more masculine). Oriental
+              fragrances fall here.
             </p>
             <p>
-              <strong>Woody Family:</strong> Sandalwood, cedar, vetiver. Ranges from Mossy Woods
-              (oakmoss, earthy) to Dry Woods (leather, smoky notes).
+              <strong>Woody Family:</strong> Sandalwood, cedar, vetiver, patchouli. The most
+              versatile masculine family, ranging from Mossy Woods (oakmoss, earthy, vintage in
+              character) to Dry Woods (leather, smoke, arid). Nearly every masculine fragrance
+              touches this family somewhere.
             </p>
             <p>
-              <strong>Fresh Family:</strong> Citrus, aquatic, green notes. Encompasses Aromatic
-              (lavender, herbs), Citrus (bergamot, lemon), and Water (marine accords) subfamilies.
+              <strong>Fresh Family:</strong> Citrus, aquatic, and green notes. Encompasses
+              Aromatic (lavender, sage, herbs), Citrus (bergamot, yuzu, lemon), and Water
+              (marine accords, calone) subfamilies. The dominant family in everyday and office
+              fragrances.
             </p>
           </Prose>
         </ContentWithSidebar>
 
+        {/* Fougère */}
         <div className="mt-16">
           <Prose>
-            <h3>The Note Pyramid</h3>
+            <h3>Fougère: The Family the Wheel Doesn&apos;t Fully Capture</h3>
             <p>
-              <strong>Top Notes (5-15 minutes):</strong> First impression. Light, volatile
-              molecules like citrus, herbs, and aldehydes. Evaporate quickly, determining
-              initial perception.
+              Fougère (French for &ldquo;fern&rdquo;) is one of the oldest and most important
+              masculine fragrance categories, yet it sits awkwardly on the wheel — bridging
+              Fresh, Woody, and Aromatic without belonging entirely to any of them. Its
+              foundation is a specific accord: <strong>lavender</strong> on top,{" "}
+              <strong>oakmoss and geranium</strong> in the heart, and{" "}
+              <strong>coumarin</strong> (a warm, hay-like synthetic) in the base. This
+              combination produces the archetypal &ldquo;barbershop&rdquo; or classic masculine
+              scent that dominated perfumery from the 1880s through the 1990s.
             </p>
             <p>
-              <strong>Heart Notes (2-4 hours):</strong> The fragrance&apos;s true character
-              emerges. Florals, spices, and fruity elements form the composition&apos;s core,
-              bridging top and base.
-            </p>
-            <p>
-              <strong>Base Notes (6+ hours):</strong> Foundation providing depth and longevity.
-              Woods, resins, vanilla, musk, and amber anchor the scent&apos;s dry-down.
+              Houbigant&apos;s Fougère Royale (1882) invented the category. Azzaro Pour Homme,
+              Paco Rabanne Pour Homme, and Drakkar Noir defined its golden era. Modern
+              interpretations like Montblanc Legend and Tom Ford Beau de Jour reframe the
+              structure with contemporary clarity — less mossy, more precise. If you&apos;ve
+              ever smelled a fragrance that felt simultaneously clean, herbal, and vaguely
+              nostalgic, you were almost certainly wearing a fougère.
             </p>
           </Prose>
-
           <InsightBox>
             <p>
-              <strong>The wheel and pyramid work synergistically:</strong> the wheel categorizes
-              overall character, while the pyramid reveals temporal evolution. A woody-fresh
-              fragrance might open with citrus top notes, transition through aromatic lavender in
-              the heart, then settle into cedar and vetiver base notes.
+              <strong>Why fougère matters as a reference point:</strong> the accord is so
+              foundational that perfumers use it as shorthand. When a fragrance is described as
+              &ldquo;aromatic fougère,&rdquo; it signals a specific set of expectations —
+              lavender-forward, moderate projection, broadly wearable, with a classic masculine
+              backbone. It&apos;s the DNA of half the men&apos;s fragrances ever made.
             </p>
           </InsightBox>
+        </div>
+
+        {/* Wheel + pyramid synthesis */}
+        <div className="mt-16">
+          <Prose>
+            <h3>Families and Notes Working Together</h3>
+            <p>
+              Scent families describe the overall character; the note pyramid describes how that
+              character evolves over time. A woody-fresh fragrance might open with citrus top
+              notes, transition through aromatic lavender in the heart, then settle into cedar
+              and vetiver in the base. The family stays consistent — the journey changes.
+            </p>
+            <p>
+              Understanding both frameworks together is what separates intentional fragrance
+              selection from guesswork. When you know a fragrance is a fresh aromatic fougère
+              with a vetiver base, you can predict how it will wear before you ever smell it.
+            </p>
+          </Prose>
         </div>
       </SectionWrapper>
 
@@ -178,18 +227,18 @@ export default function GuidePage() {
       <SectionWrapper id="popular-fragrances">
         <SectionHeading
           label="Section III"
-          title="Popular Fragrances Landscape"
-          subtitle="The modern fragrance landscape spans three distinct territories: current bestsellers, timeless classics, and niche cult favorites."
+          title="The Fragrance Landscape"
+          subtitle="Three distinct territories define what's worth knowing: current releases shaping the conversation, timeless classics that set the standard, and niche cult favorites that push the form."
         />
 
         {/* Trending */}
         <ContentWithSidebar
           sidebar={
-            <MetricCard metric="2025" description="Year of peak designer innovation" />
+            <MetricCard metric="2025–26" description="Current releases redefining masculine fragrance" />
           }
         >
           <Prose>
-            <h3>Current Trending 2025-2026</h3>
+            <h3>Current Releases</h3>
           </Prose>
           <TrendingFragranceCards />
         </ContentWithSidebar>
@@ -198,22 +247,35 @@ export default function GuidePage() {
         <div className="mt-16">
           <Prose>
             <h3>Timeless Classics</h3>
+            <p>
+              These are the reference points — fragrances studied by perfumers, collected by
+              enthusiasts, and worn continuously for decades. Understanding them isn&apos;t
+              nostalgia; it&apos;s building a vocabulary for everything that came after.
+            </p>
           </Prose>
           <ClassicFlipCards />
-          <BlockQuote quote="Eau Sauvage still hinges on the subtle balance between San Carlo bergamot, hedione and the lavender of Vaucluse — over half a century later." />
+          <BlockQuote quote="The classics aren't outdated — they're the grammar that modern fragrances are written in." />
         </div>
 
         {/* Niche */}
         <div className="mt-16">
           <Prose>
             <h3>Niche Cult Favorites</h3>
+            <p>
+              Niche fragrances operate outside the commercial mainstream — smaller batches,
+              unusual ingredients, and no obligation to appeal to everyone. The tradeoff is
+              price and accessibility; the reward is originality and craftsmanship that
+              designer houses rarely risk.
+            </p>
           </Prose>
           <NicheShowcase />
           <InsightBox>
             <p>
-              <strong>The niche-to-mainstream pipeline accelerates:</strong> fragrances once
-              exclusive to specialty boutiques now drive designer innovation. Aventus&apos;s
-              success spawned both designer interpretations and a thriving clone market.
+              <strong>The niche-to-mainstream pipeline:</strong> what starts in specialty
+              boutiques eventually shapes designer releases. Aventus&apos;s smoky pineapple
+              DNA now appears in countless designer flankers. Le Labo&apos;s minimalist
+              aesthetic influenced an entire generation of &ldquo;clean&rdquo; designer launches.
+              Niche is where the industry&apos;s next decade is written.
             </p>
           </InsightBox>
         </div>
@@ -232,7 +294,7 @@ export default function GuidePage() {
 
         <ContentWithSidebar
           sidebar={
-            <MetricCard metric="11M+" description="Views on viral TikTok fragrance review showcasing community reach" />
+            <MetricCard metric="95,000+" description="Fragrance profiles indexed on Fragrantica — the community's essential reference database" />
           }
         >
           <Prose>
@@ -244,28 +306,25 @@ export default function GuidePage() {
               deep technical knowledge and historical perspective.{" "}
               <strong>Fragrantica</strong> functions as the industry&apos;s comprehensive database,
               housing over 95,000 fragrance profiles with user reviews and note
-              pyramids&mdash;essential for research.{" "}
+              pyramids&mdash;essential for research before buying.{" "}
               <strong>Reddit&apos;s r/fragrance</strong> welcomes newer enthusiasts with a younger
-              demographic, emphasizing accessibility and trending releases over vintage exploration.
+              demographic, emphasising accessibility and trending releases.
             </p>
           </Prose>
           <PlatformComparison />
         </ContentWithSidebar>
 
-        <div className="mt-10">
-          <BlockQuote quote="Reddit fragcom collections seemed nearly identical? All drawn from the same pool...pretty mainstream designer, dupe, or Arabic. Even the few niche-esque outliers tended to be the same few predictable outliers." />
-        </div>
-
         <div className="mt-12">
           <Prose>
-            <h3>Cultural Insights</h3>
+            <h3>Cultural Currents</h3>
           </Prose>
           <InsightBox>
             <p>
-              <strong>Context is King:</strong> Enthusiasts understand that fragrance selection
-              hinges on seasonal logic (fresh citrus for summer heat, rich orientals for winter
-              cold) and occasion appropriateness (subtle office scents vs bold evening
-              statements). This contextual thinking distinguishes collectors from casual wearers.
+              <strong>Context is everything:</strong> enthusiasts understand that fragrance
+              selection hinges on seasonal logic (fresh citrus for summer heat, rich orientals
+              for winter cold) and occasion appropriateness (subtle office scents vs bold
+              evening statements). This contextual thinking distinguishes collectors from
+              casual wearers — and it&apos;s learnable.
             </p>
           </InsightBox>
           <Prose>
@@ -273,18 +332,19 @@ export default function GuidePage() {
               The community is experiencing significant shifts.{" "}
               <strong>Personalization and wellbeing</strong> dominate 2025-2026 trends, with
               fragrances increasingly viewed as mood-regulation tools and extensions of personal
-              identity rather than mere cosmetics. The <strong>dupe market</strong> has emerged as
-              an economic force, particularly on TikTok and Reddit, where affordable alternatives
-              to luxury scents democratize access while sparking debates about authenticity and
-              craftsmanship.
+              identity rather than mere cosmetics. The <strong>dupe market</strong> has emerged
+              as a genuine economic force — particularly on TikTok and Reddit — democratizing
+              access to luxury-adjacent scents while sparking ongoing debates about
+              authenticity and the value of craftsmanship.
             </p>
             <p>
               Perhaps most notably, <strong>gender fluidity in fragrance</strong> has moved from
-              niche concept to mainstream reality. Transparent musks, airy woods, and unisex
+              niche positioning to mainstream reality. Transparent musks, airy woods, and unisex
               gourmands appeal across identities, with brands increasingly abandoning gendered
-              marketing in favor of emotion-based categorization.
+              marketing in favour of emotion-based categorization.
             </p>
           </Prose>
+          <BlockQuote quote="The best fragrance you own is the one that makes you reach for it without thinking. Everything else is just collection." />
         </div>
       </SectionWrapper>
 
@@ -296,7 +356,7 @@ export default function GuidePage() {
         <SectionHeading
           label="Section V"
           title="Designer vs Niche: Understanding the Divide"
-          subtitle="The distinction between designer and niche fragrances shapes both purchasing decisions and community identity."
+          subtitle="The distinction shapes purchasing decisions, community identity, and how you build a collection that actually makes sense."
         />
 
         <ContentWithSidebar
@@ -304,27 +364,49 @@ export default function GuidePage() {
             <>
               <MetricCard metric="100K+" description="Designer production run (bottles)" />
               <MetricCard metric="1K-5K"  description="Niche batch production size" />
-              <MetricCard metric="$55-$160"    description="Designer price range" />
-              <MetricCard metric="$110-$550+"  description="Niche price range" />
+              <MetricCard metric="$55–$160"    description="Designer price range" />
+              <MetricCard metric="$110–$550+"  description="Niche price range" />
             </>
           }
         >
           <Prose>
             <p>
-              <strong>Designer fragrances</strong> from houses like Dior and Chanel are
-              mass-produced (100,000+ bottles), widely distributed through department stores, and
-              priced $55-$160. They prioritize broad appeal with familiar scent profiles
-              designed for universal recognition.
+              <strong>Designer fragrances</strong> from houses like Dior, Chanel, and Giorgio
+              Armani are mass-produced (100,000+ bottles), widely distributed through department
+              stores and duty-free, and priced $55-$160. They prioritise broad appeal — scent
+              profiles tested for maximum acceptance, not maximum originality. The upside is
+              consistency, availability, and the social legibility of wearing something
+              recognisable.
             </p>
             <p>
-              <strong>Niche fragrances</strong> from boutique houses take the opposite approach:
+              <strong>Niche fragrances</strong> from boutique houses take the opposite position:
               small-batch production (1,000-5,000 bottles), selective distribution through
-              specialized retailers, and premium pricing ($110-$550+). They emphasize
-              artistic experimentation, rare ingredients, and creative freedom over market demands.
+              specialist retailers, and premium pricing ($110-$550+). They emphasise artistic
+              experimentation, rare or unusual ingredients, and creative freedom unconstrained
+              by mass-market demands. Many are genuinely strange. That&apos;s the point.
+            </p>
+            <p>
+              The divide isn&apos;t really about quality — it&apos;s about intent. A
+              well-chosen designer fragrance will outperform a mediocre niche one in almost
+              every practical situation. The question is whether you&apos;re optimising for
+              wearability and social ease, or for personal expression and olfactory
+              distinctiveness. Most serious collectors eventually do both.
             </p>
           </Prose>
           <DesignerVsNiche />
         </ContentWithSidebar>
+
+        <div className="mt-12">
+          <InsightBox>
+            <p>
+              <strong>The middle ground worth knowing:</strong> luxury designer (Tom Ford
+              Private Blend, Dior La Collection) and indie houses (Imaginary Authors, Zoologist)
+              occupy the space between. They offer niche-level creativity at slightly more
+              accessible price points, and are often where the most interesting designer
+              talent ends up.
+            </p>
+          </InsightBox>
+        </div>
       </SectionWrapper>
 
       {/* ═══════════════════════════════════════════════════
@@ -335,12 +417,12 @@ export default function GuidePage() {
         <SectionHeading
           label="Section VI"
           title="Application & Layering"
-          subtitle="Context transforms fragrance from mere scent to strategic expression. The interplay of notes, projection, and occasion determines whether a fragrance elevates or overwhelms."
+          subtitle="How and where you apply fragrance matters as much as what you choose. The same scent can whisper or shout depending on skin, temperature, and technique."
         />
 
         <ContentWithSidebar
           sidebar={
-            <MetricCard metric="1-2 feet" description="Typical office-appropriate sillage radius" />
+            <MetricCard metric="1-2 ft" description="Typical office-appropriate sillage radius — beyond this, you're imposing" />
           }
         >
           <Prose>
@@ -348,19 +430,20 @@ export default function GuidePage() {
             <p>
               <strong>Everyday Wear:</strong> Versatile scents with moderate projection suit
               daily routines. Fresh citrus or subtle woody notes provide approachability without
-              fatigue. Think bergamot, lavender, or light sandalwood&mdash;scents that whisper
-              rather than shout.
+              fatigue. Think bergamot, lavender, or light sandalwood — scents that communicate
+              care without demanding attention.
             </p>
             <p>
-              <strong>Office Environments:</strong> Professional settings demand restraint. Clean,
-              sophisticated compositions with woody or amber bases project confidence without
-              overwhelming colleagues. Avoid heavy spices or gourmands. Longevity matters more
+              <strong>Office Environments:</strong> Professional settings demand restraint.
+              Clean, sophisticated compositions with woody or amber bases project confidence
+              without overwhelming colleagues. Fougères are ideal here — structured, familiar,
+              and never intrusive. Avoid heavy spices or gourmands. Longevity matters more
               than projection.
             </p>
             <p>
-              <strong>Date Night:</strong> Intimate settings call for depth and intrigue. Spicy
-              amber, leather, or oud-forward compositions create memorable impressions. These
-              fragrances reveal themselves gradually, rewarding close proximity.
+              <strong>Date Night:</strong> Intimate settings reward depth and intrigue. Spicy
+              amber, leather, or oud-forward compositions create memorable impressions.
+              These fragrances reveal themselves gradually, rewarding close proximity.
             </p>
           </Prose>
           <BlockQuote quote="Your black tie scent should be a real top-shelf juice. Less sensual than a date-night pick, but as sexy as any cleaned-up gentleman can be." />
@@ -370,44 +453,44 @@ export default function GuidePage() {
           <Prose>
             <h3>Seasonal Intelligence</h3>
             <p>
-              Temperature amplifies or mutes fragrance projection. Warm weather volatilizes
-              molecules faster, making lighter compositions essential.
+              Temperature directly affects how a fragrance performs. Heat volatilises aromatic
+              molecules faster — a fragrance that projects beautifully in autumn can become
+              overwhelming in summer. Cold air suppresses projection, which is why winter
+              calls for heavier, denser compositions that would suffocate in July.
             </p>
             <p>
               <strong>Spring & Summer:</strong> Fresh citrus, aquatic notes, and green aromatics
-              thrive in heat. Neroli, yuzu, and bergamot exemplify summer intelligence&mdash;bright
-              without cloying.
+              thrive in heat. EDTs over EDPs. Neroli, yuzu, and bergamot carry the season
+              without cloying. Light fougères and marine compositions are your most reliable
+              tools.
             </p>
             <p>
-              <strong>Fall & Winter:</strong> Cold air demands richer, spicier compositions.
-              Amber, oud, tobacco, and warming spices like cinnamon project beautifully in cooler
-              temperatures. Base notes dominate, creating enveloping warmth.
+              <strong>Fall & Winter:</strong> Cold air calls for richness. Amber, oud, tobacco,
+              and warming spices like cinnamon and cardamom project beautifully in cooler
+              temperatures. Base notes dominate; give them something to work with.
             </p>
           </Prose>
         </div>
 
         <div className="mt-16">
           <Prose>
-            <h3>Advanced Layering Techniques</h3>
+            <h3>Application Technique & Layering</h3>
             <p>
-              Layering multiple scented products requires precision. Your body wash, deodorant,
-              and cologne all contribute to your olfactory signature.
+              Apply to pulse points — wrists, neck, behind the ears, inner elbows — where body
+              heat actively diffuses the fragrance. Avoid rubbing wrists together after
+              spraying; this crushes top notes and distorts the opening. For longevity,
+              apply to moisturised skin — fragrance clings to hydration.
             </p>
           </Prose>
           <InsightBox>
             <p>
-              <strong>The Two-Product Rule:</strong> Limit fragranced products to two maximum. One
-              dominant scent (your cologne) and one complementary base layer (scented deodorant or
-              aftershave). More creates chaos rather than complexity.
+              <strong>The Two-Product Rule:</strong> limit fragranced products to two maximum.
+              One dominant scent (your cologne) and one complementary base layer (scented
+              moisturiser or aftershave). More creates noise rather than complexity.
+              Choose products from compatible olfactory families — woody cologne with a
+              cedar-based aftershave, citrus cologne with a fresh-scented moisturiser.
             </p>
           </InsightBox>
-          <Prose>
-            <p>
-              Choose products with similar olfactory families. Woody cologne pairs with
-              cedar-based aftershave. Citrus cologne complements fresh deodorant. Avoid mixing
-              gourmand and aquatic&mdash;they compete rather than harmonize.
-            </p>
-          </Prose>
           <LayeringGuide />
         </div>
       </SectionWrapper>

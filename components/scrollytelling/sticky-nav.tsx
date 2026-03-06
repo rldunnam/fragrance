@@ -11,12 +11,13 @@ const SECTIONS = [
   { id: "popular-fragrances",label: "Popular Fragrances", short: "III" },
   { id: "community",         label: "Community",          short: "IV"  },
   { id: "designer-vs-niche", label: "Designer vs Niche",  short: "V"   },
-  { id: "practical-guide",   label: "Practical Guide",    short: "VI"  },
+  { id: "practical-guide",   label: "Application & Layering", short: "VI"  },
 ]
 
 export function StickyNav() {
   const pathname = usePathname()
   const isGuide = pathname === '/guide'
+  const p = pathname as string
   const [visible, setVisible] = useState(false)
   const [activeId, setActiveId] = useState<string | null>(null)
   const [progress, setProgress] = useState(0)
@@ -84,8 +85,6 @@ export function StickyNav() {
   const activeIndex = SECTIONS.findIndex(s => s.id === activeId)
 
   if (!isGuide) return null
-
-  const p = pathname as string
 
   return (
     <div
