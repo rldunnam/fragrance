@@ -2,7 +2,7 @@ name: Build and Deploy Container (Test Branch)
 
 on:
   push:
-    branches: [ "v2" ]
+    branches: [main, test]
   workflow_dispatch:
 
 jobs:
@@ -25,16 +25,19 @@ jobs:
           skip-dirs: .next,node_modules,.pnpm-store
   
   semgrep:
-    name: semgrep
-    needs: trivy-fs
     runs-on: ubuntu-latest
-
-    container:
-      image: returntocorp/semgrep
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine changed paths
+        id: changed
+        run: |
+          CHANGED=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -E '\.(py|js|ts|go|java|tf|yml|yaml|Dockerfile)$' || true)
+          echo "CHANGED=${CHANGED:-.}" >> $GITHUB_ENV
+          echo "Changed paths: $CHANGED"
 
       - name: Run Semgrep
         uses: returntocorp/semgrep-action@v1
@@ -42,10 +45,15 @@ jobs:
           config: |
             p/ci
             p/secrets
+            p/terraform
+            p/kubernetes
             p/docker
-
+          paths: ${{ env.CHANGED }}
+          fail-on: "warning"
+  osv:
+    uses: "google/osv-scanner-action/.github/workflows/osv-scanner-reusable-pr.yml@v2.3.1"
   build:
-    needs: semgrep
+    needs: [trivy-fs, semgrep, osv]
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 30
     permissions:
