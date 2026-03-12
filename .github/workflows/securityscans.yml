@@ -11,8 +11,6 @@ jobs:
   # -----------------------------
   semgrep:
     runs-on: ubuntu-latest
-    outputs:
-      sarif: ${{ steps.upload.outputs.sarif_file }}
     steps:
       - uses: actions/checkout@v4
 
@@ -23,7 +21,6 @@ jobs:
           echo "Changed paths: $CHANGED"
       
       - name: Run Semgrep
-        id: semgrep
         uses: returntocorp/semgrep-action@v1
         with:
           config: |
@@ -33,73 +30,63 @@ jobs:
             p/kubernetes
             p/docker
           paths: ${{ env.CHANGED }}
-          generateSarif: "1"
+          fail-on: "warning"   # fails the job if any warnings/issues are found
+          output: semgrep-results.log
 
-      - name: Upload SARIF
-        id: upload
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: semgrep-results.sarif
+      - name: Show Semgrep results
+        run: cat semgrep-results.log
 
   # -----------------------------
   # Job 2: Trivy Container Scan
   # -----------------------------
   trivy:
     runs-on: ubuntu-latest
-    needs: []
     steps:
       - uses: actions/checkout@v4
+
       - name: Build container image
         run: docker build -t ${{ github.repository }}:latest .
-      - name: Trivy Scan
+
+      - name: Run Trivy scan
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: image
           image-ref: ${{ github.repository }}:latest
-          format: sarif
-          output: trivy-results.sarif
-      - name: Upload SARIF
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: trivy-results.sarif
+          exit-code: 1  # fail job on vulnerabilities
+          severity: CRITICAL,HIGH,MEDIUM
 
   # -----------------------------
   # Job 3: OSV Dependency Scan (conditional)
   # -----------------------------
   osv:
     runs-on: ubuntu-latest
-    needs: []
     steps:
       - uses: actions/checkout@v4
+
       - name: Determine changed dependency files
         id: deps
         run: |
-          echo "CHANGED_DEPS=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -E 'package-lock.json|yarn.lock|requirements.txt|poetry.lock|go.mod|pom.xml' | tr '\n' ' ')" >> $GITHUB_ENV
+          CHANGED_DEPS=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -E 'package-lock.json|yarn.lock|requirements.txt|poetry.lock|go.mod|pom.xml' | tr '\n' ' ')
           if [ -z "$CHANGED_DEPS" ]; then
-            echo "No dependency changes"
-            exit 78  # GitHub skips this job
+            echo "No dependency changes, skipping OSV scan"
+            exit 78   # GitHub skips this job
           fi
-          echo "Changed dependency files: $CHANGED_DEPS"
-      
+          echo "CHANGED_DEPS=$CHANGED_DEPS" >> $GITHUB_ENV
+
       - name: Run OSV Scanner
         uses: osvdev/osv-scanner-action@v1
         with:
           paths: ${{ env.CHANGED_DEPS }}
-          output: osv-results.sarif
-
-      - name: Upload SARIF
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: osv-results.sarif
+          fail-on: "high"
 
   # -----------------------------
   # Job 4: SBOM Generation
   # -----------------------------
   sbom:
     runs-on: ubuntu-latest
-    needs: []
     steps:
       - uses: actions/checkout@v4
+
       - name: Generate SBOM
         uses: cyclonedx/cyclonedx-github-action@v2
         with:
