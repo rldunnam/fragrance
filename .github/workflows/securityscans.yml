@@ -85,24 +85,7 @@ jobs:
           echo "Changed dependency files: $CHANGED_DEPS"
 
       - name: Run OSV Scanner
-        uses: osvdev/osv-scanner-action@v1
+        uses: "google/osv-scanner-action/.github/workflows/osv-scanner-reusable-pr.yml@v2.3.1"
         with:
           paths: ${{ env.CHANGED_DEPS }}
           fail-on: "high"
-
-  # -----------------------------
-  # Job 4: SBOM Generation
-  # -----------------------------
-  sbom:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Generate SBOM
-        uses: cyclonedx/cyclonedx-github-action@v2
-        with:
-          output-format: json
-          output-file: sbom.json
