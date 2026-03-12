@@ -3,7 +3,7 @@ name: DevSecOps Security Pipeline
 on:
   pull_request:
   push:
-    branches: [main, test]
+    branches: [main]
 
 jobs:
   # -----------------------------
@@ -12,14 +12,18 @@ jobs:
   semgrep:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Determine changed paths
         id: changed
         run: |
-          echo "CHANGED=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -E '\.(py|js|ts|go|java|tf|yml|yaml|Dockerfile)$' | tr '\n' ' ')" >> $GITHUB_ENV
+          CHANGED=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -E '\.(py|js|ts|go|java|tf|yml|yaml|Dockerfile)$' || true)
+          echo "CHANGED=${CHANGED:-.}" >> $GITHUB_ENV
           echo "Changed paths: $CHANGED"
-      
+
       - name: Run Semgrep
         uses: returntocorp/semgrep-action@v1
         with:
@@ -30,11 +34,7 @@ jobs:
             p/kubernetes
             p/docker
           paths: ${{ env.CHANGED }}
-          fail-on: "warning"   # fails the job if any warnings/issues are found
-          output: semgrep-results.log
-
-      - name: Show Semgrep results
-        run: cat semgrep-results.log
+          fail-on: "warning"
 
   # -----------------------------
   # Job 2: Trivy Container Scan
@@ -42,17 +42,24 @@ jobs:
   trivy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Build container image
-        run: docker build -t ${{ github.repository }}:latest .
+      - name: Build container image with dummy envs
+        run: |
+          docker build \
+            --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY=dummy \
+            --build-arg NEXT_PUBLIC_CLERK_KEY=dummy \
+            -t ${{ github.repository }}:latest .
 
       - name: Run Trivy scan
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: image
           image-ref: ${{ github.repository }}:latest
-          exit-code: 1  # fail job on vulnerabilities
+          exit-code: 1
           severity: CRITICAL,HIGH,MEDIUM
 
   # -----------------------------
@@ -61,17 +68,21 @@ jobs:
   osv:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Determine changed dependency files
         id: deps
         run: |
-          CHANGED_DEPS=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -E 'package-lock.json|yarn.lock|requirements.txt|poetry.lock|go.mod|pom.xml' | tr '\n' ' ')
+          CHANGED_DEPS=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -E 'package-lock.json|yarn.lock|requirements.txt|poetry.lock|go.mod|pom.xml' || true)
           if [ -z "$CHANGED_DEPS" ]; then
             echo "No dependency changes, skipping OSV scan"
-            exit 78   # GitHub skips this job
+            exit 78
           fi
           echo "CHANGED_DEPS=$CHANGED_DEPS" >> $GITHUB_ENV
+          echo "Changed dependency files: $CHANGED_DEPS"
 
       - name: Run OSV Scanner
         uses: osvdev/osv-scanner-action@v1
@@ -85,7 +96,10 @@ jobs:
   sbom:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Generate SBOM
         uses: cyclonedx/cyclonedx-github-action@v2
