@@ -66,26 +66,4 @@ jobs:
   # Job 3: OSV Dependency Scan (conditional)
   # -----------------------------
   osv:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Determine changed dependency files
-        id: deps
-        run: |
-          CHANGED_DEPS=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -E 'package-lock.json|yarn.lock|requirements.txt|poetry.lock|go.mod|pom.xml' || true)
-          if [ -z "$CHANGED_DEPS" ]; then
-            echo "No dependency changes, skipping OSV scan"
-            exit 78
-          fi
-          echo "CHANGED_DEPS=$CHANGED_DEPS" >> $GITHUB_ENV
-          echo "Changed dependency files: $CHANGED_DEPS"
-
-      - name: Run OSV Scanner
-        uses: "google/osv-scanner-action/.github/workflows/osv-scanner-reusable-pr.yml@v2.3.1"
-        with:
-          paths: ${{ env.CHANGED_DEPS }}
-          fail-on: "high"
+    uses: "google/osv-scanner-action/.github/workflows/osv-scanner-reusable-pr.yml@v2.3.1"
