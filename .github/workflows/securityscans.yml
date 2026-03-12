@@ -3,7 +3,7 @@ name: DevSecOps Security Pipeline
 on:
   pull_request:
   push:
-    branches: [main]
+    branches: [main, test]
 
 jobs:
   # -----------------------------
