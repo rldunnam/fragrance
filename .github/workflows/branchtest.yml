@@ -23,6 +23,19 @@ jobs:
           trivyignores: .trivyignore
           scanners: vuln,config
           skip-dirs: .next,node_modules,.pnpm-store
+  semgrep:
+    name: semgrep
+    runs-on: ubuntu-latest
+
+    container:
+      image: returntocorp/semgrep
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Semgrep
+        run: semgrep ci
 
   build:
     needs: trivy-fs
