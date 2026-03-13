@@ -23,6 +23,7 @@ RUN corepack enable
 FROM base AS deps
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
+RUN pnpm list tar
 
 # =============================================================================
 # STAGE 3: builder
