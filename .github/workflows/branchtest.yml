@@ -26,30 +26,21 @@ jobs:
   
   semgrep:
     runs-on: ubuntu-latest
+    container:
+      image: returntocorp/semgrep:latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Determine changed paths
-        id: changed
-        run: |
-          CHANGED=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -E '\.(py|js|ts|go|java|tf|yml|yaml|Dockerfile)$' || true)
-          echo "CHANGED=${CHANGED:-.}" >> $GITHUB_ENV
-          echo "Changed paths: $CHANGED"
-
+      - uses: actions/checkout@v4
       - name: Run Semgrep
-        uses: returntocorp/semgrep-action@v1
-        with:
-          config: |
-            p/ci
-            p/secrets
-            p/terraform
-            p/kubernetes
-            p/docker
-          paths: ${{ env.CHANGED }}
-          fail-on: "warning"
+        run: |
+          semgrep ci
+            --config p/ci
+            --config p/secrets
+            --config p/terraform
+            --config p/kubernetes
+            --config p/docker
+            --fail-on warning
+            --include "${{ env.CHANGED }}"
+  
   osv:
     uses: "google/osv-scanner-action/.github/workflows/osv-scanner-reusable-pr.yml@v2.3.1"
   build:
