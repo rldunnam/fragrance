@@ -70,11 +70,12 @@
 
   // Notify parent that bootstrap is ready
   try {
-    // Note: Using '*' for initial handshake is acceptable here because:
-    // 1. BOOTSTRAP_READY contains no sensitive data (empty payload)
-    // 2. All subsequent messages (EDITOR_LOAD_SCRIPT) require origin validation
-    // 3. The bridge script (loaded after this) enforces strict origin checking
-    window.parent.postMessage({ type: 'BOOTSTRAP_READY', payload: {} }, '*')
+    var targetOrigin = expectedParentOrigin
+    if (!targetOrigin) {
+      console.error('[editor-bootstrap] Cannot send BOOTSTRAP_READY: _parentOrigin query param missing')
+      return
+    }
+    window.parent.postMessage({ type: 'BOOTSTRAP_READY', payload: {} }, targetOrigin)
     console.log('[editor-bootstrap] Bootstrap ready, waiting for script...')
   } catch (e) {
     console.error('[editor-bootstrap] Failed to notify parent:', e)
