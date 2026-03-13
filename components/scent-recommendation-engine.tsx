@@ -105,7 +105,13 @@ export function ScentRecommendationEngine() {
           f.name, f.house,
           ...f.topNotes, ...f.heartNotes, ...f.baseNotes
         ].map(s => s.toLowerCase())
-        return terms.every(term => searchable.some(s => new RegExp(`(?<![a-z])${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![a-z])`, 'i').test(s)))
+        return terms.every(term => searchable.some(s => {
+          const idx = s.indexOf(term)
+          if (idx === -1) return false
+          const before = idx === 0 || !/[a-z]/.test(s[idx - 1])
+          const after = idx + term.length >= s.length || !/[a-z]/.test(s[idx + term.length])
+          return before && after
+        }))
       })
     }
 
