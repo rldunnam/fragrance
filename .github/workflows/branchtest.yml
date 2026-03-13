@@ -31,15 +31,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Run Semgrep
-        run: |
-          semgrep scan
-            --config p/ci
-            --config p/secrets
-            --config p/terraform
-            --config p/kubernetes
-            --config p/docker
-            --fail-on warning
-            --include "${{ env.CHANGED }}"
+        run: semgrep scan --config p/ci --config p/secrets --config p/terraform --config p/kubernetes --config p/docker --fail-on warning --include "${{ env.CHANGED }}"
   
   osv:
     uses: "google/osv-scanner-action/.github/workflows/osv-scanner-reusable-pr.yml@v2.3.1"
