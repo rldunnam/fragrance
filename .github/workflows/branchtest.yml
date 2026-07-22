@@ -26,22 +26,22 @@ jobs:
 
   build:
     # needs: trivy-fs
-    # runs-on: ${{ matrix.runner }}
-    # timeout-minutes: 30
-    # permissions:
-      # contents: read
-      # packages: write
-    # outputs:
-      # digest-amd64: ${{ matrix.platform == 'linux/amd64' && steps.build.outputs.digest || '' }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      digest-amd64: ${{ matrix.platform == 'linux/amd64' && steps.build.outputs.digest || '' }}
 
-    # strategy:
-      # fail-fast: false
-      # matrix:
-        # include:
-          # - platform: linux/amd64
-            # runner: ubuntu-latest
-          # - platform: linux/arm64
-            # runner: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: linux/amd64
+            runner: ubuntu-latest
+          - platform: linux/arm64
+            runner: ubuntu-24.04-arm
 
     steps:
       - name: Checkout
@@ -121,7 +121,7 @@ jobs:
 
   smoke-test:
     runs-on: ubuntu-latest
-    needs: [build, trivy-image]
+    # needs: [build, trivy-image]
     permissions:
       contents: read
       packages: read
