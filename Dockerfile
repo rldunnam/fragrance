@@ -21,7 +21,7 @@ RUN corepack enable
 # on every build.
 # =============================================================================
 FROM base AS deps
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN pnpm install --frozen-lockfile
 
 # =============================================================================
