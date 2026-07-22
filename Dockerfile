@@ -90,7 +90,7 @@ RUN pnpm build
 # `node server.js` (which runs the pre-built server directly). This means
 # pnpm, next, and the CLI machinery are not needed at runtime at all.
 # =============================================================================
-FROM node:20-alpine AS runner
+FROM node:22-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
