@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       - name: Run Trivy filesystem scan
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
           scan-type: fs
           scan-ref: .
@@ -43,7 +43,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
@@ -82,7 +82,7 @@ jobs:
           touch "/tmp/digests/${digest#sha256:}"
 
       - name: Upload digest artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: digest-${{ steps.slug.outputs.slug }}
           path: /tmp/digests/*
@@ -97,8 +97,11 @@ jobs:
       packages: write
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
       - name: Download amd64 digest
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v7
         with:
           name: digest-linux-amd64
           path: /tmp/digests
@@ -121,7 +124,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run Trivy image scan
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
           scan-type: image
           image-ref: ghcr.io/${{ github.repository }}@${{ steps.digest.outputs.sha }}
@@ -139,7 +142,7 @@ jobs:
 
     steps:
       - name: Download amd64 digest
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v7
         with:
           name: digest-linux-amd64
           path: /tmp/digests
@@ -200,7 +203,7 @@ jobs:
 
     steps:
       - name: Download digests
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v7
         with:
           path: /tmp/digests
           pattern: digest-*
