@@ -24,7 +24,7 @@ jobs:
           # scanners: vuln,config
           # skip-dirs: .next,node_modules,.pnpm-store
 
-  # build:
+  build:
     # needs: trivy-fs
     # runs-on: ${{ matrix.runner }}
     # timeout-minutes: 30
