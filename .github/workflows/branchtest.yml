@@ -31,8 +31,6 @@ jobs:
     permissions:
       contents: read
       packages: write
-    outputs:
-      digest-amd64: ${{ matrix.platform == 'linux/amd64' && steps.build.outputs.digest || '' }}
 
     strategy:
       fail-fast: false
@@ -99,11 +97,24 @@ jobs:
       packages: write
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v5
+      - name: Download amd64 digest
+        uses: actions/download-artifact@v5
+        with:
+          name: digest-linux-amd64
+          path: /tmp/digests
+
+      - name: Resolve digest
+        id: digest
+        run: |
+          file="$(ls /tmp/digests)"
+          if [ -z "$file" ]; then
+            echo "No digest file found" >&2
+            exit 1
+          fi
+          echo "sha=sha256:${file}" >> $GITHUB_OUTPUT
 
       - name: Login to GHCR
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -113,7 +124,7 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: image
-          image-ref: ghcr.io/${{ github.repository }}@${{ needs.build.outputs.digest-amd64 }}
+          image-ref: ghcr.io/${{ github.repository }}@${{ steps.digest.outputs.sha }}
           severity: HIGH,CRITICAL
           exit-code: 1
           format: table
@@ -127,6 +138,22 @@ jobs:
       packages: read
 
     steps:
+      - name: Download amd64 digest
+        uses: actions/download-artifact@v5
+        with:
+          name: digest-linux-amd64
+          path: /tmp/digests
+
+      - name: Resolve digest
+        id: digest
+        run: |
+          file="$(ls /tmp/digests)"
+          if [ -z "$file" ]; then
+            echo "No digest file found" >&2
+            exit 1
+          fi
+          echo "sha=sha256:${file}" >> $GITHUB_OUTPUT
+
       - name: Login to GHCR
         uses: docker/login-action@v4
         with:
@@ -138,7 +165,7 @@ jobs:
         run: |
           docker run -d --name smoke \
             -p 3000:3000 \
-            ghcr.io/${{ github.repository }}@${{ needs.build.outputs.digest-amd64 }}
+            ghcr.io/${{ github.repository }}@${{ steps.digest.outputs.sha }}
 
       - name: Wait for app to be ready
         run: |
@@ -173,7 +200,7 @@ jobs:
 
     steps:
       - name: Download digests
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           path: /tmp/digests
           pattern: digest-*
@@ -183,7 +210,7 @@ jobs:
         uses: docker/setup-buildx-action@v4
 
       - name: Login to GHCR
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
