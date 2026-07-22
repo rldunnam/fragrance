@@ -94,6 +94,12 @@ FROM node:22-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
+# Remove the npm CLI bundled in the base image. This project runs via
+# `node server.js` (Next.js standalone) and never invokes npm at runtime,
+# but the base image's bundled npm carries CVEs (tar, sigstore, picomatch,
+# brace-expansion) that Trivy flags. Deleting it removes the attack surface.
+RUN rm -rf /usr/local/lib/node_modules/npm /usr/local/bin/npm /usr/local/bin/npx
+
 # Create a non-root user to run the application.
 # If the container is compromised, the attacker only has the permissions of
 # this unprivileged user rather than full root access.
