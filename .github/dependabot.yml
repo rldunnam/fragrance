@@ -1,0 +1,125 @@
+# Dependabot configuration for rldunnam/fragrance
+#
+# Three ecosystems are watched:
+#   github-actions -> action refs in .github/workflows/
+#   npm            -> package.json + pnpm-lock.yaml
+#   docker         -> base images in the Dockerfile
+#
+# Grouping is used aggressively. Ungrouped, this repo would produce a dozen
+# separate PRs on the first run (Radix alone accounts for ~30 packages).
+
+version: 2
+
+updates:
+  # ---------------------------------------------------------------------------
+  # GitHub Actions
+  # ---------------------------------------------------------------------------
+  # Dependabot maintains SHA pins and keeps the trailing version comment in
+  # sync, i.e. `uses: foo/bar@<sha> # v1.2.3` gets both the SHA and the comment
+  # rewritten. This is what makes SHA-pinning maintainable rather than a
+  # one-time snapshot that rots.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "America/Chicago"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "ci"
+    labels:
+      - "dependencies"
+      - "github-actions"
+    groups:
+      # Docker's build actions almost always want bumping together.
+      docker-actions:
+        patterns:
+          - "docker/*"
+      actions-toolkit:
+        patterns:
+          - "actions/*"
+
+  # ---------------------------------------------------------------------------
+  # npm / pnpm
+  # ---------------------------------------------------------------------------
+  # NOTE: pnpm uses the "npm" ecosystem value. See the caveat about pnpm 11
+  # support in the accompanying notes — this block may error until Dependabot
+  # catches up, which does not affect the other two blocks.
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "America/Chicago"
+    open-pull-requests-limit: 10
+    versioning-strategy: "increase"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "deps-dev"
+    labels:
+      - "dependencies"
+    groups:
+      # Next + its first-party packages move in lockstep.
+      next:
+        patterns:
+          - "next"
+          - "@next/*"
+          - "eslint-config-next"
+      # ~30 packages that release together. Without this they dominate the queue.
+      radix-ui:
+        patterns:
+          - "@radix-ui/*"
+      tailwind:
+        patterns:
+          - "tailwindcss"
+          - "@tailwindcss/*"
+          - "postcss"
+          - "autoprefixer"
+      supabase:
+        patterns:
+          - "@supabase/*"
+      clerk:
+        patterns:
+          - "@clerk/*"
+      types:
+        patterns:
+          - "@types/*"
+      # Catch-all: everything else, minor and patch only, in one PR.
+      # Majors stay ungrouped so they arrive individually and get real review.
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
+
+    # Recharts v3 is a deliberate deferral with known breaking API changes.
+    # Uncomment to stop Dependabot reopening a PR you intend to handle by hand.
+    # ignore:
+    #   - dependency-name: "recharts"
+    #     update-types: ["version-update:semver-major"]
+
+  # ---------------------------------------------------------------------------
+  # Docker
+  # ---------------------------------------------------------------------------
+  # Watches the node:22-alpine base image in the Dockerfile. Node 20 going EOL
+  # under you is exactly the class of drift this catches.
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "America/Chicago"
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: "docker"
+    labels:
+      - "dependencies"
+      - "docker"
+    # Stay on the 22.x line; major Node bumps should be a deliberate decision
+    # made together with the devcontainer and CI, not an automated PR.
+    ignore:
+      - dependency-name: "node"
+        update-types:
+          - "version-update:semver-major"
