@@ -1,6 +1,7 @@
 allowBuilds:
   '@clerk/shared': true
   sharp: true
+  unrs-resolver: true
 overrides:
   cross-spawn: ^7.0.5
   glob: ^10.5.0
