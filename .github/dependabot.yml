@@ -67,16 +67,12 @@ updates:
           - "next"
           - "@next/*"
           - "eslint-config-next"
-      # ~30 packages that release together. Without this they dominate the queue.
-      radix-ui:
-        patterns:
-          - "@radix-ui/*"
+      # Tailwind v4 does its own prefixing; postcss is a build-time dep only.
       tailwind:
         patterns:
           - "tailwindcss"
           - "@tailwindcss/*"
           - "postcss"
-          - "autoprefixer"
       supabase:
         patterns:
           - "@supabase/*"
@@ -98,6 +94,25 @@ updates:
     # ignore:
     #   - dependency-name: "recharts"
     #     update-types: ["version-update:semver-major"]
+
+  # ---------------------------------------------------------------------------
+  # Dev container
+  # ---------------------------------------------------------------------------
+  # Keeps the Features in .devcontainer/devcontainer.json current. The Node
+  # major is pinned deliberately to match the Dockerfile, so only the feature
+  # itself moves here.
+  - package-ecosystem: "devcontainers"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "America/Chicago"
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: "devcontainer"
+    labels:
+      - "dependencies"
 
   # ---------------------------------------------------------------------------
   # Docker
