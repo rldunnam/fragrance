@@ -1,14 +1,26 @@
 {
   "name": "fragrance",
 
-  // Node 22 to match `FROM node:22-alpine` in the Dockerfile. Without this
-  // pinned, a Codespace rebuild falls back to whatever the default universal
-  // image ships, which is how a v20 runtime appeared and broke pnpm 11
-  // (pnpm 11 requires node:sqlite, a Node 22+ builtin).
-  "image": "mcr.microsoft.com/devcontainers/typescript-node:22-bookworm",
+  // Codespaces' universal image, NOT a language-specific one.
+  //
+  // The typescript-node images run as user `node` with home /home/node, while
+  // Codespaces' own first-run tooling assumes user `codespace` and
+  // /home/codespace. Mixing them produces:
+  //   mkdir: cannot create directory '/home/codespace': Permission denied
+  //
+  // Pinning Node through a feature instead gets the same version guarantee
+  // without changing the user, the home directory, or anything else Codespaces
+  // has already set up.
+  "image": "mcr.microsoft.com/devcontainers/universal:2-linux",
 
   "features": {
-    "ghcr.io/devcontainers/features/github-cli:1": {}
+    // Node 22 to match `FROM node:22-alpine` in the Dockerfile. Without this
+    // pin a rebuild falls back to the image default, which is how a v20
+    // runtime appeared and broke pnpm 11 (it needs the node:sqlite builtin,
+    // added in Node 22).
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "22"
+    }
   },
 
   "containerEnv": {
@@ -19,7 +31,7 @@
 
   // corepack reads `packageManager` from package.json, so pnpm resolves to
   // exactly 11.15.1 rather than whatever a global install happens to be.
-  // This is the same mechanism the Dockerfile's base stage uses.
+  // Same mechanism the Dockerfile's base stage uses.
   "postCreateCommand": "corepack enable && pnpm install --frozen-lockfile",
 
   "forwardPorts": [3000],
@@ -43,7 +55,8 @@
         "typescript.tsdk": "node_modules/typescript/lib"
       }
     }
-  },
+  }
 
-  "remoteUser": "node"
+  // No "remoteUser" and no github-cli feature: the universal image already
+  // provides the codespace user and the gh CLI.
 }
