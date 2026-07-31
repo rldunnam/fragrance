@@ -1,0 +1,49 @@
+{
+  "name": "fragrance",
+
+  // Node 22 to match `FROM node:22-alpine` in the Dockerfile. Without this
+  // pinned, a Codespace rebuild falls back to whatever the default universal
+  // image ships, which is how a v20 runtime appeared and broke pnpm 11
+  // (pnpm 11 requires node:sqlite, a Node 22+ builtin).
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:22-bookworm",
+
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+
+  "containerEnv": {
+    // Let corepack fetch the pinned pnpm without an interactive prompt,
+    // which would otherwise hang postCreateCommand.
+    "COREPACK_ENABLE_DOWNLOAD_PROMPT": "0"
+  },
+
+  // corepack reads `packageManager` from package.json, so pnpm resolves to
+  // exactly 11.15.1 rather than whatever a global install happens to be.
+  // This is the same mechanism the Dockerfile's base stage uses.
+  "postCreateCommand": "corepack enable && pnpm install --frozen-lockfile",
+
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": {
+      "label": "next dev",
+      "onAutoForward": "notify"
+    }
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "bradlc.vscode-tailwindcss",
+        "ms-azuretools.vscode-docker",
+        "github.vscode-github-actions"
+      ],
+      "settings": {
+        "eslint.useFlatConfig": true,
+        "typescript.tsdk": "node_modules/typescript/lib"
+      }
+    }
+  },
+
+  "remoteUser": "node"
+}
