@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo, useEffect, useRef, Fragment, type ReactNode } from 'react'
+import { useState, useMemo, Fragment, type ReactNode } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { Sparkles } from 'lucide-react'
@@ -31,13 +31,17 @@ export function ScentRecommendationEngine() {
   const [pageSize, setPageSize] = useState<15 | 30 | 45 | 'all'>(15)
   const [currentPage, setCurrentPage] = useState(1)
 
-  // Apply quiz-derived filters when arriving from /quiz
-  const appliedQuizParams = useRef(false)
+  // Apply quiz-derived filters when arriving from /quiz.
+  //
+  // Adjusted during render rather than in an effect. useSearchParams can return
+  // an empty set on the first render during prerender, so this cannot move to a
+  // lazy useState initialiser -- but the `applied` latch gives the same
+  // run-exactly-once behaviour as the old ref guard, without the cascading
+  // render that react-hooks/set-state-in-effect flags.
   const [fromQuiz, setFromQuiz] = useState(false)
-  useEffect(() => {
-    if (appliedQuizParams.current) return
-    if (!searchParams.get('fromQuiz')) return
-    appliedQuizParams.current = true
+  const [quizParamsApplied, setQuizParamsApplied] = useState(false)
+  if (!quizParamsApplied && searchParams.get('fromQuiz')) {
+    setQuizParamsApplied(true)
     setFromQuiz(true)
 
     const families = searchParams.get('families')
@@ -47,7 +51,7 @@ export function ScentRecommendationEngine() {
     if (families) setSelectedFamilies(families.split(',').filter(Boolean))
     if (seasons)  setSelectedSeasons(seasons.split(',').filter(Boolean))
     if (occasion) setSelectedOccasion(occasion)
-  }, [searchParams])
+  }
 
   const toggleShortlist = (id: string) => {
     setShortlist((prev: string[]) => {
@@ -208,8 +212,14 @@ export function ScentRecommendationEngine() {
     ? filteredFragrances
     : filteredFragrances.slice((currentPage - 1) * pageSize, currentPage * pageSize)
 
-  // Reset to page 1 whenever the filtered set changes
-  useEffect(() => { setCurrentPage(1) }, [filteredFragrances])
+  // Reset to page 1 whenever the filtered set changes.
+  // Same reasoning as above: adjusting during render avoids rendering one frame
+  // of the wrong page before the effect corrects it.
+  const [prevFiltered, setPrevFiltered] = useState(filteredFragrances)
+  if (filteredFragrances !== prevFiltered) {
+    setPrevFiltered(filteredFragrances)
+    setCurrentPage(1)
+  }
 
   const hasActiveFilters = selectedOccasion || selectedSeasons.length > 0 || selectedFamilies.length > 0 || selectedBudgets.length > 0 || selectedIntensities.length > 0 || searchQuery.length > 0 || cabinetFilter
 

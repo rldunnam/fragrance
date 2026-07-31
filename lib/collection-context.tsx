@@ -50,9 +50,33 @@ export function CollectionProvider({ children }: { children: ReactNode }) {
     return createAuthClient(token)
   }, [])
 
-  // Load all user data on sign-in
+  // Reset every slice of state when the ACTIVE USER changes.
+  //
+  // This is React's "adjust state during render" pattern, not an effect.
+  // setState during render is legal and re-renders before children observe the
+  // stale values; the same assignments inside an effect cause a cascading
+  // render, which is what react-hooks/set-state-in-effect flags.
+  //
+  // It also fixes a real bug. The previous version cleared state in an effect
+  // keyed only on isSignedIn, so switching accounts through Clerk's
+  // multi-session UserButton -- where isSignedIn never goes false -- left the
+  // previous user's cabinet, wishlist and ratings on screen.
+  const [activeUserId, setActiveUserId] = useState(userId)
+  if (userId !== activeUserId) {
+    setActiveUserId(userId)
+    setCabinet(new Set())
+    setWishlist(new Set())
+    setRatings(new Map())
+    setQuizProfile(null)
+  }
+
+  // Load all user data on sign-in, and again whenever the user changes.
   useEffect(() => {
-    if (!isLoaded || !isSignedIn) return
+    if (!isLoaded || !isSignedIn || !userId) return
+
+    // Guards against an in-flight response from the previous user landing
+    // after a fast account switch and overwriting the new user's data.
+    let cancelled = false
 
     async function load() {
       setLoading(true)
@@ -64,6 +88,7 @@ export function CollectionProvider({ children }: { children: ReactNode }) {
           client.from('ratings').select('fragrance_id, score'),
           client.from('quiz_results').select('*').single(),
         ])
+        if (cancelled) return
         if (cabinetRes.data)  setCabinet(new Set(cabinetRes.data.map(r => r.fragrance_id)))
         if (wishlistRes.data) setWishlist(new Set(wishlistRes.data.map(r => r.fragrance_id)))
         if (ratingsRes.data)  setRatings(new Map(ratingsRes.data.map(r => [r.fragrance_id, r.score])))
@@ -79,24 +104,18 @@ export function CollectionProvider({ children }: { children: ReactNode }) {
           accentFamily:    quizRes.data.accent_family,
         })
       } catch (err) {
+        // Previously swallowed. A missing or renamed Clerk "supabase" JWT
+        // template throws here, and silence made it look like an empty
+        // collection rather than a configuration error.
+        console.error('Collection load failed:', err)
       } finally {
-        setLoading(false)
+        if (!cancelled) setLoading(false)
       }
     }
 
     load()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoaded, isSignedIn])
-
-  // Clear on sign-out
-  useEffect(() => {
-    if (isLoaded && !isSignedIn) {
-      setCabinet(new Set())
-      setWishlist(new Set())
-      setRatings(new Map())
-      setQuizProfile(null)
-    }
-  }, [isLoaded, isSignedIn])
+    return () => { cancelled = true }
+  }, [isLoaded, isSignedIn, userId, getClient])
 
   const promptSignIn = useCallback(() => {
     window.dispatchEvent(new CustomEvent('fragrance:signin-required'))
@@ -117,7 +136,7 @@ export function CollectionProvider({ children }: { children: ReactNode }) {
       console.error('Cabinet update failed:', err)
       setCabinet(prev => { const next = new Set(prev); inCabinet ? next.add(fragranceId) : next.delete(fragranceId); return next })
     }
-  }, [isSignedIn, cabinet, getClient, promptSignIn])
+  }, [isSignedIn, cabinet, getClient, promptSignIn, userId])
 
   const toggleWishlist = useCallback(async (fragranceId: string) => {
     if (!isSignedIn) { promptSignIn(); return }
@@ -134,7 +153,7 @@ export function CollectionProvider({ children }: { children: ReactNode }) {
       console.error('Wishlist update failed:', err)
       setWishlist(prev => { const next = new Set(prev); inWishlist ? next.add(fragranceId) : next.delete(fragranceId); return next })
     }
-  }, [isSignedIn, wishlist, getClient, promptSignIn])
+  }, [isSignedIn, wishlist, getClient, promptSignIn, userId])
 
   const setRating = useCallback(async (fragranceId: string, score: number) => {
     if (!isSignedIn) { promptSignIn(); return }
@@ -150,7 +169,7 @@ export function CollectionProvider({ children }: { children: ReactNode }) {
       console.error('Rating update failed:', err)
       setRatings(prev => { const next = new Map(prev); prevScore !== undefined ? next.set(fragranceId, prevScore) : next.delete(fragranceId); return next })
     }
-  }, [isSignedIn, ratings, getClient, promptSignIn])
+  }, [isSignedIn, ratings, getClient, promptSignIn, userId])
 
   const saveQuizProfile = useCallback(async (profile: QuizProfile) => {
     if (!isSignedIn) { promptSignIn(); return }
@@ -177,7 +196,7 @@ export function CollectionProvider({ children }: { children: ReactNode }) {
   }, [isSignedIn, getClient, promptSignIn, userId])
 
   const removeRating = useCallback(async (fragranceId: string) => {
-    if (!isSignedIn) return
+    if (!isSignedIn) { promptSignIn(); return }
     const prevScore = ratings.get(fragranceId)
     setRatings(prev => { const next = new Map(prev); next.delete(fragranceId); return next })
     try {
@@ -187,7 +206,7 @@ export function CollectionProvider({ children }: { children: ReactNode }) {
       console.error('Rating removal failed:', err)
       if (prevScore !== undefined) setRatings(prev => new Map(prev).set(fragranceId, prevScore))
     }
-  }, [isSignedIn, ratings, getClient])
+  }, [isSignedIn, ratings, getClient, promptSignIn])
 
   return (
     <CollectionContext.Provider value={{
