@@ -160,14 +160,16 @@ pnpm lint
 ```
 
 Uses ESLint flat config (`eslint.config.mjs`) with `eslint-config-next`.
-Expected result is zero errors and zero warnings; CI does not yet gate on it.
+Expected result is zero errors and zero warnings. CI runs this alongside
+`tsc --noEmit` in the `lint` job, and the container build will not start unless
+both pass.
 
 ## CI/CD
 
 `.github/workflows/deploy.yml` handles everything:
 
-- **Pull requests** — Trivy filesystem scan, then a build of both architectures
-  with no push to GHCR.
+- **Pull requests** — lint and typecheck plus a Trivy filesystem scan (in
+  parallel), then a build of both architectures with no push to GHCR.
 - **Push to `main`** — the above, plus push-by-digest, Trivy image scan, a smoke
   test that boots the container and checks `/`, `/collection`, `/quiz`, and
   `/guide`, multi-arch manifest merge, and registry cleanup.
