@@ -33,6 +33,48 @@ concurrency:
 
 jobs:
   # ===========================================================================
+  # Lint and typecheck
+  # ===========================================================================
+  # Runs in parallel with trivy-fs; build waits on both. Fails in well under a
+  # minute, so a typo does not cost a ten-minute two-architecture Docker build.
+  #
+  # tsc --noEmit is included even though `next build` typechecks: the build only
+  # runs inside Docker, so without this a type error surfaces at the end of the
+  # slowest job instead of the start of the fastest one.
+  #
+  # No secrets are used here, which is what lets it work unchanged on Dependabot
+  # pull requests (those run with a read-only token and no Actions secrets).
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # Node 22 to match the Dockerfile and the devcontainer. pnpm 11 requires
+      # the node:sqlite builtin, which does not exist before Node 22.
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+
+      # corepack resolves pnpm from the packageManager field in package.json,
+      # so CI uses exactly the version the lockfile was written with.
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm exec tsc --noEmit
+
+      - name: Lint
+        run: pnpm lint
+
+  # ===========================================================================
   # Filesystem scan
   # ===========================================================================
   trivy-fs:
@@ -63,7 +105,7 @@ jobs:
   # Build (one job per architecture)
   # ===========================================================================
   build:
-    needs: trivy-fs
+    needs: [ lint, trivy-fs ]
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 30
     permissions:
