@@ -54,7 +54,8 @@ FROM base AS builder
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 # NEXT_PUBLIC_* vars must be present at build time (baked into client bundle).
-# Pass via fly.toml [build.args] or: fly deploy --build-arg NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_live_xxx
+# Supplied by the CI build-args block, or locally via:
+#   docker build --build-arg NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_live_xxx .
 ARG NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_live_placeholder_for_build
 ENV NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=$NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 ARG NEXT_PUBLIC_SUPABASE_URL
@@ -69,7 +70,7 @@ RUN pnpm build
 # This is the only stage that ships. Stages 1-3 are discarded by Docker after
 # the build — none of their layers appear in the pushed image.
 #
-# We start fresh from node:20-alpine (not from base or builder) so we don't
+# We start fresh from node:22-alpine (not from base or builder) so we don't
 # inherit corepack, the full node_modules, or any build-stage files.
 #
 # Three COPY commands replace what used to be five in the old Dockerfile:
