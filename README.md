@@ -175,6 +175,24 @@ alongside lint and typecheck.
 The catalog carries no bottle imagery; `pnpm validate` fails if an `imageUrl`
 field reappears.
 
+## Static assets
+
+Everything in `public/` is served verbatim at the site root and copied into the
+container image, so a file nobody reads still reaches production.
+
+`pnpm check:public` fails the build on dynamic code execution in served
+JavaScript — `eval` in any form, `new Function`, string-bodied timers,
+`innerHTML` assignment, `document.write` — and on `postMessage` listeners that
+validate an origin against a value read from the page's own URL. It warns about
+scaffolding leftovers and assets no source file references.
+
+This exists because the v0 scaffold left behind `public/editor-bootstrap.js`,
+an iframe bridge that ran `eval` on a `postMessage` payload. Its origin check
+compared `event.origin` to a `_parentOrigin` query parameter, so an embedding
+attacker supplied both sides of the comparison. Nothing loaded the file, so it
+never executed — but it shipped in every image and would have become live the
+moment anyone added a script tag for it.
+
 ## Linting
 
 Uses ESLint flat config (`eslint.config.mjs`) with `eslint-config-next`.

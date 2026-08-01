@@ -80,6 +80,12 @@ jobs:
       - name: Validate fragrance catalog
         run: pnpm validate
 
+      # public/ is served verbatim at the site root and copied into the image,
+      # so a file nobody reads still reaches production. Catches dynamic code
+      # execution and scaffolding leftovers.
+      - name: Check public assets
+        run: pnpm check:public
+
   # ===========================================================================
   # Filesystem scan
   # ===========================================================================
