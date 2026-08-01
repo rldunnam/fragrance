@@ -15,6 +15,15 @@ const NOTE_TO_ACCORD: Record<string, string> = {
   sandalwood: 'Woody', cedar: 'Woody', vetiver: 'Woody', guaiac: 'Woody',
   oud: 'Woody', patchouli: 'Woody', oakmoss: 'Woody', birch: 'Woody',
   'iso e super': 'Woody', agarwood: 'Woody',
+  // Explicit rather than a blanket 'wood' substring: a bare `wood` key would
+  // also capture Amberwood (Warm) and Violet Wood (Floral), silently
+  // reclassifying entries that already resolve correctly.
+  'woody notes': 'Woody', 'woodsy notes': 'Woody', wolfwood: 'Woody',
+  driftwood: 'Woody', rosewood: 'Woody', oakwood: 'Woody',
+  'cashmere wood': 'Woody', 'balsa wood': 'Woody',
+  // Pre-existing gaps: the catalog spells these 'Gaiac Wood' (no u) and
+  // 'Akigalawood', neither of which matched the 'guaiac' key.
+  gaiac: 'Woody', akigalawood: 'Woody',
   // Fresh / Aromatic
   lavender: 'Aromatic', mint: 'Aromatic', basil: 'Aromatic', rosemary: 'Aromatic',
   sage: 'Aromatic', thyme: 'Aromatic', artemisia: 'Aromatic', tarragon: 'Aromatic',
@@ -33,7 +42,12 @@ const NOTE_TO_ACCORD: Record<string, string> = {
   calone: 'Aquatic', marine: 'Aquatic', sea: 'Aquatic', aquatic: 'Aquatic',
   // Gourmand
   chocolate: 'Gourmand', caramel: 'Gourmand', coffee: 'Gourmand',
-  almond: 'Gourmand', praline: 'Gourmand',
+  almond: 'Gourmand', praline: 'Gourmand', toffee: 'Gourmand',
+  honey: 'Gourmand', 'butterscotch': 'Gourmand',
+  // Boozy — grouped with Gourmand: these read as sweet, warm and edible
+  // rather than as their own axis, and the accord list is intentionally short.
+  liquor: 'Gourmand', whiskey: 'Gourmand', whisky: 'Gourmand', rum: 'Gourmand',
+  cognac: 'Gourmand', absinthe: 'Gourmand',
   // Smoky / Leathery
   leather: 'Smoky', tobacco: 'Smoky', smoke: 'Smoky', incense: 'Smoky',
   frankincense: 'Smoky', myrrh: 'Smoky',
