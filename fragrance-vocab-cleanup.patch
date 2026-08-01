@@ -1,0 +1,581 @@
+diff --git a/.github/workflows/deploy.yml b/.github/workflows/deploy.yml
+index ed14c98..f9cac29 100644
+--- a/.github/workflows/deploy.yml
++++ b/.github/workflows/deploy.yml
+@@ -74,6 +74,12 @@ jobs:
+       - name: Lint
+         run: pnpm lint
+ 
++      # Catalog invariants TypeScript cannot express: family/occasion/season are
++      # typed string[], so an unknown value compiles fine while making the entry
++      # unreachable by filtering.
++      - name: Validate fragrance catalog
++        run: pnpm validate
++
+   # ===========================================================================
+   # Filesystem scan
+   # ===========================================================================
+diff --git a/lib/fragrances/accent-color.ts b/lib/fragrances/accent-color.ts
+index f40ec54..9e5061d 100644
+--- a/lib/fragrances/accent-color.ts
++++ b/lib/fragrances/accent-color.ts
+@@ -9,6 +9,7 @@
+  *   Oriental   → deep copper        — spice routes, incense, silk
+  *   Amber      → rich gold-amber    — warmth, resin, honey
+  *   Floral     → dusty rose         — petals, soft femininity
++ *   Powdery    → heather grey       — iris, violet, cosmetic softness
+  *   Aquatic    → steel teal         — ocean, minerals, salt air
+  *   Fougère    → muted green-grey   — ferns, moss, masculine classic
+  *   Chypre     → bronze-green       — oakmoss, labdanum, forest floor
+@@ -32,10 +33,11 @@ const FAMILY_COLORS: Record<string, string> = {
+ 
+   // Floral
+   'Floral':     '#8A6B7A',  // dusty rose-mauve
++  'Powdery':    '#8A7F8C',  // soft heather-grey — iris, violet, cosmetic softness
+ 
+   // Warm / spicy
+   'Spicy':      '#9A5C3A',  // burnt sienna
+-  'Oriental':   '#8A5C32',  // deep copper
++  'Oriental':   '#8A5C32',  // deep copper — retired catalog family, folded into Amber; kept for safety
+   'Amber':      '#9A7A3A',  // rich amber-gold
+ 
+   // Woody
+diff --git a/lib/fragrances/data.ts b/lib/fragrances/data.ts
+index 9ecafc0..1286482 100644
+--- a/lib/fragrances/data.ts
++++ b/lib/fragrances/data.ts
+@@ -2076,7 +2076,7 @@ export const fragrances: Fragrance[] = [
+     concentration: 'EDT',
+     imageUrl: '/bottles/dior-homme-edt.jpg',
+     family: ['Woody', 'Powdery'],
+-    occasion: ['Office', 'Evening'],
++    occasion: ['Office', 'Date Night'],
+     season: ['Fall', 'Winter', 'Spring'],
+     topNotes: ['Iris', 'Aldehydes'],
+     heartNotes: ['Iris', 'Cacao', 'Lavender'],
+@@ -2116,7 +2116,7 @@ export const fragrances: Fragrance[] = [
+     concentration: 'EDT',
+     imageUrl: '/bottles/paco-invictus-edt.jpg',
+     family: ['Fresh', 'Aquatic'],
+-    occasion: ['Everyday', 'Sport'],
++    occasion: ['Everyday'],
+     season: ['Spring', 'Summer'],
+     topNotes: ['Grapefruit', 'Sea Notes', 'Green Mandarin'],
+     heartNotes: ['Bay Laurel', 'Hedione', 'Jasmine'],
+@@ -2136,7 +2136,7 @@ export const fragrances: Fragrance[] = [
+     concentration: 'EDT',
+     imageUrl: '/bottles/jpg-scandal-pour-homme.jpg',
+     family: ['Woody', 'Spicy'],
+-    occasion: ['Evening', 'Date'],
++    occasion: ['Date Night'],
+     season: ['Fall', 'Winter'],
+     topNotes: ['Blood Orange', 'Aldehydes'],
+     heartNotes: ['Vetiver', 'Sage'],
+@@ -2156,7 +2156,7 @@ export const fragrances: Fragrance[] = [
+     concentration: 'EDP',
+     imageUrl: '/bottles/jpg-le-beau-edp.jpg',
+     family: ['Woody', 'Gourmand'],
+-    occasion: ['Evening', 'Date'],
++    occasion: ['Date Night'],
+     season: ['Fall', 'Winter'],
+     topNotes: ['Coconut', 'Bergamot'],
+     heartNotes: ['Vetiver', 'Iris'],
+@@ -2216,7 +2216,7 @@ export const fragrances: Fragrance[] = [
+     concentration: 'EDP',
+     imageUrl: '/bottles/hugo-boss-bottled-edp.jpg',
+     family: ['Woody', 'Spicy'],
+-    occasion: ['Office', 'Evening'],
++    occasion: ['Office', 'Date Night'],
+     season: ['Fall', 'Winter'],
+     topNotes: ['Apple', 'Bergamot', 'Plum'],
+     heartNotes: ['Cinnamon', 'Mahogany', 'Geranium'],
+@@ -2236,7 +2236,7 @@ export const fragrances: Fragrance[] = [
+     concentration: 'EDT',
+     imageUrl: '/bottles/dg-light-blue-edt.jpg',
+     family: ['Fresh', 'Citrus'],
+-    occasion: ['Everyday', 'Beach'],
++    occasion: ['Everyday'],
+     season: ['Spring', 'Summer'],
+     topNotes: ['Grapefruit', 'Green Apple', 'Rosewood'],
+     heartNotes: ['Rose', 'Bamboo', 'Jasmine'],
+@@ -2256,7 +2256,7 @@ export const fragrances: Fragrance[] = [
+     concentration: 'EDT',
+     imageUrl: '/bottles/polo-blue-edt.jpg',
+     family: ['Fresh', 'Aquatic'],
+-    occasion: ['Everyday', 'Sport'],
++    occasion: ['Everyday'],
+     season: ['Spring', 'Summer'],
+     topNotes: ['Melon', 'Cucumber', 'Basil'],
+     heartNotes: ['Geranium', 'Sage', 'Rosewood'],
+@@ -2275,8 +2275,8 @@ export const fragrances: Fragrance[] = [
+     price: 130,
+     concentration: 'EDP',
+     imageUrl: '/bottles/guerlain-habit-rouge-edp.jpg',
+-    family: ['Oriental', 'Spicy'],
+-    occasion: ['Evening', 'Formal'],
++    family: ['Amber', 'Spicy'],
++    occasion: ['Date Night', 'Formal'],
+     season: ['Fall', 'Winter'],
+     topNotes: ['Citrus', 'Bergamot'],
+     heartNotes: ['Spices', 'Rose', 'Sandalwood'],
+@@ -2317,7 +2317,7 @@ export const fragrances: Fragrance[] = [
+     concentration: 'EDT',
+     imageUrl: '/bottles/acqua-di-gio-edt.jpg',
+     family: ['Aquatic', 'Fresh'],
+-    occasion: ['Everyday', 'Office', 'Casual'],
++    occasion: ['Everyday', 'Office'],
+     season: ['Spring', 'Summer'],
+     topNotes: ['Bergamot', 'Neroli', 'Green Tangerine'],
+     heartNotes: ['Jasmine', 'Calone', 'Persimmon'],
+@@ -2335,8 +2335,8 @@ export const fragrances: Fragrance[] = [
+     price: 90,
+     concentration: 'EDT',
+     imageUrl: '/bottles/armani-code-edt.jpg',
+-    family: ['Oriental', 'Woody'],
+-    occasion: ['Date Night', 'Evening', 'Formal'],
++    family: ['Amber', 'Woody'],
++    occasion: ['Date Night', 'Formal'],
+     season: ['Fall', 'Winter'],
+     topNotes: ['Bergamot', 'Star Anise', 'Lemon'],
+     heartNotes: ['Olive Blossom', 'Sage', 'Guaiac Wood'],
+@@ -2354,8 +2354,8 @@ export const fragrances: Fragrance[] = [
+     price: 120,
+     concentration: 'Parfum',
+     imageUrl: '/bottles/armani-code-parfum.jpg',
+-    family: ['Oriental', 'Woody'],
+-    occasion: ['Date Night', 'Evening', 'Formal'],
++    family: ['Amber', 'Woody'],
++    occasion: ['Date Night', 'Formal'],
+     season: ['Fall', 'Winter'],
+     topNotes: ['Cardamom', 'Bergamot'],
+     heartNotes: ['Apple', 'Cedarwood', 'Lavender'],
+@@ -2375,8 +2375,8 @@ export const fragrances: Fragrance[] = [
+     price: 85,
+     concentration: 'EDT',
+     imageUrl: '/bottles/gucci-guilty-edt.jpg',
+-    family: ['Oriental', 'Woody'],
+-    occasion: ['Date Night', 'Evening', 'Casual'],
++    family: ['Amber', 'Woody'],
++    occasion: ['Date Night', 'Everyday'],
+     season: ['Fall', 'Winter', 'Spring'],
+     topNotes: ['Lemon', 'Lavender', 'Pink Pepper'],
+     heartNotes: ['Orange Flower', 'Cedar', 'Neroli'],
+@@ -2395,7 +2395,7 @@ export const fragrances: Fragrance[] = [
+     concentration: 'EDP',
+     imageUrl: '/bottles/gucci-guilty-absolute.jpg',
+     family: ['Woody', 'Leather'],
+-    occasion: ['Date Night', 'Evening', 'Formal'],
++    occasion: ['Date Night', 'Formal'],
+     season: ['Fall', 'Winter'],
+     topNotes: ['Cypress', 'Fir'],
+     heartNotes: ['Vetiver', 'Patchouli'],
+@@ -2416,7 +2416,7 @@ export const fragrances: Fragrance[] = [
+     concentration: 'EDT',
+     imageUrl: '/bottles/givenchy-gentleman-edt.jpg',
+     family: ['Aromatic', 'Woody'],
+-    occasion: ['Everyday', 'Office', 'Casual'],
++    occasion: ['Everyday', 'Office'],
+     season: ['Spring', 'Fall'],
+     topNotes: ['Bergamot', 'Cardamom', 'Pear'],
+     heartNotes: ['Iris', 'Geranium', 'Patchouli'],
+@@ -2434,8 +2434,8 @@ export const fragrances: Fragrance[] = [
+     price: 65,
+     concentration: 'EDT',
+     imageUrl: '/bottles/givenchy-xeryus-rouge.jpg',
+-    family: ['Oriental', 'Woody'],
+-    occasion: ['Evening', 'Date Night', 'Formal'],
++    family: ['Amber', 'Woody'],
++    occasion: ['Date Night', 'Formal'],
+     season: ['Fall', 'Winter'],
+     topNotes: ['Coriander', 'Tagete', 'Cardamom'],
+     heartNotes: ['Carnation', 'Geranium', 'Cedar'],
+@@ -2456,7 +2456,7 @@ export const fragrances: Fragrance[] = [
+     concentration: 'EDT',
+     imageUrl: '/bottles/bvlgari-pour-homme-soir.jpg',
+     family: ['Woody', 'Aromatic'],
+-    occasion: ['Evening', 'Date Night', 'Formal'],
++    occasion: ['Date Night', 'Formal'],
+     season: ['Fall', 'Winter'],
+     topNotes: ['Elemi', 'Petitgrain', 'Bergamot'],
+     heartNotes: ['Geranium', 'Sage', 'Juniper'],
+@@ -2475,7 +2475,7 @@ export const fragrances: Fragrance[] = [
+     concentration: 'EDT',
+     imageUrl: '/bottles/bvlgari-aqva.jpg',
+     family: ['Aquatic', 'Fresh'],
+-    occasion: ['Everyday', 'Casual', 'Office'],
++    occasion: ['Everyday', 'Office'],
+     season: ['Spring', 'Summer'],
+     topNotes: ['Posidonia', 'Marine Accord', 'Citrus'],
+     heartNotes: ['Ginger', 'Petitgrain', 'Cyclamen'],
+@@ -2494,7 +2494,7 @@ export const fragrances: Fragrance[] = [
+     concentration: 'EDT',
+     imageUrl: '/bottles/bvlgari-omnia-crystalline.jpg',
+     family: ['Fresh', 'Floral'],
+-    occasion: ['Everyday', 'Office', 'Casual'],
++    occasion: ['Everyday', 'Office'],
+     season: ['Spring', 'Summer'],
+     topNotes: ['Bamboo', 'Lotus', 'Cassia'],
+     heartNotes: ['White Tuberose', 'Balsa Wood'],
+@@ -2515,7 +2515,7 @@ export const fragrances: Fragrance[] = [
+     concentration: 'EDP',
+     imageUrl: '/bottles/burberry-hero-edp.jpg',
+     family: ['Woody', 'Aromatic'],
+-    occasion: ['Everyday', 'Office', 'Casual'],
++    occasion: ['Everyday', 'Office'],
+     season: ['Spring', 'Fall'],
+     topNotes: ['Juniper Berry', 'Black Pepper'],
+     heartNotes: ['Vetiver', 'Cedar'],
+@@ -2534,7 +2534,7 @@ export const fragrances: Fragrance[] = [
+     concentration: 'EDT',
+     imageUrl: '/bottles/burberry-mr-burberry.jpg',
+     family: ['Aromatic', 'Woody'],
+-    occasion: ['Everyday', 'Office', 'Casual'],
++    occasion: ['Everyday', 'Office'],
+     season: ['Spring', 'Summer', 'Fall'],
+     topNotes: ['Grapefruit', 'Cardamom', 'Tarragon'],
+     heartNotes: ['Birch', 'Heather', 'Guaiac Wood'],
+@@ -2553,7 +2553,7 @@ export const fragrances: Fragrance[] = [
+     concentration: 'EDT',
+     imageUrl: '/bottles/burberry-brit.jpg',
+     family: ['Aromatic', 'Fougère'],
+-    occasion: ['Everyday', 'Casual', 'Office'],
++    occasion: ['Everyday', 'Office'],
+     season: ['Spring', 'Summer', 'Fall'],
+     topNotes: ['Ginger', 'Lemon', 'Basil'],
+     heartNotes: ['Cedar', 'Nutmeg', 'Geranium'],
+@@ -2574,7 +2574,7 @@ export const fragrances: Fragrance[] = [
+     concentration: 'EDT',
+     imageUrl: '/bottles/ch-212-men.jpg',
+     family: ['Fresh', 'Aromatic'],
+-    occasion: ['Everyday', 'Casual', 'Office'],
++    occasion: ['Everyday', 'Office'],
+     season: ['Spring', 'Summer'],
+     topNotes: ['Bergamot', 'Cardamom', 'Cabreuva'],
+     heartNotes: ['Sage', 'Geranium', 'Sandalwood'],
+@@ -2593,7 +2593,7 @@ export const fragrances: Fragrance[] = [
+     concentration: 'EDT',
+     imageUrl: '/bottles/ch-bad-boy.jpg',
+     family: ['Woody', 'Aromatic'],
+-    occasion: ['Date Night', 'Evening', 'Casual'],
++    occasion: ['Date Night', 'Everyday'],
+     season: ['Fall', 'Winter'],
+     topNotes: ['Bergamot', 'Pepper', 'Elemi'],
+     heartNotes: ['Sage', 'Cacao', 'Cedarwood'],
+@@ -2612,7 +2612,7 @@ export const fragrances: Fragrance[] = [
+     concentration: 'EDP',
+     imageUrl: '/bottles/ch-good-girl-blush.jpg',
+     family: ['Floral', 'Gourmand'],
+-    occasion: ['Date Night', 'Evening', 'Casual'],
++    occasion: ['Date Night', 'Everyday'],
+     season: ['Spring', 'Fall', 'Winter'],
+     topNotes: ['Rose', 'Peony', 'Grapefruit'],
+     heartNotes: ['Jasmine', 'Tuberose'],
+@@ -2652,7 +2652,7 @@ export const fragrances: Fragrance[] = [
+     concentration: 'EDP',
+     imageUrl: '/bottles/vr-flowerbomb.jpg',
+     family: ['Floral', 'Gourmand'],
+-    occasion: ['Date Night', 'Evening', 'Casual'],
++    occasion: ['Date Night', 'Everyday'],
+     season: ['Fall', 'Winter', 'Spring'],
+     topNotes: ['Bergamot', 'Tea', 'Osmanthus'],
+     heartNotes: ['Jasmine', 'Rose', 'Freesia', 'Orchid'],
+@@ -2673,7 +2673,7 @@ export const fragrances: Fragrance[] = [
+     concentration: 'Cologne',
+     imageUrl: '/bottles/jo-malone-peony.jpg',
+     family: ['Floral', 'Woody'],
+-    occasion: ['Everyday', 'Date Night', 'Casual'],
++    occasion: ['Everyday', 'Date Night'],
+     season: ['Spring', 'Summer', 'Fall'],
+     topNotes: ['Red Apple', 'Peony'],
+     heartNotes: ['Jasmine', 'Rose'],
+@@ -2692,7 +2692,7 @@ export const fragrances: Fragrance[] = [
+     concentration: 'Cologne',
+     imageUrl: '/bottles/jo-malone-lime-basil.jpg',
+     family: ['Fresh', 'Aromatic'],
+-    occasion: ['Everyday', 'Casual', 'Office'],
++    occasion: ['Everyday', 'Office'],
+     season: ['Spring', 'Summer'],
+     topNotes: ['Lime', 'Mandarin'],
+     heartNotes: ['Basil', 'White Thyme'],
+@@ -2711,7 +2711,7 @@ export const fragrances: Fragrance[] = [
+     concentration: 'Cologne Intense',
+     imageUrl: '/bottles/jo-malone-velvet-rose-oud.jpg',
+     family: ['Floral', 'Woody'],
+-    occasion: ['Date Night', 'Evening', 'Formal'],
++    occasion: ['Date Night', 'Formal'],
+     season: ['Fall', 'Winter'],
+     topNotes: ['Rose'],
+     heartNotes: ['Rose', 'Oud'],
+diff --git a/lib/fragrances/filters.ts b/lib/fragrances/filters.ts
+index 721894f..e314963 100644
+--- a/lib/fragrances/filters.ts
++++ b/lib/fragrances/filters.ts
+@@ -14,13 +14,26 @@ export const seasons = [
+   { id: 'Winter', label: 'Winter', icon: Snowflake },
+ ]
+ 
++// Order runs most-used first, then grouped by character. The grid is
++// grid-cols-2 / md:grid-cols-4, so 12 entries lay out as 3 clean rows on
++// desktop and 6 on mobile.
++//
++// Every id here must have a colour in accent-color.ts, and every family used
++// in data.ts must appear here or it becomes unreachable by filtering.
++// scripts/validate-fragrances.mjs enforces both directions.
+ export const scentFamilies = [
+-  { id: 'Fresh',    label: 'Fresh',    description: 'Citrus, aquatic, green' },
+   { id: 'Woody',    label: 'Woody',    description: 'Cedar, sandalwood, vetiver' },
+   { id: 'Amber',    label: 'Amber',    description: 'Vanilla, spice, warmth' },
+-  { id: 'Floral',   label: 'Floral',   description: 'Rose, jasmine, lavender' },
+-  { id: 'Fougère',  label: 'Fougère',  description: 'Lavender, oakmoss, coumarin' },
++  { id: 'Fresh',    label: 'Fresh',    description: 'Clean, green, airy' },
++  { id: 'Floral',   label: 'Floral',   description: 'Rose, jasmine, peony' },
+   { id: 'Aromatic', label: 'Aromatic', description: 'Herbs, lavender, sage' },
++  { id: 'Aquatic',  label: 'Aquatic',  description: 'Marine, salt, ozone' },
++  { id: 'Spicy',    label: 'Spicy',    description: 'Pepper, cardamom, clove' },
++  { id: 'Fougère',  label: 'Fougère',  description: 'Lavender, oakmoss, coumarin' },
++  { id: 'Citrus',   label: 'Citrus',   description: 'Bergamot, lemon, mandarin' },
++  { id: 'Gourmand', label: 'Gourmand', description: 'Vanilla, caramel, cocoa' },
++  { id: 'Leather',  label: 'Leather',  description: 'Suede, birch tar, smoke' },
++  { id: 'Powdery',  label: 'Powdery',  description: 'Iris, violet, soft musk' },
+ ]
+ 
+ export const budgetRanges = [
+diff --git a/package.json b/package.json
+index 65b22b5..ac74e4c 100644
+--- a/package.json
++++ b/package.json
+@@ -6,6 +6,7 @@
+     "build": "next build",
+     "dev": "next dev",
+     "lint": "eslint .",
++    "validate": "node scripts/validate-fragrances.mjs",
+     "start": "next start"
+   },
+   "dependencies": {
+diff --git a/scripts/validate-fragrances.mjs b/scripts/validate-fragrances.mjs
+new file mode 100644
+index 0000000..141df43
+--- /dev/null
++++ b/scripts/validate-fragrances.mjs
+@@ -0,0 +1,221 @@
++#!/usr/bin/env node
++/**
++ * Catalog integrity checks for lib/fragrances/data.ts.
++ *
++ * These are the invariants TypeScript cannot express: the Fragrance interface
++ * types family/occasion/season as `string[]`, so any string compiles even when
++ * it makes the entry unreachable by filtering. This is exactly how the catalog
++ * accumulated 13 families and 9 occasions against 6 and 4 defined in
++ * filters.ts, with three entries that no filter combination could surface.
++ *
++ * Run: pnpm validate
++ * Exits non-zero on any ERROR; warnings are reported but do not fail.
++ */
++
++import { readFileSync } from 'node:fs'
++import { fileURLToPath } from 'node:url'
++import { dirname, resolve } from 'node:path'
++import { existsSync } from 'node:fs'
++
++const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
++const errors = []
++const warnings = []
++
++const err = (m) => errors.push(m)
++const warn = (m) => warnings.push(m)
++
++// ---------------------------------------------------------------------------
++// Parse the source files textually rather than importing them: data.ts pulls in
++// filters.ts, which imports lucide-react, which needs a bundler. A regex parse
++// keeps this dependency-free and fast enough to sit in CI.
++// ---------------------------------------------------------------------------
++const dataSrc = readFileSync(resolve(root, 'lib/fragrances/data.ts'), 'utf8')
++const filtersSrc = readFileSync(resolve(root, 'lib/fragrances/filters.ts'), 'utf8')
++const accentSrc = readFileSync(resolve(root, 'lib/fragrances/accent-color.ts'), 'utf8')
++
++const idsFrom = (src, exportName) => {
++  const block = src.match(new RegExp(`export const ${exportName} = \\[([\\s\\S]*?)\\n\\]`))
++  if (!block) throw new Error(`Could not locate export "${exportName}" in filters.ts`)
++  return new Set([...block[1].matchAll(/id: '([^']+)'/g)].map((m) => m[1]))
++}
++
++const FAMILIES = idsFrom(filtersSrc, 'scentFamilies')
++const OCCASIONS = idsFrom(filtersSrc, 'occasions')
++const SEASONS = idsFrom(filtersSrc, 'seasons')
++const ACCENT_COLORS = new Set(
++  [...accentSrc.matchAll(/^\s*'([^']+)':\s*'#/gm)].map((m) => m[1]),
++)
++
++// Controlled vocabularies not driven by filters.ts. Kept deliberately small:
++// every new value here is a value the UI has to render sensibly.
++const SILLAGE = new Set(['Soft', 'Light', 'Moderate', 'Strong', 'Very Strong'])
++const CONCENTRATIONS = new Set([
++  'EDC', 'Cologne', 'Cologne Intense', 'EDT', 'EDP', 'Parfum', 'Extrait',
++  'Elixir', 'Profumo', 'Eau Extrême',
++])
++const LONGEVITY_RE = /^(\d+-\d+ hrs|\d+\+ hrs)$/
++
++// ---------------------------------------------------------------------------
++// Split data.ts into entries
++// ---------------------------------------------------------------------------
++const entries = [...dataSrc.matchAll(/\{\s*id: '([^']+)'([\s\S]*?)\n {2}\}/g)].map(
++  ([, id, body]) => ({ id, body }),
++)
++
++if (entries.length === 0) {
++  err('Parsed zero entries from data.ts — the file shape may have changed.')
++}
++
++const list = (body, field) => {
++  const m = body.match(new RegExp(`${field}: \\[([^\\]]*)\\]`))
++  if (!m) return null
++  return m[1]
++    .split(',')
++    .map((v) => v.trim().replace(/^'|'$/g, ''))
++    .filter(Boolean)
++}
++// Values may be single- or double-quoted: entries containing an apostrophe
++// (e.g. "Dior's signature") use double quotes.
++const str = (body, field) => {
++  const m = body.match(new RegExp(`${field}: (?:'([^']*)'|"([^"]*)")`))
++  if (!m) return null
++  return m[1] ?? m[2]
++}
++const num = (body, field) => {
++  const m = body.match(new RegExp(`${field}: (-?[\\d.]+)`))
++  return m ? Number(m[1]) : null
++}
++
++const seenIds = new Map()
++const seenNames = new Map()
++
++for (const { id, body } of entries) {
++  const where = `[${id}]`
++
++  // --- identity -------------------------------------------------------------
++  if (seenIds.has(id)) err(`${where} duplicate id (also at entry #${seenIds.get(id)})`)
++  seenIds.set(id, seenIds.size + 1)
++
++  // Accented characters are permitted (e.g. pdm-althaïr) but flagged, since
++  // they are easy to mistype when cross-referencing an id by hand.
++  if (!/^[\p{Ll}\p{N}]+(-[\p{Ll}\p{N}]+)*$/u.test(id)) {
++    err(`${where} id must be lowercase kebab-case`)
++  } else if (!/^[a-z0-9-]+$/.test(id)) {
++    warn(`${where} id contains non-ASCII characters`)
++  }
++
++  // --- required scalars -----------------------------------------------------
++  for (const field of ['name', 'house', 'rationale', 'longevity', 'sillage']) {
++    if (!str(body, field)) err(`${where} missing required field "${field}"`)
++  }
++
++  const name = str(body, 'name')
++  const house = str(body, 'house')
++  if (name && house) {
++    const key = `${house}::${name}::${str(body, 'concentration') ?? ''}`
++    if (seenNames.has(key)) {
++      warn(`${where} same house+name+concentration as [${seenNames.get(key)}]`)
++    }
++    seenNames.set(key, id)
++  }
++
++  // --- controlled vocabularies ---------------------------------------------
++  const checkList = (field, allowed, allowedName) => {
++    const vals = list(body, field)
++    if (!vals) return err(`${where} missing required field "${field}"`)
++    if (vals.length === 0) return err(`${where} "${field}" is empty`)
++    if (new Set(vals).size !== vals.length) err(`${where} "${field}" has duplicates`)
++    for (const v of vals) {
++      if (!allowed.has(v)) {
++        err(`${where} ${field} "${v}" is not in ${allowedName} — entry will be unreachable by that filter`)
++      }
++    }
++  }
++  checkList('family', FAMILIES, 'filters.ts scentFamilies')
++  checkList('occasion', OCCASIONS, 'filters.ts occasions')
++  checkList('season', SEASONS, 'filters.ts seasons')
++
++  // Every family must also have an accent colour, or cards fall back to gold.
++  for (const f of list(body, 'family') ?? []) {
++    if (!ACCENT_COLORS.has(f)) {
++      err(`${where} family "${f}" has no colour in accent-color.ts`)
++    }
++  }
++
++  const sillage = str(body, 'sillage')
++  if (sillage && !SILLAGE.has(sillage)) {
++    err(`${where} sillage "${sillage}" not in ${[...SILLAGE].join(' | ')}`)
++  }
++
++  const conc = str(body, 'concentration')
++  if (conc && !CONCENTRATIONS.has(conc)) {
++    warn(`${where} unusual concentration "${conc}"`)
++  }
++
++  const longevity = str(body, 'longevity')
++  if (longevity && !LONGEVITY_RE.test(longevity)) {
++    err(`${where} longevity "${longevity}" must look like "6-8 hrs" or "12+ hrs"`)
++  }
++
++  // --- notes ----------------------------------------------------------------
++  for (const field of ['topNotes', 'heartNotes', 'baseNotes']) {
++    const vals = list(body, field)
++    if (!vals) err(`${where} missing required field "${field}"`)
++    else if (vals.length === 0) err(`${where} "${field}" is empty`)
++  }
++
++  // --- numeric ranges -------------------------------------------------------
++  for (const field of ['intensity', 'projection']) {
++    const v = num(body, field)
++    if (v === null) err(`${where} missing required field "${field}"`)
++    else if (!Number.isInteger(v) || v < 1 || v > 5) {
++      err(`${where} ${field} must be an integer 1-5, got ${v}`)
++    }
++  }
++  const price = num(body, 'price')
++  if (price === null) err(`${where} missing required field "price"`)
++  else if (price <= 0) err(`${where} price must be positive, got ${price}`)
++  else if (price > 2000) warn(`${where} price $${price} looks high — verify`)
++
++  // --- images ---------------------------------------------------------------
++  const img = str(body, 'imageUrl')
++  if (img) {
++    if (!img.startsWith('/')) {
++      err(`${where} imageUrl must be a root-relative path, got "${img}"`)
++    } else if (!existsSync(resolve(root, 'public', img.slice(1)))) {
++      warn(`${where} imageUrl "${img}" has no file in public/`)
++    }
++  }
++}
++
++// ---------------------------------------------------------------------------
++// Catalog-wide checks
++// ---------------------------------------------------------------------------
++const usedFamilies = new Set(entries.flatMap((e) => list(e.body, 'family') ?? []))
++for (const f of FAMILIES) {
++  if (!usedFamilies.has(f)) {
++    warn(`family "${f}" is offered as a filter but no fragrance uses it — filtering by it returns nothing`)
++  }
++}
++
++// ---------------------------------------------------------------------------
++// Report
++// ---------------------------------------------------------------------------
++console.log(`Validated ${entries.length} fragrances.`)
++console.log(
++  `  families: ${FAMILIES.size} defined, ${usedFamilies.size} in use` +
++    `  |  occasions: ${OCCASIONS.size}  |  seasons: ${SEASONS.size}`,
++)
++
++if (warnings.length) {
++  console.log(`\n${warnings.length} warning(s):`)
++  for (const w of warnings) console.log(`  WARN  ${w}`)
++}
++
++if (errors.length) {
++  console.error(`\n${errors.length} error(s):`)
++  for (const e of errors) console.error(`  ERROR ${e}`)
++  process.exit(1)
++}
++
++console.log('\nNo errors.')

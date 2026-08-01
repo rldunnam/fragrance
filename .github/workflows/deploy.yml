@@ -74,6 +74,12 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+      # Catalog invariants TypeScript cannot express: family/occasion/season are
+      # typed string[], so an unknown value compiles fine while making the entry
+      # unreachable by filtering.
+      - name: Validate fragrance catalog
+        run: pnpm validate
+
   # ===========================================================================
   # Filesystem scan
   # ===========================================================================

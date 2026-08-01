@@ -6,6 +6,7 @@
     "build": "next build",
     "dev": "next dev",
     "lint": "eslint .",
+    "validate": "node scripts/validate-fragrances.mjs",
     "start": "next start"
   },
   "dependencies": {
