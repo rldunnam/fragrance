@@ -15,7 +15,6 @@
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve } from 'node:path'
-import { existsSync } from 'node:fs'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const errors = []
@@ -177,14 +176,13 @@ for (const { id, body } of entries) {
   else if (price <= 0) err(`${where} price must be positive, got ${price}`)
   else if (price > 2000) warn(`${where} price $${price} looks high — verify`)
 
-  // --- images ---------------------------------------------------------------
-  const img = str(body, 'imageUrl')
-  if (img) {
-    if (!img.startsWith('/')) {
-      err(`${where} imageUrl must be a root-relative path, got "${img}"`)
-    } else if (!existsSync(resolve(root, 'public', img.slice(1)))) {
-      warn(`${where} imageUrl "${img}" has no file in public/`)
-    }
+  // --- no images ------------------------------------------------------------
+  // The catalog deliberately carries no bottle imagery. Sourcing official brand
+  // photography for 231 entries is not maintainable, and 24 of the 94 previous
+  // imageUrl values pointed at a different fragrance's filename. Fail on any
+  // reappearance so the field cannot creep back one entry at a time.
+  if (/imageUrl:/.test(body)) {
+    err(`${where} has an imageUrl — the catalog no longer carries bottle images`)
   }
 }
 
