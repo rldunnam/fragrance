@@ -1493,7 +1493,7 @@ export const fragrances: Fragrance[] = [
     family: ['Amber', 'Fresh'],
     occasion: ['Everyday', 'Date Night'],
     season: ['Fall', 'Winter'],
-    topNotes: ['Lemon', 'Lavender', 'Robot Head'],
+    topNotes: ['Lemon', 'Lavender'],
     heartNotes: ['Vetiver', 'Vanilla'],
     baseNotes: ['Woody Notes', 'Musk', 'Mineral'],
     rationale: 'A 2021 standout in a sea of safe releases — lemon-lavender freshness pivots into a warm vanilla-vetiver base with surprising depth. The futuristic robot bottle is just a bonus.',
