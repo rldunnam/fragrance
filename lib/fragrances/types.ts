@@ -15,5 +15,4 @@ export interface Fragrance {
   projection: number // 1-5 scale
   price: number // USD, typical 100ml bottle
   concentration?: string // EDT, EDP, Parfum, Elixir, EDC, Extrait, Cologne, etc.
-  imageUrl?: string // official brand product image
 }

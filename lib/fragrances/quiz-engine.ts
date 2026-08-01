@@ -262,27 +262,43 @@ export function runQuiz(answers: QuizAnswers): QuizResult {
 // Maps quiz output to selector filter state, encoded as URL search params.
 
 export interface QuizFilterParams {
-  families:  string[]   // catalog family IDs: Fresh | Woody | Amber | Floral
+  families:  string[]   // catalog family IDs — see scentFamilies in filters.ts
   seasons:   string[]   // catalog season IDs: Spring | Summer | Fall | Winter
   occasion:  string | null  // catalog occasion ID
 }
 
-// Quiz scent family → catalog family IDs
+// Quiz archetype → catalog family IDs (see scentFamilies in filters.ts).
+//
+// Each archetype maps to its most precise catalog family FIRST, then to the
+// broad parent family. Both are included deliberately: the selector applies
+// family filters in 'any' (OR) mode, so listing several widens the result set
+// rather than narrowing it.
+//
+// The pairing matters because the precise families are thin — Leather and
+// Citrus have one entry each, Gourmand three, Spicy four, Aquatic five. Mapping
+// an archetype to a rare family alone would end a 16-question quiz on a
+// near-empty page. Pairing gives the precision without the cliff.
+//
+// Every value here must exist in scentFamilies; validate-fragrances.mjs checks
+// the catalog side of that contract, and a family missing there would silently
+// contribute nothing to the filter.
 const QUIZ_TO_CATALOG_FAMILY: Record<string, string[]> = {
-  'Woody Spicy':     ['Woody'],
-  'Fresh Aromatic':  ['Fresh'],
+  'Woody Spicy':     ['Woody', 'Spicy'],
+  'Fresh Aromatic':  ['Fresh', 'Aromatic'],
   'Amber Sweet':     ['Amber'],
-  'Spicy Oriental':  ['Amber'],
-  'Leather Tobacco': ['Woody'],
-  'Green Herbal':    ['Fresh'],
-  'Gourmand':        ['Amber'],
-  'Mineral':         ['Fresh'],
-  'Citrus Aromatic': ['Fresh'],
+  'Spicy Oriental':  ['Spicy', 'Amber'],
+  'Leather Tobacco': ['Leather', 'Woody'],
+  'Green Herbal':    ['Aromatic', 'Fresh'],
+  'Gourmand':        ['Gourmand', 'Amber'],
+  'Mineral':         ['Aquatic', 'Fresh'],
+  'Citrus Aromatic': ['Citrus', 'Aromatic', 'Fresh'],
 }
 
 // Q15 climate → catalog seasons
 const CLIMATE_TO_SEASONS: Record<string, string[]> = {
   'Hot/Humid':  ['Summer', 'Spring'],
+  // Deliberately empty: a mild climate wears everything, so no season filter is
+  // applied rather than arbitrarily picking two.
   'Mild':       [],
   'Cold/Dry':   ['Fall', 'Winter'],
 }

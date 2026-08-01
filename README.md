@@ -148,6 +148,7 @@ components/             Feature components
 components/scrollytelling/  The /guide experience
 components/widgets/     Standalone guide widgets
 lib/fragrances/         Quiz engine, similarity, taste profiles, accords, filters
+scripts/                Catalog validation (pnpm validate)
 lib/collection-context.tsx  Clerk + Supabase collection state
 lib/supabase.ts         Supabase client factory
 Dockerfile              Multi-stage build -> Next.js standalone output
@@ -158,6 +159,23 @@ Dockerfile              Multi-stage build -> Next.js standalone output
 ```bash
 pnpm lint
 ```
+
+## Catalog
+
+Fragrance data lives in `lib/fragrances/data.ts` as build-time constants — it
+carries no per-user state, so it is deliberately not in Supabase.
+
+`pnpm validate` enforces the invariants TypeScript cannot express: `family`,
+`occasion`, and `season` are typed `string[]`, so an unknown value compiles
+cleanly while making the entry unreachable by filtering. The script checks every
+entry against the vocabularies in `filters.ts`, verifies each family has an
+accent colour, and catches duplicate ids and out-of-range ratings. It runs in CI
+alongside lint and typecheck.
+
+The catalog carries no bottle imagery; `pnpm validate` fails if an `imageUrl`
+field reappears.
+
+## Linting
 
 Uses ESLint flat config (`eslint.config.mjs`) with `eslint-config-next`.
 Expected result is zero errors and zero warnings. CI runs this alongside

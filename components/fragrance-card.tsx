@@ -1,36 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
 import { BookMarked, Heart, Star } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { getSimilarFragrances } from '@/lib/fragrances/similarity'
 import { deriveAccords } from '@/lib/fragrances/accords'
 import type { Fragrance } from '@/lib/fragrances/types'
-
-/* ─── Bottle Image Banner ─── */
-
-function ImageBanner({ imageUrl, name, house }: { imageUrl: string; name: string; house: string }) {
-  const [failed, setFailed] = useState(false)
-  if (failed) return null
-  return (
-    <div className="relative flex h-36 items-center justify-center overflow-hidden border-b border-gold/10 bg-gradient-to-b from-surface-elevated to-surface">
-      <div
-        className="pointer-events-none absolute inset-0 opacity-20"
-        style={{ background: 'radial-gradient(ellipse at 50% 80%, #D4AF3720 0%, transparent 70%)' }}
-      />
-      <Image
-        src={imageUrl}
-        alt={`${name} by ${house}`}
-        width={90}
-        height={120}
-        className="relative z-10 h-28 w-auto object-contain drop-shadow-lg transition-transform duration-500 group-hover:scale-105"
-        unoptimized
-        onError={() => setFailed(true)}
-      />
-    </div>
-  )
-}
 
 /* ─── Projection Rating ─── */
 
@@ -200,11 +175,6 @@ export function FragranceCard({
       style={{ cursor: 'pointer' }}
       onClick={() => setIsExpanded(!isExpanded)}
     >
-      {/* Bottle image */}
-      {fragrance.imageUrl && (
-        <ImageBanner imageUrl={fragrance.imageUrl} name={fragrance.name} house={fragrance.house} />
-      )}
-
       <div className="w-full text-left p-5">
         {/* Header row */}
         <div className="mb-3">
