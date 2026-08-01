@@ -9,6 +9,7 @@
  *   Oriental   → deep copper        — spice routes, incense, silk
  *   Amber      → rich gold-amber    — warmth, resin, honey
  *   Floral     → dusty rose         — petals, soft femininity
+ *   Powdery    → heather grey       — iris, violet, cosmetic softness
  *   Aquatic    → steel teal         — ocean, minerals, salt air
  *   Fougère    → muted green-grey   — ferns, moss, masculine classic
  *   Chypre     → bronze-green       — oakmoss, labdanum, forest floor
@@ -32,10 +33,11 @@ const FAMILY_COLORS: Record<string, string> = {
 
   // Floral
   'Floral':     '#8A6B7A',  // dusty rose-mauve
+  'Powdery':    '#8A7F8C',  // soft heather-grey — iris, violet, cosmetic softness
 
   // Warm / spicy
   'Spicy':      '#9A5C3A',  // burnt sienna
-  'Oriental':   '#8A5C32',  // deep copper
+  'Oriental':   '#8A5C32',  // deep copper — retired catalog family, folded into Amber; kept for safety
   'Amber':      '#9A7A3A',  // rich amber-gold
 
   // Woody

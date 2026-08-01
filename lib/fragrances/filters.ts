@@ -14,13 +14,26 @@ export const seasons = [
   { id: 'Winter', label: 'Winter', icon: Snowflake },
 ]
 
+// Order runs most-used first, then grouped by character. The grid is
+// grid-cols-2 / md:grid-cols-4, so 12 entries lay out as 3 clean rows on
+// desktop and 6 on mobile.
+//
+// Every id here must have a colour in accent-color.ts, and every family used
+// in data.ts must appear here or it becomes unreachable by filtering.
+// scripts/validate-fragrances.mjs enforces both directions.
 export const scentFamilies = [
-  { id: 'Fresh',    label: 'Fresh',    description: 'Citrus, aquatic, green' },
   { id: 'Woody',    label: 'Woody',    description: 'Cedar, sandalwood, vetiver' },
   { id: 'Amber',    label: 'Amber',    description: 'Vanilla, spice, warmth' },
-  { id: 'Floral',   label: 'Floral',   description: 'Rose, jasmine, lavender' },
-  { id: 'Fougère',  label: 'Fougère',  description: 'Lavender, oakmoss, coumarin' },
+  { id: 'Fresh',    label: 'Fresh',    description: 'Clean, green, airy' },
+  { id: 'Floral',   label: 'Floral',   description: 'Rose, jasmine, peony' },
   { id: 'Aromatic', label: 'Aromatic', description: 'Herbs, lavender, sage' },
+  { id: 'Aquatic',  label: 'Aquatic',  description: 'Marine, salt, ozone' },
+  { id: 'Spicy',    label: 'Spicy',    description: 'Pepper, cardamom, clove' },
+  { id: 'Fougère',  label: 'Fougère',  description: 'Lavender, oakmoss, coumarin' },
+  { id: 'Citrus',   label: 'Citrus',   description: 'Bergamot, lemon, mandarin' },
+  { id: 'Gourmand', label: 'Gourmand', description: 'Vanilla, caramel, cocoa' },
+  { id: 'Leather',  label: 'Leather',  description: 'Suede, birch tar, smoke' },
+  { id: 'Powdery',  label: 'Powdery',  description: 'Iris, violet, soft musk' },
 ]
 
 export const budgetRanges = [
