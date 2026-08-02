@@ -3,10 +3,10 @@ import type { Fragrance } from './types'
 export const fragrances: Fragrance[] = [
   {
     id: 'sauvage-elixir',
-    name: 'Sauvage',
+    name: 'Sauvage Elixir',
     house: 'Dior',
     price: 195,
-    concentration: 'Elixir',
+    concentration: 'Parfum',
     family: ['Woody', 'Amber'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],
@@ -18,6 +18,7 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Very Strong',
     projection: 5,
+    line: 'Sauvage',
   },
   {
     id: 'bleu-chanel',
@@ -36,6 +37,7 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Bleu de Chanel',
   },
   {
     id: 'y-le-parfum',
@@ -54,6 +56,7 @@ export const fragrances: Fragrance[] = [
     longevity: '7-9 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Y',
   },
   {
     id: 'aventus',
@@ -72,10 +75,11 @@ export const fragrances: Fragrance[] = [
     longevity: '8-12 hrs',
     sillage: 'Very Strong',
     projection: 5,
+    line: 'Aventus',
   },
   {
     id: 'light-blue',
-    name: 'Light Blue',
+    name: 'Light Blue Eau Intense Pour Homme',
     house: 'Dolce & Gabbana',
     price: 95,
     concentration: 'EDP',
@@ -90,6 +94,7 @@ export const fragrances: Fragrance[] = [
     longevity: '4-6 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Light Blue',
   },
   {
     id: 'dg-pour-homme',
@@ -144,6 +149,7 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Eros',
   },
   {
     id: 'versace-pour-homme',
@@ -180,13 +186,14 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Eros',
   },
   {
     id: 'acqua-di-gio',
-    name: 'Acqua di Giò',
+    name: 'Acqua di Giò Profumo',
     house: 'Giorgio Armani',
     price: 125,
-    concentration: 'Profumo',
+    concentration: 'EDP',
     family: ['Fresh', 'Woody'],
     occasion: ['Office', 'Everyday'],
     season: ['Spring', 'Summer'],
@@ -198,6 +205,7 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Acqua di Giò',
   },
   {
     id: 'stronger-with-you',
@@ -216,6 +224,7 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Stronger With You',
   },
   {
     id: 'terre-hermes',
@@ -234,6 +243,7 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Terre d\'Hermès',
   },
   {
     id: 'spicebomb-extreme',
@@ -288,6 +298,7 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'L\'Homme Prada',
   },
   {
     id: 'the-one-edp',
@@ -306,10 +317,11 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'The One',
   },
   {
     id: 'one-million',
-    name: 'One Million',
+    name: '1 Million Parfum',
     house: 'Paco Rabanne',
     price: 120,
     concentration: 'Parfum',
@@ -324,6 +336,7 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Very Strong',
     projection: 5,
+    line: '1 Million',
   },
   {
     id: 'givenchy-gentleman',
@@ -360,6 +373,7 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Uomo',
   },
   {
     id: 'green-irish-tweed',
@@ -417,7 +431,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'dior-homme-intense',
-    name: 'Dior Homme',
+    name: 'Dior Homme Intense',
     house: 'Dior',
     price: 155,
     concentration: 'EDP',
@@ -432,13 +446,14 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Dior Homme',
   },
   {
     id: 'jpg-ultra-male',
     name: 'Ultra Male',
     house: 'Jean Paul Gaultier',
     price: 90,
-    concentration: 'EDP',
+    concentration: 'EDT',
     family: ['Amber', 'Fresh'],
     occasion: ['Date Night', 'Everyday'],
     season: ['Fall', 'Winter'],
@@ -450,6 +465,7 @@ export const fragrances: Fragrance[] = [
     longevity: '10-12 hrs',
     sillage: 'Very Strong',
     projection: 5,
+    line: 'Le Male',
   },
   {
     id: 'bvlgari-man',
@@ -504,13 +520,14 @@ export const fragrances: Fragrance[] = [
     longevity: '7-9 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Bad Boy',
   },
   {
     id: 'chanel-allure-sport',
-    name: 'Allure Homme Sport',
+    name: 'Allure Homme Sport Eau Extrême',
     house: 'Chanel',
     price: 160,
-    concentration: 'Eau Extrême',
+    concentration: 'EDP',
     family: ['Fresh', 'Woody'],
     occasion: ['Office', 'Everyday'],
     season: ['Spring', 'Summer', 'Fall'],
@@ -522,6 +539,7 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Allure Homme Sport',
   },
   {
     id: 'pdm-pegasus',
@@ -558,10 +576,11 @@ export const fragrances: Fragrance[] = [
     longevity: '7-9 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Dylan Blue',
   },
   {
     id: 'creed-aventus-cologne',
-    name: 'Aventus',
+    name: 'Aventus Cologne',
     house: 'Creed',
     price: 430,
     concentration: 'EDC',
@@ -576,6 +595,7 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Aventus',
   },
   {
     id: 'amouage-interlude',
@@ -761,6 +781,7 @@ export const fragrances: Fragrance[] = [
     longevity: '7-9 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'L\'Homme Prada',
   },
   {
     id: 'dior-eau-sauvage',
@@ -833,6 +854,7 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Habit Rouge',
   },
   {
     id: 'drakkar-noir',
@@ -960,6 +982,7 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Terre d\'Hermès',
   },
   {
     id: 'bleu-chanel-parfum',
@@ -978,6 +1001,7 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Bleu de Chanel',
   },
   {
     id: 'jpg-le-male',
@@ -996,6 +1020,7 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Le Male',
   },
   {
     id: 'dior-homme-parfum',
@@ -1014,6 +1039,7 @@ export const fragrances: Fragrance[] = [
     longevity: '10-12 hrs',
     sillage: 'Very Strong',
     projection: 5,
+    line: 'Dior Homme',
   },
   {
     id: 'jpg-le-male-le-parfum',
@@ -1032,6 +1058,7 @@ export const fragrances: Fragrance[] = [
     longevity: '10-12 hrs',
     sillage: 'Very Strong',
     projection: 5,
+    line: 'Le Male',
   },
   {
     id: 'issey-miyake-leau',
@@ -1068,6 +1095,7 @@ export const fragrances: Fragrance[] = [
     longevity: '5-7 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Boss Bottled',
   },
   {
     id: 'hugo-boss-bottled-absolu',
@@ -1086,6 +1114,7 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Boss Bottled',
   },
   {
     id: 'hugo-boss-cologne',
@@ -1110,7 +1139,7 @@ export const fragrances: Fragrance[] = [
     name: 'Stetson Classic',
     house: 'Coty',
     price: 20,
-    concentration: 'Cologne',
+    concentration: 'EDC',
     family: ['Woody', 'Fresh'],
     occasion: ['Everyday'],
     season: ['Spring', 'Summer', 'Fall'],
@@ -1140,6 +1169,7 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Very Strong',
     projection: 5,
+    line: '1 Million',
   },
   {
     id: 'ysl-la-nuit',
@@ -1158,6 +1188,7 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'La Nuit de L\'Homme',
   },
   {
     id: 'ysl-myslf',
@@ -1176,6 +1207,7 @@ export const fragrances: Fragrance[] = [
     longevity: '7-9 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'MYSLF',
   },
   {
     id: 'dior-sauvage-edt',
@@ -1194,6 +1226,7 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Sauvage',
   },
   {
     id: 'dior-sauvage-edp',
@@ -1212,6 +1245,7 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Sauvage',
   },
   {
     id: 'chanel-allure-sport-original',
@@ -1230,6 +1264,7 @@ export const fragrances: Fragrance[] = [
     longevity: '5-7 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Allure Homme Sport',
   },
   // ── NICHE & PRESTIGE ─────────────────────────────────────────────────────
   {
@@ -1360,10 +1395,10 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'jpg-le-male-elixir',
-    name: 'Le Male',
+    name: 'Le Male Elixir',
     house: 'Jean Paul Gaultier',
     price: 130,
-    concentration: 'Elixir',
+    concentration: 'Parfum',
     family: ['Amber', 'Woody'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],
@@ -1375,6 +1410,7 @@ export const fragrances: Fragrance[] = [
     longevity: '10-12 hrs',
     sillage: 'Very Strong',
     projection: 5,
+    line: 'Le Male',
   },
   {
     id: 'jpg-le-beau',
@@ -1393,6 +1429,7 @@ export const fragrances: Fragrance[] = [
     longevity: '7-9 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Le Beau',
   },
   {
     id: 'azzaro-pour-homme',
@@ -1447,6 +1484,7 @@ export const fragrances: Fragrance[] = [
     longevity: '7-9 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Polo Blue',
   },
   {
     id: 'paco-rabanne-pour-homme',
@@ -1483,6 +1521,7 @@ export const fragrances: Fragrance[] = [
     longevity: '7-9 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Invictus',
   },
   {
     id: 'paco-phantom',
@@ -1576,10 +1615,10 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'jo-malone-wood-sage-sea-salt',
-    name: 'Wood Sage & Sea Salt',
+    name: 'Wood Sage & Sea Salt Cologne',
     house: 'Jo Malone',
     price: 165,
-    concentration: 'Cologne',
+    concentration: 'EDC',
     family: ['Fresh', 'Woody'],
     occasion: ['Everyday', 'Office'],
     season: ['Spring', 'Summer'],
@@ -1594,7 +1633,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'gucci-guilty-edp',
-    name: 'Guilty Eau de Parfum Pour Homme',
+    name: 'Guilty Pour Homme',
     house: 'Gucci',
     price: 115,
     concentration: 'EDP',
@@ -1609,6 +1648,7 @@ export const fragrances: Fragrance[] = [
     longevity: '7-9 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Guilty',
   },
   {
     id: 'pdm-perseus',
@@ -1645,6 +1685,7 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Club Black',
   },
   {
     id: 'mercedes-benz-club-black-edp',
@@ -1663,6 +1704,7 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Club Black',
   },
   {
     id: 'montblanc-legend-edt',
@@ -1681,6 +1723,7 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Moderate',
     projection: 2,
+    line: 'Legend',
   },
   {
     id: 'montblanc-legend-edp',
@@ -1699,6 +1742,7 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Legend',
   },
   {
     id: 'montblanc-legend-night',
@@ -1952,6 +1996,7 @@ export const fragrances: Fragrance[] = [
     longevity: '5-7 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Dior Homme',
   },
 
   {
@@ -1971,6 +2016,7 @@ export const fragrances: Fragrance[] = [
     longevity: '5-7 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Bleu de Chanel',
   },
 
   {
@@ -1990,6 +2036,7 @@ export const fragrances: Fragrance[] = [
     longevity: '5-7 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Invictus',
   },
 
   {
@@ -2028,6 +2075,7 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Le Beau',
   },
 
   {
@@ -2047,6 +2095,7 @@ export const fragrances: Fragrance[] = [
     longevity: '7-9 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Acqua di Giò',
   },
 
   {
@@ -2066,6 +2115,7 @@ export const fragrances: Fragrance[] = [
     longevity: '5-7 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Y',
   },
 
   {
@@ -2085,6 +2135,7 @@ export const fragrances: Fragrance[] = [
     longevity: '7-9 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Boss Bottled',
   },
 
   {
@@ -2099,11 +2150,12 @@ export const fragrances: Fragrance[] = [
     topNotes: ['Grapefruit', 'Green Apple', 'Rosewood'],
     heartNotes: ['Rose', 'Bamboo', 'Jasmine'],
     baseNotes: ['Cedarwood', 'Amber', 'Musk'],
-    rationale: "The original Light Blue for men — a crisp Mediterranean freshness built on citrus and apple. Lighter and more casual than the Eau Intense EDP, the quintessential summer holiday fragrance.",
+    rationale: 'The 2001 original Light Blue — a crisp Mediterranean citrus-apple built on Sicilian lemon and cedar. The fragrance that defined the modern summer freshie.',
     intensity: 2,
     longevity: '3-5 hrs',
     sillage: 'Light',
     projection: 2,
+    line: 'Light Blue',
   },
 
   {
@@ -2123,6 +2175,7 @@ export const fragrances: Fragrance[] = [
     longevity: '4-6 hrs',
     sillage: 'Light',
     projection: 2,
+    line: 'Polo Blue',
   },
 
   {
@@ -2142,6 +2195,7 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Habit Rouge',
   },
 
   {
@@ -2181,6 +2235,7 @@ export const fragrances: Fragrance[] = [
     longevity: '4-6 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Acqua di Giò',
   },
   {
     id: 'armani-code-edt',
@@ -2199,6 +2254,7 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Armani Code',
   },
   {
     id: 'armani-code-parfum',
@@ -2217,6 +2273,7 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Armani Code',
   },
 
   // ─── Gucci ────────────────────────────────────────────────────────────────
@@ -2237,6 +2294,7 @@ export const fragrances: Fragrance[] = [
     longevity: '5-7 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Guilty',
   },
   {
     id: 'gucci-guilty-absolute',
@@ -2255,6 +2313,7 @@ export const fragrances: Fragrance[] = [
     longevity: '7-9 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Guilty',
   },
 
   // ─── Givenchy ─────────────────────────────────────────────────────────────
@@ -2369,6 +2428,7 @@ export const fragrances: Fragrance[] = [
     longevity: '7-9 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Hero',
   },
   {
     id: 'burberry-mr-burberry-edt',
@@ -2387,6 +2447,7 @@ export const fragrances: Fragrance[] = [
     longevity: '5-7 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Mr. Burberry',
   },
   {
     id: 'burberry-brit-edt',
@@ -2443,6 +2504,7 @@ export const fragrances: Fragrance[] = [
     longevity: '7-9 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Bad Boy',
   },
   {
     id: 'ch-good-girl-blush',
@@ -2504,10 +2566,10 @@ export const fragrances: Fragrance[] = [
   // ─── Jo Malone ────────────────────────────────────────────────────────────
   {
     id: 'jo-malone-peony-blush',
-    name: 'Peony & Blush Suede',
+    name: 'Peony & Blush Suede Cologne',
     house: 'Jo Malone',
     price: 155,
-    concentration: 'Cologne',
+    concentration: 'EDC',
     family: ['Floral', 'Woody'],
     occasion: ['Everyday', 'Date Night'],
     season: ['Spring', 'Summer', 'Fall'],
@@ -2522,10 +2584,10 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'jo-malone-lime-basil',
-    name: 'Lime Basil & Mandarin',
+    name: 'Lime Basil & Mandarin Cologne',
     house: 'Jo Malone',
     price: 140,
-    concentration: 'Cologne',
+    concentration: 'EDC',
     family: ['Fresh', 'Aromatic'],
     occasion: ['Everyday', 'Office'],
     season: ['Spring', 'Summer'],
@@ -2540,10 +2602,10 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'jo-malone-velvet-rose',
-    name: 'Velvet Rose & Oud',
+    name: 'Velvet Rose & Oud Cologne Intense',
     house: 'Jo Malone',
     price: 200,
-    concentration: 'Cologne Intense',
+    concentration: 'EDP',
     family: ['Floral', 'Woody'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],
@@ -2745,6 +2807,8 @@ export const fragrances: Fragrance[] = [
     longevity: '10-12 hrs',
     sillage: 'Strong',
     projection: 4,
+    concentration: 'EDT',
+    line: 'Ombré Leather',
   },
 
   // ---- TOM FORD: Signature ----
@@ -2764,6 +2828,8 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Strong',
     projection: 4,
+    concentration: 'EDP',
+    line: 'Ombré Leather',
   },
   {
     id: 'tom-ford-noir',
@@ -2798,6 +2864,8 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Strong',
     projection: 4,
+    concentration: 'EDP',
+    line: 'Noir Extreme',
   },
   {
     id: 'tom-ford-noir-extreme-parfum',
@@ -2815,6 +2883,8 @@ export const fragrances: Fragrance[] = [
     longevity: '10-14 hrs',
     sillage: 'Very Strong',
     projection: 5,
+    concentration: 'Parfum',
+    line: 'Noir Extreme',
   },
 
   // ---- YSL ----
@@ -2835,10 +2905,11 @@ export const fragrances: Fragrance[] = [
     longevity: '7-9 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Y',
   },
   {
     id: 'ysl-y-edp-intense',
-    name: 'Y Eau de Parfum Intense',
+    name: 'Y Intense',
     house: 'YSL',
     price: 130,
     family: ['Fresh', 'Woody'],
@@ -2852,6 +2923,8 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Strong',
     projection: 4,
+    concentration: 'EDP',
+    line: 'Y',
   },
   {
     id: 'ysl-y-elixir',
@@ -2869,6 +2942,8 @@ export const fragrances: Fragrance[] = [
     longevity: '10-14 hrs',
     sillage: 'Very Strong',
     projection: 5,
+    concentration: 'Parfum',
+    line: 'Y',
   },
   {
     id: 'ysl-y-iced-cologne',
@@ -2886,6 +2961,7 @@ export const fragrances: Fragrance[] = [
     longevity: '7-9 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Y',
   },
   {
     id: 'ysl-myslf-le-parfum',
@@ -2903,6 +2979,8 @@ export const fragrances: Fragrance[] = [
     longevity: '9-11 hrs',
     sillage: 'Strong',
     projection: 4,
+    concentration: 'Parfum',
+    line: 'MYSLF',
   },
   {
     id: 'ysl-myslf-labsolu',
@@ -2920,6 +2998,8 @@ export const fragrances: Fragrance[] = [
     longevity: '9-11 hrs',
     sillage: 'Strong',
     projection: 4,
+    concentration: 'EDP',
+    line: 'MYSLF',
   },
   {
     id: 'ysl-lhomme-edt',
@@ -2938,6 +3018,7 @@ export const fragrances: Fragrance[] = [
     longevity: '5-7 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'L\'Homme',
   },
   {
     id: 'ysl-lhomme-edp',
@@ -2956,6 +3037,7 @@ export const fragrances: Fragrance[] = [
     longevity: '7-9 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'L\'Homme',
   },
   {
     id: 'ysl-la-nuit-edp',
@@ -2974,6 +3056,7 @@ export const fragrances: Fragrance[] = [
     longevity: '7-9 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'La Nuit de L\'Homme',
   },
 
   // ---- VERSACE ----
@@ -2993,6 +3076,8 @@ export const fragrances: Fragrance[] = [
     longevity: '10-12 hrs',
     sillage: 'Very Strong',
     projection: 5,
+    concentration: 'Parfum',
+    line: 'Eros',
   },
   {
     id: 'versace-eros-flame',
@@ -3010,6 +3095,7 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Eros',
   },
   {
     id: 'versace-eros-najim',
@@ -3027,6 +3113,7 @@ export const fragrances: Fragrance[] = [
     longevity: '10-12 hrs',
     sillage: 'Very Strong',
     projection: 5,
+    line: 'Eros',
   },
   {
     id: 'versace-dylan-blue-edp',
@@ -3045,6 +3132,7 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Dylan Blue',
   },
 
   // ---- HUGO BOSS ----
@@ -3064,6 +3152,8 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Strong',
     projection: 4,
+    concentration: 'Parfum',
+    line: 'Boss Bottled',
   },
   {
     id: 'boss-bottled-elixir',
@@ -3081,6 +3171,8 @@ export const fragrances: Fragrance[] = [
     longevity: '10-14 hrs',
     sillage: 'Very Strong',
     projection: 5,
+    concentration: 'Parfum',
+    line: 'Boss Bottled',
   },
   {
     id: 'boss-the-scent',
@@ -3132,6 +3224,7 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Boss Bottled',
   },
   {
     id: 'hugo-man-edt',
@@ -3184,6 +3277,8 @@ export const fragrances: Fragrance[] = [
     longevity: '10-14 hrs',
     sillage: 'Very Strong',
     projection: 5,
+    concentration: 'EDP',
+    line: 'Stronger With You',
   },
   {
     id: 'boss-stronger-with-you-leather',
@@ -3220,6 +3315,8 @@ export const fragrances: Fragrance[] = [
     longevity: '4-6 hrs',
     sillage: 'Moderate',
     projection: 3,
+    concentration: 'EDT',
+    line: 'Light Blue',
   },
   {
     id: 'dg-the-one-edt',
@@ -3238,6 +3335,7 @@ export const fragrances: Fragrance[] = [
     longevity: '5-7 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'The One',
   },
   {
     id: 'dg-k-edt',
@@ -3275,6 +3373,7 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Invictus',
   },
   {
     id: 'paco-invictus-victory',
@@ -3292,6 +3391,7 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Invictus',
   },
   {
     id: 'paco-1-million-lucky',
@@ -3309,6 +3409,7 @@ export const fragrances: Fragrance[] = [
     longevity: '5-7 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: '1 Million',
   },
   {
     id: 'paco-1-million-elixir',
@@ -3326,6 +3427,8 @@ export const fragrances: Fragrance[] = [
     longevity: '10-14 hrs',
     sillage: 'Very Strong',
     projection: 5,
+    concentration: 'Parfum',
+    line: '1 Million',
   },
   {
     id: 'paco-phantom-parfum',
@@ -3343,6 +3446,8 @@ export const fragrances: Fragrance[] = [
     longevity: '10-14 hrs',
     sillage: 'Very Strong',
     projection: 5,
+    concentration: 'Parfum',
+    line: 'Phantom',
   },
 
   // ---- RALPH LAUREN ----
@@ -3363,6 +3468,7 @@ export const fragrances: Fragrance[] = [
     longevity: '5-7 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Polo Red',
   },
   {
     id: 'polo-red-edp',
@@ -3381,6 +3487,7 @@ export const fragrances: Fragrance[] = [
     longevity: '7-9 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Polo Red',
   },
   {
     id: 'polo-ultra-blue',
@@ -3488,6 +3595,7 @@ export const fragrances: Fragrance[] = [
     longevity: '5-7 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Uomo',
   },
 
   // ---- BURBERRY ----
@@ -3508,6 +3616,7 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Hero',
   },
   {
     id: 'burberry-touch-for-men',
@@ -3543,6 +3652,7 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Mr. Burberry',
   },
 
   // ---- GIVENCHY ----
@@ -3598,6 +3708,8 @@ export const fragrances: Fragrance[] = [
     longevity: '4-6 hrs',
     sillage: 'Light',
     projection: 2,
+    concentration: 'EDT',
+    line: 'Guilty',
   },
   {
     id: 'gucci-memoire-dune-odeur',
@@ -3635,6 +3747,7 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Bad Boy',
   },
   {
     id: 'ch-bad-boy-elixir',
@@ -3652,6 +3765,8 @@ export const fragrances: Fragrance[] = [
     longevity: '10-14 hrs',
     sillage: 'Very Strong',
     projection: 5,
+    concentration: 'EDP',
+    line: 'Bad Boy',
   },
   {
     id: 'ch-212-sexy-men',
@@ -3801,7 +3916,7 @@ export const fragrances: Fragrance[] = [
     name: 'The Most Wanted Intense',
     house: 'Azzaro',
     price: 120,
-    concentration: 'EDT',
+    concentration: 'EDP',
     family: ['Aromatic', 'Fougère'],
     occasion: ['Everyday', 'Office'],
     season: ['Spring', 'Summer', 'Fall'],
@@ -3813,13 +3928,14 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'The Most Wanted',
   },
   {
     id: 'azzaro-forever-wanted-elixir',
     name: 'Forever Wanted Elixir',
     house: 'Azzaro',
     price: 130,
-    concentration: 'Elixir',
+    concentration: 'EDP',
     family: ['Leather', 'Amber'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],
@@ -3831,13 +3947,14 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Wanted',
   },
   {
     id: 'azzaro-forever-wanted-absolu',
     name: 'Forever Wanted Absolu',
     house: 'Azzaro',
     price: 140,
-    concentration: 'Elixir',
+    concentration: 'EDP',
     family: ['Amber', 'Woody'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],
@@ -3849,6 +3966,7 @@ export const fragrances: Fragrance[] = [
     longevity: '10-12 hrs',
     sillage: 'Very Strong',
     projection: 5,
+    line: 'Wanted',
   },
   {
     id: 'azzaro-wanted-by-night',
@@ -3888,6 +4006,8 @@ export const fragrances: Fragrance[] = [
     longevity: '10-14 hrs',
     sillage: 'Very Strong',
     projection: 5,
+    concentration: 'Parfum',
+    line: 'Sauvage',
   },
   {
     id: 'dior-homme-sport',
@@ -3905,6 +4025,7 @@ export const fragrances: Fragrance[] = [
     longevity: '5-7 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Dior Homme',
   },
 
   // ---- GIORGIO ARMANI ----
@@ -3924,6 +4045,8 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Moderate',
     projection: 3,
+    concentration: 'EDP',
+    line: 'Acqua di Giò',
   },
   {
     id: 'acqua-di-gio-absolu',
@@ -3941,6 +4064,8 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Strong',
     projection: 4,
+    concentration: 'EDP',
+    line: 'Acqua di Giò',
   },
   {
     id: 'armani-code-absolu',
@@ -3958,6 +4083,8 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Strong',
     projection: 4,
+    concentration: 'EDP',
+    line: 'Armani Code',
   },
 
 
@@ -3967,7 +4094,7 @@ export const fragrances: Fragrance[] = [
     name: 'Nitro Elixir',
     house: 'Dumont',
     price: 45,
-    concentration: 'Extrait',
+    concentration: 'EDP',
     family: ['Amber', 'Fresh'],
     occasion: ['Date Night', 'Everyday'],
     season: ['Spring', 'Fall', 'Winter'],
@@ -3979,6 +4106,7 @@ export const fragrances: Fragrance[] = [
     longevity: '8-12 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Nitro',
   },
 
   // ── LATTAFA ───────────────────────────────────────────────────────────────
