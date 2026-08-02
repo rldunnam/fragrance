@@ -121,7 +121,7 @@ const FAMILIES: FragranceFamily[] = [
         endAngle: 150,
         fragrances: [
           { name: "Oud Wood", house: "Tom Ford", notes: "Oud, rosewood, cardamom, amber" },
-          { name: "Althaïr", house: "Parfums de Marly", notes: "Saffron, oud, sandalwood, amber" },
+          { name: "Althaïr", house: "Parfums de Marly", notes: "Orange blossom, Bourbon vanilla, praline, candied almond" },
           { name: "Stronger With You Absolutely", house: "Emporio Armani", notes: "Pink pepper, chestnut, vanilla, suede" },
         ],
       },
