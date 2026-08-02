@@ -428,6 +428,7 @@ export const fragrances: Fragrance[] = [
     longevity: '5-7 hrs',
     sillage: 'Moderate',
     projection: 2,
+    line: 'Legend',
   },
   {
     id: 'dior-homme-intense',
@@ -504,7 +505,7 @@ export const fragrances: Fragrance[] = [
     projection: 3,
   },
   {
-    id: 'carolina-herrera',
+    id: 'ch-bad-boy-cobalt',
     name: 'Bad Boy Cobalt',
     house: 'Carolina Herrera',
     price: 120,
@@ -927,6 +928,7 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Fahrenheit',
   },
   {
     id: 'aramis-classic',
@@ -1117,24 +1119,6 @@ export const fragrances: Fragrance[] = [
     line: 'Boss Bottled',
   },
   {
-    id: 'hugo-boss-cologne',
-    name: 'Hugo Man',
-    house: 'Hugo Boss',
-    price: 65,
-    concentration: 'EDT',
-    family: ['Fresh', 'Woody'],
-    occasion: ['Everyday', 'Office'],
-    season: ['Spring', 'Summer'],
-    topNotes: ['Bergamot', 'Apple', 'Citrus'],
-    heartNotes: ['Geranium', 'Lavender', 'Cinnamon'],
-    baseNotes: ['Sandalwood', 'Oakmoss', 'Musk'],
-    rationale: 'The clean, accessible blue-bottle classic that introduced countless men to designer fragrance. Fresh citrus-lavender simplicity done reliably well at an honest price.',
-    intensity: 3,
-    longevity: '4-6 hrs',
-    sillage: 'Moderate',
-    projection: 3,
-  },
-  {
     id: 'stetson-classic',
     name: 'Stetson Classic',
     house: 'Coty',
@@ -1268,18 +1252,18 @@ export const fragrances: Fragrance[] = [
   },
   // ── NICHE & PRESTIGE ─────────────────────────────────────────────────────
   {
-    id: 'pdm-althaïr',
+    id: 'pdm-althair',
     name: 'Althaïr',
     house: 'Parfums de Marly',
     price: 320,
     concentration: 'EDP',
-    family: ['Amber', 'Woody'],
+    family: ['Gourmand', 'Amber'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],
-    topNotes: ['Bergamot', 'Cardamom'],
-    heartNotes: ['Iris', 'Orris', 'Rose'],
-    baseNotes: ['Vanilla', 'Amber', 'Tonka Bean', 'Musk'],
-    rationale: 'PdM\'s most elegant creation — a powdery vanilla-iris warmth that was voted among women\'s favorite men\'s fragrances at the Fragrantica Community Awards.',
+    topNotes: ['Cinnamon', 'Orange Blossom', 'Cardamom', 'Bergamot'],
+    heartNotes: ['Bourbon Vanilla', 'Elemi'],
+    baseNotes: ['Praline', 'Candied Almond', 'Guaiac Wood', 'Ambroxan', 'Tonka Bean', 'Musk'],
+    rationale: 'Marly\'s vanilla statement — Bourbon vanilla and elemi over praline and candied almond, lifted by cinnamon and orange blossom. Gourmand rather than powdery, and the most straightforwardly likeable thing the house makes.',
     intensity: 4,
     longevity: '8-10 hrs',
     sillage: 'Strong',
@@ -1540,6 +1524,7 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Phantom',
   },
   {
     id: 'versace-eros-energy',
@@ -1558,6 +1543,7 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Eros',
   },
   {
     id: 'valentino-born-in-roma-intense',
@@ -1576,9 +1562,10 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Uomo',
   },
   {
-    id: 'prada-paradigme',
+    id: 'prada-paradoxe-pour-homme',
     name: 'Paradoxe Pour Homme',
     house: 'Prada',
     price: 135,
@@ -1761,6 +1748,7 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: 'Legend',
   },
   {
     id: 'montblanc-legend-red',
@@ -1779,6 +1767,7 @@ export const fragrances: Fragrance[] = [
     longevity: '5-7 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Legend',
   },
   {
     id: 'montblanc-explorer-edp',
@@ -2523,6 +2512,7 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Good Girl',
   },
 
   // ─── Viktor & Rolf ────────────────────────────────────────────────────────
@@ -2545,7 +2535,7 @@ export const fragrances: Fragrance[] = [
     projection: 3,
   },
   {
-    id: 'bonbon-edp',
+    id: 'vr-flowerbomb',
     name: 'Flowerbomb',
     house: 'Viktor & Rolf',
     price: 130,
@@ -2637,6 +2627,7 @@ export const fragrances: Fragrance[] = [
     longevity: '10-12 hrs',
     sillage: 'Very Strong',
     projection: 5,
+    concentration: 'EDP',
   },
   {
     id: 'tom-ford-fucking-fabulous',
@@ -2654,6 +2645,7 @@ export const fragrances: Fragrance[] = [
     longevity: '9-11 hrs',
     sillage: 'Strong',
     projection: 4,
+    concentration: 'EDP',
   },
   {
     id: 'tom-ford-grey-vetiver',
@@ -2671,6 +2663,7 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Moderate',
     projection: 3,
+    concentration: 'EDP',
   },
   {
     id: 'tom-ford-noir-de-noir',
@@ -2688,6 +2681,7 @@ export const fragrances: Fragrance[] = [
     longevity: '10-14 hrs',
     sillage: 'Very Strong',
     projection: 5,
+    concentration: 'EDP',
   },
   {
     id: 'tom-ford-lost-cherry',
@@ -2705,6 +2699,8 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Strong',
     projection: 4,
+    concentration: 'EDP',
+    line: 'Lost Cherry',
   },
   {
     id: 'tom-ford-beau-de-jour',
@@ -2722,6 +2718,7 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Moderate',
     projection: 3,
+    concentration: 'EDP',
   },
   {
     id: 'tom-ford-costa-azzurra',
@@ -2739,6 +2736,7 @@ export const fragrances: Fragrance[] = [
     longevity: '7-9 hrs',
     sillage: 'Moderate',
     projection: 3,
+    concentration: 'EDP',
   },
   {
     id: 'tom-ford-oud-minerale',
@@ -2756,6 +2754,7 @@ export const fragrances: Fragrance[] = [
     longevity: '9-11 hrs',
     sillage: 'Strong',
     projection: 4,
+    concentration: 'EDP',
   },
   {
     id: 'tom-ford-mandarino-di-amalfi',
@@ -2773,6 +2772,7 @@ export const fragrances: Fragrance[] = [
     longevity: '5-7 hrs',
     sillage: 'Light',
     projection: 2,
+    concentration: 'EDP',
   },
   {
     id: 'tom-ford-bois-pacifique',
@@ -2790,6 +2790,7 @@ export const fragrances: Fragrance[] = [
     longevity: '9-11 hrs',
     sillage: 'Strong',
     projection: 4,
+    concentration: 'EDP',
   },
   {
     id: 'tom-ford-eau-ombre-leather',
@@ -2847,6 +2848,8 @@ export const fragrances: Fragrance[] = [
     longevity: '7-9 hrs',
     sillage: 'Strong',
     projection: 4,
+    concentration: 'EDP',
+    line: 'Noir',
   },
   {
     id: 'tom-ford-noir-extreme',
@@ -2962,6 +2965,7 @@ export const fragrances: Fragrance[] = [
     sillage: 'Moderate',
     projection: 3,
     line: 'Y',
+    concentration: 'EDT',
   },
   {
     id: 'ysl-myslf-le-parfum',
@@ -3096,6 +3100,7 @@ export const fragrances: Fragrance[] = [
     sillage: 'Strong',
     projection: 4,
     line: 'Eros',
+    concentration: 'EDP',
   },
   {
     id: 'versace-eros-najim',
@@ -3114,6 +3119,7 @@ export const fragrances: Fragrance[] = [
     sillage: 'Very Strong',
     projection: 5,
     line: 'Eros',
+    concentration: 'Parfum',
   },
   {
     id: 'versace-dylan-blue-edp',
@@ -3190,6 +3196,7 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Moderate',
     projection: 3,
+    concentration: 'EDT',
   },
   {
     id: 'boss-the-scent-private-accord',
@@ -3207,6 +3214,7 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Strong',
     projection: 4,
+    concentration: 'EDT',
   },
   {
     id: 'boss-bottled-night',
@@ -3225,6 +3233,7 @@ export const fragrances: Fragrance[] = [
     sillage: 'Moderate',
     projection: 3,
     line: 'Boss Bottled',
+    concentration: 'EDT',
   },
   {
     id: 'hugo-man-edt',
@@ -3242,6 +3251,8 @@ export const fragrances: Fragrance[] = [
     longevity: '5-7 hrs',
     sillage: 'Moderate',
     projection: 3,
+    concentration: 'EDT',
+    line: 'Hugo',
   },
   {
     id: 'boss-stronger-with-you-edt',
@@ -3260,6 +3271,7 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Stronger With You',
   },
   {
     id: 'boss-stronger-with-you-absolutely',
@@ -3296,6 +3308,8 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Strong',
     projection: 4,
+    concentration: 'EDP',
+    line: 'Stronger With You',
   },
 
   // ---- DOLCE & GABBANA ----
@@ -3374,6 +3388,7 @@ export const fragrances: Fragrance[] = [
     sillage: 'Moderate',
     projection: 3,
     line: 'Invictus',
+    concentration: 'EDP',
   },
   {
     id: 'paco-invictus-victory',
@@ -3392,6 +3407,7 @@ export const fragrances: Fragrance[] = [
     sillage: 'Strong',
     projection: 4,
     line: 'Invictus',
+    concentration: 'EDP',
   },
   {
     id: 'paco-1-million-lucky',
@@ -3410,6 +3426,7 @@ export const fragrances: Fragrance[] = [
     sillage: 'Moderate',
     projection: 3,
     line: '1 Million',
+    concentration: 'EDT',
   },
   {
     id: 'paco-1-million-elixir',
@@ -3505,6 +3522,7 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Moderate',
     projection: 3,
+    concentration: 'EDT',
   },
   {
     id: 'polo-ralpha-club',
@@ -3540,6 +3558,7 @@ export const fragrances: Fragrance[] = [
     longevity: '5-7 hrs',
     sillage: 'Light',
     projection: 2,
+    concentration: 'EDT',
   },
 
   // ---- VALENTINO ----
@@ -3560,6 +3579,7 @@ export const fragrances: Fragrance[] = [
     longevity: '5-7 hrs',
     sillage: 'Moderate',
     projection: 3,
+    line: 'Uomo',
   },
   {
     id: 'valentino-uomo-born-in-roma-extradose',
@@ -3577,6 +3597,8 @@ export const fragrances: Fragrance[] = [
     longevity: '9-11 hrs',
     sillage: 'Strong',
     projection: 4,
+    concentration: 'EDP',
+    line: 'Uomo',
   },
   {
     id: 'valentino-uomo-edt-original',
@@ -3634,6 +3656,7 @@ export const fragrances: Fragrance[] = [
     longevity: '5-7 hrs',
     sillage: 'Moderate',
     projection: 3,
+    concentration: 'EDT',
   },
   {
     id: 'burberry-mr-burberry-edp',
@@ -3672,6 +3695,7 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Strong',
     projection: 4,
+    concentration: 'EDP',
   },
   {
     id: 'givenchy-pi',
@@ -3689,6 +3713,7 @@ export const fragrances: Fragrance[] = [
     longevity: '7-9 hrs',
     sillage: 'Strong',
     projection: 4,
+    concentration: 'EDT',
   },
 
   // ---- GUCCI ----
@@ -3727,6 +3752,7 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Moderate',
     projection: 2,
+    concentration: 'EDP',
   },
 
   // ---- CAROLINA HERRERA ----
@@ -3784,6 +3810,7 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Moderate',
     projection: 3,
+    concentration: 'EDT',
   },
   {
     id: 'ch-212-heroes',
@@ -3801,6 +3828,7 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Moderate',
     projection: 3,
+    concentration: 'EDT',
   },
 
   // ---- CHANEL ----
@@ -3820,6 +3848,7 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Moderate',
     projection: 3,
+    concentration: 'EDT',
   },
   {
     id: 'chanel-egoiste',
@@ -3837,6 +3866,7 @@ export const fragrances: Fragrance[] = [
     longevity: '7-9 hrs',
     sillage: 'Strong',
     projection: 4,
+    concentration: 'EDT',
   },
   {
     id: 'chanel-pour-monsieur',
@@ -3854,6 +3884,7 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Moderate',
     projection: 3,
+    concentration: 'EDT',
   },
 
   // ---- AZZARO ----
@@ -3984,6 +4015,8 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Strong',
     projection: 4,
+    concentration: 'EDP',
+    line: 'Wanted',
   },
 
   // ---- MONTBLANC merge: remove Mont Blanc, consolidate under Montblanc ----
@@ -4026,6 +4059,7 @@ export const fragrances: Fragrance[] = [
     sillage: 'Moderate',
     projection: 3,
     line: 'Dior Homme',
+    concentration: 'EDT',
   },
 
   // ---- GIORGIO ARMANI ----
@@ -4239,6 +4273,7 @@ export const fragrances: Fragrance[] = [
     longevity: '6-8 hrs',
     sillage: 'Strong',
     projection: 4,
+    line: '9PM',
   },
   {
     id: 'afnan-9pm-elixir',
@@ -4257,6 +4292,7 @@ export const fragrances: Fragrance[] = [
     longevity: '10-12 hrs',
     sillage: 'Very Strong',
     projection: 5,
+    line: '9PM',
   },
 
   // ---- Designer additions ----
@@ -4597,7 +4633,7 @@ export const fragrances: Fragrance[] = [
     projection: 4,
   },
   {
-    id: 'prada-paradigme-edp',
+    id: 'prada-paradigme',
     name: 'Paradigme',
     house: 'Prada',
     price: 140,
@@ -5169,6 +5205,200 @@ export const fragrances: Fragrance[] = [
     longevity: '8-10 hrs',
     sillage: 'Strong',
     projection: 4,
+  },
+
+  // ---- Ladder completions (step 6) ----
+  {
+    id: 'pdm-layton-exclusif',
+    name: 'Layton Exclusif',
+    house: 'Parfums de Marly',
+    price: 495,
+    concentration: 'Extrait',
+    line: 'Layton',
+    family: ['Woody', 'Spicy'],
+    occasion: ['Date Night', 'Formal'],
+    season: ['Fall', 'Winter'],
+    topNotes: ['Almond', 'Mandarin Orange', 'Bergamot', 'Grapefruit'],
+    heartNotes: ['Civet', 'Cardamom', 'Geranium', 'Rose', 'Gardenia', 'Water Lily'],
+    baseNotes: ['Oud', 'Guaiac Wood', 'Vanilla', 'Coffee', 'Sandalwood', 'Patchouli', 'Oakmoss', 'Amber'],
+    rationale: 'Not a stronger Layton but a rebuild — the apple-lavender brightness replaced by civet, oud and caramelised coffee. Darker, animalic and firmly evening-only.',
+    intensity: 5,
+    longevity: '12+ hrs',
+    sillage: 'Very Strong',
+    projection: 5,
+  },
+  {
+    id: 'jpg-le-beau-le-parfum',
+    name: 'Le Beau Le Parfum',
+    house: 'Jean Paul Gaultier',
+    price: 120,
+    concentration: 'EDP',
+    line: 'Le Beau',
+    family: ['Woody', 'Gourmand'],
+    occasion: ['Date Night', 'Everyday'],
+    season: ['Spring', 'Summer'],
+    topNotes: ['Pineapple', 'Iris', 'Cypress', 'Ginger'],
+    heartNotes: ['Coconut', 'Woody Notes'],
+    baseNotes: ['Tonka Bean', 'Sandalwood', 'Amber', 'Ambergris'],
+    rationale: 'The richer reading of Le Beau — iris and sandalwood dry out the pina-colada sweetness while patchouli grounds the drydown. Longer-lasting and better balanced than the EDT.',
+    intensity: 4,
+    longevity: '8-10 hrs',
+    sillage: 'Strong',
+    projection: 4,
+  },
+  {
+    id: 'tom-ford-ombre-leather-parfum',
+    name: 'Ombré Leather Parfum',
+    house: 'Tom Ford',
+    price: 195,
+    concentration: 'Parfum',
+    line: 'Ombré Leather',
+    family: ['Leather', 'Woody'],
+    occasion: ['Date Night', 'Formal'],
+    season: ['Fall', 'Winter'],
+    topNotes: ['Violet Leaf', 'Cedar'],
+    heartNotes: ['Jasmine Sambac', 'Orris'],
+    baseNotes: ['Leather', 'Woody Notes', 'Tobacco'],
+    rationale: 'The parfum tier drops the raspberry-cardamom opening of the 2018 EDP for violet leaf and cedar, and adds tobacco underneath the leather. Drier and smokier than the original.',
+    intensity: 5,
+    longevity: '10-12 hrs',
+    sillage: 'Strong',
+    projection: 4,
+  },
+  {
+    id: 'acqua-di-gio-parfum',
+    name: 'Acqua di Giò Parfum',
+    house: 'Giorgio Armani',
+    price: 145,
+    concentration: 'Parfum',
+    line: 'Acqua di Giò',
+    family: ['Fresh', 'Aromatic'],
+    occasion: ['Date Night', 'Office'],
+    season: ['Spring', 'Fall'],
+    topNotes: ['Marine Notes', 'Bergamot'],
+    heartNotes: ['Rosemary', 'Clary Sage', 'Geranium'],
+    baseNotes: ['Patchouli', 'Olibanum', 'Ambroxan'],
+    rationale: 'The 2023 parfum, and a separate product from the 2022 EDP. Drops that release\'s lavender and mandarin, returning to the original\'s saline opening with an incense-ambroxan base. The most formal reading of the line.',
+    intensity: 4,
+    longevity: '8-10 hrs',
+    sillage: 'Strong',
+    projection: 4,
+  },
+
+  // ---- Ladder completions, round 2 ----
+  {
+    id: 'dior-fahrenheit-le-parfum',
+    name: 'Fahrenheit Le Parfum',
+    house: 'Dior',
+    price: 155,
+    concentration: 'Parfum',
+    line: 'Fahrenheit',
+    family: ['Leather', 'Amber'],
+    occasion: ['Date Night', 'Formal'],
+    season: ['Fall', 'Winter'],
+    topNotes: ['Suede', 'Licorice', 'Sicilian Mandarin'],
+    heartNotes: ['Violet Leaf', 'Rum', 'Coriander', 'Cumin'],
+    baseNotes: ['Bourbon Vanilla'],
+    rationale: 'Demachy\'s 2014 reading, and a different animal from the 2024 Parfum — suede and licorice up top, boozy rum and cumin at the heart, resolving into bourbon vanilla. Leans hard into the leather side of the Fahrenheit accord.',
+    intensity: 5,
+    longevity: '10-12 hrs',
+    sillage: 'Strong',
+    projection: 4,
+  },
+  {
+    id: 'terre-hermes-edp-intense',
+    name: "Terre d'Hermès Eau de Parfum Intense",
+    house: 'Hermès',
+    price: 165,
+    concentration: 'EDP',
+    line: "Terre d'Hermès",
+    family: ['Woody', 'Gourmand'],
+    occasion: ['Date Night', 'Formal'],
+    season: ['Fall', 'Winter'],
+    topNotes: ['Bergamot', 'Black Pepper'],
+    heartNotes: ['Coffee', 'Licorice'],
+    baseNotes: ['Woody Notes', 'Lava Stone'],
+    rationale: 'Christine Nagel\'s 2025 flanker — coffee and licorice over the mineral lava-stone signature. A gourmand reading of Terre that avoids smelling edible, and the darkest thing in the line.',
+    intensity: 4,
+    longevity: '8-10 hrs',
+    sillage: 'Strong',
+    projection: 4,
+  },
+  {
+    id: 'ch-bad-boy-le-parfum',
+    name: 'Bad Boy Le Parfum',
+    house: 'Carolina Herrera',
+    price: 135,
+    concentration: 'Parfum',
+    line: 'Bad Boy',
+    family: ['Leather', 'Woody'],
+    occasion: ['Date Night', 'Formal'],
+    season: ['Fall', 'Winter'],
+    topNotes: ['Cannabis', 'Grapefruit'],
+    heartNotes: ['Black Pepper', 'Geranium'],
+    baseNotes: ['Leather', 'Vetiver'],
+    rationale: 'The strangest thing in the Bad Boy range — a green cannabis accord over grapefruit, landing on dry leather and vetiver. Almost nothing of the original\'s cacao sweetness survives.',
+    intensity: 4,
+    longevity: '8-10 hrs',
+    sillage: 'Strong',
+    projection: 4,
+  },
+  {
+    id: 'ch-bad-boy-cobalt-parfum-electrique',
+    name: 'Bad Boy Cobalt Parfum Electrique',
+    house: 'Carolina Herrera',
+    price: 140,
+    concentration: 'EDP',
+    line: 'Bad Boy',
+    family: ['Woody', 'Aromatic'],
+    occasion: ['Date Night', 'Everyday'],
+    season: ['Fall', 'Winter'],
+    topNotes: ['Lavender', 'Pink Pepper'],
+    heartNotes: ['Plum', 'Geranium'],
+    baseNotes: ['Vetiver', 'Truffle', 'Cedar', 'Oak'],
+    rationale: 'Keeps the Cobalt lavender-plum spine but pushes the truffle and oak forward for a damper, earthier drydown. More savoury than the Cobalt Elixir\'s vanilla route.',
+    intensity: 4,
+    longevity: '8-10 hrs',
+    sillage: 'Strong',
+    projection: 4,
+  },
+  {
+    id: 'ch-bad-boy-extreme',
+    name: 'Bad Boy Extreme',
+    house: 'Carolina Herrera',
+    price: 130,
+    concentration: 'EDP',
+    line: 'Bad Boy',
+    family: ['Amber', 'Woody'],
+    occasion: ['Date Night', 'Formal'],
+    season: ['Fall', 'Winter'],
+    topNotes: ['Bergamot', 'Ginger', 'Plum', 'Davana'],
+    heartNotes: ['Clary Sage', 'Incense', 'Olibanum'],
+    baseNotes: ['Cacao Pod', 'Tonka Bean', 'Patchouli', 'Vetiver', 'Labdanum'],
+    rationale: 'Takes the original\'s cacao-tonka base and layers incense and resins over it. Smokier and drier than Bad Boy EDT, with the ginger and davana giving the opening more bite.',
+    intensity: 4,
+    longevity: '8-10 hrs',
+    sillage: 'Strong',
+    projection: 4,
+  },
+  {
+    id: 'ysl-myslf-edt-intense',
+    name: 'MYSLF Eau de Toilette Intense',
+    house: 'YSL',
+    price: 125,
+    concentration: 'EDT',
+    line: 'MYSLF',
+    family: ['Floral', 'Woody'],
+    occasion: ['Everyday', 'Office'],
+    season: ['Spring', 'Summer'],
+    topNotes: ['Bergamot', 'Neroli'],
+    heartNotes: ['Orange Blossom Absolute', 'Warm Woods'],
+    baseNotes: ['White Musk', 'Ambrofix', 'Patchouli'],
+    rationale: 'Daniela Andrier\'s take on the MYSLF accord — the orange blossom kept airy and set against a salty skin-musk rather than vanilla. The most versatile and least sweet entry in the line.',
+    intensity: 3,
+    longevity: '7-9 hrs',
+    sillage: 'Moderate',
+    projection: 3,
   },
 
 ]

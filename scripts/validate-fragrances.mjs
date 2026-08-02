@@ -48,10 +48,9 @@ const ACCENT_COLORS = new Set(
 // Controlled vocabularies not driven by filters.ts. Kept deliberately small:
 // every new value here is a value the UI has to render sensibly.
 const SILLAGE = new Set(['Soft', 'Light', 'Moderate', 'Strong', 'Very Strong'])
-const CONCENTRATIONS = new Set([
-  'EDC', 'Cologne', 'Cologne Intense', 'EDT', 'EDP', 'Parfum', 'Extrait',
-  'Elixir', 'Profumo', 'Eau Extrême',
-])
+// Mirrors the Concentration union in lib/fragrances/types.ts. Marketing tiers
+// (Elixir, Absolu, Profumo, Eau Extrême) belong in `name`, not here.
+const CONCENTRATIONS = new Set(['EDC', 'EDT', 'EDP', 'Parfum', 'Extrait'])
 const LONGEVITY_RE = /^(\d+-\d+ hrs|\d+\+ hrs)$/
 
 // ---------------------------------------------------------------------------
@@ -95,7 +94,7 @@ for (const { id, body } of entries) {
   if (seenIds.has(id)) err(`${where} duplicate id (also at entry #${seenIds.get(id)})`)
   seenIds.set(id, seenIds.size + 1)
 
-  // Accented characters are permitted (e.g. pdm-althaïr) but flagged, since
+  // Accented characters are permitted (e.g. pdm-hermès) but flagged, since
   // they are easy to mistype when cross-referencing an id by hand.
   if (!/^[\p{Ll}\p{N}]+(-[\p{Ll}\p{N}]+)*$/u.test(id)) {
     err(`${where} id must be lowercase kebab-case`)
