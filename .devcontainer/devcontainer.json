@@ -18,7 +18,7 @@
     // pin a rebuild falls back to the image default, which is how a v20
     // runtime appeared and broke pnpm 11 (it needs the node:sqlite builtin,
     // added in Node 22).
-    "ghcr.io/devcontainers/features/node:1": {
+    "ghcr.io/devcontainers/features/node:2": {
       "version": "22"
     }
   },
