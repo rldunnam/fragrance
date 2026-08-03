@@ -6,7 +6,7 @@
 # (~300MB) to keep all intermediate layers small.
 # Both deps and builder inherit from this so corepack is only enabled once.
 # =============================================================================
-FROM node:22-alpine AS base
+FROM node:24-alpine AS base
 WORKDIR /app
 RUN corepack enable
 
@@ -70,7 +70,7 @@ RUN pnpm build
 # This is the only stage that ships. Stages 1-3 are discarded by Docker after
 # the build — none of their layers appear in the pushed image.
 #
-# We start fresh from node:22-alpine (not from base or builder) so we don't
+# We start fresh from node:24-alpine (not from base or builder) so we don't
 # inherit corepack, the full node_modules, or any build-stage files.
 #
 # Three COPY commands replace what used to be five in the old Dockerfile:
@@ -91,7 +91,7 @@ RUN pnpm build
 # `node server.js` (which runs the pre-built server directly). This means
 # pnpm, next, and the CLI machinery are not needed at runtime at all.
 # =============================================================================
-FROM node:22-alpine AS runner
+FROM node:24-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 

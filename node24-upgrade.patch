@@ -1,0 +1,175 @@
+diff --git a/.devcontainer/devcontainer.json b/.devcontainer/devcontainer.json
+index ebb2f78..fd8ec4c 100644
+--- a/.devcontainer/devcontainer.json
++++ b/.devcontainer/devcontainer.json
+@@ -14,12 +14,19 @@
+   "image": "mcr.microsoft.com/devcontainers/universal:2-linux",
+ 
+   "features": {
+-    // Node 22 to match `FROM node:22-alpine` in the Dockerfile. Without this
++    // Node 24 to match `FROM node:24-alpine` in the Dockerfile. Without this
+     // pin a rebuild falls back to the image default, which is how a v20
+     // runtime appeared and broke pnpm 11 (it needs the node:sqlite builtin,
+     // added in Node 22).
++    //
++    // 24 is Active LTS through April 2028. 26 is still Current until its
++    // October 2026 LTS promotion, so it does not belong in an image that
++    // serves traffic. The Node major is pinned in five places and they all
++    // move as a unit: here, both FROM lines in the Dockerfile, the CI
++    // setup-node step, `engines` in package.json, and the @types/node
++    // ceiling in .github/dependabot.yml.
+     "ghcr.io/devcontainers/features/node:2": {
+-      "version": "22"
++      "version": "24"
+     }
+   },
+ 
+diff --git a/.github/dependabot.yml b/.github/dependabot.yml
+index e3044a9..62cd27f 100644
+--- a/.github/dependabot.yml
++++ b/.github/dependabot.yml
+@@ -89,11 +89,15 @@ updates:
+           - "minor"
+           - "patch"
+ 
+-    # Recharts v3 is a deliberate deferral with known breaking API changes.
+-    # Uncomment to stop Dependabot reopening a PR you intend to handle by hand.
+-    # ignore:
+-    #   - dependency-name: "recharts"
+-    #     update-types: ["version-update:semver-major"]
++    ignore:
++      # @types/node describes the runtime, so it must not float ahead of it.
++      # The runtime is Node 24 (Dockerfile, devcontainer feature, CI
++      # setup-node, `engines`); typing against a newer lib surface would let
++      # tsc accept APIs that do not exist at runtime and fail in production
++      # rather than in CI. Raise this ceiling in the same PR that raises the
++      # runtime, never on its own.
++      - dependency-name: "@types/node"
++        versions: [">=25"]
+ 
+   # ---------------------------------------------------------------------------
+   # Dev container
+diff --git a/.github/workflows/deploy.yml b/.github/workflows/deploy.yml
+index 6fc50d0..742d465 100644
+--- a/.github/workflows/deploy.yml
++++ b/.github/workflows/deploy.yml
+@@ -58,7 +58,7 @@ jobs:
+       - name: Set up Node
+         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+         with:
+-          node-version: 22
++          node-version: 24
+ 
+       # corepack resolves pnpm from the packageManager field in package.json,
+       # so CI uses exactly the version the lockfile was written with.
+diff --git a/Dockerfile b/Dockerfile
+index ae89b8e..54c716f 100644
+--- a/Dockerfile
++++ b/Dockerfile
+@@ -6,7 +6,7 @@
+ # (~300MB) to keep all intermediate layers small.
+ # Both deps and builder inherit from this so corepack is only enabled once.
+ # =============================================================================
+-FROM node:22-alpine AS base
++FROM node:24-alpine AS base
+ WORKDIR /app
+ RUN corepack enable
+ 
+@@ -70,7 +70,7 @@ RUN pnpm build
+ # This is the only stage that ships. Stages 1-3 are discarded by Docker after
+ # the build — none of their layers appear in the pushed image.
+ #
+-# We start fresh from node:22-alpine (not from base or builder) so we don't
++# We start fresh from node:24-alpine (not from base or builder) so we don't
+ # inherit corepack, the full node_modules, or any build-stage files.
+ #
+ # Three COPY commands replace what used to be five in the old Dockerfile:
+@@ -91,7 +91,7 @@ RUN pnpm build
+ # `node server.js` (which runs the pre-built server directly). This means
+ # pnpm, next, and the CLI machinery are not needed at runtime at all.
+ # =============================================================================
+-FROM node:22-alpine AS runner
++FROM node:24-alpine AS runner
+ WORKDIR /app
+ ENV NODE_ENV=production
+ 
+diff --git a/package.json b/package.json
+index e1c6c81..20991fb 100644
+--- a/package.json
++++ b/package.json
+@@ -23,7 +23,7 @@
+   },
+   "devDependencies": {
+     "@tailwindcss/postcss": "^4.3.3",
+-    "@types/node": "^22.20.1",
++    "@types/node": "^24.13.3",
+     "@types/react": "19.2.18",
+     "@types/react-dom": "19.2.4",
+     "eslint": "^9.39.5",
+@@ -33,5 +33,8 @@
+     "tw-animate-css": "1.4.0",
+     "typescript": "6.0.3"
+   },
++  "engines": {
++    "node": ">=24 <25"
++  },
+   "packageManager": "pnpm@11.15.1+sha512.81350b07e53c9538a02f1f2303b4290fa2d7be04e56e2a970c4cc4b417dc761de196edabd49d55c7dc9580db81007c44143e4e3d7e462b3000d23c255122d065"
+ }
+diff --git a/pnpm-lock.yaml b/pnpm-lock.yaml
+index 8e80572..96a001e 100644
+--- a/pnpm-lock.yaml
++++ b/pnpm-lock.yaml
+@@ -48,8 +48,8 @@ importers:
+         specifier: ^4.3.3
+         version: 4.3.3
+       '@types/node':
+-        specifier: ^22.20.1
+-        version: 22.20.1
++        specifier: ^24.13.3
++        version: 24.13.3
+       '@types/react':
+         specifier: 19.2.18
+         version: 19.2.18
+@@ -695,8 +695,8 @@ packages:
+   '@types/json5@0.0.29':
+     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
+ 
+-  '@types/node@22.20.1':
+-    resolution: {integrity: sha512-EANqOCF9QFyra+4pfxUcX9STKJpCLjMbObVzljIJomAWSnuSIEAvyzEU53GaajbXJEgdh0iEcPL+DGvpUd4k1Q==}
++  '@types/node@24.13.3':
++    resolution: {integrity: sha512-Dh8vAsV36ig5wa9OX4pXvMc9D3Veibfw2wix0CUwYODLD8nkj9UsLjASr49nPg+2eKzxhBV+v7L8pXvT4e639Q==}
+ 
+   '@types/react-dom@19.2.4':
+     resolution: {integrity: sha512-Bsc+QHgp+P/F02XDzNCY9jnZNCUuLki36KT7VKrTXXLdHf+vHMNZnW1rVu5DNW/rCK+fya3DATySbLM4yhtKUw==}
+@@ -2203,8 +2203,8 @@ packages:
+     resolution: {integrity: sha512-nWJ91DjeOkej/TA8pXQ3myruKpKEYgqvpw9lz4OPHj/NWFNluYrjbz9j01CJ8yKQd2g4jFoOkINCTW2I5LEEyw==}
+     engines: {node: '>= 0.4'}
+ 
+-  undici-types@6.21.0:
+-    resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
++  undici-types@7.18.2:
++    resolution: {integrity: sha512-AsuCzffGHJybSaRrmr5eHr81mwJU3kjw6M+uprWvCXiNeN9SOGwQ3Jn8jb8m3Z6izVgknn1R0FTCEAP2QrLY/w==}
+ 
+   unrs-resolver@1.12.2:
+     resolution: {integrity: sha512-dmlRxBJJayXjqTwC+JtF1HhJmgf3ftQ3YejFcZrf4+KKtJv0qDsK1pjqaaVjG7wJ5NJ6UVP1OqRMQ71Z4C3rxQ==}
+@@ -2830,9 +2830,9 @@ snapshots:
+ 
+   '@types/json5@0.0.29': {}
+ 
+-  '@types/node@22.20.1':
++  '@types/node@24.13.3':
+     dependencies:
+-      undici-types: 6.21.0
++      undici-types: 7.18.2
+ 
+   '@types/react-dom@19.2.4(@types/react@19.2.18)':
+     dependencies:
+@@ -4552,7 +4552,7 @@ snapshots:
+       has-symbols: 1.1.0
+       which-boxed-primitive: 1.1.1
+ 
+-  undici-types@6.21.0: {}
++  undici-types@7.18.2: {}
+ 
+   unrs-resolver@1.12.2:
+     dependencies:

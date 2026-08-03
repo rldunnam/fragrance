@@ -89,11 +89,15 @@ updates:
           - "minor"
           - "patch"
 
-    # Recharts v3 is a deliberate deferral with known breaking API changes.
-    # Uncomment to stop Dependabot reopening a PR you intend to handle by hand.
-    # ignore:
-    #   - dependency-name: "recharts"
-    #     update-types: ["version-update:semver-major"]
+    ignore:
+      # @types/node describes the runtime, so it must not float ahead of it.
+      # The runtime is Node 24 (Dockerfile, devcontainer feature, CI
+      # setup-node, `engines`); typing against a newer lib surface would let
+      # tsc accept APIs that do not exist at runtime and fail in production
+      # rather than in CI. Raise this ceiling in the same PR that raises the
+      # runtime, never on its own.
+      - dependency-name: "@types/node"
+        versions: [">=25"]
 
   # ---------------------------------------------------------------------------
   # Dev container
