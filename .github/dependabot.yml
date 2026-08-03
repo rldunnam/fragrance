@@ -1,12 +1,22 @@
 # Dependabot configuration for rldunnam/fragrance
 #
-# Three ecosystems are watched:
+# Four ecosystems are watched:
 #   github-actions -> action refs in .github/workflows/
 #   npm            -> package.json + pnpm-lock.yaml
+#   devcontainers  -> Features in .devcontainer/devcontainer.json
 #   docker         -> base images in the Dockerfile
 #
-# Grouping is used aggressively. Ungrouped, this repo would produce a dozen
-# separate PRs on the first run (Radix alone accounts for ~30 packages).
+# Two mechanisms keep PR volume manageable:
+#
+#   groups   bundle related bumps into one PR. Only minor and patch updates
+#            are ever grouped; majors always arrive alone so each one gets a
+#            real review and an isolated revert.
+#   cooldown makes a release sit on the registry for N days before Dependabot
+#            will open a PR for it. Compromised or broken releases are usually
+#            caught within the first day or two, so this is the cheapest
+#            supply-chain control available here. GitHub applies a 3-day
+#            default; the windows below widen it, weighted by blast radius.
+#            Cooldown never delays security updates.
 
 version: 2
 
@@ -18,6 +28,10 @@ updates:
   # sync, i.e. `uses: foo/bar@<sha> # v1.2.3` gets both the SHA and the comment
   # rewritten. This is what makes SHA-pinning maintainable rather than a
   # one-time snapshot that rots.
+  #
+  # aquasecurity/trivy-action matches no pattern below, so it is never grouped.
+  # That is deliberate: it has a history of tag force-pushing, and a bump to it
+  # should never be reviewable only as one line inside a bundle.
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
@@ -26,6 +40,8 @@ updates:
       time: "06:00"
       timezone: "America/Chicago"
     open-pull-requests-limit: 5
+    cooldown:
+      default-days: 7
     commit-message:
       prefix: "ci"
     labels:
@@ -36,16 +52,25 @@ updates:
       docker-actions:
         patterns:
           - "docker/*"
+        update-types:
+          - "minor"
+          - "patch"
+      # actions/download-artifact is load-bearing here: it carries image
+      # digests between jobs. A major bump to it needs to land on its own,
+      # not buried in a group with four other actions.
       actions-toolkit:
         patterns:
           - "actions/*"
+        update-types:
+          - "minor"
+          - "patch"
 
   # ---------------------------------------------------------------------------
   # npm / pnpm
   # ---------------------------------------------------------------------------
-  # NOTE: pnpm uses the "npm" ecosystem value. See the caveat about pnpm 11
-  # support in the accompanying notes — this block may error until Dependabot
-  # catches up, which does not affect the other two blocks.
+  # pnpm uses the "npm" ecosystem value. Dependabot resolves pnpm-lock.yaml
+  # correctly at the pinned pnpm 11 — grouped multi-package updates have landed
+  # cleanly, so the old "may error until Dependabot catches up" caveat is gone.
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
@@ -53,37 +78,28 @@ updates:
       day: "monday"
       time: "06:00"
       timezone: "America/Chicago"
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 5
     versioning-strategy: "increase"
+    cooldown:
+      default-days: 7
+      # A major is where a broken or hostile release does the most damage and
+      # where community signal takes longest to surface. Patches are the least
+      # risky and are often themselves the fix for something.
+      semver-major-days: 30
+      semver-minor-days: 7
+      semver-patch-days: 3
     commit-message:
       prefix: "deps"
       prefix-development: "deps-dev"
     labels:
       - "dependencies"
     groups:
-      # Next + its first-party packages move in lockstep.
-      next:
-        patterns:
-          - "next"
-          - "@next/*"
-          - "eslint-config-next"
-      # Tailwind v4 does its own prefixing; postcss is a build-time dep only.
-      tailwind:
-        patterns:
-          - "tailwindcss"
-          - "@tailwindcss/*"
-          - "postcss"
-      supabase:
-        patterns:
-          - "@supabase/*"
-      clerk:
-        patterns:
-          - "@clerk/*"
-      types:
-        patterns:
-          - "@types/*"
-      # Catch-all: everything else, minor and patch only, in one PR.
-      # Majors stay ungrouped so they arrive individually and get real review.
+      # One group, deliberately. Named per-vendor groups (next, tailwind,
+      # supabase, clerk, types) were tried and never fired once: every
+      # minor/patch update landed in this catch-all instead, and every major
+      # arrived ungrouped. They described intent the config did not implement,
+      # so they are gone. If a vendor ever needs its own PR, give it a group
+      # WITH update-types and confirm against a real run that it wins.
       minor-and-patch:
         update-types:
           - "minor"
@@ -113,6 +129,8 @@ updates:
       time: "06:00"
       timezone: "America/Chicago"
     open-pull-requests-limit: 3
+    cooldown:
+      default-days: 7
     commit-message:
       prefix: "devcontainer"
     labels:
@@ -121,7 +139,7 @@ updates:
   # ---------------------------------------------------------------------------
   # Docker
   # ---------------------------------------------------------------------------
-  # Watches the node:22-alpine base image in the Dockerfile. Node 20 going EOL
+  # Watches the node:24-alpine base image in the Dockerfile. Node 20 going EOL
   # under you is exactly the class of drift this catches.
   - package-ecosystem: "docker"
     directory: "/"
@@ -131,13 +149,16 @@ updates:
       time: "06:00"
       timezone: "America/Chicago"
     open-pull-requests-limit: 3
+    cooldown:
+      default-days: 7
     commit-message:
       prefix: "docker"
     labels:
       - "dependencies"
       - "docker"
-    # Stay on the 22.x line; major Node bumps should be a deliberate decision
-    # made together with the devcontainer and CI, not an automated PR.
+    # Stay on the 24.x line; major Node bumps are a deliberate decision made
+    # together with the devcontainer, CI, `engines`, and the @types/node
+    # ceiling above — not an automated PR.
     ignore:
       - dependency-name: "node"
         update-types:
