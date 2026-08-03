@@ -14,12 +14,19 @@
   "image": "mcr.microsoft.com/devcontainers/universal:2-linux",
 
   "features": {
-    // Node 22 to match `FROM node:22-alpine` in the Dockerfile. Without this
+    // Node 24 to match `FROM node:24-alpine` in the Dockerfile. Without this
     // pin a rebuild falls back to the image default, which is how a v20
     // runtime appeared and broke pnpm 11 (it needs the node:sqlite builtin,
     // added in Node 22).
+    //
+    // 24 is Active LTS through April 2028. 26 is still Current until its
+    // October 2026 LTS promotion, so it does not belong in an image that
+    // serves traffic. The Node major is pinned in five places and they all
+    // move as a unit: here, both FROM lines in the Dockerfile, the CI
+    // setup-node step, `engines` in package.json, and the @types/node
+    // ceiling in .github/dependabot.yml.
     "ghcr.io/devcontainers/features/node:2": {
-      "version": "22"
+      "version": "24"
     }
   },
 
