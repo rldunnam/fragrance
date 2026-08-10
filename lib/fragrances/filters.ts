@@ -1,4 +1,27 @@
 import { Sun, Briefcase, Heart, Wine, Sparkles, Snowflake, Users } from 'lucide-react'
+import type { Audience } from './types'
+
+/**
+ * The audience control is deliberately not a 1:1 view of the `Audience` union.
+ * A strict three-way Masculine / Feminine / Unisex selector would hide the
+ * unisex tier from whichever side was chosen, which in this catalog is 50
+ * entries and a disproportionate share of the niche shelf. So each view spans
+ * two values and unisex appears in both.
+ *
+ * The absent third option is "Everyone", represented by a null selection
+ * rather than an entry here — it applies no predicate at all.
+ */
+export type AudienceViewId = 'him' | 'her'
+
+export const audienceViews: {
+  id: AudienceViewId
+  label: string
+  description: string
+  matches: Audience[]
+}[] = [
+  { id: 'him', label: 'For Him', description: 'Masculine and unisex', matches: ['Masculine', 'Unisex'] },
+  { id: 'her', label: 'For Her', description: 'Feminine and unisex', matches: ['Feminine', 'Unisex'] },
+]
 
 export const occasions = [
   { id: 'Everyday', label: 'Everyday', icon: Sun, description: 'Versatile daily wear' },
