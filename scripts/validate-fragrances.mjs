@@ -31,6 +31,7 @@ const warn = (m) => warnings.push(m)
 const dataSrc = readFileSync(resolve(root, 'lib/fragrances/data.ts'), 'utf8')
 const filtersSrc = readFileSync(resolve(root, 'lib/fragrances/filters.ts'), 'utf8')
 const accentSrc = readFileSync(resolve(root, 'lib/fragrances/accent-color.ts'), 'utf8')
+const typesSrc = readFileSync(resolve(root, 'lib/fragrances/types.ts'), 'utf8')
 
 const idsFrom = (src, exportName) => {
   const block = src.match(new RegExp(`export const ${exportName} = \\[([\\s\\S]*?)\\n\\]`))
@@ -38,6 +39,16 @@ const idsFrom = (src, exportName) => {
   return new Set([...block[1].matchAll(/id: '([^']+)'/g)].map((m) => m[1]))
 }
 
+// Audience is read from the `Audience` union in types.ts rather than from
+// filters.ts, because the filter UI deliberately does not offer these three
+// values one-to-one — audienceViews maps them onto two overlapping views.
+const unionFrom = (src, typeName) => {
+  const m = src.match(new RegExp(`export type ${typeName} = ([^\\n]+)`))
+  if (!m) throw new Error(`Could not locate type "${typeName}" in types.ts`)
+  return new Set([...m[1].matchAll(/'([^']+)'/g)].map((x) => x[1]))
+}
+
+const AUDIENCES = unionFrom(typesSrc, 'Audience')
 const FAMILIES = idsFrom(filtersSrc, 'scentFamilies')
 const OCCASIONS = idsFrom(filtersSrc, 'occasions')
 const SEASONS = idsFrom(filtersSrc, 'seasons')
@@ -140,6 +151,13 @@ for (const { id, body } of entries) {
     }
   }
 
+  const audience = str(body, 'audience')
+  if (!audience) {
+    err(`${where} missing required field "audience"`)
+  } else if (!AUDIENCES.has(audience)) {
+    err(`${where} audience "${audience}" not in ${[...AUDIENCES].join(' | ')}`)
+  }
+
   const sillage = str(body, 'sillage')
   if (sillage && !SILLAGE.has(sillage)) {
     err(`${where} sillage "${sillage}" not in ${[...SILLAGE].join(' | ')}`)
@@ -188,6 +206,29 @@ for (const { id, body } of entries) {
 // ---------------------------------------------------------------------------
 // Catalog-wide checks
 // ---------------------------------------------------------------------------
+// Every value audienceViews can select on must exist in the Audience union,
+// and every Audience value must be reachable from at least one view — either
+// direction breaking makes entries silently unfilterable.
+const viewMatches = [...filtersSrc.matchAll(/matches: \[([^\]]*)\]/g)].flatMap((m) =>
+  m[1].split(',').map((v) => v.trim().replace(/^'|'$/g, '')).filter(Boolean),
+)
+if (viewMatches.length === 0) {
+  err('Parsed no audienceViews matches from filters.ts — the file shape may have changed.')
+}
+for (const v of new Set(viewMatches)) {
+  if (!AUDIENCES.has(v)) err(`audienceViews matches "${v}", which is not in the Audience union`)
+}
+for (const a of AUDIENCES) {
+  if (!viewMatches.includes(a)) {
+    err(`audience "${a}" is not matched by any view in audienceViews — those entries are unreachable`)
+  }
+}
+
+const usedAudiences = new Set(entries.map((e) => str(e.body, 'audience')).filter(Boolean))
+for (const a of AUDIENCES) {
+  if (!usedAudiences.has(a)) warn(`audience "${a}" is defined but no fragrance uses it`)
+}
+
 const usedFamilies = new Set(entries.flatMap((e) => list(e.body, 'family') ?? []))
 for (const f of FAMILIES) {
   if (!usedFamilies.has(f)) {
@@ -202,6 +243,12 @@ console.log(`Validated ${entries.length} fragrances.`)
 console.log(
   `  families: ${FAMILIES.size} defined, ${usedFamilies.size} in use` +
     `  |  occasions: ${OCCASIONS.size}  |  seasons: ${SEASONS.size}`,
+)
+console.log(
+  '  audience: ' +
+    [...AUDIENCES]
+      .map((a) => `${a} ${entries.filter((e) => str(e.body, 'audience') === a).length}`)
+      .join('  |  '),
 )
 
 if (warnings.length) {

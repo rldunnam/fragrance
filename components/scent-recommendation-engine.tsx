@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 import { Sparkles } from 'lucide-react'
 import type { Fragrance } from '@/lib/fragrances/types'
 import { fragrances } from '@/lib/fragrances/data'
-import { occasions, seasons, scentFamilies, budgetRanges } from '@/lib/fragrances/filters'
+import { occasions, seasons, scentFamilies, budgetRanges, audienceViews, type AudienceViewId } from '@/lib/fragrances/filters'
 import { useCollection } from '@/lib/collection-context'
 import { useAuth } from '@clerk/nextjs'
 import { FragranceCard } from '@/components/fragrance-card'
@@ -17,6 +17,7 @@ export function ScentRecommendationEngine() {
   const collection = useCollection()
   const { isSignedIn } = useAuth()
   const searchParams = useSearchParams()
+  const [selectedAudience, setSelectedAudience] = useState<AudienceViewId | null>(null)
   const [selectedOccasion, setSelectedOccasion] = useState<string | null>(null)
   const [selectedSeasons, setSelectedSeasons] = useState<string[]>([])
   const [selectedFamilies, setSelectedFamilies] = useState<string[]>([])
@@ -38,20 +39,39 @@ export function ScentRecommendationEngine() {
   // lazy useState initialiser -- but the `applied` latch gives the same
   // run-exactly-once behaviour as the old ref guard, without the cascading
   // render that react-hooks/set-state-in-effect flags.
+  //
+  // `audience` is read outside the fromQuiz gate so that ?audience=her works as
+  // a standalone bookmark. The quiz itself does not emit it.
   const [fromQuiz, setFromQuiz] = useState(false)
-  const [quizParamsApplied, setQuizParamsApplied] = useState(false)
-  if (!quizParamsApplied && searchParams.get('fromQuiz')) {
-    setQuizParamsApplied(true)
-    setFromQuiz(true)
+  const [urlParamsApplied, setUrlParamsApplied] = useState(false)
+  const audienceParam = searchParams.get('audience')
+  if (!urlParamsApplied && (searchParams.get('fromQuiz') || audienceParam)) {
+    setUrlParamsApplied(true)
 
-    const families = searchParams.get('families')
-    const seasons  = searchParams.get('seasons')
-    const occasion = searchParams.get('occasion')
+    if (searchParams.get('fromQuiz')) {
+      setFromQuiz(true)
 
-    if (families) setSelectedFamilies(families.split(',').filter(Boolean))
-    if (seasons)  setSelectedSeasons(seasons.split(',').filter(Boolean))
-    if (occasion) setSelectedOccasion(occasion)
+      const families = searchParams.get('families')
+      const seasons  = searchParams.get('seasons')
+      const occasion = searchParams.get('occasion')
+
+      if (families) setSelectedFamilies(families.split(',').filter(Boolean))
+      if (seasons)  setSelectedSeasons(seasons.split(',').filter(Boolean))
+      if (occasion) setSelectedOccasion(occasion)
+    }
+
+    if (audienceParam === 'him' || audienceParam === 'her') {
+      setSelectedAudience(audienceParam)
+    }
   }
+
+  // Catalog-wide counts, not counts within the current filter set. They tell
+  // you how much of the shelf each view covers, which is stable information;
+  // a live count would churn on every other filter change.
+  const audienceCounts = useMemo(() => ({
+    him: fragrances.filter(f => f.audience !== 'Feminine').length,
+    her: fragrances.filter(f => f.audience !== 'Masculine').length,
+  }), [])
 
   const toggleShortlist = (id: string) => {
     setShortlist((prev: string[]) => {
@@ -70,6 +90,11 @@ export function ScentRecommendationEngine() {
 
   const filteredFragrances = useMemo(() => {
     let results = fragrances
+
+    if (selectedAudience) {
+      const view = audienceViews.find(v => v.id === selectedAudience)
+      if (view) results = results.filter(f => view.matches.includes(f.audience))
+    }
 
     if (selectedOccasion) {
       results = results.filter(f => f.occasion.includes(selectedOccasion))
@@ -159,7 +184,7 @@ export function ScentRecommendationEngine() {
       })
     }
     return [...results].sort((a, b) => b.intensity - a.intensity)
-  }, [selectedOccasion, selectedSeasons, selectedFamilies, familyMode, selectedBudgets, selectedIntensities, sortBy, searchQuery, cabinetFilter, collection.cabinet, collection.quizProfile, fromQuiz, tasteProfile])
+  }, [selectedAudience, selectedOccasion, selectedSeasons, selectedFamilies, familyMode, selectedBudgets, selectedIntensities, sortBy, searchQuery, cabinetFilter, collection.cabinet, collection.quizProfile, fromQuiz, tasteProfile])
 
   const toggleSeason = (seasonId: string) => {
     setSelectedSeasons(prev => 
@@ -194,6 +219,7 @@ export function ScentRecommendationEngine() {
   }
 
   const clearAllFilters = () => {
+    setSelectedAudience(null)
     setSelectedOccasion(null)
     setSelectedSeasons([])
     setSelectedFamilies([])
@@ -221,7 +247,7 @@ export function ScentRecommendationEngine() {
     setCurrentPage(1)
   }
 
-  const hasActiveFilters = selectedOccasion || selectedSeasons.length > 0 || selectedFamilies.length > 0 || selectedBudgets.length > 0 || selectedIntensities.length > 0 || searchQuery.length > 0 || cabinetFilter
+  const hasActiveFilters = selectedAudience || selectedOccasion || selectedSeasons.length > 0 || selectedFamilies.length > 0 || selectedBudgets.length > 0 || selectedIntensities.length > 0 || searchQuery.length > 0 || cabinetFilter
 
   return (
     <div className="my-8">
@@ -277,6 +303,59 @@ export function ScentRecommendationEngine() {
               </button>
             )}
           </div>
+          {/* Audience Selection */}
+          <div>
+            <label className="mb-3 block text-xs font-medium uppercase tracking-[0.15em] text-gold">
+              Audience
+            </label>
+            <div className="grid grid-cols-3 gap-3">
+              <button
+                onClick={() => setSelectedAudience(null)}
+                aria-pressed={selectedAudience === null}
+                className={cn(
+                  'group flex flex-col items-center gap-1 rounded-lg border px-4 py-3 transition-all duration-300',
+                  'hover:border-gold/50 hover:bg-surface-elevated hover:scale-105',
+                  selectedAudience === null
+                    ? 'border-gold bg-gold/10 shadow-lg shadow-gold/20'
+                    : 'border-gold/20 bg-surface-elevated/50'
+                )}
+                style={{ cursor: 'pointer' }}
+              >
+                <span className={cn(
+                  'text-sm font-medium transition-colors',
+                  selectedAudience === null ? 'text-cream' : 'text-cream-muted'
+                )}>
+                  Everyone
+                </span>
+                <span className="text-xs text-cream-muted/70">{fragrances.length}</span>
+              </button>
+              {audienceViews.map(({ id, label, description }) => (
+                <button
+                  key={id}
+                  onClick={() => setSelectedAudience(selectedAudience === id ? null : id)}
+                  aria-pressed={selectedAudience === id}
+                  title={description}
+                  className={cn(
+                    'group flex flex-col items-center gap-1 rounded-lg border px-4 py-3 transition-all duration-300',
+                    'hover:border-gold/50 hover:bg-surface-elevated hover:scale-105',
+                    selectedAudience === id
+                      ? 'border-gold bg-gold/10 shadow-lg shadow-gold/20'
+                      : 'border-gold/20 bg-surface-elevated/50'
+                  )}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <span className={cn(
+                    'text-sm font-medium transition-colors',
+                    selectedAudience === id ? 'text-cream' : 'text-cream-muted'
+                  )}>
+                    {label}
+                  </span>
+                  <span className="text-xs text-cream-muted/70">{audienceCounts[id]}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* Occasion Selection */}
           <div>
             <label className="mb-3 block text-xs font-medium uppercase tracking-[0.15em] text-gold">
@@ -488,6 +567,14 @@ export function ScentRecommendationEngine() {
           {/* Active filter pills */}
           {hasActiveFilters && (
             <div className="mb-4 flex flex-wrap items-center gap-2">
+              {selectedAudience && (
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/10 pl-3 pr-1.5 py-1 text-xs font-medium text-gold">
+                  {audienceViews.find(v => v.id === selectedAudience)?.label}
+                  <button onClick={() => setSelectedAudience(null)} className="flex h-4 w-4 items-center justify-center rounded-full hover:bg-gold/20 transition-colors" aria-label="Remove audience filter">
+                    <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                  </button>
+                </span>
+              )}
               {selectedOccasion && (
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/10 pl-3 pr-1.5 py-1 text-xs font-medium text-gold">
                   {occasions.find(o => o.id === selectedOccasion)?.label}
