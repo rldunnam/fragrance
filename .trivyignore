@@ -1,5 +1,0 @@
-#cve's trivy will ignore
-vulnerabilities:
-  - id: CVE-2026-14456
-    statement: OpenSSL rates Low; QUIC listener path unreachable in Next.js runtime.
-    expired_at: 2026-10-31

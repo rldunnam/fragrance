@@ -100,12 +100,13 @@ jobs:
       - name: Run Trivy filesystem scan
         uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
+          version: v0.74.0
           scan-type: fs
           scan-ref: .
           severity: HIGH,CRITICAL
           exit-code: 1
           format: table
-          trivyignores: .trivyignore
+          trivyignores: .trivyignore.yaml
           scanners: vuln,config
           skip-dirs: .next,node_modules,.pnpm-store
           # Do not fail the build on vulnerabilities that have no patch
@@ -250,12 +251,13 @@ jobs:
       - name: Run Trivy image scan
         uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
+          version: v0.74.0
           scan-type: image
           image-ref: ghcr.io/${{ github.repository }}@${{ steps.digest.outputs.sha }}
           severity: HIGH,CRITICAL
           exit-code: 1
           format: table
-          trivyignores: .trivyignore
+          trivyignores: .trivyignore.yaml
           ignore-unfixed: true
 
   # ===========================================================================
