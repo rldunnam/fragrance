@@ -95,6 +95,12 @@ FROM node:24-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
+# Upgrade OpenSSL runtime libs ahead of the base image. node:24-alpine lags
+# Alpine package pushes by days; Trivy flags libcrypto3/libssl3 3.5.7-r0
+# (CVE-2026-14456) while 3.5.8-r0 is already in the Alpine repo. Remove this
+# line once the base image ships 3.5.8-r0 on its own.
+RUN apk upgrade --no-cache libcrypto3 libssl3
+
 # Remove the npm CLI bundled in the base image. This project runs via
 # `node server.js` (Next.js standalone) and never invokes npm at runtime,
 # but the base image's bundled npm carries CVEs (tar, sigstore, picomatch,
