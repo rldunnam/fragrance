@@ -17,6 +17,10 @@ jobs:
       - run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          BRANCH="chore/refresh-lockfile-${GITHUB_RUN_ID}"
+          git checkout -b "$BRANCH"
           git add pnpm-workspace.yaml pnpm-lock.yaml
-          git diff --staged --quiet || git commit -m "chore(deps): regenerate lockfile"
-          git push
+          git diff --staged --quiet && { echo "No changes."; exit 0; }
+          git commit -m "chore(deps): regenerate lockfile"
+          git push origin "$BRANCH"
+          echo "Branch pushed: $BRANCH"
