@@ -13,7 +13,6 @@ jobs:
         with:
           node-version: 24
       - run: corepack enable && corepack prepare pnpm@11.15.1 --activate
-      - run: pnpm update js-yaml browserslist
       - run: pnpm install --no-frozen-lockfile
       - run: |
           git config user.name  "github-actions[bot]"
