@@ -1,52 +1,32 @@
 {
   "name": "fragrance",
 
-  // Codespaces' universal image, NOT a language-specific one.
-  //
-  // The typescript-node images run as user `node` with home /home/node, while
-  // Codespaces' own first-run tooling assumes user `codespace` and
-  // /home/codespace. Mixing them produces:
-  //   mkdir: cannot create directory '/home/codespace': Permission denied
-  //
-  // Pinning Node through a feature instead gets the same version guarantee
-  // without changing the user, the home directory, or anything else Codespaces
-  // has already set up.
-  "image": "mcr.microsoft.com/devcontainers/universal:2-linux",
+  // base:ubuntu, NOT universal. Universal bundles the Python ML stack, Java,
+  // .NET and Ruby; extracting it exhausted the Codespace disk and dropped the
+  // container into Alpine recovery mode (creation log, 2026-09-14).
+  // base:ubuntu runs as `vscode` with home /home/vscode, which avoids the
+  // /home/node collision that ruled out the typescript-node images.
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
 
   "features": {
-    // Node 24 to match `FROM node:24-alpine` in the Dockerfile. Without this
-    // pin a rebuild falls back to the image default, which is how a v20
-    // runtime appeared and broke pnpm 11 (it needs the node:sqlite builtin,
-    // added in Node 22).
-    //
-    // 24 is Active LTS through April 2028. 26 is still Current until its
-    // October 2026 LTS promotion, so it does not belong in an image that
-    // serves traffic. The Node major is pinned in five places and they all
-    // move as a unit: here, both FROM lines in the Dockerfile, the CI
-    // setup-node step, `engines` in package.json, and the @types/node
+    // Node 24 to match `FROM node:24-alpine` in the Dockerfile. Pinned in five
+    // places that move as a unit: here, both FROM lines in the Dockerfile, the
+    // CI setup-node step, `engines` in package.json, and the @types/node
     // ceiling in .github/dependabot.yml.
-    "ghcr.io/devcontainers/features/node:2": {
-      "version": "24"
-    }
+    "ghcr.io/devcontainers/features/node:2": { "version": "24" },
+
+    // base:ubuntu does not ship gh, unlike universal.
+    "ghcr.io/devcontainers/features/github-cli:1": {}
   },
 
-  "containerEnv": {
-    // Let corepack fetch the pinned pnpm without an interactive prompt,
-    // which would otherwise hang postCreateCommand.
-    "COREPACK_ENABLE_DOWNLOAD_PROMPT": "0"
-  },
+  "containerEnv": { "COREPACK_ENABLE_DOWNLOAD_PROMPT": "0" },
 
-  // corepack reads `packageManager` from package.json, so pnpm resolves to
-  // exactly 11.15.1 rather than whatever a global install happens to be.
-  // Same mechanism the Dockerfile's base stage uses.
-  "postCreateCommand": "corepack enable && pnpm install --frozen-lockfile",
+  // Fail loudly if the Node pin ever silently drifts again.
+  "postCreateCommand": "node -v | grep -q '^v24\\.' || { echo \"WRONG NODE: $(node -v)\"; exit 1; }; corepack enable && pnpm install --frozen-lockfile",
 
   "forwardPorts": [3000],
   "portsAttributes": {
-    "3000": {
-      "label": "next dev",
-      "onAutoForward": "notify"
-    }
+    "3000": { "label": "next dev", "onAutoForward": "notify" }
   },
 
   "customizations": {
@@ -62,8 +42,7 @@
         "typescript.tsdk": "node_modules/typescript/lib"
       }
     }
-  }
+  },
 
-  // No "remoteUser" and no github-cli feature: the universal image already
-  // provides the codespace user and the gh CLI.
+  "remoteUser": "vscode"
 }
