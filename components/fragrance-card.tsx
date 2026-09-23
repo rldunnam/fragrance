@@ -47,6 +47,11 @@ function RadialAccordChart({ accords }: { accords: { name: string; strength: num
   const cx = size / 2
   const cy = size / 2
   const maxR = 88
+  // Labels sit at maxR + 22 and are centre-anchored, so side labels such as
+  // "Gourmand" and "Aromatic" extend past a 0..size viewBox and get clipped,
+  // as does the hover percentage under the bottom label. Padding the viewBox
+  // gives them room without changing any chart coordinates.
+  const pad = 24
   const rings = [25, 50, 75, 100]
   const n = ACCORD_AXES.length
   const angleStep = (2 * Math.PI) / n
@@ -73,7 +78,7 @@ function RadialAccordChart({ accords }: { accords: { name: string; strength: num
   const polygonPoints = points.map((p) => `${p.x},${p.y}`).join(' ')
 
   return (
-    <svg viewBox={`0 0 ${size} ${size}`} className="w-full max-w-[240px] mx-auto">
+    <svg viewBox={`${-pad} ${-pad} ${size + 2 * pad} ${size + 2 * pad}`} className="w-full max-w-[288px] mx-auto">
       {/* Rings */}
       {rings.map((pct) => (
         <circle key={pct} cx={cx} cy={cy} r={(pct / 100) * maxR}

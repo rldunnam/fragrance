@@ -13,6 +13,27 @@ import { FragranceCard } from '@/components/fragrance-card'
 import { buildTasteProfile, blendScore, quizBoostScore } from '@/lib/fragrances/taste-profile'
 import { BookMarked } from 'lucide-react'
 
+/**
+ * Splits a search query into word-boundary patterns. Terms are ANDed; a
+ * leading "-" turns a term into an exclusion, so "vanilla -cinnamon" keeps
+ * vanilla matches and drops anything that also matches cinnamon. A bare "-"
+ * carries no term and is ignored. Kept outside the component so the patterns
+ * are compiled once per query and the React Compiler can analyse the memo.
+ */
+function parseSearchQuery(query: string): { include: RegExp[]; exclude: RegExp[] } {
+  const include: RegExp[] = []
+  const exclude: RegExp[] = []
+  for (const token of query.toLowerCase().trim().split(/[\s,]+/).filter(Boolean)) {
+    const negated = token.startsWith('-')
+    const term = negated ? token.slice(1) : token
+    if (!term) continue
+    const pattern = new RegExp(`(?<![a-z])${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![a-z])`, 'i')
+    if (negated) exclude.push(pattern)
+    else include.push(pattern)
+  }
+  return { include, exclude }
+}
+
 export function ScentRecommendationEngine() {
   const collection = useCollection()
   const { isSignedIn } = useAuth()
@@ -128,14 +149,17 @@ export function ScentRecommendationEngine() {
     }
 
     if (searchQuery.trim()) {
-      const terms = searchQuery.toLowerCase().trim().split(/[\s,]+/).filter(Boolean)
-      results = results.filter(f => {
-        const searchable = [
-          f.name, f.house,
-          ...f.topNotes, ...f.heartNotes, ...f.baseNotes
-        ].map(s => s.toLowerCase())
-        return terms.every(term => searchable.some(s => new RegExp(`(?<![a-z])${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![a-z])`, 'i').test(s)))
-      })
+      const { include, exclude } = parseSearchQuery(searchQuery)
+      if (include.length > 0 || exclude.length > 0) {
+        results = results.filter(f => {
+          const searchable = [
+            f.name, f.house,
+            ...f.topNotes, ...f.heartNotes, ...f.baseNotes
+          ].map(s => s.toLowerCase())
+          const matches = (pattern: RegExp) => searchable.some(s => pattern.test(s))
+          return include.every(matches) && !exclude.some(matches)
+        })
+      }
     }
 
     // Cabinet filter
@@ -289,7 +313,7 @@ export function ScentRecommendationEngine() {
               type="text"
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              placeholder="Search by brand, name, or note — e.g. iris vetiver, Dior oud…"
+              placeholder="Search by brand, name, or note — e.g. iris vetiver, Dior oud, vanilla -cinnamon…"
               className="w-full rounded-lg border border-gold/20 bg-surface-elevated/50 pl-9 pr-9 py-3 text-sm text-cream placeholder:text-cream-muted/40 focus:outline-none focus:border-gold/50 focus:bg-surface-elevated transition-all duration-200"
             />
             {searchQuery && (

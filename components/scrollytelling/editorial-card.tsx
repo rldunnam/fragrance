@@ -85,6 +85,10 @@ function RadialAccordChart({
   const cx = size / 2
   const cy = size / 2
   const maxR = 110
+  // Labels sit at maxR + 24, leaving only 6 units to the viewBox edge, so a
+  // long label landing on a side axis gets clipped. Padding the viewBox gives
+  // it room without changing any chart coordinates.
+  const pad = 28
   const angleStep = (2 * Math.PI) / accords.length
 
   const points = accords.map((a, i) => {
@@ -100,7 +104,7 @@ function RadialAccordChart({
   })
 
   return (
-    <svg viewBox={`0 0 ${size} ${size}`} className="w-full max-w-[280px] mx-auto">
+    <svg viewBox={`${-pad} ${-pad} ${size + 2 * pad} ${size + 2 * pad}`} className="w-full max-w-[336px] mx-auto">
       {[25, 50, 75, 100].map(pct => (
         <circle key={pct} cx={cx} cy={cy} r={(pct / 100) * maxR}
           fill="none" stroke={accent} strokeOpacity="0.08" strokeWidth="0.5" />
