@@ -49,6 +49,7 @@ const unionFrom = (src, typeName) => {
 }
 
 const AUDIENCES = unionFrom(typesSrc, 'Audience')
+const STATUSES = unionFrom(typesSrc, 'ReleaseStatus')
 const FAMILIES = idsFrom(filtersSrc, 'scentFamilies')
 const OCCASIONS = idsFrom(filtersSrc, 'occasions')
 const SEASONS = idsFrom(filtersSrc, 'seasons')
@@ -97,6 +98,9 @@ const num = (body, field) => {
 
 const seenIds = new Map()
 const seenNames = new Map()
+// lowercased note -> Map(spelling -> first entry id using it)
+const noteSpellings = new Map()
+let missingSource = 0
 
 for (const { id, body } of entries) {
   const where = `[${id}]`
@@ -178,7 +182,33 @@ for (const { id, body } of entries) {
     const vals = list(body, field)
     if (!vals) err(`${where} missing required field "${field}"`)
     else if (vals.length === 0) err(`${where} "${field}" is empty`)
+    for (const note of vals ?? []) {
+      const key = note.toLowerCase()
+      if (!noteSpellings.has(key)) noteSpellings.set(key, new Map())
+      const spellings = noteSpellings.get(key)
+      if (!spellings.has(note)) spellings.set(note, id)
+    }
   }
+
+  // --- release status -------------------------------------------------------
+  // The default inclusion rule is "currently produced and broadly distributed".
+  // Anything else is an exception and has to say why it is here, so each
+  // exception is decided once, in writing, rather than by an unwritten rule.
+  const status = str(body, 'status')
+  const includeReason = str(body, 'includeReason')
+  if (status && !STATUSES.has(status)) {
+    err(`${where} status "${status}" not in ${[...STATUSES].join(' | ')}`)
+  }
+  if (status && status !== 'current' && !includeReason) {
+    err(`${where} status "${status}" requires an includeReason explaining why it is in the catalog`)
+  }
+  if (includeReason && (!status || status === 'current')) {
+    err(`${where} includeReason is only for non-current releases — remove it or set status`)
+  }
+
+  const source = str(body, 'source')
+  if (source === null) missingSource++
+  else if (!/^https:\/\/\S+$/.test(source)) err(`${where} source must be an https URL, got "${source}"`)
 
   // --- numeric ranges -------------------------------------------------------
   for (const field of ['intensity', 'projection']) {
@@ -236,6 +266,33 @@ for (const f of FAMILIES) {
   }
 }
 
+// Note vocabulary. Search matches whole words, so a plural or re-cased variant
+// of an existing note silently escapes both inclusion and exclusion: "-clove"
+// does not remove a fragrance listing "Cloves". One spelling per note.
+const noteIndex = new Map() // lowercased note -> representative spelling
+for (const [key, spellings] of noteSpellings) {
+  if (spellings.size > 1) {
+    err(`note spelled ${[...spellings.keys()].map((s) => `"${s}"`).join(' and ')} — pick one ` +
+      `(used by ${[...spellings.values()].join(', ')})`)
+  }
+  noteIndex.set(key, [...spellings.keys()][0])
+}
+for (const [key, spelling] of noteIndex) {
+  for (const suffix of ['s', 'es']) {
+    const plural = noteIndex.get(key + suffix)
+    if (plural) {
+      err(`notes "${spelling}" and "${plural}" are singular/plural variants — use "${spelling}" ` +
+        `(plural used by ${[...noteSpellings.get(key + suffix).values()].join(', ')})`)
+    }
+  }
+}
+
+// Pyramids are being re-verified against their sources entry by entry, so a
+// missing source is reported as one summary line rather than one per entry.
+if (missingSource > 0) {
+  warn(`${missingSource} of ${entries.length} fragrances have no source for their note pyramid yet`)
+}
+
 // ---------------------------------------------------------------------------
 // Report
 // ---------------------------------------------------------------------------
@@ -243,6 +300,12 @@ console.log(`Validated ${entries.length} fragrances.`)
 console.log(
   `  families: ${FAMILIES.size} defined, ${usedFamilies.size} in use` +
     `  |  occasions: ${OCCASIONS.size}  |  seasons: ${SEASONS.size}`,
+)
+console.log(
+  `  notes: ${noteIndex.size} distinct  |  status: ` +
+    [...STATUSES]
+      .map((s) => `${s} ${entries.filter((e) => (str(e.body, 'status') ?? 'current') === s).length}`)
+      .join('  |  '),
 )
 console.log(
   '  audience: ' +

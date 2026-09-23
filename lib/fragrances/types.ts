@@ -12,6 +12,18 @@ export type Concentration = 'EDC' | 'EDT' | 'EDP' | 'Parfum' | 'Extrait'
  */
 export type Audience = 'Masculine' | 'Feminine' | 'Unisex'
 
+/**
+ * Whether a release can be bought at ordinary US retail today. Absent means
+ * 'current'. Anything else is an exception to the catalog's default inclusion
+ * rule (currently produced, broadly distributed) and must carry an
+ * `includeReason` — scripts/validate-fragrances.mjs enforces this.
+ *
+ *   discontinued — no longer produced; secondary market only
+ *   limited      — limited or seasonal edition
+ *   regional     — exclusive to a market outside the US (e.g. Middle East)
+ */
+export type ReleaseStatus = 'current' | 'discontinued' | 'limited' | 'regional'
+
 export interface Fragrance {
   id: string
   name: string
@@ -38,4 +50,14 @@ export interface Fragrance {
   line?: string
   /** For clone-house releases: the fragrance this one targets. */
   inspiredBy?: string
+  /** Availability. Omitted means 'current'. Shown as a badge on the card. */
+  status?: ReleaseStatus
+  /**
+   * Why a non-current release is in the catalog anyway, e.g. hype and US
+   * popularity despite a regional launch. Required when status is set to
+   * anything other than 'current'; not allowed otherwise. Editorial, not shown.
+   */
+  includeReason?: string
+  /** Where the note pyramid was verified, normally the Fragrantica page. */
+  source?: string
 }
