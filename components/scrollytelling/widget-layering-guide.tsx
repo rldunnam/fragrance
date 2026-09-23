@@ -416,9 +416,8 @@ function SilhouetteFigure({
         textAnchor="middle"
         fill="#D4AF37"
         fontSize="9"
-        fontFamily="sans-serif"
         letterSpacing="0.12em"
-        className="uppercase"
+        className="font-sans uppercase"
       >
         {STEPS[activeStep].bodyZone}
       </text>

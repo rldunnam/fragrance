@@ -111,13 +111,13 @@ function RadialAccordChart({ accords }: { accords: { name: string; strength: num
           )}
           <text x={p.labelX} y={p.labelY} textAnchor="middle" dominantBaseline="middle"
             fill={hoveredIndex === i ? '#F5F5F0' : p.strength > 0 ? '#8A8A8A' : '#4A4A4A'}
-            fontSize="9" fontFamily="Inter, sans-serif"
+            fontSize="9" className="font-sans"
             style={{ transition: 'fill 0.2s ease' }}>
             {p.name}
           </text>
           {hoveredIndex === i && p.strength > 0 && (
             <text x={p.labelX} y={p.labelY + 11} textAnchor="middle" dominantBaseline="middle"
-              fill={accent} fontSize="8" fontWeight="600" fontFamily="Inter, sans-serif">
+              fill={accent} fontSize="8" fontWeight="600" className="font-sans">
               {p.strength}%
             </text>
           )}

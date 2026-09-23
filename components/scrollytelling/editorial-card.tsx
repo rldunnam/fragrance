@@ -127,13 +127,13 @@ function RadialAccordChart({
             style={{ transition: 'r 0.2s ease' }} />
           <text x={p.labelX} y={p.labelY} textAnchor="middle" dominantBaseline="middle"
             fill={hovered === i ? '#F5F5F0' : '#8A8A8A'}
-            fontSize="10" fontFamily="Inter, sans-serif"
+            fontSize="10" className="font-sans"
             style={{ transition: 'fill 0.2s ease' }}>
             {p.name}
           </text>
           {hovered === i && (
             <text x={p.labelX} y={p.labelY + 13} textAnchor="middle" dominantBaseline="middle"
-              fill={accent} fontSize="9" fontWeight="600" fontFamily="Inter, sans-serif">
+              fill={accent} fontSize="9" fontWeight="600" className="font-sans">
               {p.strength}%
             </text>
           )}
