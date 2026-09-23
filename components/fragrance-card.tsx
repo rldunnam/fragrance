@@ -5,7 +5,16 @@ import { BookMarked, Heart, Star } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { getSimilarFragrances } from '@/lib/fragrances/similarity'
 import { deriveAccords } from '@/lib/fragrances/accords'
-import type { Fragrance } from '@/lib/fragrances/types'
+import type { Fragrance, ReleaseStatus } from '@/lib/fragrances/types'
+
+/* ─── Release status badge ─── */
+
+// Only non-current releases get a badge; 'current' is the unmarked default.
+const STATUS_BADGES: Record<Exclude<ReleaseStatus, 'current'>, { label: string; title: string }> = {
+  discontinued: { label: 'Discontinued', title: 'No longer produced. Secondary market only.' },
+  limited:      { label: 'Limited',      title: 'Limited or seasonal edition.' },
+  regional:     { label: 'Regional',     title: 'Exclusive to a market outside the US.' },
+}
 
 /* ─── Projection Rating ─── */
 
@@ -189,6 +198,14 @@ export function FragranceCard({
               {fragrance.concentration && (
                 <span className="shrink-0 text-[10px] font-medium uppercase tracking-wider text-gold/60 border border-gold/20 rounded px-1.5 py-0.5 leading-none">
                   {fragrance.concentration}
+                </span>
+              )}
+              {fragrance.status && fragrance.status !== 'current' && (
+                <span
+                  title={STATUS_BADGES[fragrance.status].title}
+                  className="shrink-0 text-[10px] font-medium uppercase tracking-wider text-cream-muted/80 border border-dashed border-cream-muted/40 rounded px-1.5 py-0.5 leading-none"
+                >
+                  {STATUS_BADGES[fragrance.status].label}
                 </span>
               )}
             </div>
