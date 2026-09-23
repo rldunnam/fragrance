@@ -673,7 +673,7 @@ export function FragranceWheel() {
                           : "#F5F5F0"
                       }
                       fontSize="13"
-                      fontFamily="'Playfair Display', serif"
+                      className="font-serif"
                       fontWeight="600"
                       letterSpacing="0.05em"
                       style={{
@@ -716,10 +716,9 @@ export function FragranceWheel() {
                             : "#8A8A8A"
                       }
                       fontSize="8.5"
-                      fontFamily="'Inter', sans-serif"
                       fontWeight="500"
                       letterSpacing="0.04em"
-                      className="pointer-events-none transition-all duration-300"
+                      className="pointer-events-none font-sans transition-all duration-300"
                       style={{
                         transform: `rotate(${textRotation - 90}deg)`,
                         transformOrigin: `${pos.x}px ${pos.y}px`,
@@ -766,7 +765,7 @@ export function FragranceWheel() {
                 textAnchor="middle"
                 fill="#D4AF37"
                 fontSize="7"
-                fontFamily="'Inter', sans-serif"
+                className="font-sans"
                 fontWeight="500"
                 letterSpacing="0.2em"
                 opacity="0.6"
@@ -779,7 +778,7 @@ export function FragranceWheel() {
                 textAnchor="middle"
                 fill="#D4AF37"
                 fontSize="7"
-                fontFamily="'Inter', sans-serif"
+                className="font-sans"
                 fontWeight="500"
                 letterSpacing="0.2em"
                 opacity="0.6"

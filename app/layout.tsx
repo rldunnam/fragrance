@@ -6,12 +6,12 @@ import { StickyNav } from '@/components/scrollytelling/sticky-nav'
 import { CollectionProvider } from '@/lib/collection-context'
 import './globals.css'
 
-const _inter = Inter({
+const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
 })
 
-const _playfair = Playfair_Display({
+const playfair = Playfair_Display({
   subsets: ['latin'],
   variable: '--font-playfair',
 })
@@ -51,7 +51,7 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
         <body className="font-sans antialiased bg-background text-foreground">
           <CollectionProvider>
             <StickyNav />

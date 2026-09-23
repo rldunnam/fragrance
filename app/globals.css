@@ -43,9 +43,12 @@
 }
 
 @theme inline {
-  --font-sans: 'Inter', 'Inter Fallback', sans-serif;
-  --font-serif: 'Playfair Display', 'Playfair Display Fallback', serif;
-  --font-mono: 'Geist Mono', 'Geist Mono Fallback', monospace;
+  /* next/font registers Inter and Playfair under generated family names and
+     exposes them as --font-inter / --font-playfair on <html> (see layout.tsx),
+     so the theme must reference those variables, not the literal names. */
+  --font-sans: var(--font-inter), sans-serif;
+  --font-serif: var(--font-playfair), serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);

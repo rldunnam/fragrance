@@ -302,7 +302,7 @@ export function ConcentrationChart() {
                   <YAxis
                     type="category"
                     dataKey="name"
-                    tick={{ fill: "#F5F5F0", fontSize: 12, fontFamily: "Playfair Display, serif" }}
+                    tick={{ fill: "#F5F5F0", fontSize: 12, className: "font-serif" }}
                     tickLine={false}
                     axisLine={false}
                     width={56}
@@ -382,7 +382,7 @@ export function ConcentrationChart() {
                   <YAxis
                     type="category"
                     dataKey="name"
-                    tick={{ fill: "#F5F5F0", fontSize: 12, fontFamily: "Playfair Display, serif" }}
+                    tick={{ fill: "#F5F5F0", fontSize: 12, className: "font-serif" }}
                     tickLine={false}
                     axisLine={false}
                     width={56}
