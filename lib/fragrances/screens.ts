@@ -27,7 +27,8 @@ export const cinnamonBalsamScreen: NoteScreen = {
   id: 'cinnamon-balsam',
   label: 'Cinnamon & balsam screen',
   description:
-    'Hides fragrances that list cinnamon, cassia, Peru balsam or Tolu balsam as a note. ' +
+    'Hides fragrances that list cinnamon, cassia, Peru balsam or Tolu balsam as a note, ' +
+    'plus a few flagged by hand where the note list under-reports it. ' +
     'Anything you have marked as tolerated stays visible; anything you have marked ' +
     'as causing a reaction is hidden whatever its notes.',
   patterns: [word('cinnamon'), word('cassia'), word('peru'), word('tolu')],
@@ -38,6 +39,16 @@ export function screenMatches(fragrance: Fragrance, screen: NoteScreen = cinnamo
   return [...fragrance.topNotes, ...fragrance.heartNotes, ...fragrance.baseNotes].filter((note) =>
     screen.patterns.some((p) => p.test(note)),
   )
+}
+
+/** The manual flag reason for `fragrance` under `screen`, if it carries one. */
+export function screenFlag(fragrance: Fragrance, screen: NoteScreen = cinnamonBalsamScreen): string | undefined {
+  return fragrance.screenFlags?.[screen.id]
+}
+
+/** Whether the screen hides `fragrance`: a matching note, or a manual flag. */
+export function isScreened(fragrance: Fragrance, screen: NoteScreen = cinnamonBalsamScreen): boolean {
+  return screenMatches(fragrance, screen).length > 0 || screenFlag(fragrance, screen) !== undefined
 }
 
 /**

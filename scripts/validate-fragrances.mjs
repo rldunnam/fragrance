@@ -32,6 +32,7 @@ const dataSrc = readFileSync(resolve(root, 'lib/fragrances/data.ts'), 'utf8')
 const filtersSrc = readFileSync(resolve(root, 'lib/fragrances/filters.ts'), 'utf8')
 const accentSrc = readFileSync(resolve(root, 'lib/fragrances/accent-color.ts'), 'utf8')
 const typesSrc = readFileSync(resolve(root, 'lib/fragrances/types.ts'), 'utf8')
+const screensSrc = readFileSync(resolve(root, 'lib/fragrances/screens.ts'), 'utf8')
 
 const idsFrom = (src, exportName) => {
   const block = src.match(new RegExp(`export const ${exportName} = \\[([\\s\\S]*?)\\n\\]`))
@@ -64,6 +65,9 @@ const SILLAGE = new Set(['Soft', 'Light', 'Moderate', 'Strong', 'Very Strong'])
 // (Elixir, Absolu, Profumo, Eau Extrême) belong in `name`, not here.
 const CONCENTRATIONS = new Set(['EDC', 'EDT', 'EDP', 'Parfum', 'Extrait'])
 const LONGEVITY_RE = /^(\d+-\d+ hrs|\d+\+ hrs)$/
+// Screen ids that a manual screenFlags entry may name.
+const SCREEN_IDS = new Set([...screensSrc.matchAll(/^\s*id: '([^']+)',/gm)].map((m) => m[1]))
+let screenFlagged = 0
 
 // ---------------------------------------------------------------------------
 // Split data.ts into entries
@@ -234,6 +238,23 @@ for (const { id, body } of entries) {
     err(`${where} includeReason is only for non-current releases — remove it or set status`)
   }
 
+  // --- manual screen flags --------------------------------------------------
+  // Written on one line as screenFlags: { 'screen-id': 'reason' }. Each flag
+  // must name a real screen and say why, since it overrides the note rule.
+  const flagsBlock = body.match(/\n    screenFlags: \{([^\n]*)\},/)
+  if (/\bscreenFlags:/.test(body) && !flagsBlock) {
+    err(`${where} screenFlags must be written on one line as { 'screen-id': 'reason' }`)
+  }
+  if (flagsBlock) {
+    const pairs = [...flagsBlock[1].matchAll(/'([^']+)':\s*(?:'([^']*)'|"([^"]*)")/g)]
+    if (pairs.length === 0) err(`${where} screenFlags is empty — omit the field instead`)
+    for (const [, screenId, r1, r2] of pairs) {
+      if (!SCREEN_IDS.has(screenId)) err(`${where} screenFlags names unknown screen "${screenId}"`)
+      if (!(r1 ?? r2)?.trim()) err(`${where} screenFlags["${screenId}"] needs a reason`)
+    }
+    screenFlagged++
+  }
+
   const source = str(body, 'source')
   if (source === null) missingSource++
   else if (!/^https:\/\/\S+$/.test(source)) err(`${where} source must be an https URL, got "${source}"`)
@@ -377,7 +398,7 @@ console.log(
       .map((s) => `${s} ${entries.filter((e) => (str(e.body, 'status') ?? 'current') === s).length}`)
       .join('  |  '),
 )
-console.log(`  ingredient labels: ${withIngredients} of ${entries.length}  |  published ids: ${published.size + (recording ? unrecorded.length : 0)}`)
+console.log(`  ingredient labels: ${withIngredients} of ${entries.length}  |  screen flags: ${screenFlagged}  |  published ids: ${published.size + (recording ? unrecorded.length : 0)}`)
 console.log(
   '  audience: ' +
     [...AUDIENCES]

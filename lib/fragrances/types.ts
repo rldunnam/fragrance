@@ -77,4 +77,12 @@ export interface Fragrance {
   ingredientsSource?: string
   /** Formula or batch code printed with the list (e.g. Dior's '#15755'); changes on reformulation. */
   formulaCode?: string
+  /**
+   * Manual content-screen flags, keyed by screen id (see screens.ts), each with
+   * a short sourced reason. The fragrance is hidden under that screen even
+   * though no billed note matches. Reserved for the rare case where the
+   * pyramid demonstrably under-reports a screened material; the note rule
+   * stays the default, and a logged "tolerated" verdict still wins.
+   */
+  screenFlags?: Record<string, string>
 }

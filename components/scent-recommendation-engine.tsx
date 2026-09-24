@@ -7,7 +7,7 @@ import { Sparkles } from 'lucide-react'
 import type { Fragrance } from '@/lib/fragrances/types'
 import { fragrances } from '@/lib/fragrances/data'
 import { occasions, seasons, scentFamilies, budgetRanges, audienceViews, type AudienceViewId } from '@/lib/fragrances/filters'
-import { cinnamonBalsamScreen, screenMatches } from '@/lib/fragrances/screens'
+import { cinnamonBalsamScreen, isScreened } from '@/lib/fragrances/screens'
 import { parseSearchQuery, termMatcher, noteAsTerm } from '@/lib/fragrances/search'
 import { isReaction } from '@/lib/collection-context'
 import { useLocalFlag } from '@/lib/use-local-flag'
@@ -159,7 +159,7 @@ export function ScentRecommendationEngine() {
         const reaction = collection.reactions.get(f.id)
         if (reaction === 'none') return true
         if (isReaction(reaction)) return false
-        return screenMatches(f, cinnamonBalsamScreen).length === 0
+        return !isScreened(f, cinnamonBalsamScreen)
       })
     }
 
