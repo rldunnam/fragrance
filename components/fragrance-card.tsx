@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 import { getSimilarFragrances } from '@/lib/fragrances/similarity'
 import { deriveAccords } from '@/lib/fragrances/accords'
 import type { Fragrance, ReleaseStatus } from '@/lib/fragrances/types'
-import { screenMatches, cautionMatches } from '@/lib/fragrances/screens'
+import { screenMatches, screenFlag, cautionMatches } from '@/lib/fragrances/screens'
 import { useCollection, isReaction, type ReactionSeverity } from '@/lib/collection-context'
 
 /* ─── Reaction log ─── */
@@ -196,6 +196,7 @@ export function FragranceCard({
   const { reactions, similarToReaction, setReaction, clearReaction } = useCollection()
   const reaction = reactions.get(fragrance.id)
   const screened = screenMatches(fragrance)
+  const flagged = screenFlag(fragrance)
   const cautions = cautionMatches(fragrance)
   // Only worth flagging when this fragrance has no verdict of its own yet.
   const resembles = reaction ? [] : (similarToReaction.get(fragrance.id) ?? [])
@@ -256,6 +257,14 @@ export function FragranceCard({
                   className="shrink-0 text-[10px] font-medium uppercase tracking-wider text-amber-200/90 border border-dashed border-amber-300/50 rounded px-1.5 py-0.5 leading-none"
                 >
                   {screened.join(' · ')}
+                </span>
+              )}
+              {!reaction && screened.length === 0 && flagged && (
+                <span
+                  title={`Flagged for the cinnamon & balsam screen: ${flagged}`}
+                  className="shrink-0 text-[10px] font-medium uppercase tracking-wider text-amber-200/90 border border-dashed border-amber-300/50 rounded px-1.5 py-0.5 leading-none"
+                >
+                  Screen flag
                 </span>
               )}
               {reaction !== 'none' && cautions.length > 0 && (
