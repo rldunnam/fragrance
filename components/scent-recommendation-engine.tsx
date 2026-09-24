@@ -7,11 +7,14 @@ import { Sparkles } from 'lucide-react'
 import type { Fragrance } from '@/lib/fragrances/types'
 import { fragrances } from '@/lib/fragrances/data'
 import { occasions, seasons, scentFamilies, budgetRanges, audienceViews, type AudienceViewId } from '@/lib/fragrances/filters'
+import { cinnamonBalsamScreen, screenMatches } from '@/lib/fragrances/screens'
+import { isReaction } from '@/lib/collection-context'
+import { useLocalFlag } from '@/lib/use-local-flag'
 import { useCollection } from '@/lib/collection-context'
 import { useAuth } from '@clerk/nextjs'
 import { FragranceCard } from '@/components/fragrance-card'
 import { buildTasteProfile, blendScore, quizBoostScore } from '@/lib/fragrances/taste-profile'
-import { BookMarked } from 'lucide-react'
+import { BookMarked, ShieldCheck } from 'lucide-react'
 
 /**
  * Splits a search query into word-boundary patterns. Terms are ANDed; a
@@ -50,6 +53,9 @@ export function ScentRecommendationEngine() {
   const [shortlist, setShortlist] = useState<string[]>([])
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [cabinetFilter, setCabinetFilter] = useState(false)
+  // A standing preference, remembered per browser and deliberately untouched
+  // by "clear all filters".
+  const [screenOn, setScreenOn] = useLocalFlag(`fragrance:screen:${cinnamonBalsamScreen.id}`)
   const [pageSize, setPageSize] = useState<15 | 30 | 45 | 'all'>(15)
   const [currentPage, setCurrentPage] = useState(1)
 
@@ -167,6 +173,18 @@ export function ScentRecommendationEngine() {
       results = results.filter(f => collection.cabinet.has(f.id))
     }
 
+    // Content screen. A logged verdict beats the note rule in both directions:
+    // tolerated stays visible even with a screened note, and anything that
+    // caused a reaction is hidden even when no screened note explains it.
+    if (screenOn) {
+      results = results.filter(f => {
+        const reaction = collection.reactions.get(f.id)
+        if (reaction === 'none') return true
+        if (isReaction(reaction)) return false
+        return screenMatches(f, cinnamonBalsamScreen).length === 0
+      })
+    }
+
     // Quiz mode — sort purely by quiz score so results match quiz top picks exactly
     if (fromQuiz && collection.quizProfile) {
       if (sortBy === 'price-asc') return [...results].sort((a, b) => a.price - b.price)
@@ -208,7 +226,7 @@ export function ScentRecommendationEngine() {
       })
     }
     return [...results].sort((a, b) => b.intensity - a.intensity)
-  }, [selectedAudience, selectedOccasion, selectedSeasons, selectedFamilies, familyMode, selectedBudgets, selectedIntensities, sortBy, searchQuery, cabinetFilter, collection.cabinet, collection.quizProfile, fromQuiz, tasteProfile])
+  }, [selectedAudience, selectedOccasion, selectedSeasons, selectedFamilies, familyMode, selectedBudgets, selectedIntensities, sortBy, searchQuery, cabinetFilter, collection.cabinet, collection.quizProfile, collection.reactions, screenOn, fromQuiz, tasteProfile])
 
   const toggleSeason = (seasonId: string) => {
     setSelectedSeasons(prev => 
@@ -716,6 +734,21 @@ export function ScentRecommendationEngine() {
                   Cabinet
                 </button>
               )}
+              {/* Content screen toggle */}
+              <button
+                onClick={() => setScreenOn(!screenOn)}
+                aria-pressed={screenOn}
+                title={cinnamonBalsamScreen.description}
+                className={cn(
+                  'flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-medium uppercase tracking-wider transition-all duration-200',
+                  screenOn
+                    ? 'border-amber-300/70 bg-amber-300/15 text-amber-200'
+                    : 'border-gold/20 text-cream-muted/60 hover:border-gold/40 hover:text-gold/80'
+                )}
+              >
+                <ShieldCheck className="h-3 w-3" />
+                Cinnamon &amp; balsam
+              </button>
             </div>
             <div className="flex flex-col items-end gap-2">
               {/* Sort controls */}

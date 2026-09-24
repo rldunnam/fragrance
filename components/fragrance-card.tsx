@@ -6,6 +6,16 @@ import { cn } from '@/lib/utils'
 import { getSimilarFragrances } from '@/lib/fragrances/similarity'
 import { deriveAccords } from '@/lib/fragrances/accords'
 import type { Fragrance, ReleaseStatus } from '@/lib/fragrances/types'
+import { screenMatches } from '@/lib/fragrances/screens'
+import { useCollection, isReaction, type ReactionSeverity } from '@/lib/collection-context'
+
+/* ─── Reaction log ─── */
+
+const REACTION_OPTIONS: { value: ReactionSeverity; label: string; title: string; active: string }[] = [
+  { value: 'none',  label: 'None',  title: 'Sampled with no reaction',   active: 'border-emerald-400/70 bg-emerald-400/15 text-emerald-300' },
+  { value: 'mild',  label: 'Mild',  title: 'Noticeable reaction',        active: 'border-amber-300/70 bg-amber-300/15 text-amber-200' },
+  { value: 'harsh', label: 'Harsh', title: 'Immediate, strong reaction', active: 'border-rose-400/70 bg-rose-400/15 text-rose-300' },
+]
 
 /* ─── Release status badge ─── */
 
@@ -177,6 +187,12 @@ export function FragranceCard({
   const [hoverRating, setHoverRating] = useState(0)
   const accords = deriveAccords(fragrance)
 
+  const { reactions, similarToReaction, setReaction, clearReaction } = useCollection()
+  const reaction = reactions.get(fragrance.id)
+  const screened = screenMatches(fragrance)
+  // Only worth flagging when this fragrance has no verdict of its own yet.
+  const resembles = reaction ? [] : (similarToReaction.get(fragrance.id) ?? [])
+
   return (
     <div
       className={cn(
@@ -206,6 +222,33 @@ export function FragranceCard({
                   className="shrink-0 text-[10px] font-medium uppercase tracking-wider text-cream-muted/80 border border-dashed border-cream-muted/40 rounded px-1.5 py-0.5 leading-none"
                 >
                   {STATUS_BADGES[fragrance.status].label}
+                </span>
+              )}
+              {isReaction(reaction) && (
+                <span
+                  title="Logged as causing a reaction"
+                  className={cn(
+                    'shrink-0 text-[10px] font-medium uppercase tracking-wider border rounded px-1.5 py-0.5 leading-none',
+                    reaction === 'harsh' ? 'text-rose-300 border-rose-400/50' : 'text-amber-200 border-amber-300/50'
+                  )}
+                >
+                  Reaction · {reaction}
+                </span>
+              )}
+              {reaction === 'none' && (
+                <span
+                  title="Logged as sampled without a reaction; stays visible under the screen"
+                  className="shrink-0 text-[10px] font-medium uppercase tracking-wider text-emerald-300/90 border border-emerald-400/40 rounded px-1.5 py-0.5 leading-none"
+                >
+                  Tolerated
+                </span>
+              )}
+              {!reaction && screened.length > 0 && (
+                <span
+                  title={`Lists ${screened.join(', ')} as a note (cinnamon & balsam screen)`}
+                  className="shrink-0 text-[10px] font-medium uppercase tracking-wider text-amber-200/90 border border-dashed border-amber-300/50 rounded px-1.5 py-0.5 leading-none"
+                >
+                  {screened.join(' · ')}
                 </span>
               )}
             </div>
@@ -276,6 +319,11 @@ export function FragranceCard({
             </div>
           </div>
           <div className="text-sm text-gold-light">{fragrance.house}</div>
+          {resembles.length > 0 && (
+            <div className="mt-1 text-[11px] text-amber-200/80" title="Close to these by the same similarity measure as You Might Also Like">
+              Resembles {resembles.join(', ')}, which caused a reaction
+            </div>
+          )}
         </div>
 
         {/* Family tags */}
@@ -387,6 +435,34 @@ export function FragranceCard({
                     </button>
                   ))}
                   {userRating && <span className="ml-1 text-[10px] text-cream-muted/50">{userRating}/5</span>}
+                </div>
+              </div>
+            </div>
+
+            {/* Reaction log */}
+            <div className="border-t border-gold/10 pt-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-medium uppercase tracking-wider text-gold/80">Reaction</span>
+                <div className="flex items-center gap-1">
+                  {REACTION_OPTIONS.map(opt => (
+                    <button
+                      key={opt.value}
+                      title={reaction === opt.value ? 'Clear' : opt.title}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        if (reaction === opt.value) clearReaction(fragrance.id)
+                        else setReaction(fragrance.id, opt.value)
+                      }}
+                      className={cn(
+                        'rounded-full border px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider transition-all duration-200',
+                        reaction === opt.value
+                          ? opt.active
+                          : 'border-gold/20 text-cream-muted/60 hover:border-gold/40 hover:text-cream'
+                      )}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
                 </div>
               </div>
             </div>

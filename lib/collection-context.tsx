@@ -1,8 +1,19 @@
 'use client'
 
-import { createContext, useContext, useEffect, useRef, useState, useCallback, type ReactNode } from 'react'
+import { createContext, useContext, useEffect, useMemo, useRef, useState, useCallback, type ReactNode } from 'react'
 import { useAuth } from '@clerk/nextjs'
 import { createAuthClient } from '@/lib/supabase'
+import { fragrances } from '@/lib/fragrances/data'
+import { getSimilarFragrances } from '@/lib/fragrances/similarity'
+
+/**
+ * How a fragrance was tolerated when sampled. 'none' means sampled without a
+ * reaction, which overrides content screens; 'mild' and 'harsh' are reactions.
+ * Stored per account in the `reactions` table (see supabase/reactions.sql).
+ */
+export type ReactionSeverity = 'none' | 'mild' | 'harsh'
+
+export const isReaction = (s: ReactionSeverity | undefined) => s === 'mild' || s === 'harsh'
 
 interface QuizProfile {
   archetype:       string
@@ -21,12 +32,17 @@ interface CollectionState {
   wishlist: Set<string>
   ratings: Map<string, number>
   quizProfile: QuizProfile | null
+  reactions: Map<string, ReactionSeverity>
+  /** fragrance id -> names of reacted-to fragrances it closely resembles */
+  similarToReaction: Map<string, string[]>
   loading: boolean
   toggleCabinet:  (fragranceId: string) => Promise<void>
   toggleWishlist: (fragranceId: string) => Promise<void>
   setRating:      (fragranceId: string, score: number) => Promise<void>
   removeRating:   (fragranceId: string) => Promise<void>
   saveQuizProfile:(profile: QuizProfile) => Promise<void>
+  setReaction:    (fragranceId: string, severity: ReactionSeverity) => Promise<void>
+  clearReaction:  (fragranceId: string) => Promise<void>
   promptSignIn:   () => void
 }
 
@@ -38,6 +54,7 @@ export function CollectionProvider({ children }: { children: ReactNode }) {
   const [wishlist, setWishlist] = useState<Set<string>>(new Set())
   const [ratings,  setRatings]  = useState<Map<string, number>>(new Map())
   const [quizProfile, setQuizProfile] = useState<QuizProfile | null>(null)
+  const [reactions, setReactions] = useState<Map<string, ReactionSeverity>>(new Map())
   const [loading,  setLoading]  = useState(false)
 
   // Use a ref so getClient is always stable and never causes effect re-runs
@@ -68,6 +85,7 @@ export function CollectionProvider({ children }: { children: ReactNode }) {
     setWishlist(new Set())
     setRatings(new Map())
     setQuizProfile(null)
+    setReactions(new Map())
   }
 
   // Load all user data on sign-in, and again whenever the user changes.
@@ -82,16 +100,23 @@ export function CollectionProvider({ children }: { children: ReactNode }) {
       setLoading(true)
       try {
         const client = await getClient()
-        const [cabinetRes, wishlistRes, ratingsRes, quizRes] = await Promise.all([
+        const [cabinetRes, wishlistRes, ratingsRes, quizRes, reactionsRes] = await Promise.all([
           client.from('cabinet').select('fragrance_id'),
           client.from('wishlist').select('fragrance_id'),
           client.from('ratings').select('fragrance_id, score'),
           client.from('quiz_results').select('*').single(),
+          client.from('reactions').select('fragrance_id, severity'),
         ])
         if (cancelled) return
         if (cabinetRes.data)  setCabinet(new Set(cabinetRes.data.map(r => r.fragrance_id)))
         if (wishlistRes.data) setWishlist(new Set(wishlistRes.data.map(r => r.fragrance_id)))
         if (ratingsRes.data)  setRatings(new Map(ratingsRes.data.map(r => [r.fragrance_id, r.score])))
+        // A missing table (supabase/reactions.sql not yet applied) arrives as
+        // an error result, not a throw — log it rather than failing the load.
+        if (reactionsRes.error) console.error('Reactions load failed:', reactionsRes.error)
+        if (reactionsRes.data) {
+          setReactions(new Map(reactionsRes.data.map(r => [r.fragrance_id, r.severity as ReactionSeverity])))
+        }
         if (quizRes.data) setQuizProfile({
           archetype:       quizRes.data.archetype,
           expression:      quizRes.data.expression,
@@ -195,6 +220,54 @@ export function CollectionProvider({ children }: { children: ReactNode }) {
     }
   }, [isSignedIn, getClient, promptSignIn, userId])
 
+  const setReaction = useCallback(async (fragranceId: string, severity: ReactionSeverity) => {
+    if (!isSignedIn) { promptSignIn(); return }
+    const prev = reactions.get(fragranceId)
+    setReactions(m => new Map(m).set(fragranceId, severity))
+    try {
+      const client = await getClient()
+      const { error } = await client.from('reactions').upsert(
+        { fragrance_id: fragranceId, severity, user_id: userId, updated_at: new Date().toISOString() },
+        { onConflict: 'user_id,fragrance_id' }
+      )
+      if (error) throw error
+    } catch (err) {
+      console.error('Reaction update failed:', err)
+      setReactions(m => { const next = new Map(m); prev ? next.set(fragranceId, prev) : next.delete(fragranceId); return next })
+    }
+  }, [isSignedIn, reactions, getClient, promptSignIn, userId])
+
+  const clearReaction = useCallback(async (fragranceId: string) => {
+    if (!isSignedIn) { promptSignIn(); return }
+    const prev = reactions.get(fragranceId)
+    setReactions(m => { const next = new Map(m); next.delete(fragranceId); return next })
+    try {
+      const client = await getClient()
+      const { error } = await client.from('reactions').delete().eq('fragrance_id', fragranceId)
+      if (error) throw error
+    } catch (err) {
+      console.error('Reaction removal failed:', err)
+      if (prev) setReactions(m => new Map(m).set(fragranceId, prev))
+    }
+  }, [isSignedIn, reactions, getClient, promptSignIn])
+
+  // For every fragrance that caused a reaction, its closest matches by the
+  // same similarity measure the cards use. This catches reactions no note
+  // screen can explain, by flagging whatever resembles them.
+  const similarToReaction = useMemo(() => {
+    const out = new Map<string, string[]>()
+    for (const [id, severity] of reactions) {
+      if (!isReaction(severity)) continue
+      const reacted = fragrances.find(f => f.id === id)
+      if (!reacted) continue
+      for (const similar of getSimilarFragrances(reacted, fragrances)) {
+        if (!out.has(similar.id)) out.set(similar.id, [])
+        out.get(similar.id)!.push(reacted.name)
+      }
+    }
+    return out
+  }, [reactions])
+
   const removeRating = useCallback(async (fragranceId: string) => {
     if (!isSignedIn) { promptSignIn(); return }
     const prevScore = ratings.get(fragranceId)
@@ -210,8 +283,9 @@ export function CollectionProvider({ children }: { children: ReactNode }) {
 
   return (
     <CollectionContext.Provider value={{
-      cabinet, wishlist, ratings, quizProfile, loading,
-      toggleCabinet, toggleWishlist, setRating, removeRating, saveQuizProfile, promptSignIn,
+      cabinet, wishlist, ratings, quizProfile, reactions, similarToReaction, loading,
+      toggleCabinet, toggleWishlist, setRating, removeRating, saveQuizProfile,
+      setReaction, clearReaction, promptSignIn,
     }}>
       {children}
     </CollectionContext.Provider>
