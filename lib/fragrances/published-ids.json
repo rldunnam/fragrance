@@ -149,14 +149,17 @@
     "jo-malone-peony-blush",
     "jo-malone-velvet-rose",
     "jo-malone-wood-sage-sea-salt",
+    "jpg-la-belle",
     "jpg-la-belle-le-parfum",
     "jpg-la-belle-paradise-garden",
     "jpg-le-beau",
     "jpg-le-beau-edp",
     "jpg-le-beau-le-parfum",
     "jpg-le-beau-narcisse",
+    "jpg-le-beau-paradise-garden",
     "jpg-le-male",
     "jpg-le-male-elixir",
+    "jpg-le-male-elixir-absolu",
     "jpg-le-male-le-parfum",
     "jpg-scandal-pour-homme",
     "jpg-ultra-male",
@@ -291,5 +294,7 @@
     "ysl-y-elixir",
     "ysl-y-iced-cologne"
   ],
-  "retired": {}
+  "retired": {
+    "jpg-le-beau-edp": "Phantom entry: no Le Beau Eau de Parfum exists (the line is EDT 2019, Le Parfum 2022, Paradise Garden 2024, Narcisse 2026). Stored rows checked before removal."
+  }
 }
