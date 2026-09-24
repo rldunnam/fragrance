@@ -647,6 +647,10 @@ export const fragrances: Fragrance[] = [
     sillage: 'Strong',
     projection: 4,
     source: 'https://www.fragrantica.com/perfume/Parfums-de-Marly/Pegasus-16938.html',
+    ingredients: [
+      'Alcohol Denat.', 'Parfum (Fragrance)', 'Aqua (Water)', 'Limonene', 'BHT', 'Linalool',
+    ],
+    ingredientsSource: 'https://us.parfums-de-marly.com/products/pegasus',
   },
   {
     id: 'versace-dylan-blue',
@@ -1416,6 +1420,11 @@ export const fragrances: Fragrance[] = [
     sillage: 'Strong',
     projection: 4,
     source: 'https://www.fragrantica.com/perfume/Parfums-de-Marly/Althair-84109.html',
+    ingredients: [
+      'Alcohol Denat.', 'Parfum (Fragrance)', 'Aqua (Water)', 'Limonene', 'Linalool', 'Tocopherol',
+      'Citral', 'Geraniol',
+    ],
+    ingredientsSource: 'https://us.parfums-de-marly.com/products/althair',
   },
   {
     id: 'fm-portrait-of-a-lady',
@@ -5102,6 +5111,11 @@ export const fragrances: Fragrance[] = [
     sillage: 'Very Strong',
     projection: 5,
     source: 'https://www.fragrantica.com/perfume/Parfums-de-Marly/Carlisle-33514.html',
+    ingredients: [
+      'Alcohol Denat.', 'Parfum (Fragrance)', 'Aqua (Water)', 'Benzyl Salicylate', 'Coumarin',
+      'BHT', 'Limonene', 'Isoeugenol', 'Cinnamal', 'Eugenol', 'Linalool', 'Citral',
+    ],
+    ingredientsSource: 'https://bluemercury.com/products/parfums-de-marly-carlisle-eau-de-parfum',
     screenFlags: { 'cinnamon-balsam': 'No cinnamon in the note list, but reviewers consistently describe a cinnamon-apple accord and a published label lists Cinnamal.' },
   },
   {
@@ -5143,6 +5157,11 @@ export const fragrances: Fragrance[] = [
     sillage: 'Very Strong',
     projection: 5,
     source: 'https://www.fragrantica.com/perfume/Parfums-de-Marly/Haltane-70776.html',
+    ingredients: [
+      'Alcohol Denat.', 'Parfum (Fragrance)', 'Aqua (Water)', 'Limonene', 'Linalool', 'Benzyl Salicylate',
+      'Coumarin', 'Alpha-Isomethyl Ionone', 'Eugenol', 'Citronellol', 'Citral', 'Geraniol',
+    ],
+    ingredientsSource: 'https://us.parfums-de-marly.com/products/haltane',
   },
   {
     id: 'pdm-meliora',
