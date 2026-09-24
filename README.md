@@ -130,7 +130,9 @@ session state through `useAuth`, and the browser talks to Supabase directly via
 **The security boundary is Supabase row-level security**, not Next.js. The
 `anon` key ships in the client bundle by design; RLS policies keyed on the Clerk
 JWT `sub` claim are what actually restrict access to `cabinet`, `wishlist`,
-`ratings`, and `quiz_results`.
+`ratings`, `quiz_results`, and `reactions`. The `reactions` table and its
+policies are defined in `supabase/reactions.sql`; apply it in the Supabase SQL
+editor before deploying code that reads it.
 
 There is deliberately no `proxy.ts` (the Next.js 16 successor to
 `middleware.ts`) and no `clerkMiddleware()`. Adding it would require
