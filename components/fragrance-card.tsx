@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 import { getSimilarFragrances } from '@/lib/fragrances/similarity'
 import { deriveAccords } from '@/lib/fragrances/accords'
 import type { Fragrance, ReleaseStatus } from '@/lib/fragrances/types'
-import { screenMatches } from '@/lib/fragrances/screens'
+import { screenMatches, cautionMatches } from '@/lib/fragrances/screens'
 import { useCollection, isReaction, type ReactionSeverity } from '@/lib/collection-context'
 
 /* ─── Reaction log ─── */
@@ -158,6 +158,11 @@ export interface FragranceCardProps {
   onToggleWishlist: () => void
   onSetRating: (score: number) => void
   onRemoveRating: () => void
+  /**
+   * True while an exclusion search or content screen is active, so cards
+   * without an ingredient list say so rather than passing silently.
+   */
+  ingredientCheck?: boolean
   // Recommendation-engine-specific (optional — omit on collection page)
   isShortlisted?: boolean
   canShortlist?: boolean
@@ -182,6 +187,7 @@ export function FragranceCard({
   onToggleShortlist,
   onNoteClick,
   onSimilarClick,
+  ingredientCheck = false,
 }: FragranceCardProps) {
   const [isExpanded, setIsExpanded] = useState(false)
   const [hoverRating, setHoverRating] = useState(0)
@@ -190,6 +196,7 @@ export function FragranceCard({
   const { reactions, similarToReaction, setReaction, clearReaction } = useCollection()
   const reaction = reactions.get(fragrance.id)
   const screened = screenMatches(fragrance)
+  const cautions = cautionMatches(fragrance)
   // Only worth flagging when this fragrance has no verdict of its own yet.
   const resembles = reaction ? [] : (similarToReaction.get(fragrance.id) ?? [])
 
@@ -249,6 +256,22 @@ export function FragranceCard({
                   className="shrink-0 text-[10px] font-medium uppercase tracking-wider text-amber-200/90 border border-dashed border-amber-300/50 rounded px-1.5 py-0.5 leading-none"
                 >
                   {screened.join(' · ')}
+                </span>
+              )}
+              {reaction !== 'none' && cautions.length > 0 && (
+                <span
+                  title={`Ingredient label lists ${cautions.join(', ')}`}
+                  className="shrink-0 text-[10px] font-medium uppercase tracking-wider text-amber-200/80 border border-amber-300/30 rounded px-1.5 py-0.5 leading-none"
+                >
+                  Caution · {cautions.join(' · ')}
+                </span>
+              )}
+              {ingredientCheck && !fragrance.ingredients && (
+                <span
+                  title="No ingredient label on file, so this could not be checked against the label"
+                  className="shrink-0 text-[10px] font-medium uppercase tracking-wider text-cream-muted/60 border border-dashed border-cream-muted/30 rounded px-1.5 py-0.5 leading-none"
+                >
+                  Ingredients not verified
                 </span>
               )}
             </div>
@@ -367,11 +390,13 @@ export function FragranceCard({
 
             {/* Notes */}
             <div className="space-y-2">
-              {([
-                { label: 'Top Notes', notes: fragrance.topNotes },
-                { label: 'Heart Notes', notes: fragrance.heartNotes },
-                { label: 'Base Notes', notes: fragrance.baseNotes },
-              ] as { label: string; notes: string[] }[]).map(({ label, notes }) => (
+              {(fragrance.notesFlat
+                ? [{ label: 'Notes', notes: fragrance.heartNotes }]
+                : [
+                    { label: 'Top Notes', notes: fragrance.topNotes },
+                    { label: 'Heart Notes', notes: fragrance.heartNotes },
+                    { label: 'Base Notes', notes: fragrance.baseNotes },
+                  ] as { label: string; notes: string[] }[]).map(({ label, notes }) => (
                 <div key={label}>
                   <div className="mb-1.5 text-xs font-medium uppercase tracking-wider text-gold/80">{label}</div>
                   <div className="flex flex-wrap gap-1.5">
@@ -466,6 +491,27 @@ export function FragranceCard({
                 </div>
               </div>
             </div>
+
+            {/* Ingredient label — searchable, deliberately kept out of the note breakdown */}
+            {fragrance.ingredients && (
+              <details className="border-t border-gold/10 pt-3 group/ingredients" onClick={(e) => e.stopPropagation()}>
+                <summary className="cursor-pointer list-none text-xs font-medium uppercase tracking-wider text-gold/80 hover:text-gold">
+                  Ingredients <span className="normal-case tracking-normal text-cream-muted/50">({fragrance.ingredients.length}, from the label)</span>
+                </summary>
+                <p className="mt-2 text-[11px] leading-relaxed text-cream-muted/80">
+                  {fragrance.ingredients.join(', ')}
+                </p>
+                <p className="mt-1.5 text-[10px] text-cream-muted/50">
+                  {fragrance.formulaCode && <>Formula {fragrance.formulaCode} · </>}
+                  {fragrance.ingredientsSource && (
+                    <a href={fragrance.ingredientsSource} target="_blank" rel="noopener noreferrer" className="underline hover:text-gold">
+                      source
+                    </a>
+                  )}
+                  {' '}· Labels list declared allergens only; the rest is inside Parfum.
+                </p>
+              </details>
+            )}
 
             {/* You Might Also Like — only when allFragrances provided */}
             {allFragrances.length > 0 && onSimilarClick && (() => {

@@ -167,6 +167,14 @@ pnpm lint
 Fragrance data lives in `lib/fragrances/data.ts` as build-time constants — it
 carries no per-user state, so it is deliberately not in Supabase.
 
+**Fragrance ids are permanent once published.** Supabase rows (cabinet,
+wishlist, ratings, reactions) store them, so renaming an id silently orphans
+every user's data for that fragrance. Fix a wrong `name`, never the `id`.
+`lib/fragrances/published-ids.json` is the append-only record: `pnpm validate`
+fails if a published id disappears or a new id is unrecorded, and
+`pnpm ids:record` records new ids once they are final. Removing an id means
+migrating the stored rows first, then listing it under `retired` with a reason.
+
 `pnpm validate` enforces the invariants TypeScript cannot express: `family`,
 `occasion`, and `season` are typed `string[]`, so an unknown value compiles
 cleanly while making the entry unreachable by filtering. The script checks every

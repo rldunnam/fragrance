@@ -8,6 +8,7 @@ import type { Fragrance } from '@/lib/fragrances/types'
 import { fragrances } from '@/lib/fragrances/data'
 import { occasions, seasons, scentFamilies, budgetRanges, audienceViews, type AudienceViewId } from '@/lib/fragrances/filters'
 import { cinnamonBalsamScreen, screenMatches } from '@/lib/fragrances/screens'
+import { parseSearchQuery, termMatcher, noteAsTerm } from '@/lib/fragrances/search'
 import { isReaction } from '@/lib/collection-context'
 import { useLocalFlag } from '@/lib/use-local-flag'
 import { useCollection } from '@/lib/collection-context'
@@ -15,27 +16,6 @@ import { useAuth } from '@clerk/nextjs'
 import { FragranceCard } from '@/components/fragrance-card'
 import { buildTasteProfile, blendScore, quizBoostScore } from '@/lib/fragrances/taste-profile'
 import { BookMarked, ShieldCheck } from 'lucide-react'
-
-/**
- * Splits a search query into word-boundary patterns. Terms are ANDed; a
- * leading "-" turns a term into an exclusion, so "vanilla -cinnamon" keeps
- * vanilla matches and drops anything that also matches cinnamon. A bare "-"
- * carries no term and is ignored. Kept outside the component so the patterns
- * are compiled once per query and the React Compiler can analyse the memo.
- */
-function parseSearchQuery(query: string): { include: RegExp[]; exclude: RegExp[] } {
-  const include: RegExp[] = []
-  const exclude: RegExp[] = []
-  for (const token of query.toLowerCase().trim().split(/[\s,]+/).filter(Boolean)) {
-    const negated = token.startsWith('-')
-    const term = negated ? token.slice(1) : token
-    if (!term) continue
-    const pattern = new RegExp(`(?<![a-z])${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![a-z])`, 'i')
-    if (negated) exclude.push(pattern)
-    else include.push(pattern)
-  }
-  return { include, exclude }
-}
 
 export function ScentRecommendationEngine() {
   const collection = useCollection()
@@ -56,6 +36,8 @@ export function ScentRecommendationEngine() {
   // A standing preference, remembered per browser and deliberately untouched
   // by "clear all filters".
   const [screenOn, setScreenOn] = useLocalFlag(`fragrance:screen:${cinnamonBalsamScreen.id}`)
+  // Cards flag a missing ingredient label whenever something is being excluded.
+  const ingredientCheck = screenOn || parseSearchQuery(searchQuery).exclude.length > 0
   const [pageSize, setPageSize] = useState<15 | 30 | 45 | 'all'>(15)
   const [currentPage, setCurrentPage] = useState(1)
 
@@ -158,11 +140,7 @@ export function ScentRecommendationEngine() {
       const { include, exclude } = parseSearchQuery(searchQuery)
       if (include.length > 0 || exclude.length > 0) {
         results = results.filter(f => {
-          const searchable = [
-            f.name, f.house,
-            ...f.topNotes, ...f.heartNotes, ...f.baseNotes
-          ].map(s => s.toLowerCase())
-          const matches = (pattern: RegExp) => searchable.some(s => pattern.test(s))
+          const matches = termMatcher(f)
           return include.every(matches) && !exclude.some(matches)
         })
       }
@@ -831,10 +809,13 @@ export function ScentRecommendationEngine() {
                     onToggleWishlist={() => collection.toggleWishlist(fragrance.id)}
                     onSetRating={(score) => collection.setRating(fragrance.id, score)}
                     onRemoveRating={() => collection.removeRating(fragrance.id)}
+                    ingredientCheck={ingredientCheck}
                     onNoteClick={(note) => {
-                      const terms = searchQuery.trim().split(/[\s,]+/).filter(Boolean)
-                      if (!terms.map(t => t.toLowerCase()).includes(note.toLowerCase())) {
-                        setSearchQuery(prev => prev.trim() ? `${prev.trim()} ${note}` : note)
+                      // Quoted when multi-word, so "Tonka Bean" stays one term.
+                      const { include } = parseSearchQuery(searchQuery)
+                      if (!include.some(t => t.text === note.toLowerCase())) {
+                        const term = noteAsTerm(note)
+                        setSearchQuery(prev => prev.trim() ? `${prev.trim()} ${term}` : term)
                       }
                     }}
                     allFragrances={fragrances}

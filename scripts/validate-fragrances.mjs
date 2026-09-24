@@ -12,7 +12,7 @@
  * Exits non-zero on any ERROR; warnings are reported but do not fail.
  */
 
-import { readFileSync } from 'node:fs'
+import { readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve } from 'node:path'
 
@@ -81,7 +81,7 @@ const list = (body, field) => {
   if (!m) return null
   return m[1]
     .split(',')
-    .map((v) => v.trim().replace(/^'|'$/g, ''))
+    .map((v) => v.trim().replace(/^['"]|['"]$/g, ''))
     .filter(Boolean)
 }
 // Values may be single- or double-quoted: entries containing an apostrophe
@@ -101,6 +101,7 @@ const seenNames = new Map()
 // lowercased note -> Map(spelling -> first entry id using it)
 const noteSpellings = new Map()
 let missingSource = 0
+let withIngredients = 0
 
 for (const { id, body } of entries) {
   const where = `[${id}]`
@@ -178,10 +179,15 @@ for (const { id, body } of entries) {
   }
 
   // --- notes ----------------------------------------------------------------
+  // notesFlat: the source gives no tiers, so every note lives in heartNotes
+  // and the other two stay empty instead of carrying an invented split.
+  const flat = /\bnotesFlat: true\b/.test(body)
   for (const field of ['topNotes', 'heartNotes', 'baseNotes']) {
     const vals = list(body, field)
+    const mustBeEmpty = flat && field !== 'heartNotes'
     if (!vals) err(`${where} missing required field "${field}"`)
-    else if (vals.length === 0) err(`${where} "${field}" is empty`)
+    else if (mustBeEmpty && vals.length > 0) err(`${where} notesFlat entries keep all notes in heartNotes; "${field}" must be empty`)
+    else if (!mustBeEmpty && vals.length === 0) err(`${where} "${field}" is empty`)
     for (const note of vals ?? []) {
       const key = note.toLowerCase()
       if (!noteSpellings.has(key)) noteSpellings.set(key, new Map())
@@ -189,6 +195,28 @@ for (const { id, body } of entries) {
       if (!spellings.has(note)) spellings.set(note, id)
     }
   }
+
+  // --- ingredient label -----------------------------------------------------
+  const ingredients = list(body, 'ingredients')
+  const ingredientsSource = str(body, 'ingredientsSource')
+  const formulaCode = str(body, 'formulaCode')
+  if (ingredients) {
+    if (ingredients.length === 0) err(`${where} ingredients is empty — omit the field instead`)
+    if (!ingredientsSource) err(`${where} ingredients need an ingredientsSource`)
+    const seen = new Set()
+    for (const ing of ingredients) {
+      const k = ing.toLowerCase()
+      if (seen.has(k)) err(`${where} ingredient "${ing}" listed twice`)
+      seen.add(k)
+    }
+  } else {
+    if (ingredientsSource) err(`${where} ingredientsSource without ingredients`)
+    if (formulaCode) err(`${where} formulaCode without ingredients`)
+  }
+  if (ingredientsSource && !/^https:\/\/\S+$/.test(ingredientsSource)) {
+    err(`${where} ingredientsSource must be an https URL, got "${ingredientsSource}"`)
+  }
+  if (ingredients) withIngredients++
 
   // --- release status -------------------------------------------------------
   // The default inclusion rule is "currently produced and broadly distributed".
@@ -293,6 +321,48 @@ if (missingSource > 0) {
   warn(`${missingSource} of ${entries.length} fragrances have no source for their note pyramid yet`)
 }
 
+// Permanent ids. Once an id ships, Supabase rows (cabinet, wishlist, ratings,
+// reactions) reference it, and nothing links a renamed id back to them — a
+// rename silently orphans every user's data for that fragrance. So ids are
+// append-only: fix a wrong `name`, never the id. `pnpm ids:record` adds new
+// ids to the manifest; removing one requires an explicit, reasoned entry in
+// "retired", which is the cue to migrate the stored rows first.
+const manifestPath = resolve(root, 'lib/fragrances/published-ids.json')
+const recording = process.argv.includes('--record-ids')
+const manifest = existsSync(manifestPath)
+  ? JSON.parse(readFileSync(manifestPath, 'utf8'))
+  : { published: [], retired: {} }
+if (!existsSync(manifestPath) && !recording) {
+  err('lib/fragrances/published-ids.json is missing — run `pnpm ids:record` to create it')
+}
+const published = new Set(manifest.published)
+const retired = manifest.retired ?? {}
+const dataIds = new Set(entries.map((e) => e.id))
+
+for (const id of published) {
+  if (dataIds.has(id)) continue
+  if (id in retired) continue
+  err(`[${id}] was published but is no longer in data.ts. Stored user rows reference it. ` +
+    'Restore it (fix `name`, keep the id), or retire it in published-ids.json with a reason after migrating stored rows.')
+}
+for (const [id, reason] of Object.entries(retired)) {
+  if (!published.has(id)) err(`[${id}] is retired but was never published`)
+  if (dataIds.has(id)) err(`[${id}] is retired but still in data.ts`)
+  if (!reason || typeof reason !== 'string') err(`[${id}] retired without a reason`)
+}
+const unrecorded = [...dataIds].filter((id) => !published.has(id))
+if (unrecorded.length > 0) {
+  if (recording) {
+    manifest.published = [...published, ...unrecorded].sort()
+    manifest.retired = retired
+    writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n')
+    console.log(`Recorded ${unrecorded.length} new id(s) in published-ids.json.`)
+  } else {
+    err(`${unrecorded.length} id(s) not in published-ids.json (${unrecorded.slice(0, 5).join(', ')}` +
+      `${unrecorded.length > 5 ? ', …' : ''}). Once the ids are final, run \`pnpm ids:record\`.`)
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Report
 // ---------------------------------------------------------------------------
@@ -307,6 +377,7 @@ console.log(
       .map((s) => `${s} ${entries.filter((e) => (str(e.body, 'status') ?? 'current') === s).length}`)
       .join('  |  '),
 )
+console.log(`  ingredient labels: ${withIngredients} of ${entries.length}  |  published ids: ${published.size + (recording ? unrecorded.length : 0)}`)
 console.log(
   '  audience: ' +
     [...AUDIENCES]

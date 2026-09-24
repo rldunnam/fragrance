@@ -60,4 +60,21 @@ export interface Fragrance {
   includeReason?: string
   /** Where the note pyramid was verified, normally the Fragrantica page. */
   source?: string
+  /**
+   * The source lists notes without top/heart/base tiers. All notes go in
+   * heartNotes and topNotes/baseNotes stay empty, rather than inventing a
+   * split; the card then shows a single "Notes" group.
+   */
+  notesFlat?: true
+  /**
+   * The published ingredient label, verbatim and in label order (INCI names,
+   * e.g. 'Cinnamal', 'Hexyl Cinnamal'). Searchable but not part of the note
+   * breakdown. Declares listed allergens above a legal threshold; everything
+   * else is hidden inside 'Parfum', so absence here is not proof of absence.
+   */
+  ingredients?: string[]
+  /** Where the ingredient list came from: the house's page, then a major retailer. */
+  ingredientsSource?: string
+  /** Formula or batch code printed with the list (e.g. Dior's '#15755'); changes on reformulation. */
+  formulaCode?: string
 }
