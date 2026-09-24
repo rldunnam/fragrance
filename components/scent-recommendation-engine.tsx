@@ -15,7 +15,7 @@ import { useCollection } from '@/lib/collection-context'
 import { useAuth } from '@clerk/nextjs'
 import { FragranceCard } from '@/components/fragrance-card'
 import { buildTasteProfile, blendScore, quizBoostScore } from '@/lib/fragrances/taste-profile'
-import { BookMarked, ShieldCheck } from 'lucide-react'
+import { BookMarked, ShieldCheck, SlidersHorizontal } from 'lucide-react'
 
 export function ScentRecommendationEngine() {
   const collection = useCollection()
@@ -33,6 +33,7 @@ export function ScentRecommendationEngine() {
   const [shortlist, setShortlist] = useState<string[]>([])
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [cabinetFilter, setCabinetFilter] = useState(false)
+  const [filtersOpen, setFiltersOpen] = useState(false)
   // A standing preference, remembered per browser and deliberately untouched
   // by "clear all filters".
   const [screenOn, setScreenOn] = useLocalFlag(`fragrance:screen:${cinnamonBalsamScreen.id}`)
@@ -267,11 +268,17 @@ export function ScentRecommendationEngine() {
     setCurrentPage(1)
   }
 
+  // Selections made inside the Filters panel. Search text and the cabinet
+  // toggle are visible elsewhere, so they are not counted on the button.
+  const activeFilterCount =
+    (selectedAudience ? 1 : 0) + (selectedOccasion ? 1 : 0) + selectedSeasons.length +
+    selectedFamilies.length + selectedBudgets.length + selectedIntensities.length
+
   const hasActiveFilters = selectedAudience || selectedOccasion || selectedSeasons.length > 0 || selectedFamilies.length > 0 || selectedBudgets.length > 0 || selectedIntensities.length > 0 || searchQuery.length > 0 || cabinetFilter
 
   return (
     <div className="my-8">
-      <div className="rounded-lg border border-gold/20 bg-surface overflow-hidden">
+      <div className="rounded-lg border border-gold/20 bg-surface overflow-clip">
         {/* Header */}
         <div className="bg-gradient-to-r from-surface-elevated to-surface-hover px-6 py-5 border-b border-gold/20">
           <div className="flex items-center gap-3">
@@ -281,13 +288,136 @@ export function ScentRecommendationEngine() {
             <div className="flex-1">
               <h3 className="font-serif text-xl text-cream">Find Your Perfect Scent</h3>
               <p className="text-sm text-cream-muted">
-                Select your preferences to discover personalized recommendations
+                Search by name or note, or open Filters to narrow by occasion, season and more
               </p>
             </div>
+          </div>
+        </div>
+
+        {/* Search bar. Sticks below the fixed site header so search, the screen
+            and the active filters stay in view while scrolling results. */}
+        <div className="sticky top-14 z-30 space-y-3 border-b border-gold/20 bg-surface/95 px-4 py-4 backdrop-blur-md sm:px-6">
+          <div className="flex items-center gap-2">
+            <div className="relative flex-1">
+              <svg
+                className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-cream-muted/40 pointer-events-none"
+                fill="none" viewBox="0 0 24 24" stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
+              </svg>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+                aria-label="Search fragrances"
+                placeholder="Search by brand, name, or note — e.g. iris vetiver, Dior oud, vanilla -cinnamon…"
+                className="w-full rounded-lg border border-gold/20 bg-surface-elevated/50 pl-9 pr-9 py-3 text-sm text-cream placeholder:text-cream-muted/40 focus:outline-none focus:border-gold/50 focus:bg-surface-elevated transition-all duration-200"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  aria-label="Clear search"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-cream-muted/40 hover:text-cream-muted transition-colors"
+                >
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              )}
+            </div>
+            <button
+              onClick={() => setFiltersOpen(v => !v)}
+              aria-expanded={filtersOpen}
+              aria-controls="selector-filters"
+              className={cn(
+                'flex shrink-0 items-center gap-2 rounded-lg border px-3 py-3 text-xs font-medium uppercase tracking-[0.12em] transition-all duration-200',
+                filtersOpen || activeFilterCount > 0
+                  ? 'border-gold/60 bg-gold/10 text-gold'
+                  : 'border-gold/20 text-cream-muted hover:border-gold/50 hover:text-gold'
+              )}
+            >
+              <SlidersHorizontal className="h-4 w-4" />
+              <span className="hidden sm:inline">Filters</span>
+              {activeFilterCount > 0 && (
+                <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-gold px-1 text-[10px] font-semibold text-surface">
+                  {activeFilterCount}
+                </span>
+              )}
+            </button>
+          </div>
+
+          {/* Query state: everything currently shaping the results, in one row. */}
+          <div className="flex flex-wrap items-center gap-2">
+            <span aria-live="polite" className="mr-1 text-xs text-cream-muted">
+              {totalResults} {totalResults === 1 ? 'fragrance' : 'fragrances'}
+            </span>
+            {/* Content screen: a standing preference, so always visible here. */}
+            <button
+              onClick={() => setScreenOn(!screenOn)}
+              aria-pressed={screenOn}
+              title={cinnamonBalsamScreen.description}
+              className={cn(
+                'flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-medium uppercase tracking-wider transition-all duration-200',
+                screenOn
+                  ? 'border-amber-300/70 bg-amber-300/15 text-amber-200'
+                  : 'border-gold/20 text-cream-muted/60 hover:border-gold/40 hover:text-gold/80'
+              )}
+            >
+              <ShieldCheck className="h-3 w-3" />
+              {screenOn ? 'Screen on' : 'Screen off'} · Cinnamon &amp; balsam
+            </button>
+            {selectedAudience && (
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/10 pl-3 pr-1.5 py-1 text-xs font-medium text-gold">
+                {audienceViews.find(v => v.id === selectedAudience)?.label}
+                <button onClick={() => setSelectedAudience(null)} className="flex h-4 w-4 items-center justify-center rounded-full hover:bg-gold/20 transition-colors" aria-label="Remove audience filter">
+                  <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+              </span>
+            )}
+            {selectedOccasion && (
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/10 pl-3 pr-1.5 py-1 text-xs font-medium text-gold">
+                {occasions.find(o => o.id === selectedOccasion)?.label}
+                <button onClick={() => setSelectedOccasion(null)} className="flex h-4 w-4 items-center justify-center rounded-full hover:bg-gold/20 transition-colors" aria-label="Remove occasion filter">
+                  <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+              </span>
+            )}
+            {selectedSeasons.map(s => (
+              <span key={s} className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/10 pl-3 pr-1.5 py-1 text-xs font-medium text-gold">
+                {seasons.find(x => x.id === s)?.label}
+                <button onClick={() => toggleSeason(s)} className="flex h-4 w-4 items-center justify-center rounded-full hover:bg-gold/20 transition-colors" aria-label={`Remove ${s} filter`}>
+                  <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+              </span>
+            ))}
+            {selectedFamilies.map(f => (
+              <span key={f} className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/10 pl-3 pr-1.5 py-1 text-xs font-medium text-gold">
+                {scentFamilies.find(x => x.id === f)?.label}
+                <button onClick={() => toggleFamily(f)} className="flex h-4 w-4 items-center justify-center rounded-full hover:bg-gold/20 transition-colors" aria-label={`Remove ${f} filter`}>
+                  <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+              </span>
+            ))}
+            {selectedBudgets.map(b => (
+              <span key={b} className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/10 pl-3 pr-1.5 py-1 text-xs font-medium text-gold">
+                {budgetRanges.find(x => x.id === b)?.label}
+                <button onClick={() => toggleBudget(b)} className="flex h-4 w-4 items-center justify-center rounded-full hover:bg-gold/20 transition-colors" aria-label={`Remove ${b} filter`}>
+                  <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+              </span>
+            ))}
+            {selectedIntensities.map(i => (
+              <span key={i} className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/10 pl-3 pr-1.5 py-1 text-xs font-medium text-gold">
+                Intensity {i}
+                <button onClick={() => toggleIntensity(i)} className="flex h-4 w-4 items-center justify-center rounded-full hover:bg-gold/20 transition-colors" aria-label={`Remove intensity ${i} filter`}>
+                  <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+              </span>
+            ))}
             {hasActiveFilters && (
               <button
                 onClick={clearAllFilters}
-                className="text-xs font-medium uppercase tracking-[0.12em] text-cream-muted hover:text-gold border border-gold/20 hover:border-gold/50 rounded-lg px-3 py-2 transition-all duration-200"
+                className="ml-auto text-[11px] font-medium uppercase tracking-[0.12em] text-cream-muted hover:text-gold transition-colors duration-200"
               >
                 Clear all
               </button>
@@ -295,34 +425,9 @@ export function ScentRecommendationEngine() {
           </div>
         </div>
 
-        {/* Controls */}
-        <div className="p-6 space-y-6">
-          {/* Search */}
-          <div className="relative">
-            <svg
-              className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-cream-muted/40 pointer-events-none"
-              fill="none" viewBox="0 0 24 24" stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
-            </svg>
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-              placeholder="Search by brand, name, or note — e.g. iris vetiver, Dior oud, vanilla -cinnamon…"
-              className="w-full rounded-lg border border-gold/20 bg-surface-elevated/50 pl-9 pr-9 py-3 text-sm text-cream placeholder:text-cream-muted/40 focus:outline-none focus:border-gold/50 focus:bg-surface-elevated transition-all duration-200"
-            />
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-cream-muted/40 hover:text-cream-muted transition-colors"
-              >
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            )}
-          </div>
+        {/* Filters, collapsed by default so results start right under search. */}
+        {filtersOpen && (
+        <div id="selector-filters" className="p-6 space-y-6">
           {/* Audience Selection */}
           <div>
             <label className="mb-3 block text-xs font-medium uppercase tracking-[0.15em] text-gold">
@@ -581,70 +686,17 @@ export function ScentRecommendationEngine() {
               ))}
             </div>
           </div>
+          <div className="flex justify-end">
+            <button
+              onClick={() => setFiltersOpen(false)}
+              className="rounded-lg border border-gold/40 bg-gold/10 px-4 py-2 text-xs font-medium uppercase tracking-[0.12em] text-gold hover:bg-gold/20 transition-colors duration-200"
+            >
+              Show {totalResults} {totalResults === 1 ? 'result' : 'results'}
+            </button>
+          </div>
         </div>
+        )}
         <div className="border-t border-gold/20 bg-surface-elevated/30 px-6 py-6">
-
-          {/* Active filter pills */}
-          {hasActiveFilters && (
-            <div className="mb-4 flex flex-wrap items-center gap-2">
-              {selectedAudience && (
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/10 pl-3 pr-1.5 py-1 text-xs font-medium text-gold">
-                  {audienceViews.find(v => v.id === selectedAudience)?.label}
-                  <button onClick={() => setSelectedAudience(null)} className="flex h-4 w-4 items-center justify-center rounded-full hover:bg-gold/20 transition-colors" aria-label="Remove audience filter">
-                    <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                  </button>
-                </span>
-              )}
-              {selectedOccasion && (
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/10 pl-3 pr-1.5 py-1 text-xs font-medium text-gold">
-                  {occasions.find(o => o.id === selectedOccasion)?.label}
-                  <button onClick={() => setSelectedOccasion(null)} className="flex h-4 w-4 items-center justify-center rounded-full hover:bg-gold/20 transition-colors" aria-label="Remove occasion filter">
-                    <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                  </button>
-                </span>
-              )}
-              {selectedSeasons.map(s => (
-                <span key={s} className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/10 pl-3 pr-1.5 py-1 text-xs font-medium text-gold">
-                  {seasons.find(x => x.id === s)?.label}
-                  <button onClick={() => toggleSeason(s)} className="flex h-4 w-4 items-center justify-center rounded-full hover:bg-gold/20 transition-colors" aria-label={`Remove ${s} filter`}>
-                    <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                  </button>
-                </span>
-              ))}
-              {selectedFamilies.map(f => (
-                <span key={f} className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/10 pl-3 pr-1.5 py-1 text-xs font-medium text-gold">
-                  {scentFamilies.find(x => x.id === f)?.label}
-                  <button onClick={() => toggleFamily(f)} className="flex h-4 w-4 items-center justify-center rounded-full hover:bg-gold/20 transition-colors" aria-label={`Remove ${f} filter`}>
-                    <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                  </button>
-                </span>
-              ))}
-              {selectedBudgets.map(b => (
-                <span key={b} className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/10 pl-3 pr-1.5 py-1 text-xs font-medium text-gold">
-                  {budgetRanges.find(x => x.id === b)?.label}
-                  <button onClick={() => toggleBudget(b)} className="flex h-4 w-4 items-center justify-center rounded-full hover:bg-gold/20 transition-colors" aria-label={`Remove ${b} filter`}>
-                    <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                  </button>
-                </span>
-              ))}
-              {selectedIntensities.map(i => (
-                <span key={i} className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/10 pl-3 pr-1.5 py-1 text-xs font-medium text-gold">
-                  Intensity {i}
-                  <button onClick={() => toggleIntensity(i)} className="flex h-4 w-4 items-center justify-center rounded-full hover:bg-gold/20 transition-colors" aria-label={`Remove intensity ${i} filter`}>
-                    <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                  </button>
-                </span>
-              ))}
-              {searchQuery && (
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/10 pl-3 pr-1.5 py-1 text-xs font-medium text-gold">
-                  &ldquo;{searchQuery}&rdquo;
-                  <button onClick={() => setSearchQuery('')} className="flex h-4 w-4 items-center justify-center rounded-full hover:bg-gold/20 transition-colors" aria-label="Clear search">
-                    <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                  </button>
-                </span>
-              )}
-            </div>
-          )}
 
           {/* Personalisation status */}
           {isSignedIn && tasteProfile && tasteProfile.ratingCount >= 3 && (
@@ -712,21 +764,6 @@ export function ScentRecommendationEngine() {
                   Cabinet
                 </button>
               )}
-              {/* Content screen toggle */}
-              <button
-                onClick={() => setScreenOn(!screenOn)}
-                aria-pressed={screenOn}
-                title={cinnamonBalsamScreen.description}
-                className={cn(
-                  'flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-medium uppercase tracking-wider transition-all duration-200',
-                  screenOn
-                    ? 'border-amber-300/70 bg-amber-300/15 text-amber-200'
-                    : 'border-gold/20 text-cream-muted/60 hover:border-gold/40 hover:text-gold/80'
-                )}
-              >
-                <ShieldCheck className="h-3 w-3" />
-                Cinnamon &amp; balsam
-              </button>
             </div>
             <div className="flex flex-col items-end gap-2">
               {/* Sort controls */}
