@@ -39,3 +39,24 @@ export function screenMatches(fragrance: Fragrance, screen: NoteScreen = cinnamo
     screen.patterns.some((p) => p.test(note)),
   )
 }
+
+/**
+ * Label ingredients that earn a caution badge, not a hide. They are close
+ * chemical relatives of what the screen targets (cinnamates, Peru and Tolu
+ * balsam, whose Latin genus is Myroxylon), but label presence alone did not
+ * track real reactions, so they inform rather than filter.
+ */
+const CAUTION_PATTERNS: { label: string; pattern: RegExp }[] = [
+  { label: 'Cinnamyl Alcohol', pattern: /^cinnamyl alcohol$/i },
+  { label: 'Benzyl Cinnamate', pattern: /^benzyl cinnamate$/i },
+  { label: 'Balsam (Myroxylon)', pattern: /myroxylon|balsam peru|peru balsam|tolu/i },
+]
+
+/** Caution labels for the fragrance's listed ingredients, deduplicated. */
+export function cautionMatches(fragrance: Fragrance): string[] {
+  const found = new Set<string>()
+  for (const ingredient of fragrance.ingredients ?? []) {
+    for (const { label, pattern } of CAUTION_PATTERNS) if (pattern.test(ingredient)) found.add(label)
+  }
+  return [...found]
+}
