@@ -277,10 +277,10 @@ export function FragranceCard({
               )}
               {ingredientCheck && !fragrance.ingredients && (
                 <span
-                  title="No ingredient label on file, so this could not be checked against the label"
+                  title="No published ingredient label on file, so ingredient exclusions could not be checked. The note list is separate and may still be verified."
                   className="shrink-0 text-[10px] font-medium uppercase tracking-wider text-cream-muted/60 border border-dashed border-cream-muted/30 rounded px-1.5 py-0.5 leading-none"
                 >
-                  Ingredients not verified
+                  No ingredient label
                 </span>
               )}
             </div>
