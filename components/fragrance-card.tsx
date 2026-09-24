@@ -378,11 +378,17 @@ export function FragranceCard({
           </div>
         </div>
 
-        {/* Expanded content */}
+        {/* Expanded content.
+            Animates grid rows (0fr -> 1fr) rather than max-height, so the
+            section opens to exactly its content height with no ceiling to
+            outgrow — a fixed max-height clipped the bottom sections once the
+            card gained reactions and ingredient labels. `inert` keeps the
+            collapsed content out of the tab order and away from screen readers. */}
         <div className={cn(
-          'overflow-hidden transition-all duration-500',
-          isExpanded ? 'mt-4 max-h-[900px] opacity-100' : 'max-h-0 opacity-0'
+          'grid transition-[grid-template-rows,opacity,margin] duration-500',
+          isExpanded ? 'mt-4 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
         )}>
+          <div className="min-h-0 overflow-hidden" inert={!isExpanded}>
           <div className="space-y-3 border-t border-gold/20 pt-4">
 
             {/* Rationale */}
@@ -545,6 +551,7 @@ export function FragranceCard({
                 </div>
               )
             })()}
+          </div>
           </div>
         </div>
       </div>
