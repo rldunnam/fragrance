@@ -53,11 +53,17 @@ export function isScreened(fragrance: Fragrance, screen: NoteScreen = cinnamonBa
 
 /**
  * Label ingredients that earn a caution badge, not a hide. They are close
- * chemical relatives of what the screen targets (cinnamates, Peru and Tolu
- * balsam, whose Latin genus is Myroxylon), but label presence alone did not
- * track real reactions, so they inform rather than filter.
+ * chemical relatives of what the screen targets (cinnamates, Cinnamal, the
+ * cinnamon and cassia oils of genus Cinnamomum, and Peru and Tolu balsam,
+ * whose Latin genus is Myroxylon), but label presence alone did not track
+ * real reactions, so they inform rather than filter.
+ *
+ * Cinnamal is matched exactly: Amyl Cinnamal and Hexyl Cinnamal are separate
+ * jasmine-type materials and do not earn the badge.
  */
 const CAUTION_PATTERNS: { label: string; pattern: RegExp }[] = [
+  { label: 'Cinnamal', pattern: /^cinnamal$/i },
+  { label: 'Cinnamon Oil (Cinnamomum)', pattern: /cinnamomum/i },
   { label: 'Cinnamyl Alcohol', pattern: /^cinnamyl alcohol$/i },
   { label: 'Benzyl Cinnamate', pattern: /^benzyl cinnamate$/i },
   { label: 'Balsam (Myroxylon)', pattern: /myroxylon|balsam peru|peru balsam|tolu/i },
