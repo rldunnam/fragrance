@@ -80,20 +80,23 @@ if (entries.length === 0) {
   err('Parsed zero entries from data.ts — the file shape may have changed.')
 }
 
+// A single- or double-quoted string literal, allowing backslash escapes such
+// as 'L\'Homme'. Stopping at the first quote instead would read that value as
+// "L\" and make every apostrophe name look the same.
+const STRING = `'(?:[^'\\\\]|\\\\.)*'|"(?:[^"\\\\]|\\\\.)*"`
+const unquote = (lit) => lit.slice(1, -1).replace(/\\(.)/g, '$1')
+
 const list = (body, field) => {
-  const m = body.match(new RegExp(`${field}: \\[([^\\]]*)\\]`))
+  const m = body.match(new RegExp(`${field}: \\[((?:${STRING}|[^\\]'"])*)\\]`))
   if (!m) return null
-  return m[1]
-    .split(',')
-    .map((v) => v.trim().replace(/^['"]|['"]$/g, ''))
-    .filter(Boolean)
+  return [...m[1].matchAll(new RegExp(STRING, 'g'))].map((x) => unquote(x[0])).filter(Boolean)
 }
 // Values may be single- or double-quoted: entries containing an apostrophe
-// (e.g. "Dior's signature") use double quotes.
+// (e.g. "Dior's signature") use double quotes or an escaped \'.
 const str = (body, field) => {
-  const m = body.match(new RegExp(`${field}: (?:'([^']*)'|"([^"]*)")`))
+  const m = body.match(new RegExp(`${field}: (${STRING})`))
   if (!m) return null
-  return m[1] ?? m[2]
+  return unquote(m[1])
 }
 const num = (body, field) => {
   const m = body.match(new RegExp(`${field}: (-?[\\d.]+)`))
