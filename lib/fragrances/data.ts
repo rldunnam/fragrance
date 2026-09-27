@@ -2779,6 +2779,13 @@ export const fragrances: Fragrance[] = [
     sillage: 'Strong',
     projection: 4,
     source: 'https://www.fragrantica.com/perfume/Viktor-Rolf/Flowerbomb-1460.html',
+    ingredients: [
+      'Alcohol', 'Parfum/Fragrance', 'Aqua/Water', 'Benzyl Salicylate', 'Linalool',
+      'Butyl Methoxydibenzoylmethane', 'Ethylhexyl Methoxycinnamate', 'Limonene',
+      'Pentaerythrityl Tetra-Di-T-Butyl Hydroxyhydrocinnamate', 'Coumarin', 'Benzyl Alcohol',
+      'Benzyl Benzoate', 'Citral', 'Ci 19140/Yellow 5', 'Ci 60730/Ext. Violet 2', 'Ci 17200/Red 33',
+    ],
+    ingredientsSource: 'https://www.sephora.com/product/flowerbomb-P255506',
   },
 
   // ─── Jo Malone ────────────────────────────────────────────────────────────
@@ -3104,6 +3111,15 @@ export const fragrances: Fragrance[] = [
     concentration: 'EDT',
     line: 'Ombré Leather',
     source: 'https://www.fragrantica.com/perfume/Tom-Ford/Eau-d-Ombre-Leather-95389.html',
+    ingredients: [
+      'Alcohol Denat.', 'Water Aqua Eau', 'Fragrance (parfum)', 'Vanillin', 'Citral', 'Coumarin',
+      'Geraniol', 'Hydroxycitronellal', 'Limonene', 'Linalool', 'Eugenyl Acetate',
+      'Tetramethyl Acetyloctahydronaphthalenes', 'Juniperus Virginiana Oil',
+      'Pogostemon Cablin (patchouli) Oil', 'Pinene', 'Isoeugenyl Acetate', 'Geranyl Acetate', 'Camphor',
+      'Beta-caryophyllene', 'Santalum Album (sandalwood) Oil', 'Terpineol', 'Santalol',
+      'Linalyl Acetate', 'Terpinolene',
+    ],
+    ingredientsSource: 'https://www.tomfordbeauty.com/products/eau-dombre-leather-eau-de-toilette',
   },
 
   // ---- TOM FORD: Signature ----
@@ -3148,6 +3164,20 @@ export const fragrances: Fragrance[] = [
     concentration: 'EDP',
     line: 'Noir',
     source: 'https://www.fragrantica.com/perfume/Tom-Ford/Noir-15727.html',
+    status: 'regional',
+    includeReason: 'Pulled from US distribution (absent from tomfordbeauty.com; sold out at Nordstrom and Macy\'s) but still sold on Tom Ford\'s UK site; kept as the original of the Noir line and because its id is published.',
+    ingredients: [
+      'Alcohol Denat.', 'Water Aqua Eau', 'Fragrance (parfum)',
+      'Tetramethyl Acetyloctahydronaphthalenes', 'Pogostemon Cablin (patchouli) Oil', 'Linalool',
+      'Limonene', 'Citronellol', 'Cinnamyl Alcohol', 'Benzyl Benzoate', 'Hydroxycitronellal',
+      'Alpha-isomethyl Ionone', 'Linalyl Acetate', 'Coumarin', 'Geraniol', 'Citral', 'Benzyl Alcohol',
+      'Farnesol', 'Eugenol', 'Citrus Aurantium Peel Oil', 'Hexadecanolactone', 'Beta-caryophyllene',
+      'Citrus Limon (lemon) Peel Oil', 'Lavandula Oil/extract', 'Vanillin', 'Geranyl Acetate',
+      'Pelargonium Graveolens Flower Oil', 'Acetyl Cedrene',
+      'Citrus Aurantium Bergamia (bergamot) Peel Oil', 'Pinene', 'Hexamethylindanopyran', 'Carvone',
+      'Terpineol', 'Terpinolene', 'Alpha Terpinene', 'Rose Flower Oil/extract', 'Santalol', 'Cinnamal',
+    ],
+    ingredientsSource: 'https://www.tomfordbeauty.co.uk/product/noir-eau-de-parfum',
   },
   {
     id: 'tom-ford-noir-extreme',
@@ -3473,6 +3503,20 @@ export const fragrances: Fragrance[] = [
     line: 'Eros',
     concentration: 'Parfum',
     source: 'https://www.fragrantica.com/perfume/Versace/Eros-Najim-99116.html',
+    ingredients: [
+      'Alcohol Denat. (Sd Alcohol 39-C)', 'Parfum (Fragrance)',
+      'Tetramethyl Acetyloctahydronaphthalenes', 'Dipropylene Glycol', 'Aqua (Water)',
+      'Citrus Limon Peel Oil', 'Linalyl Acetate', 'Limonene', 'Vanillin', 'Hexamethylindanopyran',
+      'Pogostemon Cablin Oil', 'Coumarin', 'Pinene', 'Ethylhexyl Methoxycinnamate', 'Linalool',
+      'Alpha-Isomethyl Ionone', 'Juniperus Virginiana Oil', 'Citrus Aurantium Peel Oil', 'Citronellol',
+      'Butyl Methoxydibenzoylmethane', 'Ethylhexyl Salicylate', 'Citral', 'Beta-Caryophyllene',
+      'Mentha Viridis Leaf Oil', 'Carvone', 'Geranyl Acetate', 'Menthol',
+      'Cedrus Atlantica Oil/Extract', 'Terpineol', 'Citrus Aurantium Bergamia Peel Oil', 'Geraniol',
+      'Lavandula Oil/Extract', 'Pelargonium Graveolens Flower Oil', 'Rose Ketones', 'Terpinolene',
+      'Alpha-Terpinene', 'Cinnamomum Zeylanicum Bark Oil', 'Sclareol', 'Benzaldehyde', 'Cinnamal',
+      'Eugenol', 'Isoeugenol',
+    ],
+    ingredientsSource: 'https://www.sephora.com/product/eros-najim-parfum-P516836',
   },
 
   // ---- HUGO BOSS ----
