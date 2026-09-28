@@ -40,7 +40,18 @@ export interface Fragrance {
   longevity: string
   sillage: string
   projection: number // 1-5 scale
-  price: number // USD, typical 100ml bottle
+  /**
+   * USD list price for the house's most common bottle size, as set in
+   * lib/fragrances/price-basis.json, taken from the house's US site first,
+   * then Sephora or Ulta. When this release is not sold in that size, price
+   * the nearest size the house does sell and record it in `priceSizeMl`.
+   */
+  price: number
+  /**
+   * Bottle size in ml that `price` refers to, when it differs from the
+   * house's basis in price-basis.json. Omit when the house basis applies.
+   */
+  priceSizeMl?: number
   concentration?: Concentration
   /**
    * The pillar this release belongs to, e.g. 'Sauvage' for Sauvage EDT /

@@ -69,6 +69,43 @@ const LONGEVITY_RE = /^(\d+-\d+ hrs|\d+\+ hrs)$/
 const SCREEN_IDS = new Set([...screensSrc.matchAll(/^\s*id: '([^']+)',/gm)].map((m) => m[1]))
 let screenFlagged = 0
 
+// Note spelling. Pyramids are copied from Fragrantica verbatim, with two
+// documented exceptions that keep one spelling per note so whole-word search
+// finds it: the Fragrantica spellings below are stored as their catalog form,
+// and trademark symbols are dropped ("Ambermax™" is stored as "Ambermax").
+// Add an alias here, with the catalog form already in use, rather than
+// renaming a note ad hoc in a single entry.
+const NOTE_ALIASES = new Map([
+  ['Vanila', 'Vanilla'],
+  ['Cloves', 'Clove'],
+  ['Citruses', 'Citrus'],
+])
+const TRADEMARK_RE = /[™®©]/
+
+// Ingredient label sources. Labels come from the house's US site, then a major
+// US retailer. Decant shops and discounters re-type labels and drop items (a
+// decant vial page was missing the last two items of a 39-item list), so they
+// fail outright. Non-US sites and multi-product set pages are warnings: they
+// are sometimes the only source (regional releases), but need a reason.
+const RESELLER_HOST_RE =
+  /(^|\.)(microperfumes|decanthouse|decantx|scentdecant|scentsplit|fragrancenet|fragrancex|jomashop|maxaroma|amazon|ebay|walmart)\.[a-z.]+$/
+const NON_US_HOST_RE = /\.(co\.uk|uk|fr|de|it|es|nl|ca|in|ae|com\.au|com\.mx|com\.br)$/
+// House sites whose bare domain is the global (non-US) storefront.
+const GLOBAL_HOSTS = new Set(['parfums-de-marly.com', 'www.parfums-de-marly.com'])
+const SET_PAGE_RE = /(sampler|gift-set|coffret|discovery-set|mini-set|-set-|-set$)/i
+// Formula codes as printed with a label: L'Oréal's "F.I.L. B266362/1" or
+// Dior's "#21664". A bare batch code (e.g. "8YB02-1") is not a formula code.
+const FORMULA_CODE_RE = /^(F\.I\.L\. [A-Z0-9]+\/\d+|#\d+)$/
+
+// Price basis: the bottle size each house most commonly sells. Every price
+// refers to that size unless the entry sets priceSizeMl.
+const priceBasisPath = resolve(root, 'lib/fragrances/price-basis.json')
+const PRICE_BASIS = existsSync(priceBasisPath)
+  ? JSON.parse(readFileSync(priceBasisPath, 'utf8')).houses ?? {}
+  : {}
+if (!existsSync(priceBasisPath)) err('lib/fragrances/price-basis.json is missing')
+let noPriceBasis = 0
+
 // ---------------------------------------------------------------------------
 // Split data.ts into entries
 // ---------------------------------------------------------------------------
@@ -196,6 +233,12 @@ for (const { id, body } of entries) {
     else if (mustBeEmpty && vals.length > 0) err(`${where} notesFlat entries keep all notes in heartNotes; "${field}" must be empty`)
     else if (!mustBeEmpty && vals.length === 0) err(`${where} "${field}" is empty`)
     for (const note of vals ?? []) {
+      if (TRADEMARK_RE.test(note)) {
+        err(`${where} note "${note}" carries a trademark symbol — store it without (${note.replace(TRADEMARK_RE, '')})`)
+      }
+      if (NOTE_ALIASES.has(note)) {
+        err(`${where} note "${note}" is Fragrantica's spelling — the catalog stores it as "${NOTE_ALIASES.get(note)}"`)
+      }
       const key = note.toLowerCase()
       if (!noteSpellings.has(key)) noteSpellings.set(key, new Map())
       const spellings = noteSpellings.get(key)
@@ -222,6 +265,26 @@ for (const { id, body } of entries) {
   }
   if (ingredientsSource && !/^https:\/\/\S+$/.test(ingredientsSource)) {
     err(`${where} ingredientsSource must be an https URL, got "${ingredientsSource}"`)
+  }
+  if (ingredientsSource && /^https:\/\/\S+$/.test(ingredientsSource)) {
+    const { hostname, pathname } = new URL(ingredientsSource)
+    const regional = str(body, 'status') === 'regional'
+    if (RESELLER_HOST_RE.test(hostname)) {
+      err(`${where} ingredientsSource is a decant shop or discounter (${hostname}) — use the house's US site or a major US retailer`)
+    } else if (
+      !regional &&
+      (NON_US_HOST_RE.test(hostname) || GLOBAL_HOSTS.has(hostname) ||
+        (/(^|\.)sephora\./.test(hostname) && hostname !== 'www.sephora.com') ||
+        (hostname === 'www.sephora.com' && /^\/ca\//.test(pathname)))
+    ) {
+      warn(`${where} ingredientsSource is not a US site (${hostname}) — use the house's US site or a US retailer`)
+    }
+    if (SET_PAGE_RE.test(pathname)) {
+      warn(`${where} ingredientsSource looks like a multi-product set page — use the fragrance's own product page`)
+    }
+  }
+  if (formulaCode && !FORMULA_CODE_RE.test(formulaCode)) {
+    err(`${where} formulaCode "${formulaCode}" should look like "F.I.L. B266362/1" or "#21664" (bare batch codes don't belong here)`)
   }
   if (ingredients) withIngredients++
 
@@ -261,6 +324,9 @@ for (const { id, body } of entries) {
   const source = str(body, 'source')
   if (source === null) missingSource++
   else if (!/^https:\/\/\S+$/.test(source)) err(`${where} source must be an https URL, got "${source}"`)
+  else if (!/^https:\/\/www\.fragrantica\.com\/perfume\/[^/]+\/[^/]+-\d+\.html$/.test(source)) {
+    err(`${where} source must be the fragrance's own Fragrantica page, got "${source}"`)
+  }
 
   // --- numeric ranges -------------------------------------------------------
   for (const field of ['intensity', 'projection']) {
@@ -274,6 +340,17 @@ for (const { id, body } of entries) {
   if (price === null) err(`${where} missing required field "price"`)
   else if (price <= 0) err(`${where} price must be positive, got ${price}`)
   else if (price > 2000) warn(`${where} price $${price} looks high — verify`)
+  const priceSizeMl = num(body, 'priceSizeMl')
+  const basis = house ? PRICE_BASIS[house] : undefined
+  if (priceSizeMl !== null) {
+    if (!Number.isInteger(priceSizeMl) || priceSizeMl < 1 || priceSizeMl > 1000) {
+      err(`${where} priceSizeMl must be a whole number of ml, got ${priceSizeMl}`)
+    } else if (basis === priceSizeMl) {
+      warn(`${where} priceSizeMl ${priceSizeMl} equals the ${house} basis — omit it`)
+    }
+  } else if (basis === undefined) {
+    noPriceBasis++
+  }
 
   // --- no images ------------------------------------------------------------
   // The catalog deliberately carries no bottle imagery. Sourcing official brand
@@ -345,6 +422,17 @@ if (missingSource > 0) {
   warn(`${missingSource} of ${entries.length} fragrances have no source for their note pyramid yet`)
 }
 
+// Price basis houses must exist in the catalog, and entries whose house has no
+// basis yet are reported as one summary line, like missing pyramid sources.
+const usedHouses = new Set(entries.map((e) => str(e.body, 'house')).filter(Boolean))
+for (const [h, ml] of Object.entries(PRICE_BASIS)) {
+  if (!usedHouses.has(h)) err(`price-basis.json names house "${h}", which no fragrance uses`)
+  if (!Number.isInteger(ml) || ml < 1) err(`price-basis.json: "${h}" must map to a whole number of ml`)
+}
+if (noPriceBasis > 0) {
+  warn(`${noPriceBasis} of ${entries.length} fragrances have no price basis yet (house not in price-basis.json, no priceSizeMl)`)
+}
+
 // Permanent ids. Once an id ships, Supabase rows (cabinet, wishlist, ratings,
 // reactions) reference it, and nothing links a renamed id back to them — a
 // rename silently orphans every user's data for that fragrance. So ids are
@@ -387,6 +475,35 @@ if (unrecorded.length > 0) {
   }
 }
 
+// Findings ledger. docs/validation-findings.md records every validator finding
+// and is updated by the patch that fixes it, so no finding is lost between
+// runs. Rows must name a real entry (or a retired id, or — for catalog-wide
+// items), and a closed row must say which patch closed it.
+const ledgerPath = resolve(root, 'docs/validation-findings.md')
+const ledger = { open: 0, done: 0, wontfix: 0 }
+if (!existsSync(ledgerPath)) {
+  err('docs/validation-findings.md is missing')
+} else {
+  const seenFindings = new Set()
+  const rows = readFileSync(ledgerPath, 'utf8').split('\n').filter((l) => /^\|\s*F-\d+/.test(l))
+  for (const row of rows) {
+    const [fid, status, entry, , , , , closedIn] = row.split('|').slice(1, -1).map((c) => c.trim())
+    const at = `ledger ${fid}`
+    if (seenFindings.has(fid)) err(`${at} is listed twice`)
+    seenFindings.add(fid)
+    if (!(status in ledger)) { err(`${at} status "${status}" must be open, done or wontfix`); continue }
+    ledger[status]++
+    const ids = entry.replace(/`/g, '')
+    if (ids !== '—' && !dataIds.has(ids) && !(ids in retired)) {
+      err(`${at} names "${ids}", which is neither in data.ts nor retired`)
+    }
+    const closed = closedIn && closedIn !== '—'
+    if (status === 'open' && closed) err(`${at} is open but has a closed-in value`)
+    if (status !== 'open' && !closed) err(`${at} is ${status} but does not say which patch closed it`)
+  }
+  if (rows.length === 0) err('docs/validation-findings.md has no finding rows — the table shape may have changed')
+}
+
 // ---------------------------------------------------------------------------
 // Report
 // ---------------------------------------------------------------------------
@@ -402,6 +519,7 @@ console.log(
       .join('  |  '),
 )
 console.log(`  ingredient labels: ${withIngredients} of ${entries.length}  |  screen flags: ${screenFlagged}  |  published ids: ${published.size + (recording ? unrecorded.length : 0)}`)
+console.log(`  findings ledger: ${ledger.open} open  |  ${ledger.done} done  |  ${ledger.wontfix} wontfix`)
 console.log(
   '  audience: ' +
     [...AUDIENCES]
