@@ -69,13 +69,15 @@ Report problems; do not fix them.
 
 **Price** (every price a patch adds or changes)
 
-- `price` is for the house's most common bottle size, set per house in
-  `lib/fragrances/price-basis.json`. If the release isn't sold in that size,
-  price the nearest size the house sells and record it in `priceSizeMl`.
-- Confirm against the house's US site, falling back to Sephora or Ulta. Listing
-  and range pages often show a "from" price for the smallest size; open the
-  product page and read the price for the right size.
-- Flag prices you cannot confirm, and flag a house with no basis yet rather
+- Confirm against the house's US site, falling back to Sephora or Ulta.
+- Take the price at the size the source's product page presents by default:
+  its preselected or suggested purchase size. Listing and range pages often
+  show a "from" price for the smallest size, so open the product page.
+- `lib/fragrances/price-basis.json` records each house's usual size. If the
+  size you priced differs from it, the entry must set `priceSizeMl` to the
+  priced size. Flag an entry whose price or `priceSizeMl` doesn't match the
+  source's default size.
+- Flag prices you cannot confirm, and flag a house with no size yet rather
   than guessing one.
 
 **Concentration**
