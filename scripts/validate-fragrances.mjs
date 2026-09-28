@@ -92,6 +92,9 @@ const RESELLER_HOST_RE =
 const NON_US_HOST_RE = /\.(co\.uk|uk|fr|de|it|es|nl|ca|in|ae|com\.au|com\.mx|com\.br)$/
 // House sites whose bare domain is the global (non-US) storefront.
 const GLOBAL_HOSTS = new Set(['parfums-de-marly.com', 'www.parfums-de-marly.com'])
+// A country locale in the path, e.g. dior.com/en_id/ (Indonesia). US paths
+// (en_us, /us/en_US/) pass.
+const NON_US_LOCALE_PATH_RE = /\/[a-z]{2}[_-](?!us(?:\/|$))[a-z]{2}(?:\/|$)/i
 const SET_PAGE_RE = /(sampler|gift-set|coffret|discovery-set|mini-set|-set-|-set$)/i
 // Formula codes as printed with a label: L'Oréal's "F.I.L. B266362/1" or
 // Dior's "#21664". A bare batch code (e.g. "8YB02-1") is not a formula code.
@@ -275,9 +278,11 @@ for (const { id, body } of entries) {
       !regional &&
       (NON_US_HOST_RE.test(hostname) || GLOBAL_HOSTS.has(hostname) ||
         (/(^|\.)sephora\./.test(hostname) && hostname !== 'www.sephora.com') ||
-        (hostname === 'www.sephora.com' && /^\/ca\//.test(pathname)))
+        (hostname === 'www.sephora.com' && /^\/ca\//.test(pathname)) ||
+        NON_US_LOCALE_PATH_RE.test(pathname))
     ) {
-      warn(`${where} ingredientsSource is not a US site (${hostname}) — use the house's US site or a US retailer`)
+      const shown = hostname + (pathname.match(/^\/[^/]+/)?.[0] ?? '')
+      warn(`${where} ingredientsSource is not a US site (${shown}) — use the house's US site or a US retailer`)
     }
     if (SET_PAGE_RE.test(pathname)) {
       warn(`${where} ingredientsSource looks like a multi-product set page — use the fragrance's own product page`)

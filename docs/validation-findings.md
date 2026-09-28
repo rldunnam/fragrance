@@ -37,10 +37,10 @@ Statuses: `open`, `done`, `wontfix`. Found dates are validation run dates.
 | F-014 | open | `stronger-with-you` | formulaCode | F.I.L. B267449/1 not visible on any source seen; every snippet cut off at "(F.I.L.". Check the Ulta page by hand. | ulta.com Intensely page | 2026-09-27 | — |
 | F-015 | open | `boss-stronger-with-you-absolutely` | formulaCode, ingredients | F.I.L. N70035952/1 and the final item 'CI 60730 / Ext. Violet 2' not visible on sources seen. | giorgioarmanibeauty-usa.com Absolutely page | 2026-09-24 | — |
 | F-016 | open | `stronger-with-you-parfum` | formulaCode | F.I.L. N70048180/3 not visible on sources seen. | giorgioarmanibeauty-usa.com Parfum page | 2026-09-27 | — |
-| F-017 | open | `jpg-le-male-elixir-absolu` | topNotes, heartNotes, baseNotes | Runs disagree. The 2026-09-24 run found about 10 notes missing with tiers misplaced; the 2026-09-27 run only saw a decant-site copy matching the entry (Lavender / Plum / Tonka Bean). Verify on Fragrantica directly. | fragrantica.com/perfume/Jean-Paul-Gaultier/Le-Male-Elixir-Absolu-101529.html | 2026-09-24 | — |
-| F-018 | open | `jpg-le-male-elixir-absolu` | price | $170, no size stated. JPG US sells 75, 125 and 200 ml, from $150. Needs the JPG price basis. | jeanpaulgaultier.com/us/en_US/c/all-products-for-men--all-men | 2026-09-24 | — |
+| F-017 | open | `jpg-le-male-elixir-absolu` | topNotes, heartNotes, baseNotes | Confirmed on Fragrantica: top Plum, Cinnamon, Cardamom, Bergamot; middle Lavender, Davana, Artemisia; base Tonka Bean, Benzoin, Ambrette (Musk Mallow), Patchouli, Labdanum. The entry has Lavender / Plum / Tonka Bean: 9 notes missing, Lavender and Plum in the wrong tiers, and no Cinnamon, so the cinnamon screen misses it. Fix now. | fragrantica.com/perfume/Jean-Paul-Gaultier/Le-Male-Elixir-Absolu-101529.html | 2026-09-24 | — |
+| F-018 | open | `jpg-le-male-elixir-absolu` | price | $170, no size stated. JPG US sells 75, 125 and 200 ml, from $150. Price at the size the JPG US product page preselects and set priceSizeMl if it differs from the house size. | jeanpaulgaultier.com/us/en_US/c/all-products-for-men--all-men | 2026-09-24 | — |
 | F-019 | open | `jpg-la-belle` | price, status | $115; JPG US lists 100 ml at $150, tagged "Exclusive". Check whether it is house-site-only, which would need status and includeReason. | jeanpaulgaultier.com/us/en_US/p/range-la-belle/ | 2026-09-24 | — |
-| F-020 | open | `jpg-le-beau-paradise-garden` | price | $125, no size stated. Sold in 75 and 125 ml, from $126. Needs the JPG price basis. | jeanpaulgaultier.com/us/en_US/c/all-products-for-men--all-men | 2026-09-24 | — |
+| F-020 | open | `jpg-le-beau-paradise-garden` | price | $125, no size stated. Sold in 75 and 125 ml, from $126. Price at the size the JPG US product page preselects and set priceSizeMl if it differs from the house size. | jeanpaulgaultier.com/us/en_US/c/all-products-for-men--all-men | 2026-09-24 | — |
 | F-021 | open | `jpg-le-male` | ingredientsSource | A four-fragrance mini gift set page, not Le Male's own product page. The label was not compared. It contains Cinnamomum and Cinnamal. | sephora.com/product/mini-cologne-replica-sampler-set-P522528 | 2026-09-27 | — |
 | F-022 | open | `jpg-ultra-male` | ingredientsSource | Sephora FR, not a US source; content not compared against a US list. | sephora.fr | 2026-09-24 | — |
 | F-023 | open | `jpg-le-male-elixir` | ingredients | Matches the cited Sephora page (13 items), but Sephora's gift-set page and Sephora India list a much longer Elixir label. Possible reformulation; check a current box. | sephora.com/product/jean-paul-gaultier-le-male-elixir-P510806 | 2026-09-27 | — |
@@ -48,11 +48,11 @@ Statuses: `open`, `done`, `wontfix`. Found dates are validation run dates.
 | F-025 | open | `jpg-la-belle-le-parfum` | concentration | Parfum; JPG sells it as Eau de Parfum Intense. | jeanpaulgaultier.com/ww/en/p/range-la-belle/ | 2026-09-27 | — |
 | F-026 | open | `jpg-scandal-pour-homme` | line | 'Scandal Pour Homme' is a new line used by this entry only. | — | 2026-09-27 | — |
 | F-027 | open | `jpg-le-beau-edp` | retired reason | The retirement stands, but the reason's list of the Le Beau line omits Le Beau Flower Edition (2025). | jeanpaulgaultier.com/us/en_US/c/all-products-for-men--all-men | 2026-09-24 | — |
-| F-028 | open | `jpg-le-male` | topNotes, heartNotes, baseNotes | Pyramid only seen on a decant site's copy of Fragrantica. Verify on Fragrantica directly. | fragrantica.com/perfume/Jean-Paul-Gaultier/Le-Male-430.html | 2026-09-27 | — |
-| F-029 | open | `jpg-le-male-elixir` | topNotes, heartNotes, baseNotes | Same as F-028. | fragrantica.com/perfume/Jean-Paul-Gaultier/Le-Male-Elixir-81642.html | 2026-09-27 | — |
-| F-030 | open | `jpg-ultra-male` | topNotes, heartNotes, baseNotes | Same as F-028. | fragrantica.com/perfume/Jean-Paul-Gaultier/Ultra-Male-30947.html | 2026-09-27 | — |
-| F-031 | open | `jpg-la-belle-paradise-garden` | topNotes, heartNotes, baseNotes | Flagged by the 2026-09-24 run against Fragrantica; not re-checked yet. The entry has Blue Lotus / Iris / Vanilla. | fragrantica.com/perfume/Jean-Paul-Gaultier/La-Belle-Paradise-Garden-88873.html | 2026-09-24 | — |
-| F-032 | open | `dior-sauvage-extrait` | price | $205 matches Dior US and Macy's, but the size is not stated. Needs the Dior price basis or priceSizeMl. | dior.com/en_us/beauty/products/sauvage-extrait-Y0000281.html | 2026-09-24 | — |
+| F-028 | wontfix | `jpg-le-male` | topNotes, heartNotes, baseNotes | Re-checked on Fragrantica directly: matches tier for tier. | fragrantica.com/perfume/Jean-Paul-Gaultier/Le-Male-430.html | 2026-09-27 | batch-2 |
+| F-029 | wontfix | `jpg-le-male-elixir` | topNotes, heartNotes, baseNotes | Re-checked on Fragrantica directly: matches tier for tier. | fragrantica.com/perfume/Jean-Paul-Gaultier/Le-Male-Elixir-81642.html | 2026-09-27 | batch-2 |
+| F-030 | wontfix | `jpg-ultra-male` | topNotes, heartNotes, baseNotes | Re-checked on Fragrantica directly: matches tier for tier. | fragrantica.com/perfume/Jean-Paul-Gaultier/Ultra-Male-30947.html | 2026-09-27 | batch-2 |
+| F-031 | wontfix | `jpg-la-belle-paradise-garden` | topNotes, heartNotes, baseNotes | Re-checked on Fragrantica: Blue Lotus / Iris / Vanilla matches. The 2026-09-24 flag was a false alarm. | fragrantica.com/perfume/Jean-Paul-Gaultier/La-Belle-Paradise-Garden-88873.html | 2026-09-24 | batch-2 |
+| F-032 | open | `dior-sauvage-extrait` | price | $205 matches Dior US and Macy's, but the size is not stated. Confirm the size Dior US preselects, add Dior to price-basis.json, and set priceSizeMl if they differ. | dior.com/en_us/beauty/products/sauvage-extrait-Y0000281.html | 2026-09-24 | — |
 | F-033 | open | `pdm-carlisle` | screenFlags | The label half of the reason checks out (Cinnamal on PDM US and Nordstrom). "Reviewers consistently describe a cinnamon-apple accord" was not supported by the reviews seen. | us.parfums-de-marly.com/products/carlisle | 2026-09-24 | — |
 | F-034 | open | `pdm-oajan` | ingredients | 13 items; PDM's global site lists 29. The US page could not be loaded, so this may be a US short-form label. | us.parfums-de-marly.com/products/oajan | 2026-09-24 | — |
 | F-035 | open | `layton` | ingredientsSource | parfums-de-marly.com is PDM's global storefront; use us.parfums-de-marly.com. | parfums-de-marly.com/products/layton | 2026-09-27 | — |
@@ -65,7 +65,14 @@ Statuses: `open`, `done`, `wontfix`. Found dates are validation run dates.
 | F-042 | open | `pdm-carlisle` | rationale | Mentions cinnamon, which is not in the verified pyramid. | — | 2026-09-24 | — |
 | F-043 | open | `tom-ford-noir-de-noir` | rationale | Mentions sandalwood, which is not in the verified pyramid. | — | 2026-09-24 | — |
 | F-044 | open | `tom-ford-bois-pacifique` | rationale | Mentions saffron, which is not in the verified pyramid. | — | 2026-09-24 | — |
-| F-045 | open | — | price | Only Emporio Armani has a price basis in price-basis.json. Each house needs its most common size set, starting with Jean Paul Gaultier (men's range 75/125 ml, La Belle 100 ml), Dior and Tom Ford. | lib/fragrances/price-basis.json | 2026-09-27 | — |
+| F-045 | open | — | price | Only Emporio Armani has a size in price-basis.json. Sizes stay per house (decided 2026-09-27); prices follow each source page's default size, with priceSizeMl where it differs. Add sizes for Jean Paul Gaultier, Dior and Tom Ford next. | lib/fragrances/price-basis.json | 2026-09-27 | — |
+| F-046 | open | `dior-tobacolor` | ingredientsSource | Label taken from Dior Indonesia (dior.com/en_id/). Dior US sells it; re-take the list and formula code #20566 from the US page. | dior.com/en_us/beauty/products/tobacolor-Y0996186.html | 2026-09-27 | — |
+| F-047 | done | — | validator | Non-US check missed country locales in the path (dior.com/en_id/). Added NON_US_LOCALE_PATH_RE. | scripts/validate-fragrances.mjs | 2026-09-27 | batch-2 |
+| F-048 | open | `tom-ford-bois-pacifique` | ingredients | Not yet compared against Tom Ford US (#87 was hand-edited). Tuscan Leather and Tobacco Vanille from the same commit matched exactly. | tomfordbeauty.com/products/bois-pacifique-eau-de-parfum | 2026-09-27 | — |
+| F-049 | open | `tom-ford-fucking-fabulous` | ingredients | Same as F-048. | tomfordbeauty.com/products/fucking-fabulous-eau-de-parfum | 2026-09-27 | — |
+| F-050 | open | `tom-ford-lost-cherry` | ingredients | Same as F-048. | tomfordbeauty.com/products/lost-cherry-eau-de-parfum | 2026-09-27 | — |
+| F-051 | open | `tom-ford-noir-extreme` | ingredients | Same as F-048. | tomfordbeauty.com/products/noir-extreme-eau-de-parfum | 2026-09-27 | — |
+| F-052 | open | `tom-ford-noir-extreme-parfum` | ingredients | Same as F-048. | tomfordbeauty.com/products/noir-extreme-parfum | 2026-09-27 | — |
 
 ## Validation coverage
 
@@ -75,10 +82,10 @@ Commits in `4ad2997..main` that touch `lib/fragrances/`, and where each stands.
 |---|---|---|---|
 | #82 | d7a7400 | 2026-09-24, 2026-09-27 | F-001–F-003, F-009–F-016, F-036–F-038 |
 | #83 | 0381163 | 2026-09-24, 2026-09-27 | F-004, F-017–F-031, F-039, F-040. Pyramids F-028–F-031 still unverified. |
-| #84 | eb44973 | 2026-09-24 | F-034, F-041, F-042. Re-check pending. |
-| #85 | ac6401a | not yet | |
+| #84 | eb44973 | 2026-09-24 | Pyramids matched on 2026-09-24; not re-derived. F-034, F-041, F-042. |
+| #85 | ac6401a | 2026-09-27 | All six pyramids match, including Tobacolor's flat list. F-046. |
 | #86 | 7d360e0 | 2026-09-24 | F-005–F-007, F-032, F-033, F-043, F-044 |
-| #87 | 8f4ab8d | not yet | Hand-edited, no batch description. |
+| #87 | 8f4ab8d | 2026-09-27 (partial) | Tuscan Leather and Tobacco Vanille labels match Tom Ford US exactly; F-048–F-052 carried. Also changed card wording in fragrance-card.tsx (not data). |
 | #89 | 4e6b554 | not yet | |
 | #90 | 5d675ab | not yet | |
 | #91 | 27bd9ce | not yet | |
@@ -88,4 +95,6 @@ Commits in `4ad2997..main` that touch `lib/fragrances/`, and where each stands.
 | #95 | eb0e7a1 | not yet | |
 | #96 | ca3f739 | not yet | |
 | #98 | 8000f5b | not yet | |
-| batch-1 | this patch | — | Closes F-001–F-010. |
+| batch-1 | 0001 patch | — | Closes F-001–F-010. |
+| batch-1b | 0002 patch | — | Price rule: per-house size, priced at the source's default size. No findings closed. |
+| batch-2 | 0003 patch | — | Ledger update for #84–#87; locale-path check. Closes F-028–F-031, F-047. |

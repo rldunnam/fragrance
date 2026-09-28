@@ -41,15 +41,16 @@ export interface Fragrance {
   sillage: string
   projection: number // 1-5 scale
   /**
-   * USD list price for the house's most common bottle size, as set in
-   * lib/fragrances/price-basis.json, taken from the house's US site first,
-   * then Sephora or Ulta. When this release is not sold in that size, price
-   * the nearest size the house does sell and record it in `priceSizeMl`.
+   * USD list price, from the house's US site first, then Sephora or Ulta.
+   * Priced at the size the source page presents by default (its preselected
+   * or suggested purchase size). The house's usual size is recorded in
+   * lib/fragrances/price-basis.json; when the priced size differs from it,
+   * record the priced size in `priceSizeMl`.
    */
   price: number
   /**
    * Bottle size in ml that `price` refers to, when it differs from the
-   * house's basis in price-basis.json. Omit when the house basis applies.
+   * house's size in price-basis.json. Omit when they match.
    */
   priceSizeMl?: number
   concentration?: Concentration
