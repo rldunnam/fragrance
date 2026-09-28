@@ -1,0 +1,6 @@
+{
+  "_note": "Price basis per house: the bottle size (ml) the house most commonly sells, which every entry's `price` refers to unless the entry sets `priceSizeMl`. Add a house only after checking its US range; scripts/validate-fragrances.mjs reports entries whose house has no basis yet.",
+  "houses": {
+    "Emporio Armani": 100
+  }
+}
