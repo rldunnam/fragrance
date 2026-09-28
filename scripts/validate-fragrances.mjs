@@ -108,6 +108,8 @@ const PRICE_BASIS = existsSync(priceBasisPath)
   : {}
 if (!existsSync(priceBasisPath)) err('lib/fragrances/price-basis.json is missing')
 let noPriceBasis = 0
+// lowercased ingredient -> entry ids using it, for the near-duplicate check
+const ingredientSpellings = new Map()
 
 // ---------------------------------------------------------------------------
 // Split data.ts into entries
@@ -259,6 +261,8 @@ for (const { id, body } of entries) {
     const seen = new Set()
     for (const ing of ingredients) {
       const k = ing.toLowerCase()
+      if (!ingredientSpellings.has(k)) ingredientSpellings.set(k, [])
+      ingredientSpellings.get(k).push(id)
       if (seen.has(k)) err(`${where} ingredient "${ing}" listed twice`)
       seen.add(k)
     }
@@ -425,6 +429,36 @@ for (const [key, spelling] of noteIndex) {
 // missing source is reported as one summary line rather than one per entry.
 if (missingSource > 0) {
   warn(`${missingSource} of ${entries.length} fragrances have no source for their note pyramid yet`)
+}
+
+// Ingredient spelling. Search matches ingredients exactly, so a retailer's
+// misprint copied into one label (Ulta's "Alpha-Isometyl Ionone") silently
+// escapes a search for the real name. Flag ingredient names that differ from
+// another catalog spelling by one or two characters once separators are
+// ignored. Separator style is kept from each source on purpose, so spaces,
+// hyphens, slashes and parentheses don't count as differences.
+{
+  const norm = (k) => k.replace(/[\s\-/()]/g, '')
+  const lev = (a, b) => {
+    const d = Array.from({ length: a.length + 1 }, (_, i) => [i])
+    for (let j = 1; j <= b.length; j++) d[0][j] = j
+    for (let i = 1; i <= a.length; i++)
+      for (let j = 1; j <= b.length; j++)
+        d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1))
+    return d[a.length][b.length]
+  }
+  const keys = [...ingredientSpellings.keys()]
+  for (let i = 0; i < keys.length; i++) {
+    for (let j = i + 1; j < keys.length; j++) {
+      const a = norm(keys[i]), b = norm(keys[j])
+      if (a === b || Math.min(a.length, b.length) < 8 || Math.abs(a.length - b.length) > 2) continue
+      if (lev(a, b) > 2) continue
+      const [rare, common] = ingredientSpellings.get(keys[i]).length <= ingredientSpellings.get(keys[j]).length
+        ? [keys[i], keys[j]] : [keys[j], keys[i]]
+      warn(`ingredient "${rare}" (${ingredientSpellings.get(rare).join(', ')}) is a near-duplicate of "${common}" — ` +
+        'check the source for a misprint; a documented fix belongs in a comment on the entry')
+    }
+  }
 }
 
 // Price basis houses must exist in the catalog, and entries whose house has no

@@ -70,9 +70,14 @@ Statuses: `open`, `done`, `wontfix`. Found dates are validation run dates.
 | F-047 | done | — | validator | Non-US check missed country locales in the path (dior.com/en_id/). Added NON_US_LOCALE_PATH_RE. | scripts/validate-fragrances.mjs | 2026-09-27 | batch-2 |
 | F-048 | open | `tom-ford-bois-pacifique` | ingredients | Not yet compared against Tom Ford US (#87 was hand-edited). Tuscan Leather and Tobacco Vanille from the same commit matched exactly. | tomfordbeauty.com/products/bois-pacifique-eau-de-parfum | 2026-09-27 | — |
 | F-049 | open | `tom-ford-fucking-fabulous` | ingredients | Same as F-048. | tomfordbeauty.com/products/fucking-fabulous-eau-de-parfum | 2026-09-27 | — |
-| F-050 | open | `tom-ford-lost-cherry` | ingredients | Same as F-048. | tomfordbeauty.com/products/lost-cherry-eau-de-parfum | 2026-09-27 | — |
+| F-050 | wontfix | `tom-ford-lost-cherry` | ingredients | Compared with Tom Ford US: matches item for item (20 items). Tom Ford's own gift-set page and Bluemercury still show an older 29-item list with Cinnamal; the pyramid's Cinnamon note keeps the screen covered either way. | tomfordbeauty.com/products/lost-cherry-eau-de-parfum | 2026-09-27 | batch-3 |
 | F-051 | open | `tom-ford-noir-extreme` | ingredients | Same as F-048. | tomfordbeauty.com/products/noir-extreme-eau-de-parfum | 2026-09-27 | — |
-| F-052 | open | `tom-ford-noir-extreme-parfum` | ingredients | Same as F-048. | tomfordbeauty.com/products/noir-extreme-parfum | 2026-09-27 | — |
+| F-052 | wontfix | `tom-ford-noir-extreme-parfum` | ingredients | Compared with Tom Ford US: matches item for item (44 items). | tomfordbeauty.com/products/noir-extreme-parfum | 2026-09-27 | batch-3 |
+| F-053 | open | `versace-eros-edp` | ingredients, ingredientsSource | 'Alpha-Isometyl Ionone' is Ulta's misprint copied verbatim, so an exact search for Alpha-Isomethyl Ionone misses this entry. Versace US lists the same 12 items spelled correctly; re-source to it. Fix now (Cinnamal label). | versace.com/us/en/men/accessories/fragrances-body-care/eros/eros-edp-100-ml-blue/R740110-R100MLS_RNUL.html | 2026-09-28 | — |
+| F-054 | open | `versace-eros-parfum` | ingredients, ingredientsSource | First item stored as 'Alcohol Denat. (Sd Alcohol 39-C .)' with a stray " ."; otherwise matches. Versace US lists it cleanly; re-source to it. | versace.com/us/en/men/accessories/fragrances-body-care/eros/eros-parfum-100-ml-black/R740210-R100MLS_RNUL.html | 2026-09-28 | — |
+| F-055 | open | `versace-eros-flame` | ingredients, ingredientsSource | Matches the retailer list (Ulta, Kohl's), but Versace US prints a different order (Ethylhexyl Methoxycinnamate before Coumarin; Butyl Methoxydibenzoylmethane before Ethylhexyl Salicylate) and 'Parfum (Fragrance)', 'Aqua (Water)'. The house list wins; re-source to it. | versace.com/us/en/men/accessories/fragrances-body-care/eros-flame/eros-flame-edp-100-ml-red/R741010-R100MLS_RNUL.html | 2026-09-28 | — |
+| F-056 | open | `pdm-carlisle` | ingredientsSource | Label taken from Bluemercury although PDM US carries it (per F-033). Re-source to PDM US and compare. | us.parfums-de-marly.com/products/carlisle | 2026-09-28 | — |
+| F-057 | done | — | validator | Added a near-duplicate ingredient spelling check (ignores separators); it flags F-053 and F-054 and nothing else. | scripts/validate-fragrances.mjs | 2026-09-28 | batch-3 |
 
 ## Validation coverage
 
@@ -85,12 +90,12 @@ Commits in `4ad2997..main` that touch `lib/fragrances/`, and where each stands.
 | #84 | eb44973 | 2026-09-24 | Pyramids matched on 2026-09-24; not re-derived. F-034, F-041, F-042. |
 | #85 | ac6401a | 2026-09-27 | All six pyramids match, including Tobacolor's flat list. F-046. |
 | #86 | 7d360e0 | 2026-09-24 | F-005–F-007, F-032, F-033, F-043, F-044 |
-| #87 | 8f4ab8d | 2026-09-27 (partial) | Tuscan Leather and Tobacco Vanille labels match Tom Ford US exactly; F-048–F-052 carried. Also changed card wording in fragrance-card.tsx (not data). |
-| #89 | 4e6b554 | not yet | |
-| #90 | 5d675ab | not yet | |
-| #91 | 27bd9ce | not yet | |
+| #87 | 8f4ab8d | 2026-09-28 (partial) | Tuscan Leather, Tobacco Vanille, Lost Cherry and Noir Extreme Parfum labels match Tom Ford US; F-048, F-049, F-051 carried. Also changed card wording in fragrance-card.tsx (not data). |
+| #89 | 4e6b554 | 2026-09-28 (partial) | Althaïr label matches PDM US. Carlisle F-056; Haltane and Pegasus labels not yet compared. |
+| #90 | 5d675ab | 2026-09-28 (partial) | Eros labels F-053–F-055. Pyramids (Eros EDP, Flame, Najim, Parfum, Flowerbomb) not yet checked. |
+| #91 | 27bd9ce | 2026-09-28 (partial) | Retirement of versace-dylan-blue-edp confirmed: Versace US sells Dylan Blue pour Homme as EDT only. Pyramids (Ombré Leather, Oud Wood, Dylan Blue) not yet checked. |
 | #92 | 9224980 | n/a | screens.ts only; no data entries. |
-| #93 | 5dca68e | not yet | |
+| #93 | 5dca68e | 2026-09-28 (partial) | Label matches PDM US; concentration Parfum matches PDM's product name. Pyramid not yet checked. |
 | #94 | 1ef42ab | not yet | |
 | #95 | eb0e7a1 | not yet | |
 | #96 | ca3f739 | not yet | |
@@ -98,3 +103,4 @@ Commits in `4ad2997..main` that touch `lib/fragrances/`, and where each stands.
 | batch-1 | 0001 patch | — | Closes F-001–F-010. |
 | batch-1b | 0002 patch | — | Price rule: per-house size, priced at the source's default size. No findings closed. |
 | batch-2 | 0003 patch | — | Ledger update for #84–#87; locale-path check. Closes F-028–F-031, F-047. |
+| batch-3 | batch-3 patch | — | Ledger update for #87–#93; near-duplicate ingredient check. Closes F-050, F-052, F-057. |
