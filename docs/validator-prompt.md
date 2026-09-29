@@ -71,6 +71,11 @@ Report problems; do not fix them.
 **Price** (every price a patch adds or changes)
 
 - Confirm against the house's US site, falling back to Sephora or Ulta.
+- If none of those sells it in the US (regional releases), use US grey-market
+  pricing, in this order: FragFlex, then Triple Traders, then the next US
+  grey-market listing (e.g. Jomashop). Say which source was used in the
+  finding. This applies to prices only; label sources still exclude these
+  sites.
 - Take the price at the size the source's product page presents by default:
   its preselected or suggested purchase size. Listing and range pages often
   show a "from" price for the smallest size, so open the product page.
