@@ -50,7 +50,20 @@ Report problems; do not fix them.
   labels on one page; don't take a label from one.
 - Retailer pages can disagree (e.g. an old list on one page, a reformulated one
   on another). Flag the conflict rather than picking one.
-- If `formulaCode` is present, confirm it appears on the source.
+- Where the house's US site prints a shortened label and the house's own
+  global site prints the full list, use the global list, cite the global page,
+  and say so in the ledger. This applies only to the house's own global site,
+  never to retailers. (Decided 2026-10-01, F-034 and F-035. The EU-format full
+  lists carry more complete allergen and ingredient detail.) Confirm the US
+  page still prints the shorter form; if the US page prints the full list, the
+  US page is the source. `scripts/validate-fragrances.mjs` lists the house
+  global sites allowed under this rule in `HOUSE_GLOBAL_HOSTS`.
+- If `formulaCode` is present, confirm it appears on `ingredientsSource`, or on
+  `formulaCodeSource` if that is set. (Decided 2026-10-01, F-083.)
+- `formulaCodeSource` must be a US product page for the same fragrance and
+  concentration, and that page must print the same items in the same order as
+  the stored label. Spelling differences (for example "Aqua / Water / Eau") are
+  allowed. Flag a `formulaCodeSource` whose list differs in items or order.
 
 **Manual screen flags** (`screenFlags`)
 
