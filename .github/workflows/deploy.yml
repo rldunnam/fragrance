@@ -33,6 +33,72 @@ concurrency:
 
 jobs:
   # ===========================================================================
+  # Change detection
+  # ===========================================================================
+  # Decides whether this run can affect the container image. Commits that only
+  # touch docs/, root *.md, the devcontainer, or repo-admin files under .github/
+  # skip the scan/build/publish chain; lint still runs because `pnpm validate`
+  # reads docs/validation-findings.md (the ledger), so a ledger edit is still
+  # checked.
+  #
+  # Done with plain git rather than a paths-filter action to avoid another
+  # third-party dependency in a job that gates publishing. Anything the script
+  # cannot classify with certainty (manual runs, first push of a branch, a
+  # force-push whose old head is gone, an empty diff) defaults to building.
+  #
+  # Job-level `if:` is used instead of workflow-level `paths-ignore` so a
+  # skipped job reports as "Skipped" (which satisfies required status checks)
+  # rather than never reporting and leaving a PR blocked on "Expected".
+  changes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    outputs:
+      image: ${{ steps.filter.outputs.image }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Classify changed files
+        id: filter
+        env:
+          EVENT: ${{ github.event_name }}
+          BEFORE: ${{ github.event.before }}
+          SHA: ${{ github.sha }}
+        run: |
+          build() { echo "image=true" >> "$GITHUB_OUTPUT"; echo "image: true ($1)"; exit 0; }
+
+          case "$EVENT" in
+            # PRs check out the merge commit; its first parent is current main,
+            # so this is exactly what the PR would change.
+            pull_request) BASE="HEAD^1" ;;
+            push)
+              [[ "$BEFORE" =~ ^0+$ ]] && build "no previous head"
+              git cat-file -e "${BEFORE}^{commit}" 2>/dev/null || build "previous head not in history"
+              BASE="$BEFORE" ;;
+            *) build "event ${EVENT}" ;;
+          esac
+
+          changed="$(git diff --name-only "$BASE" "$SHA")"
+          [ -n "$changed" ] || build "empty diff"
+          echo "Changed files:"; sed 's/^/  /' <<< "$changed"
+
+          # Paths that never reach the image. Keep in step with .dockerignore.
+          relevant="$(printf '%s\n' "$changed" | grep -vE \
+            '^(docs/|\.devcontainer/|[^/]+\.md$|\.github/(dependabot\.yml|CODEOWNERS|workflows/refresh-lockfile\.yml)$)' \
+            || true)"
+
+          if [ -n "$relevant" ]; then
+            build "image-relevant changes present"
+          fi
+          echo "image=false" >> "$GITHUB_OUTPUT"
+          echo "image: false (docs/admin-only change; skipping scan, build and publish)"
+          echo "Docs/admin-only change: image build and publish skipped." >> "$GITHUB_STEP_SUMMARY"
+
+  # ===========================================================================
   # Lint and typecheck
   # ===========================================================================
   # Runs in parallel with trivy-fs; build waits on both. Fails in well under a
@@ -90,6 +156,8 @@ jobs:
   # Filesystem scan
   # ===========================================================================
   trivy-fs:
+    needs: changes
+    if: needs.changes.outputs.image == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -117,8 +185,11 @@ jobs:
   # ===========================================================================
   # Build (one job per architecture)
   # ===========================================================================
+  # Skipped when `changes` says the image cannot differ. trivy-image, smoke-test,
+  # merge and cleanup all depend on this job and skip with it.
   build:
-    needs: [ lint, trivy-fs ]
+    needs: [ changes, lint, trivy-fs ]
+    if: needs.changes.outputs.image == 'true'
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 30
     permissions:

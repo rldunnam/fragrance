@@ -41,13 +41,18 @@ build
 Dockerfile
 .dockerignore
 
-# Docs — not needed to build the app
+# Docs — not needed to build the app. `*.md` alone only matches the context
+# root, so docs/ and nested markdown need their own entries or every ledger
+# edit busts the builder's COPY layer.
 README.md
 *.md
+**/*.md
+docs
 LICENSE
 
 # Scanner config, consumed by CI rather than the build
 .trivyignore
+.trivyignore.yaml
 
 # Logs
 *.log
