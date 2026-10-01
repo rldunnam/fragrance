@@ -90,6 +90,14 @@ export interface Fragrance {
   /** Formula or batch code printed with the list (e.g. Dior's '#15755'); changes on reformulation. */
   formulaCode?: string
   /**
+   * Where `formulaCode` was seen, when `ingredientsSource` prints the label
+   * without it. Must be a US product page for the same fragrance and
+   * concentration that prints the same items in the same order as
+   * `ingredients` (spelling differences such as 'Aqua / Water / Eau' are
+   * allowed). Omit when the code appears on `ingredientsSource`.
+   */
+  formulaCodeSource?: string
+  /**
    * Manual content-screen flags, keyed by screen id (see screens.ts), each with
    * a short sourced reason. The fragrance is hidden under that screen even
    * though no billed note matches. Reserved for the rare case where the

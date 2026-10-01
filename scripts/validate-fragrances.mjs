@@ -93,6 +93,16 @@ const RESELLER_HOST_RE =
 const NON_US_HOST_RE = /\.(co\.uk|uk|fr|de|it|es|nl|ca|in|ae|com\.au|com\.mx|com\.br)$/
 // House sites whose bare domain is the global (non-US) storefront.
 const GLOBAL_HOSTS = new Set(['parfums-de-marly.com', 'www.parfums-de-marly.com'])
+// A house's own global site, allowed as an ingredientsSource for that house's
+// entries only: where the house's US site prints a shortened label and its
+// global site prints the full list, the global list is used (decided
+// 2026-10-01, F-034/F-035; see docs/validator-prompt.md). Keyed by `house`, so
+// one house's global site never clears another house's entry, and retailers
+// (e.g. Sephora FR) are never listed here. Add a house only with a ledger row
+// recording that its US site prints the short form.
+const HOUSE_GLOBAL_HOSTS = {
+  'Parfums de Marly': new Set(['parfums-de-marly.com', 'www.parfums-de-marly.com']),
+}
 // A country locale in the path, e.g. dior.com/en_id/ (Indonesia). US paths
 // (en_us, /us/en_US/) pass.
 const NON_US_LOCALE_PATH_RE = /\/[a-z]{2}[_-](?!us(?:\/|$))[a-z]{2}(?:\/|$)/i
@@ -100,6 +110,17 @@ const SET_PAGE_RE = /(sampler|gift-set|coffret|discovery-set|mini-set|-set-|-set
 // Formula codes as printed with a label: L'Oréal's "F.I.L. B266362/1" or
 // Dior's "#21664". A bare batch code (e.g. "8YB02-1") is not a formula code.
 const FORMULA_CODE_RE = /^(F\.I\.L\. [A-Z0-9]+\/\d+|#\d+)$/
+
+// The US-site test shared by ingredientsSource and formulaCodeSource.
+function isNonUsSite(hostname, pathname) {
+  return NON_US_HOST_RE.test(hostname) || GLOBAL_HOSTS.has(hostname) ||
+    (/(^|\.)sephora\./.test(hostname) && hostname !== 'www.sephora.com') ||
+    (hostname === 'www.sephora.com' && /^\/ca\//.test(pathname)) ||
+    NON_US_LOCALE_PATH_RE.test(pathname)
+}
+function shownSite(hostname, pathname) {
+  return hostname + (pathname.match(/^\/[^/]+/)?.[0] ?? '')
+}
 
 // Price basis: the bottle size each house most commonly sells. Every price
 // refers to that size unless the entry sets priceSizeMl.
@@ -277,20 +298,38 @@ for (const { id, body } of entries) {
   if (ingredientsSource && /^https:\/\/\S+$/.test(ingredientsSource)) {
     const { hostname, pathname } = new URL(ingredientsSource)
     const regional = str(body, 'status') === 'regional'
+    const houseGlobal = HOUSE_GLOBAL_HOSTS[house]?.has(hostname) ?? false
     if (RESELLER_HOST_RE.test(hostname)) {
       err(`${where} ingredientsSource is a decant shop or discounter (${hostname}) — use the house's US site or a major US retailer`)
-    } else if (
-      !regional &&
-      (NON_US_HOST_RE.test(hostname) || GLOBAL_HOSTS.has(hostname) ||
-        (/(^|\.)sephora\./.test(hostname) && hostname !== 'www.sephora.com') ||
-        (hostname === 'www.sephora.com' && /^\/ca\//.test(pathname)) ||
-        NON_US_LOCALE_PATH_RE.test(pathname))
-    ) {
-      const shown = hostname + (pathname.match(/^\/[^/]+/)?.[0] ?? '')
-      warn(`${where} ingredientsSource is not a US site (${shown}) — use the house's US site or a US retailer`)
+    } else if (!regional && !houseGlobal && isNonUsSite(hostname, pathname)) {
+      warn(`${where} ingredientsSource is not a US site (${shownSite(hostname, pathname)}) — use the house's US site or a US retailer`)
     }
     if (SET_PAGE_RE.test(pathname)) {
       warn(`${where} ingredientsSource looks like a multi-product set page — use the fragrance's own product page`)
+    }
+  }
+  // formulaCodeSource: a second US product page where the code was seen, for
+  // labels whose ingredientsSource prints no code (decided 2026-10-01, F-083).
+  // Same US-site test as ingredientsSource; the house-global exception does
+  // not apply.
+  const formulaCodeSource = str(body, 'formulaCodeSource')
+  if (formulaCodeSource) {
+    if (!formulaCode) err(`${where} formulaCodeSource without formulaCode`)
+    if (!/^https:\/\/\S+$/.test(formulaCodeSource)) {
+      err(`${where} formulaCodeSource must be an https URL, got "${formulaCodeSource}"`)
+    } else {
+      const { hostname, pathname } = new URL(formulaCodeSource)
+      if (RESELLER_HOST_RE.test(hostname)) {
+        err(`${where} formulaCodeSource is a decant shop or discounter (${hostname}) — use a US product page`)
+      } else if (isNonUsSite(hostname, pathname)) {
+        err(`${where} formulaCodeSource is not a US site (${shownSite(hostname, pathname)}) — it must be a US product page`)
+      }
+      if (SET_PAGE_RE.test(pathname)) {
+        err(`${where} formulaCodeSource looks like a multi-product set page — use the fragrance's own product page`)
+      }
+      if (formulaCodeSource === ingredientsSource) {
+        err(`${where} formulaCodeSource repeats ingredientsSource — omit it`)
+      }
     }
   }
   if (formulaCode && !FORMULA_CODE_RE.test(formulaCode)) {
