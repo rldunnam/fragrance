@@ -44,6 +44,9 @@ Report problems; do not fix them.
   Ulta, Nordstrom, or another major retailer. Flag decant shops and marketplaces.
 - Compare the list item by item, in order. Flag missing, extra, or reordered items,
   and flag if the source's list is visibly truncated while the entry claims a full list.
+- Letter case is not a spelling difference: labels are stored in title case
+  whatever case the source prints, and acronyms (BHT, CI numbers) keep the
+  catalog form in capitals. (Decided 2026-10-02, F-088.)
 - Ulta's product page truncates long lists in its display. For any Ulta-sourced
   label, confirm the last item against Sephora or the house site.
 - Use the fragrance's own product page. Gift sets and samplers list several
@@ -64,6 +67,14 @@ Report problems; do not fix them.
   concentration, and that page must print the same items in the same order as
   the stored label. Spelling differences (for example "Aqua / Water / Eau") are
   allowed. Flag a `formulaCodeSource` whose list differs in items or order.
+- `ingredientsSource` and `formulaCodeSource` must sit on a known US source
+  host. `US_SOURCE_HOSTS` in `scripts/validate-fragrances.mjs` lists them, with
+  the US path prefix for hosts that serve several countries from one domain.
+  A new US source host must be added to that list, in the same patch, after it
+  is checked to be a US storefront; flag a patch that cites an unlisted host
+  without adding it. An unlisted host is an error for `formulaCodeSource` and
+  a warning for `ingredientsSource`, except on `regional` entries and for the
+  house's own global site under `HOUSE_GLOBAL_HOSTS`. (F-090.)
 
 **Manual screen flags** (`screenFlags`)
 

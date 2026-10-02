@@ -86,10 +86,11 @@ const TRADEMARK_RE = /[™®©]/
 // Ingredient label sources. Labels come from the house's US site, then a major
 // US retailer. Decant shops and discounters re-type labels and drop items (a
 // decant vial page was missing the last two items of a 39-item list), so they
-// fail outright. Non-US sites and multi-product set pages are warnings: they
-// are sometimes the only source (regional releases), but need a reason.
+// fail outright. Non-US sites, hosts not yet on the US allowlist and
+// multi-product set pages are warnings: they are sometimes the only source
+// (regional releases), but need a reason.
 const RESELLER_HOST_RE =
-  /(^|\.)(microperfumes|decanthouse|decantx|scentdecant|scentsplit|fragrancenet|fragrancex|jomashop|maxaroma|amazon|ebay|walmart)\.[a-z.]+$/
+  /(^|\.)(microperfumes|decanthouse|decantx|scentdecant|scentsplit|fragrancenet|fragrancex|jomashop|maxaroma|beautyhouse|amazon|ebay|walmart)\.[a-z.]+$/
 const NON_US_HOST_RE = /\.(co\.uk|uk|fr|de|it|es|nl|ca|in|ae|com\.au|com\.mx|com\.br)$/
 // House sites whose bare domain is the global (non-US) storefront.
 const GLOBAL_HOSTS = new Set(['parfums-de-marly.com', 'www.parfums-de-marly.com'])
@@ -111,7 +112,38 @@ const SET_PAGE_RE = /(sampler|gift-set|coffret|discovery-set|mini-set|-set-|-set
 // Dior's "#21664". A bare batch code (e.g. "8YB02-1") is not a formula code.
 const FORMULA_CODE_RE = /^(F\.I\.L\. [A-Z0-9]+\/\d+|#\d+)$/
 
-// The US-site test shared by ingredientsSource and formulaCodeSource.
+// Known US source hosts (F-090). The checks above are a denylist, so a non-US
+// page on a host they do not list (yslbeauty.com/int/, armanibeauty.eu,
+// douglas.at, boots.com) used to pass as US. A source must now also sit on a
+// host listed here. Every host below is cited by data.ts and was checked to
+// be a US storefront (USD prices, "intended for US consumers" or a US legal
+// entity). Hosts that serve several countries from one domain carry the path
+// prefix of their US storefront, because the locale-path denylist does not
+// recognise every form (versace.com/gb/en/ has no xx_yy segment). The
+// denylist stays: it still catches non-US paths on shared hosts, such as
+// sephora.com/ca/ and dior.com/en_id/. Add a host only after checking it is a
+// US storefront (see docs/validator-prompt.md).
+const US_SOURCE_HOSTS = new Map([
+  // house US sites
+  ['www.giorgioarmanibeauty-usa.com', null],
+  ['www.yslbeautyus.com', null],
+  ['us.viktor-rolf.com', null],
+  ['us.parfums-de-marly.com', null],
+  ['www.tomfordbeauty.com', null],
+  ['www.dior.com', /^\/en_us\//],
+  ['www.versace.com', /^\/us\//],
+  // major US retailers
+  ['www.sephora.com', null],
+  ['www.ulta.com', null],
+])
+function isKnownUsSite(hostname, pathname) {
+  if (!US_SOURCE_HOSTS.has(hostname)) return false
+  const usPath = US_SOURCE_HOSTS.get(hostname)
+  return usPath === null || usPath.test(pathname)
+}
+
+// The US-site test shared by ingredientsSource and formulaCodeSource: the
+// denylist below, then the allowlist above (isKnownUsSite).
 function isNonUsSite(hostname, pathname) {
   return NON_US_HOST_RE.test(hostname) || GLOBAL_HOSTS.has(hostname) ||
     (/(^|\.)sephora\./.test(hostname) && hostname !== 'www.sephora.com') ||
@@ -303,6 +335,8 @@ for (const { id, body } of entries) {
       err(`${where} ingredientsSource is a decant shop or discounter (${hostname}) — use the house's US site or a major US retailer`)
     } else if (!regional && !houseGlobal && isNonUsSite(hostname, pathname)) {
       warn(`${where} ingredientsSource is not a US site (${shownSite(hostname, pathname)}) — use the house's US site or a US retailer`)
+    } else if (!regional && !houseGlobal && !isKnownUsSite(hostname, pathname)) {
+      warn(`${where} ingredientsSource is not on the list of known US source hosts (${shownSite(hostname, pathname)}) — check it is a US storefront, then add it to US_SOURCE_HOSTS`)
     }
     if (SET_PAGE_RE.test(pathname)) {
       warn(`${where} ingredientsSource looks like a multi-product set page — use the fragrance's own product page`)
@@ -310,8 +344,9 @@ for (const { id, body } of entries) {
   }
   // formulaCodeSource: a second US product page where the code was seen, for
   // labels whose ingredientsSource prints no code (decided 2026-10-01, F-083).
-  // Same US-site test as ingredientsSource; the house-global exception does
-  // not apply.
+  // Same US-site test as ingredientsSource, but a host that is not on the US
+  // allowlist is an error here, not a warning (F-090); the house-global and
+  // regional exceptions do not apply.
   const formulaCodeSource = str(body, 'formulaCodeSource')
   if (formulaCodeSource) {
     if (!formulaCode) err(`${where} formulaCodeSource without formulaCode`)
@@ -323,6 +358,8 @@ for (const { id, body } of entries) {
         err(`${where} formulaCodeSource is a decant shop or discounter (${hostname}) — use a US product page`)
       } else if (isNonUsSite(hostname, pathname)) {
         err(`${where} formulaCodeSource is not a US site (${shownSite(hostname, pathname)}) — it must be a US product page`)
+      } else if (!isKnownUsSite(hostname, pathname)) {
+        err(`${where} formulaCodeSource is not on the list of known US source hosts (${shownSite(hostname, pathname)}) — it must be a US product page; check the host is a US storefront, then add it to US_SOURCE_HOSTS`)
       }
       if (SET_PAGE_RE.test(pathname)) {
         err(`${where} formulaCodeSource looks like a multi-product set page — use the fragrance's own product page`)
