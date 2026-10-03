@@ -212,7 +212,6 @@ export const fragrances: Fragrance[] = [
     house: 'Versace',
     audience: 'Masculine',
     price: 149,
-    priceSizeMl: 100,
     concentration: 'EDP',
     family: ['Amber', 'Woody'],
     occasion: ['Date Night', 'Formal'],
@@ -560,7 +559,7 @@ export const fragrances: Fragrance[] = [
       'Coumarin', 'Limonene', 'Butyl Methoxydibenzoylmethane', 'Ethylhexyl Salicylate',
       'Alpha-Isomethyl Ionone', 'Citronellol', 'Cinnamal', 'Citral', 'Eugenol', 'Geraniol',
     ],
-    ingredientsSource: 'https://www.sephora.fr/p/ultra-male---eau-de-toilette-intense-P2254009.html',
+    ingredientsSource: 'https://www.jeanpaulgaultier.com/us/en_US/p/range-le-male/ultra-male-eau-de-toilette-intense-000000000065119981',
   },
   {
     id: 'bvlgari-man',
@@ -958,9 +957,9 @@ export const fragrances: Fragrance[] = [
     sillage: 'Very Strong',
     projection: 5,
     source: 'https://www.fragrantica.com/perfume/Yves-Saint-Laurent/Kouros-735.html',
-    status: 'discontinued',
-    includeReason: 'YSL\'s US site still has a Kouros Eau de Toilette page (one size, 3.3 oz / 100 mL), but shows it out of stock and lists it outside its men\'s fragrance ranges. Kept as a landmark fougère with a published id.',
-    // Not on YSL US or US retailers; Sephora FR is the current (no Lyral/Lilial) label. Source misprints 'Alpha,Isomethyl Ionone'; stored hyphenated so search matches.
+    status: 'regional',
+    includeReason: 'Gone from US sale but still sold by YSL abroad: YSL\'s US site keeps a Kouros Eau de Toilette page (one size, 3.3 oz / 100 mL) but shows it out of stock, badged 30% OFF and outside its men\'s fragrance ranges, while YSL UK sells the 100 ml Eau de Toilette in its own Kouros range. Kept as a landmark fougère with a published id.',
+    // YSL US has a Kouros page, but it prints no ingredient list. Label from Sephora FR (no Lyral/Lilial); YSL UK prints a different 24-item list (see F-067). Source misprints 'Alpha,Isomethyl Ionone'; stored hyphenated so search matches.
     ingredients: [
       'Alcohol', 'Aqua / Water', 'Parfum / Fragrance', 'Hexyl Cinnamal', 'Hydroxycitronellal',
       'Alpha-Isomethyl Ionone', 'Coumarin', 'Linalool', 'Ethylhexyl Methoxycinnamate',
@@ -1225,7 +1224,7 @@ export const fragrances: Fragrance[] = [
       'Alpha-Isomethyl Ionone', 'Butyl Methoxydibenzoylmethane', 'Limonene', 'Cinnamal',
       'Geraniol',
     ],
-    ingredientsSource: 'https://www.ulta.com/p/le-male-le-parfum-pimprod2023265',
+    ingredientsSource: 'https://www.jeanpaulgaultier.com/us/en_US/p/range-le-male/le-male-le-parfum-eau-de-parfum-intense-000000000065156533',
   },
   {
     id: 'issey-miyake-leau',
@@ -3531,7 +3530,6 @@ export const fragrances: Fragrance[] = [
     house: 'Versace',
     audience: 'Masculine',
     price: 179,
-    priceSizeMl: 100,
     family: ['Amber', 'Woody'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],
@@ -3559,7 +3557,6 @@ export const fragrances: Fragrance[] = [
     house: 'Versace',
     audience: 'Masculine',
     price: 149,
-    priceSizeMl: 100,
     family: ['Amber', 'Fresh'],
     occasion: ['Date Night', 'Everyday'],
     season: ['Spring', 'Fall'],
@@ -3588,7 +3585,6 @@ export const fragrances: Fragrance[] = [
     house: 'Versace',
     audience: 'Masculine',
     price: 179,
-    priceSizeMl: 100,
     family: ['Amber', 'Woody'],
     occasion: ['Date Night', 'Formal'],
     season: ['Fall', 'Winter'],

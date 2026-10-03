@@ -42,6 +42,9 @@ Report problems; do not fix them.
 
 - Open `ingredientsSource`. Preferred order: the house's own US site, then Sephora,
   Ulta, Nordstrom, or another major retailer. Flag decant shops and marketplaces.
+  Being named here does not put a retailer on the allowlist: a retailer that is
+  not yet in `US_SOURCE_HOSTS` (Nordstrom, for one) has to be added there in the
+  same patch that first cites it, as the last bullet of this section says. (F-098.)
 - Compare the list item by item, in order. Flag missing, extra, or reordered items,
   and flag if the source's list is visibly truncated while the entry claims a full list.
 - Letter case is not a spelling difference: labels are stored in title case
@@ -75,6 +78,11 @@ Report problems; do not fix them.
   without adding it. An unlisted host is an error for `formulaCodeSource` and
   a warning for `ingredientsSource`, except on `regional` entries and for the
   house's own global site under `HOUSE_GLOBAL_HOSTS`. (F-090.)
+- A `discontinued` entry keeps its last available US label and that label's US
+  source. If the source page is gone, record that it could not be loaded and
+  do not flag the label; if the page is live, check it as usual. The exception
+  for non-US label sources belongs to `regional` entries only. (Decided
+  2026-10-02, F-097.)
 
 **Manual screen flags** (`screenFlags`)
 
@@ -89,6 +97,18 @@ Report problems; do not fix them.
   in the US (house US site or a major US retailer), and that its `line` matches an
   existing line in the catalog. Flag entries that look regional-only, discontinued,
   or limited without a `status` and `includeReason`.
+- `status` has two meanings that are easy to confuse (decided 2026-10-02, F-097):
+  - `discontinued`: the house no longer sells it anywhere. The entry keeps its
+    last available US details: price, priced size, label and their sources.
+  - `regional`: the house does not sell it in the US but still sells it in
+    another region. That covers a release that never launched in the US and
+    one that was withdrawn from the US only. It follows the regional rules
+    below: US grey-market price, and a non-US label source is allowed.
+
+  For every `discontinued` or `regional` entry a patch adds or changes, check
+  which one applies by loading a house page outside the US (the house's UK or
+  international site). Flag a `discontinued` entry the house still sells
+  abroad, and a `regional` entry the house sells nowhere.
 - For any id added to `retired` in `lib/fragrances/published-ids.json`, confirm the
   reason is plausible (e.g. the fragrance genuinely does not exist).
 
@@ -100,6 +120,11 @@ Report problems; do not fix them.
   grey-market listing (e.g. Jomashop). Say which source was used in the
   finding. This applies to prices only; label sources still exclude these
   sites.
+- A `discontinued` entry keeps its last available US price and priced size,
+  with the source named in the ledger. If that page is gone, record that it
+  could not be loaded and do not flag the price; if the page is live, check it
+  as usual. A marked-down price with no list price beside it is stored as
+  shown, and the ledger says so. (Decided 2026-10-02, F-097.)
 - Take the price at the size the source's product page presents by default:
   its preselected or suggested purchase size. Listing and range pages often
   show a "from" price for the smallest size, so open the product page.
@@ -107,7 +132,11 @@ Report problems; do not fix them.
   size you priced differs from it, the entry must set `priceSizeMl` to the
   priced size. Flag an entry whose price or `priceSizeMl` doesn't match the
   source's default size.
-- Flag prices you cannot confirm, and flag a house with no size yet rather
+- Where a house gives each size its own product page and preselects nothing
+  (Versace US), there is no page default: price on the page for the house size
+  in `price-basis.json` (Versace: the 100 ml page). (Decided 2026-10-02, F-062.)
+- Flag prices you cannot confirm (except a `discontinued` entry whose source
+  page is gone, above), and flag a house with no size yet rather
   than guessing one.
 
 **Concentration**
