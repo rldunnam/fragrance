@@ -18,9 +18,12 @@ export type Audience = 'Masculine' | 'Feminine' | 'Unisex'
  * rule (currently produced, broadly distributed) and must carry an
  * `includeReason` — scripts/validate-fragrances.mjs enforces this.
  *
- *   discontinued — no longer produced; secondary market only
+ *   discontinued — the house no longer sells it anywhere; secondary market
+ *                  only. Keeps its last available US price, size and label.
  *   limited      — limited or seasonal edition
- *   regional     — exclusive to a market outside the US (e.g. Middle East)
+ *   regional     — not sold in the US but still sold by the house in another
+ *                  region: a non-US exclusive (e.g. Middle East) or a release
+ *                  withdrawn from the US only
  */
 export type ReleaseStatus = 'current' | 'discontinued' | 'limited' | 'regional'
 

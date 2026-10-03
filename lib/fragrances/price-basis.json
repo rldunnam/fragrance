@@ -1,7 +1,8 @@
 {
-  "_note": "Each house's usual bottle size (ml). Prices are taken at the size the source page presents by default (its preselected or suggested purchase size); an entry priced at a different size than its house's value here records that size in priceSizeMl. Add a house only after checking its US range; scripts/validate-fragrances.mjs reports entries whose house has no size yet.",
+  "_note": "Each house's usual bottle size (ml). Prices are taken at the size the source page presents by default (its preselected or suggested purchase size); an entry priced at a different size than its house's value here records that size in priceSizeMl. Add a house only after checking its US range; scripts/validate-fragrances.mjs reports entries whose house has no size yet. Versace's 100 is a convention, not a page default: versace.com/us gives each size its own product page and preselects nothing, so Versace entries are priced on the 100 ml page (decided 2026-10-02, F-062).",
   "houses": {
     "Emporio Armani": 100,
-    "Jean Paul Gaultier": 125
+    "Jean Paul Gaultier": 125,
+    "Versace": 100
   }
 }

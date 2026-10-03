@@ -123,6 +123,11 @@ const FORMULA_CODE_RE = /^(F\.I\.L\. [A-Z0-9]+\/\d+|#\d+)$/
 // denylist stays: it still catches non-US paths on shared hosts, such as
 // sephora.com/ca/ and dior.com/en_id/. Add a host only after checking it is a
 // US storefront (see docs/validator-prompt.md).
+//
+// sephora.com serves Canada from the same host (/ca/en/, /ca/fr/, and a
+// country_switch query parameter), so it is pinned to /product/, where its US
+// product pages sit: /CA/en/product/… and //ca/en/product/… no longer pass as
+// US. The query parameter is rejected in isNonUsSite (F-095).
 const US_SOURCE_HOSTS = new Map([
   // house US sites
   ['www.giorgioarmanibeauty-usa.com', null],
@@ -132,10 +137,15 @@ const US_SOURCE_HOSTS = new Map([
   ['www.tomfordbeauty.com', null],
   ['www.dior.com', /^\/en_us\//],
   ['www.versace.com', /^\/us\//],
+  ['www.jeanpaulgaultier.com', /^\/us\//],
   // major US retailers
-  ['www.sephora.com', null],
+  ['www.sephora.com', /^\/product\//],
   ['www.ulta.com', null],
 ])
+// A storefront-switching query parameter (sephora.com/product/…?country_switch=ca
+// serves the Canadian page from a US-looking path). Any value is rejected: a
+// cited source has no reason to carry one.
+const COUNTRY_SWITCH_RE = /[?&]country_switch=/i
 function isKnownUsSite(hostname, pathname) {
   if (!US_SOURCE_HOSTS.has(hostname)) return false
   const usPath = US_SOURCE_HOSTS.get(hostname)
@@ -144,10 +154,11 @@ function isKnownUsSite(hostname, pathname) {
 
 // The US-site test shared by ingredientsSource and formulaCodeSource: the
 // denylist below, then the allowlist above (isKnownUsSite).
-function isNonUsSite(hostname, pathname) {
+function isNonUsSite(hostname, pathname, search = '') {
   return NON_US_HOST_RE.test(hostname) || GLOBAL_HOSTS.has(hostname) ||
     (/(^|\.)sephora\./.test(hostname) && hostname !== 'www.sephora.com') ||
     (hostname === 'www.sephora.com' && /^\/ca\//.test(pathname)) ||
+    COUNTRY_SWITCH_RE.test(search) ||
     NON_US_LOCALE_PATH_RE.test(pathname)
 }
 function shownSite(hostname, pathname) {
@@ -328,12 +339,12 @@ for (const { id, body } of entries) {
     err(`${where} ingredientsSource must be an https URL, got "${ingredientsSource}"`)
   }
   if (ingredientsSource && /^https:\/\/\S+$/.test(ingredientsSource)) {
-    const { hostname, pathname } = new URL(ingredientsSource)
+    const { hostname, pathname, search } = new URL(ingredientsSource)
     const regional = str(body, 'status') === 'regional'
     const houseGlobal = HOUSE_GLOBAL_HOSTS[house]?.has(hostname) ?? false
     if (RESELLER_HOST_RE.test(hostname)) {
       err(`${where} ingredientsSource is a decant shop or discounter (${hostname}) — use the house's US site or a major US retailer`)
-    } else if (!regional && !houseGlobal && isNonUsSite(hostname, pathname)) {
+    } else if (!regional && !houseGlobal && isNonUsSite(hostname, pathname, search)) {
       warn(`${where} ingredientsSource is not a US site (${shownSite(hostname, pathname)}) — use the house's US site or a US retailer`)
     } else if (!regional && !houseGlobal && !isKnownUsSite(hostname, pathname)) {
       warn(`${where} ingredientsSource is not on the list of known US source hosts (${shownSite(hostname, pathname)}) — check it is a US storefront, then add it to US_SOURCE_HOSTS`)
@@ -353,10 +364,10 @@ for (const { id, body } of entries) {
     if (!/^https:\/\/\S+$/.test(formulaCodeSource)) {
       err(`${where} formulaCodeSource must be an https URL, got "${formulaCodeSource}"`)
     } else {
-      const { hostname, pathname } = new URL(formulaCodeSource)
+      const { hostname, pathname, search } = new URL(formulaCodeSource)
       if (RESELLER_HOST_RE.test(hostname)) {
         err(`${where} formulaCodeSource is a decant shop or discounter (${hostname}) — use a US product page`)
-      } else if (isNonUsSite(hostname, pathname)) {
+      } else if (isNonUsSite(hostname, pathname, search)) {
         err(`${where} formulaCodeSource is not a US site (${shownSite(hostname, pathname)}) — it must be a US product page`)
       } else if (!isKnownUsSite(hostname, pathname)) {
         err(`${where} formulaCodeSource is not on the list of known US source hosts (${shownSite(hostname, pathname)}) — it must be a US product page; check the host is a US storefront, then add it to US_SOURCE_HOSTS`)
