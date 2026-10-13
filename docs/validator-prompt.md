@@ -150,6 +150,9 @@ Report problems; do not fix them.
 - Take the price at the size the source's product page presents by default:
   its preselected or suggested purchase size. Listing and range pages often
   show a "from" price for the smallest size, so open the product page.
+  YSL US product pages label every size option "Selected" and show one
+  price for the product; there the default is the size marked with an
+  asterisk in the page's size list. (Decided 2026-10-13, D8; F-071.)
 - `lib/fragrances/price-basis.json` records each house's usual size. If the
   size you priced differs from it, the entry must set `priceSizeMl` to the
   priced size. If the house has no size there yet, the entry records the
