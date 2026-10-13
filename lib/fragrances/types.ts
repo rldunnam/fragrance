@@ -51,7 +51,8 @@ export interface Fragrance {
    *   - Versace US gives each size its own page and preselects nothing, so
    *     Versace is priced on its 100 ml page by convention.
    *   - `regional` entries have no US pricing and take a US grey-market
-   *     price: FragFlex, then Triple Traders, then the next US listing.
+   *     price: the first in-stock listing in the fixed order of US
+   *     grey-market sellers in the Price rules (FragFlex first).
    *   - `discontinued` entries keep their last available US price and
    *     priced size.
    * The house's usual size is recorded in lib/fragrances/price-basis.json;
