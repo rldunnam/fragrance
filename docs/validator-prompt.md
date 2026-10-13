@@ -35,6 +35,12 @@ Report problems; do not fix them.
   patch rather than renaming a note in one entry.
 - Confirm the page is the right edition. Fragrantica keeps separate pages for
   reformulations and re-releases (e.g. La Belle Le Parfum 2021 and 2024).
+  `ysl-babycat` is the exception: YSL US now sells Babycat as Babycat Raw
+  Bourbon on the same product page, and the owner takes that as the same
+  formula under a new market name, so the entry keeps the 2022 Babycat
+  page as its pyramid source and the label from the YSL US page. Do not
+  flag it against Fragrantica's separate Raw Bourbon page. (Decided
+  2026-10-13, D7; closes F-068.)
 - If the entry has `notesFlat: true`, confirm the source genuinely gives no tiers,
   that all notes are in `heartNotes`, and that `topNotes` and `baseNotes` are empty.
 
@@ -104,7 +110,8 @@ Report problems; do not fix them.
   - `regional`: the house does not sell it in the US but still sells it in
     another region. That covers a release that never launched in the US and
     one that was withdrawn from the US only. It follows the regional rules
-    below: US grey-market price, and a non-US label source is allowed.
+    in Price and Ingredient label: US grey-market price, and a non-US label
+    source is allowed.
 
   For every `discontinued` or `regional` entry a patch adds or changes, check
   which one applies by loading a house page outside the US (the house's UK or
@@ -117,28 +124,45 @@ Report problems; do not fix them.
 
 - Confirm against the house's US site, falling back to Sephora or Ulta.
 - If none of those sells it in the US (regional releases), use US grey-market
-  pricing, in this order: FragFlex, then Triple Traders, then the next US
-  grey-market listing (e.g. Jomashop). Say which source was used in the
-  finding. This applies to prices only; label sources still exclude these
-  sites.
+  pricing, in this fixed order: FragFlex, Triple Traders, FragranceNet,
+  MaxAroma, FragranceX, Perfume.com, Jomashop. Price the boxed bottle (not a
+  tester or an unboxed bottle). Take the first listing in the order that is
+  in stock: it offers the size for purchase and shows no sold-out or
+  unavailable notice. Only if no listing in the order is in stock, take the
+  first one that holds a price while sold out; for FragFlex that includes a
+  price held only in its product data (`/products/<handle>.json`) for a
+  sold-out variant whose page shows no amount. At FragranceNet the price is
+  its "our price", not the price with coupon. A listing that will not load
+  or render (Jomashop product pages show only a JavaScript notice when
+  fetched) is recorded as such and skipped. Say in the finding which listing
+  was used and why each earlier one was skipped. This applies to prices
+  only; label sources still exclude these sites. (Decided 2026-10-13, D4;
+  closes F-104 and F-105.)
 - A `discontinued` entry keeps its last available US price and priced size,
   with the source named in the ledger. If that page is gone, record that it
   could not be loaded and do not flag the price; if the page is live, check it
   as usual. A marked-down price with no list price beside it is stored as
   shown, and the ledger says so. (Decided 2026-10-02, F-097.)
+  `ysl-la-nuit-edp` (the 2019 Eau de Parfum) has no source for its last US
+  price and no recorded size; its 110 is taken as a 100 ml price, the YSL
+  house size, and its `includeReason` says so. Do not flag it for the
+  missing size. (Decided 2026-10-13, D6; F-071.)
 - Take the price at the size the source's product page presents by default:
   its preselected or suggested purchase size. Listing and range pages often
   show a "from" price for the smallest size, so open the product page.
 - `lib/fragrances/price-basis.json` records each house's usual size. If the
   size you priced differs from it, the entry must set `priceSizeMl` to the
-  priced size. Flag an entry whose price or `priceSizeMl` doesn't match the
-  source's default size.
+  priced size. If the house has no size there yet, the entry records the
+  priced size in `priceSizeMl`, and that is its price basis until the house
+  is added. Flag an entry whose price or `priceSizeMl` doesn't match the
+  source's default size. (No-house-size case decided 2026-10-13, D5; closes
+  F-107.)
 - Where a house gives each size its own product page and preselects nothing
   (Versace US), there is no page default: price on the page for the house size
   in `price-basis.json` (Versace: the 100 ml page). (Decided 2026-10-02, F-062.)
 - Flag prices you cannot confirm (except a `discontinued` entry whose source
-  page is gone, above), and flag a house with no size yet rather
-  than guessing one.
+  page is gone, above), and flag an entry whose house has no size yet and
+  that carries no `priceSizeMl`, rather than guessing a size.
 
 **Concentration**
 
