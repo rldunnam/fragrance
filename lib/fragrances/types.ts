@@ -44,11 +44,19 @@ export interface Fragrance {
   sillage: string
   projection: number // 1-5 scale
   /**
-   * USD list price, from the house's US site first, then Sephora or Ulta.
-   * Priced at the size the source page presents by default (its preselected
-   * or suggested purchase size). The house's usual size is recorded in
-   * lib/fragrances/price-basis.json; when the priced size differs from it,
-   * record the priced size in `priceSizeMl`.
+   * USD price. Normally the list price on the house's US site, then Sephora
+   * or Ulta, at the size the source's product page presents by default (its
+   * preselected or suggested purchase size). Exceptions, as in the Price
+   * rules of docs/validator-prompt.md:
+   *   - Versace US gives each size its own page and preselects nothing, so
+   *     Versace is priced on its 100 ml page by convention.
+   *   - `regional` entries have no US pricing and take a US grey-market
+   *     price: FragFlex, then Triple Traders, then the next US listing.
+   *   - `discontinued` entries keep their last available US price and
+   *     priced size.
+   * The house's usual size is recorded in lib/fragrances/price-basis.json;
+   * when the priced size differs from it, or the house has no size there
+   * yet, record the priced size in `priceSizeMl`.
    */
   price: number
   /**

@@ -44,7 +44,8 @@ Report problems; do not fix them.
   Ulta, Nordstrom, or another major retailer. Flag decant shops and marketplaces.
   Being named here does not put a retailer on the allowlist: a retailer that is
   not yet in `US_SOURCE_HOSTS` (Nordstrom, for one) has to be added there in the
-  same patch that first cites it, as the last bullet of this section says. (F-098.)
+  same patch that first cites it, as the `US_SOURCE_HOSTS` bullet below says.
+  (F-098.)
 - Compare the list item by item, in order. Flag missing, extra, or reordered items,
   and flag if the source's list is visibly truncated while the entry claims a full list.
 - Letter case is not a spelling difference: labels are stored in title case

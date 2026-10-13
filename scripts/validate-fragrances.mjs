@@ -144,8 +144,15 @@ const US_SOURCE_HOSTS = new Map([
 ])
 // A storefront-switching query parameter (sephora.com/product/…?country_switch=ca
 // serves the Canadian page from a US-looking path). Any value is rejected: a
-// cited source has no reason to carry one.
-const COUNTRY_SWITCH_RE = /[?&]country_switch=/i
+// cited source has no reason to carry one. The decoded parameter names are
+// tested, case-insensitive, so a percent-encoded name (country%5Fswitch) is
+// caught too (F-101).
+function hasCountrySwitch(search) {
+  for (const name of new URLSearchParams(search).keys()) {
+    if (name.toLowerCase() === 'country_switch') return true
+  }
+  return false
+}
 function isKnownUsSite(hostname, pathname) {
   if (!US_SOURCE_HOSTS.has(hostname)) return false
   const usPath = US_SOURCE_HOSTS.get(hostname)
@@ -158,7 +165,7 @@ function isNonUsSite(hostname, pathname, search = '') {
   return NON_US_HOST_RE.test(hostname) || GLOBAL_HOSTS.has(hostname) ||
     (/(^|\.)sephora\./.test(hostname) && hostname !== 'www.sephora.com') ||
     (hostname === 'www.sephora.com' && /^\/ca\//.test(pathname)) ||
-    COUNTRY_SWITCH_RE.test(search) ||
+    hasCountrySwitch(search) ||
     NON_US_LOCALE_PATH_RE.test(pathname)
 }
 function shownSite(hostname, pathname) {

@@ -943,7 +943,8 @@ export const fragrances: Fragrance[] = [
     name: 'Kouros',
     house: 'YSL',
     audience: 'Masculine',
-    price: 80,
+    price: 79,
+    priceSizeMl: 100,
     concentration: 'EDT',
     family: ['Aromatic', 'Fougère'],
     occasion: ['Date Night', 'Formal'],
@@ -3504,7 +3505,8 @@ export const fragrances: Fragrance[] = [
     name: "La Nuit de L'Homme (2026)",
     house: 'YSL',
     audience: 'Masculine',
-    price: 110, // UNVERIFIED placeholder: no US listing found yet; carried over from the 2019 EDP
+    price: 127,
+    priceSizeMl: 100,
     concentration: 'EDP',
     family: ['Amber', 'Spicy'],
     occasion: ['Date Night', 'Formal'],
@@ -3520,7 +3522,7 @@ export const fragrances: Fragrance[] = [
     line: 'La Nuit de L\'Homme',
     source: 'https://www.fragrantica.com/perfume/Yves-Saint-Laurent/La-Nuit-de-L-Homme-Eau-de-Parfum-2026-125843.html',
     status: 'regional',
-    includeReason: 'Launched 2026 in the UK and Europe (YSL UK, Sephora FR/ES); no US listing found on yslbeautyus.com or at major US retailers as of Sept 2026. Included as the current La Nuit EDP and successor to ysl-la-nuit-edp; drop status once a US launch is confirmed.',
+    includeReason: 'Launched 2026 in the UK and Europe (YSL UK, Sephora FR/ES); no US listing found on yslbeautyus.com or at major US retailers as of 11 Oct 2026. Included as the current La Nuit EDP and successor to ysl-la-nuit-edp; drop status once a US launch is confirmed.',
   },
 
   // ---- VERSACE ----
