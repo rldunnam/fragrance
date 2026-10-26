@@ -1304,7 +1304,7 @@ export const fragrances: Fragrance[] = [
     line: 'Boss Bottled',
     source: 'https://www.fragrantica.com/perfume/Hugo-Boss/Bottled-Absolu-96246.html',
     ingredients: [
-      'Alcohol Denat', 'Parfum/Fragrance', 'Aqua/Water/Eau', 'Benzyl Benzoate', 'Limonene',
+      'Alcohol Denat.', 'Parfum/Fragrance', 'Aqua/Water/Eau', 'Benzyl Benzoate', 'Limonene',
       'Coumarin', 'Citronellol', 'Linalool', 'Citral', 'Eugenol', 'Geraniol', 'Isoeugenol',
     ],
     ingredientsSource: 'https://www.sephora.com/product/hugo-boss-boss-bottled-parfum-absolu-P514298',
@@ -3668,7 +3668,7 @@ export const fragrances: Fragrance[] = [
     line: 'Boss Bottled',
     source: 'https://www.fragrantica.com/perfume/Hugo-Boss/Boss-Bottled-Parfum-75183.html',
     ingredients: [
-      'Alcohol Denat', 'Parfum/ Fragrance', 'Aqua/Water/Eau', 'Limonene', 'Linalool', 'Coumarin',
+      'Alcohol Denat.', 'Parfum/ Fragrance', 'Aqua/Water/Eau', 'Limonene', 'Linalool', 'Coumarin',
       'Geraniol', 'Eugenol', 'Citral', 'Methyl 2-Octynoate',
     ],
     ingredientsSource: 'https://www.hugoboss.com/us/boss-bottled-parfum-100-ml-%E2%80%93-3.38-fl-oz/hbna58114220_999.html',
@@ -3714,7 +3714,7 @@ export const fragrances: Fragrance[] = [
     concentration: 'EDT',
     source: 'https://www.fragrantica.com/perfume/Hugo-Boss/Boss-The-Scent-31445.html',
     ingredients: [
-      'Alcohol Denat', 'Aqua/Water/Eau', 'Parfum/Fragrance', 'Ethylhexyl Salicylate', 'Limonene',
+      'Alcohol Denat.', 'Aqua/Water/Eau', 'Parfum/Fragrance', 'Ethylhexyl Salicylate', 'Limonene',
       'Linalool', 'Butyl Methoxydibenzoylmethane', 'Hydroxycitronellal', 'Coumarin', 'Citronellol',
       'Alcohol', 'Citral', 'Tris (Tetramethylhydroxypiperidinol) Citrate', 'Geraniol',
       'Yellow 5 (CI 19140)', 'Yellow 6 (CI 15985)', 'Ext. Violet 2 (CI 60730)', 'Red 4 (CI 14700)',
