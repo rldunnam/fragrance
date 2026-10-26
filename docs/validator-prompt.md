@@ -28,7 +28,7 @@ Report problems; do not fix them.
   - Fragrantica spellings listed in `NOTE_ALIASES` in
     `scripts/validate-fragrances.mjs` are stored as their catalog form
     ("Vanila" → "Vanilla", "Cloves" → "Clove", "Citruses" → "Citrus",
-    "Ambrette (Musk Mallow)" → "Ambrette", "Marine notes" → "Marine Notes").
+    "Ambrette (Musk Mallow)" → "Ambrette", "Marine notes" → "Marine Notes", "elemi" → "Elemi").
   - Trademark symbols are dropped ("Ambermax™" → "Ambermax").
 
   Flag any other rename. To add a new alias, change `NOTE_ALIASES` in the same
@@ -111,6 +111,12 @@ Report problems; do not fix them.
 
 **Identity and inclusion**
 
+- `audience` follows the house's own classification (see `Audience` in
+  types.ts), with Fragrantica only as the tiebreak where the house does not
+  gender the release. Where the house's US store states a gender on the
+  product page itself (armaf.com's 'Gender' field), that statement is the
+  classification; store tags and navigation categories are not. (Decided
+  2026-10-26, D14; F-145.)
 - No existing `id` may change. Flag any id that was renamed rather than kept with a
   corrected `name`.
 - For each newly added entry: confirm the fragrance exists, that it is currently sold
@@ -194,6 +200,21 @@ Report problems; do not fix them.
   nothing. Price the 125 ml house-size page; where that size is not sold,
   price the 100 ml page and set `priceSizeMl: 100`. (Decided 2026-10-26, D10;
   closes F-112 and F-113.)
+- Armaf US (armaf.com) lists one fragrance on several product pages, and its
+  multi-size pages often preselect a 6.8 oz or larger bottle, so Armaf is not
+  priced at the page default. Armaf's house size is 3.4 oz (100 ml), the size
+  of most of its US range; price other Armaf lines on that offer. The Club de
+  Nuit range (entries whose `line` is 'Club de Nuit' or 'Club de Nuit Intense
+  Man') is sold at 3.6 oz (105 ml) instead: price it at the 3.6 oz offer and
+  set `priceSizeMl: 105`. In both cases take the first listing in the
+  site's own search results that is that fragrance (same name and
+  concentration; other concentrations, flankers and gift sets do not count);
+  if it does not sell that size in stock, take the next such listing that
+  does. A single-size listing counts as that size only when its page, title
+  or SKU shows it, or when an Ulta listing sold by Armaf for the same product
+  and price states it. If no listing sells that size in stock, use the first
+  listing's preselected size and set `priceSizeMl`. (Decided 2026-10-26, D13;
+  revised the same day under F-152.)
 - Flag prices you cannot confirm (except a `discontinued` entry whose source
   page is gone, above), and flag an entry whose house has no size yet and
   that carries no `priceSizeMl`, rather than guessing a size.
