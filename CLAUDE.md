@@ -30,7 +30,7 @@ pnpm check:public && pnpm validate && pnpm exec tsc --noEmit && pnpm lint && pnp
 
 - Start from a clean, up-to-date `main`, with one branch per change.
 - Security fixes go in their own isolated PRs, never mixed with feature or dependency work.
-- Rick handles pushes, PRs and merges. Do not `git push`, open PRs, or merge unless asked in the session. For reference, Rick's merge pattern is `gh pr checks --watch`, then `gh pr merge --squash --delete-branch --admin` once green.
+- Rick handles pushes, PRs and merges. Do not `git push`, open PRs, or merge unless asked in the session. The `main` ruleset requires the `changes`, `lint`, `trivy-fs`, and `build-status` checks with no approvals. `build-status` stands in for the build matrix, because a skipped matrix job never reports its per-platform check names. Skipped jobs count as passing, so docs-only PRs still merge. Merge with `gh pr merge --auto --squash --delete-branch`, which waits for the checks; `--admin` is only for emergencies.
 
 ## Architecture
 
