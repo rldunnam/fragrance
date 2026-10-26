@@ -172,6 +172,10 @@ Report problems; do not fix them.
 - Where a house gives each size its own product page and preselects nothing
   (Versace US), there is no page default: price on the page for the house size
   in `price-basis.json` (Versace: the 100 ml page). (Decided 2026-10-02, F-062.)
+- Jean Paul Gaultier US also gives each size its own page and preselects
+  nothing. Price the 125 ml house-size page; where that size is not sold,
+  price the 100 ml page and set `priceSizeMl: 100`. (Decided 2026-10-26, D10;
+  closes F-112 and F-113.)
 - Flag prices you cannot confirm (except a `discontinued` entry whose source
   page is gone, above), and flag an entry whose house has no size yet and
   that carries no `priceSizeMl`, rather than guessing a size.
