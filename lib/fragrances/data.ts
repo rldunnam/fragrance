@@ -5867,7 +5867,7 @@ export const fragrances: Fragrance[] = [
     id: 'armaf-lions-club-monarque',
     name: 'The Lions Club Monarque',
     house: 'Armaf',
-    audience: 'Masculine',
+    audience: 'Unisex',
     price: 40,
     concentration: 'EDP',
     line: 'The Lions Club',
