@@ -24,7 +24,7 @@ pnpm check:public && pnpm validate && pnpm exec tsc --noEmit && pnpm lint && pnp
 - `pnpm lint` must finish with zero errors **and** zero warnings.
 - `pnpm build` needs the three `NEXT_PUBLIC_*` vars set (see Env vars below).
 - In a sandbox with no network, `next/font/google` can't reach Google Fonts. There, build with `NEXT_FONT_GOOGLE_MOCKED_RESPONSES=<mock file> NEXT_TELEMETRY_DISABLED=1 pnpm exec next build --webpack`. The mock file is not in the repo; a normal networked machine doesn't need this.
-- There is no unit test framework. The checks are `pnpm validate` plus the CI container smoke test, which boots the image and checks `/`, `/collection`, `/quiz`, and `/guide`.
+- There is no unit test framework. The checks are `pnpm validate` plus the container smoke test (`scripts/smoke-test.sh`), which boots the image and checks `/`, `/collection`, `/quiz`, and `/guide`. CI runs it on PRs and on `main`.
 
 ## Git and PR workflow
 
@@ -93,8 +93,8 @@ Everything in `public/` ships in the image. `pnpm check:public` fails on `eval`,
 ## Dependencies and CI
 
 - **pnpm only.** Never commit a `package-lock.json`; a stale one caused Trivy false failures. `pnpm-workspace.yaml` holds `overrides` and `allowBuilds` and must stay. `refresh-lockfile.yml` (manual) regenerates `pnpm-lock.yaml` on a PR branch.
-- `.github/workflows/deploy.yml`: PRs run lint/typecheck/validate/check:public and a Trivy fs scan, then build both architectures without pushing. Pushes to `main` also push by digest, run a Trivy image scan and the smoke test, merge the multi-arch manifest, tag `:test` and `:test-<sha>`, and clean up the registry. `:latest` moves only on a manual run with **release** ticked.
+- `.github/workflows/deploy.yml`: PRs run lint/typecheck/validate/check:public and a Trivy fs scan, then build both architectures without pushing; the amd64 image is loaded locally for a Trivy image scan and the smoke test. Pushes to `main` also push by digest, run a Trivy image scan and the smoke test, merge the multi-arch manifest, tag `:test` and `:test-<sha>`, and clean up the registry. `:latest` moves only on a manual run with **release** ticked.
 - Cross-job image digest references use uploaded artifacts, not matrix `outputs:`.
-- SHA-pin all GitHub Actions, with the version in a trailing comment, and never replace a pin with a floating tag. `aquasecurity/trivy-action` has a confirmed tag force-push history. `deploy.yml` is fully pinned and Dependabot watches the `github-actions` ecosystem. Open TODO: `refresh-lockfile.yml` still uses floating `@v7` tags; consider pinact/step-security for ongoing maintenance.
+- SHA-pin all GitHub Actions, with the version in a trailing comment, and never replace a pin with a floating tag. `aquasecurity/trivy-action` has a confirmed tag force-push history. Both workflows are fully pinned and Dependabot watches the `github-actions` ecosystem. Open TODO: consider pinact/step-security for ongoing maintenance.
 - Dependabot merge order: GitHub Actions PRs first, then Docker/devcontainer, then npm PRs one at a time with rebase settle time between each. When reviewing grouped Dependabot PRs, give a clear verdict and a merge sequence, and flag what is most likely to break CI or change behavior.
 - Scanner severity is not exploitability. Check the vendor advisory and whether the code path is reachable before prioritizing.
