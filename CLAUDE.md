@@ -82,7 +82,7 @@ Everything in `public/` ships in the image. `pnpm check:public` fails on `eval`,
 - Ingredient labels come from the house US site, then Sephora / Ulta / Nordstrom / another major retailer. Ulta truncates long lists, so confirm the last item elsewhere. Store labels verbatim in label order, in title case (acronyms such as BHT and CI numbers stay upper case). Store a printed formula/F.I.L. code as `formulaCode`. Ingredients are searchable but stay out of the note breakdown.
 
 ### Loading source pages
-Fragrantica and some house sites (dior.com confirmed) block plain fetching with HTTP 403. For those, use Claude in Chrome. For any page that loads without it, use plain fetching. Try a plain fetch first on sites not yet checked. Leave cookie banners alone or decline them; never accept.
+Fragrantica and some house sites (dior.com confirmed) block plain fetching with HTTP 403. For those, use Claude in Chrome. For any page that loads without it, use plain fetching. Try a plain fetch first on sites not yet checked. Plain fetching returns a model's summary of the page, not the page itself, so it can only answer whether a page exists and what it is about. Read any value that gets recorded (price, size, notes, label) from the page itself in Chrome. Leave cookie banners alone or decline them; never accept.
 
 ### Inclusion and status
 - The default inclusion rule is currently produced and broadly sold in the US. Regional exclusives and discontinued releases are generally excluded; exceptions need a hype/US-popularity justification in `includeReason` (e.g. Stronger With You Sandalwood). Status shows as a badge in the UI.
@@ -91,7 +91,7 @@ Fragrantica and some house sites (dior.com confirmed) block plain fetching with 
 
 ### Pricing
 - US entries are priced from the house US site, falling back to Sephora or Ulta, **at the size the product page presents by default**. If that differs from the house's size in `price-basis.json` (or the house isn't listed there), set `priceSizeMl`. Versace US preselects no size, so Versace is priced on its 100 ml page.
-- Regional entries use the first in-stock listing in this order: FragFlex → Triple Traders → FragranceNet → MaxAroma → FragranceX → Perfume.com → Jomashop. Fall back to a sold-out held price only if nothing is in stock. FragranceNet uses its "our price", not the coupon price.
+- Regional entries use the first in-stock listing in this order: FragFlex → Triple Traders → FragranceNet → MaxAroma → FragranceX → Perfume.com → Jomashop. Fall back to a sold-out held price only if nothing is in stock. FragranceNet uses its "our price", not the coupon price. A listing counts as in stock if any boxed size is (D9): price at that size (the house size if it's one of several in stock), set `priceSizeMl` when it isn't the house size, and round to whole dollars.
 
 ## Dependencies and CI
 

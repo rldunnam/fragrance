@@ -138,6 +138,15 @@ Report problems; do not fix them.
   was used and why each earlier one was skipped. This applies to prices
   only; label sources still exclude these sites. (Decided 2026-10-13, D4;
   closes F-104 and F-105.)
+- "In stock" is decided per listing, not per size: a listing counts if any
+  boxed size is in stock, and the price is taken at that in-stock size, with
+  `priceSizeMl` recorded when it differs from the house size. Do not skip a
+  listing because the house size is sold out. If more than one boxed size is
+  in stock there, take the house size when it is one of them, otherwise the
+  in-stock size nearest to it (the larger on a tie). Grey-market prices are
+  stored in whole dollars, rounded from the listing's cents (as for
+  `ysl-kouros`, $138.99 stored as 139). (Decided 2026-10-26, D9; closes
+  F-120.)
 - A `discontinued` entry keeps its last available US price and priced size,
   with the source named in the ledger. If that page is gone, record that it
   could not be loaded and do not flag the price; if the page is live, check it
