@@ -162,6 +162,11 @@ Report problems; do not fix them.
   YSL US product pages label every size option "Selected" and show one
   price for the product; there the default is the size marked with an
   asterisk in the page's size list. (Decided 2026-10-13, D8; F-071.)
+- Every price is stored in whole dollars. A price shown with cents
+  ($44.99) is rounded to the nearest dollar (45), whatever its source:
+  house site, retailer or grey market. Flag a stored price that does not
+  match the rounded source price. (Decided 2026-10-26, D11; extends the
+  grey-market rounding in D9 to all prices.)
 - `lib/fragrances/price-basis.json` records each house's usual size. If the
   size you priced differs from it, the entry must set `priceSizeMl` to the
   priced size. If the house has no size there yet, the entry records the

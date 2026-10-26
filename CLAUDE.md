@@ -78,7 +78,7 @@ Everything in `public/` ships in the image. `pnpm check:public` fails on `eval`,
 - Check the line for existing entries before any concentration change.
 
 ### Sources
-- Note pyramids and audience come from the fragrance's own Fragrantica page, with house line conventions as the tiebreak. If the source gives no tiers, set `notesFlat: true` and put all notes in `heartNotes` rather than inventing a split.
+- Note pyramids come from the fragrance's own Fragrantica page. Audience comes from the house's own classification, with Fragrantica's as the tiebreak only where the house doesn't gender the release (`types.ts`, `Audience`). If the source gives no tiers, set `notesFlat: true` and put all notes in `heartNotes` rather than inventing a split.
 - Ingredient labels come from the house US site, then Sephora / Ulta / Nordstrom / another major retailer. Ulta truncates long lists, so confirm the last item elsewhere. Store labels verbatim in label order, in title case (acronyms such as BHT and CI numbers stay upper case). Store a printed formula/F.I.L. code as `formulaCode`. Ingredients are searchable but stay out of the note breakdown.
 
 ### Loading source pages
@@ -90,7 +90,7 @@ Fragrantica and some house sites (dior.com confirmed) block plain fetching with 
 - `regional`: gone from the US but still sold by the house elsewhere. It takes a US grey-market price, and a non-US label source is allowed.
 
 ### Pricing
-- US entries are priced from the house US site, falling back to Sephora or Ulta, **at the size the product page presents by default**. If that differs from the house's size in `price-basis.json` (or the house isn't listed there), set `priceSizeMl`. Versace US preselects no size, so Versace is priced on its 100 ml page.
+- US entries are priced from the house US site, falling back to Sephora or Ulta, **at the size the product page presents by default**. If that differs from the house's size in `price-basis.json` (or the house isn't listed there), set `priceSizeMl`. Versace US preselects no size, so Versace is priced on its 100 ml page. Prices are stored in whole dollars; round any price with cents (D11).
 - Regional entries use the first in-stock listing in this order: FragFlex → Triple Traders → FragranceNet → MaxAroma → FragranceX → Perfume.com → Jomashop. Fall back to a sold-out held price only if nothing is in stock. FragranceNet uses its "our price", not the coupon price. A listing counts as in stock if any boxed size is (D9): price at that size (the house size if it's one of several in stock), set `priceSizeMl` when it isn't the house size, and round to whole dollars.
 
 ## Dependencies and CI
