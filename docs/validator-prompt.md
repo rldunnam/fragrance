@@ -28,7 +28,7 @@ Report problems; do not fix them.
   - Fragrantica spellings listed in `NOTE_ALIASES` in
     `scripts/validate-fragrances.mjs` are stored as their catalog form
     ("Vanila" → "Vanilla", "Cloves" → "Clove", "Citruses" → "Citrus",
-    "Ambrette (Musk Mallow)" → "Ambrette").
+    "Ambrette (Musk Mallow)" → "Ambrette", "Marine notes" → "Marine Notes").
   - Trademark symbols are dropped ("Ambermax™" → "Ambermax").
 
   Flag any other rename. To add a new alias, change `NOTE_ALIASES` in the same
@@ -57,6 +57,19 @@ Report problems; do not fix them.
 - Letter case is not a spelling difference: labels are stored in title case
   whatever case the source prints, and acronyms (BHT, CI numbers) keep the
   catalog form in capitals. (Decided 2026-10-02, F-088.)
+- A label is stored as its cited page prints it, except for obvious printing
+  defects, which are corrected: a comma or other separator splitting one
+  ingredient name ('Benzyl, Alcohol' → 'Benzyl Alcohol'), a missing period in
+  a standard abbreviation ('Alcohol Denat' → 'Alcohol Denat.'), the same item
+  printed twice in a row (stored once), a truncated ingredient name whose full
+  form is unambiguous and printed elsewhere on the label or on another allowed
+  source ('PARFUM / FRAGRANC' → 'Parfum / Fragrance'), and a note on the
+  alcohol's origin or strength printed as a list item ('Alcohol Of Vegetal
+  Origin 80% Vol.', left out). Anything else printed in the list, including a
+  'may contain (+/-)' colourant tail, is part of the label and is stored. Each correction is named in a comment on the entry and in
+  the ledger. Do not flag a documented correction; flag an undocumented
+  difference, and anything beyond these defects. (Decided 2026-10-26, D12;
+  closes F-138.)
 - Ulta's product page truncates long lists in its display. For any Ulta-sourced
   label, confirm the last item against Sephora or the house site.
 - Use the fragrance's own product page. Gift sets and samplers list several
