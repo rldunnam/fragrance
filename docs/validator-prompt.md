@@ -201,15 +201,19 @@ Report problems; do not fix them.
   price the 100 ml page and set `priceSizeMl: 100`. (Decided 2026-10-26, D10;
   closes F-112 and F-113.)
 - Armaf US (armaf.com) lists one fragrance on several product pages, and its
-  multi-size pages often preselect a 6.8 oz or larger bottle. Price Armaf at
-  its 3.6 oz (105 ml) house size instead of the page default: take the
-  first listing in the site's own search results that is that fragrance
-  (same name and concentration; other concentrations, flankers and gift sets
-  do not count), at its 3.6 oz offer; if it does not sell 3.6 oz in stock,
-  take the next such listing that does. A single-size listing counts as
-  3.6 oz only when its page, title or SKU shows that size. If no
-  listing sells 3.6 oz in stock, use the first listing's preselected size and
-  set `priceSizeMl`. (Decided 2026-10-26, D13.)
+  multi-size pages often preselect a 6.8 oz or larger bottle, so Armaf is not
+  priced at the page default. Armaf's house size is 3.4 oz (100 ml), the size
+  of most of its US range; price other Armaf lines on that offer. The Club de
+  Nuit line is sold at 3.6 oz (105 ml) instead: price it at the 3.6 oz offer
+  and set `priceSizeMl: 105`. In both cases take the first listing in the
+  site's own search results that is that fragrance (same name and
+  concentration; other concentrations, flankers and gift sets do not count);
+  if it does not sell that size in stock, take the next such listing that
+  does. A single-size listing counts as that size only when its page, title
+  or SKU shows it, or when an Ulta listing sold by Armaf for the same product
+  and price states it. If no listing sells that size in stock, use the first
+  listing's preselected size and set `priceSizeMl`. (Decided 2026-10-26, D13;
+  revised the same day under F-152.)
 - Flag prices you cannot confirm (except a `discontinued` entry whose source
   page is gone, above), and flag an entry whose house has no size yet and
   that carries no `priceSizeMl`, rather than guessing a size.
