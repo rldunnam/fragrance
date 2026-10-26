@@ -391,7 +391,7 @@ export const fragrances: Fragrance[] = [
   {
     id: 'one-million',
     name: '1 Million Parfum',
-    house: 'Paco Rabanne',
+    house: 'Rabanne',
     audience: 'Masculine',
     price: 140,
     concentration: 'Parfum',
@@ -1315,7 +1315,7 @@ export const fragrances: Fragrance[] = [
   {
     id: 'paco-1-million-original',
     name: '1 Million',
-    house: 'Paco Rabanne',
+    house: 'Rabanne',
     audience: 'Masculine',
     price: 126,
     concentration: 'EDT',
@@ -1698,7 +1698,7 @@ export const fragrances: Fragrance[] = [
   {
     id: 'paco-rabanne-pour-homme',
     name: 'Paco Rabanne Pour Homme',
-    house: 'Paco Rabanne',
+    house: 'Rabanne',
     audience: 'Masculine',
     price: 98,
     concentration: 'EDT',
@@ -1723,29 +1723,9 @@ export const fragrances: Fragrance[] = [
     ingredientsSource: 'https://www.rabanne.com/us/en_US/fragrance/p/paco-rabanne-pour-homme--000000000065051929',
   },
   {
-    id: 'paco-invictus-edp',
-    name: 'Invictus',
-    house: 'Paco Rabanne',
-    audience: 'Masculine',
-    price: 110,
-    concentration: 'EDP',
-    family: ['Fresh', 'Woody'],
-    occasion: ['Everyday', 'Office', 'Date Night'],
-    season: ['Spring', 'Summer', 'Fall'],
-    topNotes: ['Grapefruit', 'Sea Notes', 'Bay Laurel'],
-    heartNotes: ['Hedione', 'Jasmine'],
-    baseNotes: ['Guaiac Wood', 'Patchouli', 'Oakmoss'],
-    rationale: 'One of the best-selling masculines globally — a clean, sporty aquatic with a woody drydown that strikes the perfect balance between fresh and warm. Universally liked.',
-    intensity: 4,
-    longevity: '7-9 hrs',
-    sillage: 'Strong',
-    projection: 4,
-    line: 'Invictus',
-  },
-  {
     id: 'paco-phantom',
     name: 'Phantom',
-    house: 'Paco Rabanne',
+    house: 'Rabanne',
     audience: 'Masculine',
     price: 96,
     priceSizeMl: 50,
@@ -2281,7 +2261,7 @@ export const fragrances: Fragrance[] = [
   {
     id: 'paco-invictus-edt',
     name: 'Invictus',
-    house: 'Paco Rabanne',
+    house: 'Rabanne',
     audience: 'Masculine',
     price: 130,
     concentration: 'EDT',
@@ -4027,7 +4007,7 @@ export const fragrances: Fragrance[] = [
   {
     id: 'paco-invictus-platinum',
     name: 'Invictus Platinum',
-    house: 'Paco Rabanne',
+    house: 'Rabanne',
     audience: 'Masculine',
     price: 150,
     family: ['Fresh', 'Woody'],
@@ -4055,7 +4035,7 @@ export const fragrances: Fragrance[] = [
   {
     id: 'paco-invictus-victory',
     name: 'Invictus Victory',
-    house: 'Paco Rabanne',
+    house: 'Rabanne',
     audience: 'Masculine',
     price: 150,
     family: ['Amber', 'Woody'],
@@ -4082,7 +4062,7 @@ export const fragrances: Fragrance[] = [
   {
     id: 'paco-1-million-lucky',
     name: '1 Million Lucky',
-    house: 'Paco Rabanne',
+    house: 'Rabanne',
     audience: 'Masculine',
     price: 126,
     family: ['Fresh', 'Woody'],
@@ -4110,7 +4090,7 @@ export const fragrances: Fragrance[] = [
   {
     id: 'paco-1-million-elixir',
     name: '1 Million Elixir',
-    house: 'Paco Rabanne',
+    house: 'Rabanne',
     audience: 'Masculine',
     price: 168,
     family: ['Amber', 'Woody'],
@@ -4137,7 +4117,7 @@ export const fragrances: Fragrance[] = [
   {
     id: 'paco-phantom-parfum',
     name: 'Phantom Parfum',
-    house: 'Paco Rabanne',
+    house: 'Rabanne',
     audience: 'Masculine',
     price: 172,
     family: ['Amber', 'Woody'],
@@ -5263,7 +5243,7 @@ export const fragrances: Fragrance[] = [
   {
     id: 'paco-invictus-parfum',
     name: 'Invictus Parfum',
-    house: 'Paco Rabanne',
+    house: 'Rabanne',
     audience: 'Masculine',
     price: 157,
     concentration: 'Parfum',
@@ -5280,6 +5260,14 @@ export const fragrances: Fragrance[] = [
     sillage: 'Strong',
     projection: 4,
     source: 'https://www.fragrantica.com/perfume/Rabanne/Invictus-Parfum-90433.html',
+    // Rabanne USA prints this list without separators, so the label is Sephora US's. Its last entry, 'Alcohol Of Vegetal Origin 80% Vol.', states where the alcohol comes from and is not stored as an ingredient.
+    ingredients: [
+      'Alcohol Denat.', 'Parfum (Fragrance)', 'Aqua (Water)', 'Benzyl Salicylate',
+      'Butyl Methoxydibenzoylmethane', 'Limonene', 'Citronellol', 'Coumarin', 'Geraniol',
+      'Alcohol', 'Tris (Tetramethylhydroxypiperidinol) Citrate', 'Linalool', 'Benzyl Alcohol',
+      'Benzyl Benzoate',
+    ],
+    ingredientsSource: 'https://www.sephora.com/product/paco-rabanne-invictus-parfum-P510922',
   },
   {
     id: 'pdm-carlisle',
