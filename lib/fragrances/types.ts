@@ -6,6 +6,10 @@ export type Concentration = 'EDC' | 'EDT' | 'EDP' | 'Parfum' | 'Extrait'
  * consensus on Fragrantica as the tiebreak where a house declines to gender
  * its line at all.
  *
+ * Where a house's own US store labels a product's gender on the product
+ * page (e.g. armaf.com's 'Gender' field), that label is its classification;
+ * store tags and navigation categories are not (decided 2026-10-26, D14).
+ *
  * The filter UI never exposes these three values directly. It offers
  * "For Him" (Masculine + Unisex) and "For Her" (Feminine + Unisex), so a
  * unisex entry is reachable from both sides. See audienceViews in filters.ts.

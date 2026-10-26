@@ -111,6 +111,12 @@ Report problems; do not fix them.
 
 **Identity and inclusion**
 
+- `audience` follows the house's own classification (see `Audience` in
+  types.ts), with Fragrantica only as the tiebreak where the house does not
+  gender the release. Where the house's US store states a gender on the
+  product page itself (armaf.com's 'Gender' field), that statement is the
+  classification; store tags and navigation categories are not. (Decided
+  2026-10-26, D14; F-145.)
 - No existing `id` may change. Flag any id that was renamed rather than kept with a
   corrected `name`.
 - For each newly added entry: confirm the fragrance exists, that it is currently sold
