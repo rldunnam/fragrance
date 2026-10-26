@@ -81,6 +81,9 @@ Everything in `public/` ships in the image. `pnpm check:public` fails on `eval`,
 - Note pyramids and audience come from the fragrance's own Fragrantica page, with house line conventions as the tiebreak. If the source gives no tiers, set `notesFlat: true` and put all notes in `heartNotes` rather than inventing a split.
 - Ingredient labels come from the house US site, then Sephora / Ulta / Nordstrom / another major retailer. Ulta truncates long lists, so confirm the last item elsewhere. Store labels verbatim in label order, in title case (acronyms such as BHT and CI numbers stay upper case). Store a printed formula/F.I.L. code as `formulaCode`. Ingredients are searchable but stay out of the note breakdown.
 
+### Loading source pages
+Fragrantica and some house sites (dior.com confirmed) block plain fetching with HTTP 403. For those, use Claude in Chrome. For any page that loads without it, use plain fetching. Try a plain fetch first on sites not yet checked. Leave cookie banners alone or decline them; never accept.
+
 ### Inclusion and status
 - The default inclusion rule is currently produced and broadly sold in the US. Regional exclusives and discontinued releases are generally excluded; exceptions need a hype/US-popularity justification in `includeReason` (e.g. Stronger With You Sandalwood). Status shows as a badge in the UI.
 - `discontinued`: the house sells it nowhere. The entry keeps its last US price, priced size, label, and sources.
