@@ -303,6 +303,31 @@ jobs:
           retention-days: 1
 
   # ===========================================================================
+  # Build status (required check)
+  # ===========================================================================
+  # The branch ruleset requires this job instead of the two build legs. A
+  # matrix job skipped at job level reports a single "build" check rather than
+  # one per platform, so requiring the per-platform names would leave every
+  # docs-only PR waiting forever. This job always runs and collapses the
+  # matrix into one result: success or skipped passes, anything else fails.
+  build-status:
+    needs: build
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions: {}
+    steps:
+      - name: Check build result
+        env:
+          RESULT: ${{ needs.build.result }}
+        run: |
+          echo "build: ${RESULT}"
+          case "$RESULT" in
+            success|skipped) exit 0 ;;
+            *) exit 1 ;;
+          esac
+
+  # ===========================================================================
   # Image scan
   # ===========================================================================
   trivy-image:
