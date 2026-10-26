@@ -204,8 +204,9 @@ Report problems; do not fix them.
   multi-size pages often preselect a 6.8 oz or larger bottle, so Armaf is not
   priced at the page default. Armaf's house size is 3.4 oz (100 ml), the size
   of most of its US range; price other Armaf lines on that offer. The Club de
-  Nuit line is sold at 3.6 oz (105 ml) instead: price it at the 3.6 oz offer
-  and set `priceSizeMl: 105`. In both cases take the first listing in the
+  Nuit range (entries whose `line` is 'Club de Nuit' or 'Club de Nuit Intense
+  Man') is sold at 3.6 oz (105 ml) instead: price it at the 3.6 oz offer and
+  set `priceSizeMl: 105`. In both cases take the first listing in the
   site's own search results that is that fragrance (same name and
   concentration; other concentrations, flankers and gift sets do not count);
   if it does not sell that size in stock, take the next such listing that
