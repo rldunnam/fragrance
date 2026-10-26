@@ -194,6 +194,16 @@ Report problems; do not fix them.
   nothing. Price the 125 ml house-size page; where that size is not sold,
   price the 100 ml page and set `priceSizeMl: 100`. (Decided 2026-10-26, D10;
   closes F-112 and F-113.)
+- Armaf US (armaf.com) lists one fragrance on several product pages, and its
+  multi-size pages often preselect a 6.8 oz or larger bottle. Price Armaf at
+  its 3.6 oz (105 ml) house size instead of the page default: take the
+  first listing in the site's own search results that is that fragrance
+  (same name and concentration; other concentrations, flankers and gift sets
+  do not count), at its 3.6 oz offer; if it does not sell 3.6 oz in stock,
+  take the next such listing that does. A single-size listing counts as
+  3.6 oz only when its page, title or SKU shows that size. If no
+  listing sells 3.6 oz in stock, use the first listing's preselected size and
+  set `priceSizeMl`. (Decided 2026-10-26, D13.)
 - Flag prices you cannot confirm (except a `discontinued` entry whose source
   page is gone, above), and flag an entry whose house has no size yet and
   that carries no `priceSizeMl`, rather than guessing a size.
