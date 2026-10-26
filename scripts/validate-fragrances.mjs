@@ -80,6 +80,7 @@ const NOTE_ALIASES = new Map([
   ['Cloves', 'Clove'],
   ['Citruses', 'Citrus'],
   ['Ambrette (Musk Mallow)', 'Ambrette'],
+  ['Marine notes', 'Marine Notes'],
 ])
 const TRADEMARK_RE = /[™®©]/
 

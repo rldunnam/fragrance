@@ -1332,8 +1332,9 @@ export const fragrances: Fragrance[] = [
     projection: 5,
     line: '1 Million',
     source: 'https://www.fragrantica.com/perfume/Rabanne/1-Million-3747.html',
+    // Rabanne USA's 1 Million page errors, so the label is Sephora US's. Sephora misprints 'Alcohol Denat' (no period) and splits 'Benzyl, Alcohol'; stored as 'Alcohol Denat.' and 'Benzyl Alcohol' so search matches.
     ingredients: [
-      'Alcohol Denat', 'Fragrance', 'Water', 'Butylphenyl Methylpropional', 'Coumarin', 'Limonene',
+      'Alcohol Denat.', 'Fragrance', 'Water', 'Butylphenyl Methylpropional', 'Coumarin', 'Limonene',
       'Hydroxycitronellal', 'Alpha-Isomethyl Ionone', 'Linalool', 'Benzyl Alcohol', 'Cinnamal',
       'Eugenol', 'Citral', 'Isoeugenol', 'Citronellol',
     ],
@@ -5270,7 +5271,7 @@ export const fragrances: Fragrance[] = [
     family: ['Woody', 'Amber'],
     occasion: ['Date Night', 'Everyday'],
     season: ['Fall', 'Winter'],
-    topNotes: ['Marine notes', 'Lavender', 'Pink Pepper'],
+    topNotes: ['Marine Notes', 'Lavender', 'Pink Pepper'],
     heartNotes: ['Soap', 'Violet Leaf', 'Myrtle'],
     baseNotes: ['Musk', 'Cashmeran', 'Sandalwood'],
     rationale: 'The darkest tier of the Invictus ladder — the marine freshness of the EDT swapped for cedar, amberwood and vanilla. Almost unrecognisable next to the original, and better for cold weather.',

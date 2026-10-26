@@ -28,7 +28,7 @@ Report problems; do not fix them.
   - Fragrantica spellings listed in `NOTE_ALIASES` in
     `scripts/validate-fragrances.mjs` are stored as their catalog form
     ("Vanila" → "Vanilla", "Cloves" → "Clove", "Citruses" → "Citrus",
-    "Ambrette (Musk Mallow)" → "Ambrette").
+    "Ambrette (Musk Mallow)" → "Ambrette", "Marine notes" → "Marine Notes").
   - Trademark symbols are dropped ("Ambermax™" → "Ambermax").
 
   Flag any other rename. To add a new alias, change `NOTE_ALIASES` in the same
