@@ -3759,6 +3759,7 @@ export const fragrances: Fragrance[] = [
     projection: 3,
     line: 'Stronger With You',
     source: 'https://www.fragrantica.com/perfume/Giorgio-Armani/Emporio-Armani-Stronger-With-You-45258.html',
+    // Armani US prints 'PARFUM / FRAGRANC' (truncated); stored as 'Parfum / Fragrance' (D12, F-111).
     ingredients: [
       'Alcohol', 'Parfum / Fragrance', 'Aqua / Water', 'Limonene', 'Linalool',
       'Coumarin', 'Diethylamino Hydroxybenzoyl Hexyl Benzoate', 'Isoeugenol', 'Citronellol',
