@@ -960,7 +960,7 @@ export const fragrances: Fragrance[] = [
     source: 'https://www.fragrantica.com/perfume/Yves-Saint-Laurent/Kouros-735.html',
     status: 'regional',
     includeReason: 'Gone from US sale but still sold by YSL abroad: YSL\'s US site keeps a Kouros Eau de Toilette page (one size, 3.3 oz / 100 mL) but shows it out of stock, badged 30% OFF and outside its men\'s fragrance ranges, while YSL UK sells the 100 ml Eau de Toilette in its own Kouros range. Kept as a landmark fougère with a published id.',
-    // YSL US has a Kouros page, but it prints no ingredient list. Label from Sephora FR (no Lyral/Lilial); YSL UK prints a different 24-item list (see F-067). Source misprints 'Alpha,Isomethyl Ionone'; stored hyphenated so search matches.
+    // YSL US has a Kouros page, but it prints no ingredient list. Regional entry, so the label is YSL UK's 24-item list (F-067); its '2YF02-2' is a batch code, not a formula code.
     ingredients: [
       'Alcohol', 'Parfum (Fragrance)', 'Aqua (Water)', 'Hexyl Cinnamal', 'Benzyl Benzoate',
       'Alpha-Methyl Ionone', 'Hydroxyisohexyl 3-Cyclohexene Carboxaldehyde', 'Hydroxycitronellal',
