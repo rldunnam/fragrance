@@ -78,7 +78,7 @@ Everything in `public/` ships in the image. `pnpm check:public` fails on `eval`,
 - Check the line for existing entries before any concentration change.
 
 ### Sources
-- Note pyramids and audience come from the fragrance's own Fragrantica page, with house line conventions as the tiebreak. If the source gives no tiers, set `notesFlat: true` and put all notes in `heartNotes` rather than inventing a split.
+- Note pyramids come from the fragrance's own Fragrantica page. Audience comes from the house's own classification, with Fragrantica's as the tiebreak only where the house doesn't gender the release (`types.ts`, `Audience`). If the source gives no tiers, set `notesFlat: true` and put all notes in `heartNotes` rather than inventing a split.
 - Ingredient labels come from the house US site, then Sephora / Ulta / Nordstrom / another major retailer. Ulta truncates long lists, so confirm the last item elsewhere. Store labels verbatim in label order, in title case (acronyms such as BHT and CI numbers stay upper case). Store a printed formula/F.I.L. code as `formulaCode`. Ingredients are searchable but stay out of the note breakdown.
 
 ### Loading source pages
