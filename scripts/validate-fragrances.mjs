@@ -138,6 +138,7 @@ const US_SOURCE_HOSTS = new Map([
   ['www.dior.com', /^\/en_us\//],
   ['www.versace.com', /^\/us\//],
   ['www.jeanpaulgaultier.com', /^\/us\//],
+  ['www.rabanne.com', /^\/us\//],
   // major US retailers
   ['www.sephora.com', /^\/product\//],
   ['www.ulta.com', null],
