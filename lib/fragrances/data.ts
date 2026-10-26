@@ -1332,7 +1332,7 @@ export const fragrances: Fragrance[] = [
     projection: 5,
     line: '1 Million',
     source: 'https://www.fragrantica.com/perfume/Rabanne/1-Million-3747.html',
-    // Rabanne USA's 1 Million page errors, so the label is Sephora US's. Sephora misprints 'Alcohol Denat' (no period) and splits 'Benzyl, Alcohol'; stored as 'Alcohol Denat.' and 'Benzyl Alcohol' so search matches.
+    // Rabanne USA's 1 Million page errors, so the label is Sephora US's. Sephora misprints 'Alcohol Denat' (no period) and splits 'Benzyl, Alcohol'; stored as 'Alcohol Denat.' and 'Benzyl Alcohol' so search matches (D12).
     ingredients: [
       'Alcohol Denat.', 'Fragrance', 'Water', 'Butylphenyl Methylpropional', 'Coumarin', 'Limonene',
       'Hydroxycitronellal', 'Alpha-Isomethyl Ionone', 'Linalool', 'Benzyl Alcohol', 'Cinnamal',
@@ -4079,6 +4079,7 @@ export const fragrances: Fragrance[] = [
     line: '1 Million',
     concentration: 'EDT',
     source: 'https://www.fragrantica.com/perfume/Rabanne/1-Million-Lucky-48903.html',
+    // Rabanne USA prints 'Ci 60730 (Ext. Violet 2)' twice in a row at the end of this list; stored once (D12).
     ingredients: [
       'Alcohol Denat.', 'Parfum (Fragrance)', 'Aqua (Water)', 'Benzyl Salicylate',
       'Ethylhexyl Methoxycinnamate', 'Limonene', 'Linalool', 'Ethylhexyl Salicylate',
@@ -5260,7 +5261,7 @@ export const fragrances: Fragrance[] = [
     sillage: 'Strong',
     projection: 4,
     source: 'https://www.fragrantica.com/perfume/Rabanne/Invictus-Parfum-90433.html',
-    // Rabanne USA prints this list without separators, so the label is Sephora US's. Its last entry, 'Alcohol Of Vegetal Origin 80% Vol.', states where the alcohol comes from and is not stored as an ingredient.
+    // Rabanne USA prints this list without separators, so the label is Sephora US's. Its last entry, 'Alcohol Of Vegetal Origin 80% Vol.', states where the alcohol comes from and is not stored as an ingredient (D12).
     ingredients: [
       'Alcohol Denat.', 'Parfum (Fragrance)', 'Aqua (Water)', 'Benzyl Salicylate',
       'Butyl Methoxydibenzoylmethane', 'Limonene', 'Citronellol', 'Coumarin', 'Geraniol',
