@@ -15,7 +15,7 @@ scrollytelling guide to fragrance vocabulary and subculture.
 | Data | Supabase (Postgres + RLS) |
 | Charts | Recharts |
 | Package manager | pnpm 11 (pinned via `packageManager`) |
-| Runtime | Node.js 22 |
+| Runtime | Node.js 24 |
 | Distribution | Multi-arch container images on GHCR (amd64 + arm64) |
 
 ## Running from a container
@@ -48,13 +48,14 @@ environment variables are required. `PORT` and `HOSTNAME` can be overridden.
 
 ### Prerequisites
 
-- Node.js 22 or newer — **required**, not merely recommended. pnpm 11 depends on
-  the `node:sqlite` builtin, which does not exist before Node 22.
+- Node.js 24 — **required**, not merely recommended. `package.json` pins
+  `engines` to `>=24 <25` to match the Dockerfile, CI, and dev container, and
+  pnpm 11 depends on the `node:sqlite` builtin, which does not exist before Node 22.
 - pnpm 11, ideally via corepack rather than a global install:
 
 ```bash
 corepack enable          # resolves pnpm from package.json's packageManager field
-node -v                  # expect v22.x
+node -v                  # expect v24.x
 pnpm -v                  # expect 11.15.1
 ```
 

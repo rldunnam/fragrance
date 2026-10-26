@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Toolchain and commands
 
-**Node 24** (Active LTS; not Node 26) and **pnpm 11.15.1** via `corepack enable`. The README's "Node 22" line is stale. Node 24 is pinned in five places that must move together: `.devcontainer/devcontainer.json`, both `FROM` lines in `Dockerfile`, the setup-node step in `.github/workflows/deploy.yml`, `engines` in `package.json`, and the `@types/node` ceiling in `.github/dependabot.yml`.
+**Node 24** (Active LTS; not Node 26) and **pnpm 11.15.1** via `corepack enable`. Node 24 is pinned in five places that must move together, plus the README: `.devcontainer/devcontainer.json`, both `FROM` lines in `Dockerfile`, the setup-node step in `.github/workflows/deploy.yml`, `engines` in `package.json`, and the `@types/node` ceiling in `.github/dependabot.yml`.
 
 ```bash
 pnpm install --frozen-lockfile
