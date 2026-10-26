@@ -138,6 +138,15 @@ Report problems; do not fix them.
   was used and why each earlier one was skipped. This applies to prices
   only; label sources still exclude these sites. (Decided 2026-10-13, D4;
   closes F-104 and F-105.)
+- "In stock" is decided per listing, not per size: a listing counts if any
+  boxed size is in stock, and the price is taken at that in-stock size, with
+  `priceSizeMl` recorded when it differs from the house size. Do not skip a
+  listing because the house size is sold out. If more than one boxed size is
+  in stock there, take the house size when it is one of them, otherwise the
+  in-stock size nearest to it (the larger on a tie). Grey-market prices are
+  stored in whole dollars, rounded from the listing's cents (as for
+  `ysl-kouros`, $138.99 stored as 139). (Decided 2026-10-26, D9; closes
+  F-120.)
 - A `discontinued` entry keeps its last available US price and priced size,
   with the source named in the ledger. If that page is gone, record that it
   could not be loaded and do not flag the price; if the page is live, check it
@@ -163,6 +172,10 @@ Report problems; do not fix them.
 - Where a house gives each size its own product page and preselects nothing
   (Versace US), there is no page default: price on the page for the house size
   in `price-basis.json` (Versace: the 100 ml page). (Decided 2026-10-02, F-062.)
+- Jean Paul Gaultier US also gives each size its own page and preselects
+  nothing. Price the 125 ml house-size page; where that size is not sold,
+  price the 100 ml page and set `priceSizeMl: 100`. (Decided 2026-10-26, D10;
+  closes F-112 and F-113.)
 - Flag prices you cannot confirm (except a `discontinued` entry whose source
   page is gone, above), and flag an entry whose house has no size yet and
   that carries no `priceSizeMl`, rather than guessing a size.
