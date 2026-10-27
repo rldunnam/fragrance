@@ -2152,6 +2152,7 @@ export const fragrances: Fragrance[] = [
       'Coumarin', 'BHT',
     ],
     ingredientsSource: 'https://www.jomalone.com/product/25946/32241/colognes/wood-sage-sea-salt-cologne',
+    formulaCode: 'ILN40913',
   },
   {
     id: 'gucci-guilty-edp',
@@ -3316,6 +3317,7 @@ export const fragrances: Fragrance[] = [
       'Citral', 'Pentaerythrityl Tetra-Di-T-Butyl Hydroxyhydrocinnamate',
     ],
     ingredientsSource: 'https://www.jomalone.com/product/25946/27028/colognes/peony-blush-suede-cologne',
+    formulaCode: 'ILN43072',
   },
   {
     id: 'jo-malone-lime-basil',
@@ -3343,6 +3345,7 @@ export const fragrances: Fragrance[] = [
       'Eugenol', 'Benzyl Benzoate',
     ],
     ingredientsSource: 'https://www.jomalone.com/product/25946/10101/colognes/lime-basil-mandarin-cologne',
+    formulaCode: 'ILN49337',
   },
   {
     id: 'jo-malone-velvet-rose',
