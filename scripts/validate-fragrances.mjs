@@ -90,6 +90,7 @@ const NOTE_ALIASES = new Map([
   ['Granny Smith apple', 'Granny Smith Apple'],
   ['oak moss', 'Oakmoss'],
   ['Vetyver', 'Vetiver'],
+  ['Rock rose', 'Rock Rose'],
 ])
 const TRADEMARK_RE = /[™®©]/
 

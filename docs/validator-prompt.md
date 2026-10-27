@@ -225,6 +225,10 @@ Report problems; do not fix them.
   to it (the larger on a tie: Pour Homme's 75/125 ml gives 125 ml) and set
   `priceSizeMl`. As under D17, a size marked unavailable still gives its listed
   price. (Decided 2026-10-27, D18; F-222.)
+- A sale or markdown price is the price: store what the page charges for the
+  priced size, not a struck-through regular or compare-at price. A product the
+  house still lists but shows sold out keeps its listed price and stays
+  `current`. (Decided 2026-10-27, D19; Afnan US, F-279 and F-280.)
 - Carolina Herrera US preselects a different size on each product page (from
   1.7 oz to 6.8 oz), so it is not priced at the page default. Select the
   3.4 oz / 100 ml house size on the page and take that price. Where the page
