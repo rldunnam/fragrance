@@ -89,6 +89,7 @@ const NOTE_ALIASES = new Map([
   ['Calabrian bergamot', 'Calabrian Bergamot'],
   ['Granny Smith apple', 'Granny Smith Apple'],
   ['oak moss', 'Oakmoss'],
+  ['Vetyver', 'Vetiver'],
 ])
 const TRADEMARK_RE = /[™®©]/
 
@@ -121,7 +122,7 @@ const SET_PAGE_RE = /(sampler|gift-set|coffret|discovery-set|mini-set|-set-|-set
 // Dior's "#21664", or the code Chanel US prints as the last label item
 // ("PS000046A", "IL47-1"; D16). A bare batch code (e.g. "8YB02-1") is not a
 // formula code.
-const FORMULA_CODE_RE = /^(F\.I\.L\. [A-Z0-9]+\/\d+|#\d+|PS\d{6}[A-Z]|IL\d+-\d+)$/
+const FORMULA_CODE_RE = /^(F\.I\.L\. [A-Z0-9]+\/\d+|#\d+[A-Z]?|PS\d{6}[A-Z]|IL\d+-\d+)$/
 
 // Known US source hosts (F-090). The checks above are a denylist, so a non-US
 // page on a host they do not list (yslbeauty.com/int/, armanibeauty.eu,
@@ -159,6 +160,7 @@ const US_SOURCE_HOSTS = new Map([
   ['www.valentino-beauty.us', null],
   ['amouage.com', null],
   ['www.bulgari.com', /^\/en-us\//],
+  ['www.hermes.com', /^\/us\//],
   // major US retailers
   ['www.sephora.com', /^\/product\//],
   ['www.ulta.com', null],
