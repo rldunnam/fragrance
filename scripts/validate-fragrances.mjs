@@ -161,6 +161,7 @@ const US_SOURCE_HOSTS = new Map([
   ['amouage.com', null],
   ['www.bulgari.com', /^\/en-us\//],
   ['www.hermes.com', /^\/us\//],
+  ['michaelmalul.com', null],
   // major US retailers
   ['www.sephora.com', /^\/product\//],
   ['www.ulta.com', null],
