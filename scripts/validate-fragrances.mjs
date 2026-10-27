@@ -142,6 +142,7 @@ const US_SOURCE_HOSTS = new Map([
   ['www.jeanpaulgaultier.com', /^\/us\//],
   ['www.rabanne.com', /^\/us\//],
   ['www.hugoboss.com', /^\/us\//],
+  ['us.initioparfums.com', null],
   // major US retailers
   ['www.sephora.com', /^\/product\//],
   ['www.ulta.com', null],
