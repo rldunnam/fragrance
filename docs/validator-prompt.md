@@ -59,7 +59,9 @@ Report problems; do not fix them.
   catalog form in capitals. (Decided 2026-10-02, F-088.)
 - A label is stored as its cited page prints it, except for obvious printing
   defects, which are corrected: a comma or other separator splitting one
-  ingredient name ('Benzyl, Alcohol' → 'Benzyl Alcohol'), a missing period in
+  ingredient name ('Benzyl, Alcohol' → 'Benzyl Alcohol'), a missing separator
+  between two complete ingredient names ('CI 42090 (Blue 1) CI 19140 (Yellow 5)'
+  → two items), a missing period in
   a standard abbreviation ('Alcohol Denat' → 'Alcohol Denat.'), the same item
   printed twice in a row (stored once), a truncated ingredient name whose full
   form is unambiguous and printed elsewhere on the label or on another allowed
@@ -69,7 +71,7 @@ Report problems; do not fix them.
   'may contain (+/-)' colourant tail, is part of the label and is stored. Each correction is named in a comment on the entry and in
   the ledger. Do not flag a documented correction; flag an undocumented
   difference, and anything beyond these defects. (Decided 2026-10-26, D12;
-  closes F-138.)
+  closes F-138. Missing separator added 2026-10-27 under F-187.)
 - Ulta's product page truncates long lists in its display. For any Ulta-sourced
   label, confirm the last item against Sephora or the house site.
 - Use the fragrance's own product page. Gift sets and samplers list several
