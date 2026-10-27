@@ -1935,6 +1935,14 @@ export const fragrances: Fragrance[] = [
     projection: 4,
     line: 'Uomo',
     source: 'https://www.fragrantica.com/perfume/Valentino/Valentino-Uomo-Born-In-Roma-Intense-78740.html',
+    ingredients: [
+      'Alcohol', 'Parfum/Fragrance', 'Aqua/Water/Eau', 'Limonene', 'Ethylhexyl Salicylate',
+      'Butyl Methoxydibenzoylmethane', 'Coumarin', 'Hydroxycitronellal', 'Alpha-Isomethyl Ionone',
+      'Linalool', 'Citronellol', 'Citral', 'Geraniol', 'Methyl Anthranilate',
+      'Tris (Tetramethylhydroxypiperidinol) Citrate', 'Methyl 2-Octynoate', 'Isoeugenol',
+      'CI 14700/Red 4', 'Cinnamal', 'CI 17200/Red 33', 'CI 60730/Ext. Violet 2',
+    ],
+    ingredientsSource: 'https://www.sephora.com/product/valentino-uomo-born-in-roma-intense-eau-de-toilette-P504451',
   },
   {
     id: 'prada-luna-rossa-black',
