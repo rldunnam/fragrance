@@ -205,6 +205,9 @@ Report problems; do not fix them.
   nothing. Price the 125 ml house-size page; where that size is not sold,
   price the 100 ml page and set `priceSizeMl: 100`. (Decided 2026-10-26, D10;
   closes F-112 and F-113.)
+- Hugo Boss US and Burberry US (us.burberry.com) also give each size its own
+  product page. Price the 100 ml page, the house size in `price-basis.json`.
+  (Hugo Boss: batch-29, F-158; Burberry: batch-36, F-209 and F-212.)
 - Carolina Herrera US preselects a different size on each product page (from
   1.7 oz to 6.8 oz), so it is not priced at the page default. Select the
   3.4 oz / 100 ml house size on the page and take that price. Where the page
