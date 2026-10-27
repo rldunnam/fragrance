@@ -158,6 +158,7 @@ const US_SOURCE_HOSTS = new Map([
   ['creedboutique.com', null],
   ['www.valentino-beauty.us', null],
   ['amouage.com', null],
+  ['www.bulgari.com', /^\/en-us\//],
   // major US retailers
   ['www.sephora.com', /^\/product\//],
   ['www.ulta.com', null],
