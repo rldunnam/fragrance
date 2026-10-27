@@ -4269,6 +4269,13 @@ export const fragrances: Fragrance[] = [
     projection: 3,
     line: 'Polo Red',
     source: 'https://www.fragrantica.com/perfume/Ralph-Lauren/Polo-Red-18598.html',
+    // Sephora US prints 'Hydroxycitronella' (truncated, full form not printed on this label); stored as printed.
+    ingredients: [
+      'Alcohol', 'Water', 'Fragrance', 'Limonene', 'Linalool', 'Coumarin', 'T-Butyl Alcohol',
+      'Alpha-Isomethyl Ionone', 'Citronellol', 'BHT', 'Citral', 'Geraniol', 'Hydroxycitronella',
+      'Denatonium Benzoate',
+    ],
+    ingredientsSource: 'https://www.sephora.com/product/polo-red-P380994',
   },
   {
     id: 'polo-red-edp',
@@ -4311,6 +4318,12 @@ export const fragrances: Fragrance[] = [
     sillage: 'Strong',
     projection: 4,
     source: 'https://www.fragrantica.com/perfume/Ralph-Lauren/Ralph-s-Club-68282.html',
+    ingredients: [
+      'Alcohol', 'Parfum/Fragrance', 'Aqua/Water', 'Limonene', 'Benzyl Salicylate', 'Linalool',
+      'Benzyl Alcohol', 'Coumarin', 'Citronellol', 'Geraniol', 'Citral', 'Methyl Anthranilate',
+      'CI 60730/Ext. Violet 2', 'CI 14700/Red 4', 'CI 19140/Yellow 5',
+    ],
+    ingredientsSource: 'https://www.sephora.com/product/ralph-lauren-ralph-s-club-P474083',
   },
   {
     id: 'polo-est-67',
@@ -4331,6 +4344,13 @@ export const fragrances: Fragrance[] = [
     projection: 2,
     concentration: 'EDT',
     source: 'https://www.fragrantica.com/perfume/Ralph-Lauren/Polo-67-90347.html',
+    ingredients: [
+      'Alcohol', 'Parfum/Fragrance', 'Aqua/Water', 'Limonene', 'Linalool', 'Coumarin',
+      'Benzyl Salicylate', 'Citronellol', 'Alpha-Isomethyl Ionone', 'Benzyl Alcohol',
+      'Butyl Methoxydibenzoylmethane', 'Citral', 'Isoeugenol', 'Methyl Anthranilate', 'Geraniol',
+      'Farnesol', 'Cinnamal',
+    ],
+    ingredientsSource: 'https://www.sephora.com/product/ralph-lauren-polo-67-eau-de-toilette-P510834',
   },
 
   // ---- VALENTINO ----
