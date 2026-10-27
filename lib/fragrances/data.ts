@@ -972,7 +972,7 @@ export const fragrances: Fragrance[] = [
     topNotes: [],
     heartNotes: ['Vetiver', 'Tonka Bean', 'Hazelnut', 'Tobacco', 'Praline', 'Caramel', 'Sandalwood', 'Lily-of-the-Valley'],
     baseNotes: [],
-    rationale: 'Minimalist elegance pairing earthy vetiver with creamy tonka, timeless sophistication.',
+    rationale: 'Minimalist elegance pairing earthy vetiver with creamy tonka, warmed by hazelnut, praline and tobacco. Timeless sophistication.',
     intensity: 3,
     longevity: '6-8 hrs',
     sillage: 'Moderate',
