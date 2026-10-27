@@ -354,9 +354,9 @@ export const fragrances: Fragrance[] = [
     projection: 3,
     line: 'L\'Homme Prada',
     source: 'https://www.fragrantica.com/perfume/Prada/Prada-L-Homme-39029.html',
-    // Prada Beauty US prints 'ALCOHOL DENAT .' and runs 'CI 60730 (EXT. VIOLET 2) CI 19140 (YELLOW 5)' together; stored as 'Alcohol Denat.' and two items (D12).
+    // Prada Beauty US runs 'CI 60730 (EXT. VIOLET 2) CI 19140 (YELLOW 5)' together; stored as two items (D12).
     ingredients: [
-      'Alcohol Denat.', 'Aqua (Water)', 'Parfum (Fragrance)', 'Ethylhexyl Methoxycinnamate',
+      'Alcohol Denat .', 'Aqua (Water)', 'Parfum (Fragrance)', 'Ethylhexyl Methoxycinnamate',
       'Linalool', 'Limonene', 'Coumarin', 'Ethylhexyl Salicylate', 'Butyl Methoxydibenzoylmethane',
       'Citronellol', 'BHT', 'Diethylamino Hydroxybenzoyl Hexyl Benzoate', 'Geraniol', 'Citral',
       'Farnesol', 'CI 60730 (Ext. Violet 2)', 'CI 19140 (Yellow 5)',
@@ -1934,12 +1934,12 @@ export const fragrances: Fragrance[] = [
     sillage: 'Strong',
     projection: 4,
     source: 'https://www.fragrantica.com/perfume/Prada/Luna-Rossa-Black-48682.html',
-    // Prada Beauty US prints 'ALCOHOL DENAT' (no period) and 'EXT . VIOLET 2'; stored as 'Alcohol Denat.' (D12) and 'Ext. Violet 2'.
+    // Prada Beauty US prints 'ALCOHOL DENAT' (no period); stored as 'Alcohol Denat.' (D12).
     ingredients: [
       'Alcohol Denat.', 'Aqua (Water)', 'Parfum (Fragrance)', 'Limonene',
       'Ethylhexyl Methoxycinnamate', 'Linalool', 'Ethylhexyl Salicylate',
       'Butyl Methoxydibenzoylmethane', 'Coumarin', 'Citral', 'Citronellol', 'Geraniol',
-      'CI 60730 (Ext. Violet 2)',
+      'CI 60730 (Ext . Violet 2)',
     ],
     ingredientsSource: 'https://www.prada-beauty.com/fragrance/luna-rossa/luna-rossa-black-eau-de-parfum/MPL01369.html',
   },
