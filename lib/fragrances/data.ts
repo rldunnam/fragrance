@@ -1661,6 +1661,15 @@ export const fragrances: Fragrance[] = [
     sillage: 'Moderate',
     projection: 3,
     source: 'https://www.fragrantica.com/perfume/Azzaro/Chrome-788.html',
+    // Sephora US prints 'CI 42090 (Blue 1) CI 19140 (Yellow 5)' with no separator; stored as two items (D12).
+    ingredients: [
+      'Alcohol Denat.', 'Fragrance (Parfum)', 'Water (Aqua/Eau)', 'Limonene', 'Linalool',
+      'Ethylhexyl Methoxycinnamate', 'Butyl Methoxydibenzoylmethane', 'Ethylhexyl Salicylate',
+      'Coumarin', 'Hydroxycitronellal', 'Benzyl Benzoate', 'Evernia Prunastri (Oakmoss) Extract',
+      'Citral', 'Geraniol', 'Isoeugenol', 'BHT', 'CI 60730 (Ext. Violet 2)', 'CI 42090 (Blue 1)',
+      'CI 19140 (Yellow 5)',
+    ],
+    ingredientsSource: 'https://www.sephora.com/product/chrome-eau-de-toilette-P518151',
   },
   {
     id: 'polo-blue-edp',
@@ -3624,6 +3633,14 @@ export const fragrances: Fragrance[] = [
     concentration: 'Parfum',
     line: 'Boss Bottled',
     source: 'https://www.fragrantica.com/perfume/Hugo-Boss/Boss-Bottled-Elixir-84074.html',
+    // Hugo Boss US prints 'GERANIOL YELLOW 6 (CI 15985)' with no separator; stored as two items (D12).
+    ingredients: [
+      'Alcohol Denat.', 'Parfum/Fragrance', 'Aqua/Water/Eau', 'Ethylhexyl Salicylate', 'Coumarin',
+      'Limonene', 'Citronellol', 'Linalool', 'Alcohol',
+      'Tris(Tetramethylhydroxypiperidinol) Citrate', 'Eugenol', 'Geraniol', 'Yellow 6 (CI 15985)',
+      'Yellow 5 (CI 19140)', 'Blue 1 (CI 42090)',
+    ],
+    ingredientsSource: 'https://www.hugoboss.com/us/boss-bottled-elixir-eau-de-toilette-100ml/hbna58129503_999.html',
   },
   {
     id: 'boss-the-scent',
