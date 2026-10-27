@@ -202,6 +202,11 @@ Report problems; do not fix them.
   nothing. Price the 125 ml house-size page; where that size is not sold,
   price the 100 ml page and set `priceSizeMl: 100`. (Decided 2026-10-26, D10;
   closes F-112 and F-113.)
+- Carolina Herrera US preselects a different size on each product page (from
+  1.7 oz to 6.8 oz), so it is not priced at the page default. Select the
+  3.4 oz / 100 ml house size on the page and take that price. Where the page
+  does not offer 3.4 oz, take the size nearest to it (the larger on a tie)
+  and set `priceSizeMl`. (Decided 2026-10-27, D15; F-192.)
 - Armaf US (armaf.com) lists one fragrance on several product pages, and its
   multi-size pages often preselect a 6.8 oz or larger bottle, so Armaf is not
   priced at the page default. Armaf's house size is 3.4 oz (100 ml), the size

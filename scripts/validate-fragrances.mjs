@@ -82,6 +82,7 @@ const NOTE_ALIASES = new Map([
   ['Ambrette (Musk Mallow)', 'Ambrette'],
   ['Marine notes', 'Marine Notes'],
   ['elemi', 'Elemi'],
+  ['cannabis', 'Cannabis'],
 ])
 const TRADEMARK_RE = /[™®©]/
 
