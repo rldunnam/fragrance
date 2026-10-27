@@ -534,6 +534,14 @@ export const fragrances: Fragrance[] = [
     projection: 2,
     line: 'Legend',
     source: 'https://www.fragrantica.com/perfume/Montblanc/Legend-Spirit-33443.html',
+    ingredients: [
+      'Alcohol Denat. (SD Alcohol 39-C)', 'Parfum (Fragrance)', 'Aqua (Water)',
+      'Benzyl Salicylate', 'Limonene', 'Butylphenyl Methylpropional', 'Linalool',
+      'Ethylhexyl Methoxycinnamate', 'Coumarin', 'Citronellol', 'Geraniol',
+      'Alpha-Isomethyl Ionone', 'Ethylhexyl Salicylate', 'Butyl Methoxydibenzoylmethane', 'Citral',
+      'Eugenol', 'BHT',
+    ],
+    ingredientsSource: 'https://www.sephora.com/product/legend-spirit-eau-de-toilette-P405416',
   },
   {
     id: 'dior-homme-intense',
@@ -2053,6 +2061,12 @@ export const fragrances: Fragrance[] = [
     projection: 2,
     line: 'Legend',
     source: 'https://www.fragrantica.com/perfume/Montblanc/Legend-11784.html',
+    ingredients: [
+      'SD Alcohol 39-C', 'Water', 'Fragrance', 'Butyl Methoxydibenzoylmethane',
+      'Ethylhexyl Methoxycinnamate', 'Citronellol', 'Limonene', 'Linalool',
+      'Ethylhexyl Salicylate', 'Coumarin', 'BHT', 'Citral', 'Geraniol',
+    ],
+    ingredientsSource: 'https://www.sephora.com/product/legend-P375713',
   },
   {
     id: 'montblanc-legend-edp',
@@ -2074,6 +2088,11 @@ export const fragrances: Fragrance[] = [
     projection: 3,
     line: 'Legend',
     source: 'https://www.fragrantica.com/perfume/Montblanc/Legend-Eau-de-Parfum-62583.html',
+    ingredients: [
+      'Alcohol Denat. (SD Alcohol 39-C)', 'Parfum (Fragrance)', 'Aqua (Water)',
+      'Benzyl Salicylate', 'Citral', 'Citronellol', 'Coumarin', 'Limonene', 'Geraniol', 'Linalool',
+    ],
+    ingredientsSource: 'https://www.sephora.com/product/montblanc-legend-eau-de-parfum-P464268',
   },
   {
     id: 'montblanc-legend-night',
@@ -2136,6 +2155,13 @@ export const fragrances: Fragrance[] = [
     sillage: 'Moderate',
     projection: 3,
     source: 'https://www.fragrantica.com/perfume/Montblanc/Explorer-52002.html',
+    ingredients: [
+      'Alcohol Denat. (SD Alcohol 39-C)', 'Parfum (Fragrance)', 'Aqua (Water)',
+      'Ethylhexyl Methoxycinnamate', 'Butyl Methoxydibenzoylmethane', 'Ethylhexyl Salicylate',
+      'BHT', 'Citral', 'Limonene', 'Geraniol', 'Linalool', 'CI 14700 (Red 4)', 'CI 42090 (Blue 1)',
+      'CI 19140 (Yellow 5)',
+    ],
+    ingredientsSource: 'https://www.sephora.com/product/explorer-P450810',
   },
   {
     id: 'montblanc-explorer-platinum',
