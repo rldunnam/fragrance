@@ -214,6 +214,10 @@ Report problems; do not fix them.
   take the size nearest to it (the larger on a tie) and set `priceSizeMl`. A
   page that lists that size as unavailable ('Notify me') still gives its
   listed price. (Decided 2026-10-27, D17; F-214.)
+- Dolce & Gabbana US (dolcegabbana.com/en-us) also preselects no size. Price
+  the 100 ml size; where the page does not offer 100 ml, take the size nearest
+  to it (the larger on a tie: Pour Homme's 75/125 ml gives 125 ml) and set
+  `priceSizeMl`. (Decided 2026-10-27, D18; F-222.)
 - Carolina Herrera US preselects a different size on each product page (from
   1.7 oz to 6.8 oz), so it is not priced at the page default. Select the
   3.4 oz / 100 ml house size on the page and take that price. Where the page

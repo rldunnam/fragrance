@@ -151,6 +151,7 @@ const US_SOURCE_HOSTS = new Map([
   ['www.hugoboss.com', /^\/us\//],
   ['us.initioparfums.com', null],
   ['www.chanel.com', /^\/us\//],
+  ['www.dolcegabbana.com', /^\/en-us\//],
   // major US retailers
   ['www.sephora.com', /^\/product\//],
   ['www.ulta.com', null],
