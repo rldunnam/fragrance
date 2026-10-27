@@ -205,9 +205,10 @@ Report problems; do not fix them.
   nothing. Price the 125 ml house-size page; where that size is not sold,
   price the 100 ml page and set `priceSizeMl: 100`. (Decided 2026-10-26, D10;
   closes F-112 and F-113.)
-- Hugo Boss US and Burberry US (us.burberry.com) also give each size its own
-  product page. Price the 100 ml page, the house size in `price-basis.json`.
-  (Hugo Boss: batch-29, F-158; Burberry: batch-36, F-209 and F-212.)
+- Hugo Boss US, Burberry US (us.burberry.com) and Montblanc US
+  (montblanc.com/en-us) also give each size its own product page. Price the
+  100 ml page, the house size in `price-basis.json`. (Hugo Boss: batch-29,
+  F-158; Burberry: batch-36, F-209 and F-212; Montblanc: batch-40, F-227.)
 - Ralph Lauren US (ralphlauren.com) preselects no size, and the price it shows
   before a size is chosen belongs to no particular size. Select the 4.2 oz /
   125 ml house size and take that price; where the page does not offer 4.2 oz,

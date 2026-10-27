@@ -88,6 +88,7 @@ const NOTE_ALIASES = new Map([
   ['Elemi resin', 'Elemi Resin'],
   ['Calabrian bergamot', 'Calabrian Bergamot'],
   ['Granny Smith apple', 'Granny Smith Apple'],
+  ['oak moss', 'Oakmoss'],
 ])
 const TRADEMARK_RE = /[™®©]/
 
