@@ -227,6 +227,7 @@ export const fragrances: Fragrance[] = [
     sillage: 'Moderate',
     projection: 3,
     source: 'https://www.fragrantica.com/perfume/Versace/Versace-Pour-Homme-2318.html',
+    // Versace US prints no label, so the label is Sephora US's. Sephora splits 'Ethylhexyl, Methoxycinnamate'; stored as 'Ethylhexyl Methoxycinnamate' so search matches (D12).
     ingredients: [
       'Alcohol Denat. (SD Alcohol 39-C)', 'Fragrance', 'Linalool', 'Water', 'Limonene',
       'Ethylhexyl Methoxycinnamate', 'Butyl Methoxydibenzoylmethane', 'Ethylhexyl Salicylate',
@@ -6067,6 +6068,7 @@ export const fragrances: Fragrance[] = [
     sillage: 'Light',
     projection: 2,
     source: 'https://www.fragrantica.com/perfume/Versace/Versace-Man-Eau-Fraiche-644.html',
+    // Versace US prints no label, so the label is Sephora US's (default SKU 1359306). Sephora prefixes the alcohol strength 'Edt Vol. 78% -'; dropped (D12).
     ingredients: [
       'Alcohol Denat.(SD Alcohol 39-C)', 'Parfum (Fragrance)', 'Limonene', 'Linalool',
       'Ethylhexyl Methoxycinnamate', 'Butyl Methoxydibenzoylmethane', 'Ethylhexyl Salicylate',
