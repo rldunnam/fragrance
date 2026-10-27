@@ -85,6 +85,7 @@ const NOTE_ALIASES = new Map([
   ['cannabis', 'Cannabis'],
   ['Mineral notes', 'Mineral Notes'],
   ['Hiacynth', 'Hyacinth'],
+  ['Elemi resin', 'Elemi Resin'],
 ])
 const TRADEMARK_RE = /[™®©]/
 
@@ -113,9 +114,11 @@ const HOUSE_GLOBAL_HOSTS = {
 // (en_us, /us/en_US/) pass.
 const NON_US_LOCALE_PATH_RE = /\/[a-z]{2}[_-](?!us(?:\/|$))[a-z]{2}(?:\/|$)/i
 const SET_PAGE_RE = /(sampler|gift-set|coffret|discovery-set|mini-set|-set-|-set$)/i
-// Formula codes as printed with a label: L'Oréal's "F.I.L. B266362/1" or
-// Dior's "#21664". A bare batch code (e.g. "8YB02-1") is not a formula code.
-const FORMULA_CODE_RE = /^(F\.I\.L\. [A-Z0-9]+\/\d+|#\d+)$/
+// Formula codes as printed with a label: L'Oréal's "F.I.L. B266362/1",
+// Dior's "#21664", or the code Chanel US prints as the last label item
+// ("PS000046A", "IL47-1"; D16). A bare batch code (e.g. "8YB02-1") is not a
+// formula code.
+const FORMULA_CODE_RE = /^(F\.I\.L\. [A-Z0-9]+\/\d+|#\d+|PS\d{6}[A-Z]|IL\d+-\d+)$/
 
 // Known US source hosts (F-090). The checks above are a denylist, so a non-US
 // page on a host they do not list (yslbeauty.com/int/, armanibeauty.eu,
@@ -146,6 +149,7 @@ const US_SOURCE_HOSTS = new Map([
   ['www.rabanne.com', /^\/us\//],
   ['www.hugoboss.com', /^\/us\//],
   ['us.initioparfums.com', null],
+  ['www.chanel.com', /^\/us\//],
   // major US retailers
   ['www.sephora.com', /^\/product\//],
   ['www.ulta.com', null],
