@@ -4469,6 +4469,14 @@ export const fragrances: Fragrance[] = [
     concentration: 'EDP',
     line: 'Bad Boy',
     source: 'https://www.fragrantica.com/perfume/Carolina-Herrera/Bad-Boy-Elixir-101597.html',
+    ingredients: [
+      'Alcohol Denat.', 'Parfum (Fragrance)', 'Aqua (Water)', 'Coumarin', 'Limonene', 'Linalool',
+      'Butyl Methoxydibenzoylmethane', 'Alpha-Isomethyl Ionone', 'Benzyl Salicylate',
+      'Citronellol', 'Cinnamal', 'Alcohol', 'Citral',
+      'Tris(Tetramethylhydroxypiperidinol) Citrate', 'Methyl 2-Octynoate', 'Geraniol',
+      'CI 19140 (Yellow 5)', 'CI 14700 (Red 4)', 'CI 60730 (Ext. Violet 2)', 'CI 42090 (Blue 1)',
+    ],
+    ingredientsSource: 'https://www.sephora.com/product/carolina-herrera-bad-boy-gold-eau-de-parfum-P515561',
   },
   {
     id: 'ch-212-heroes',
@@ -5051,6 +5059,13 @@ export const fragrances: Fragrance[] = [
     sillage: 'Very Strong',
     projection: 5,
     source: 'https://www.fragrantica.com/perfume/Carolina-Herrera/Bad-Boy-Cobalt-Elixir-89374.html',
+    ingredients: [
+      'Alcohol Denat.', 'Parfum (Fragrance)', 'Aqua (Water)', 'Benzyl Salicylate', 'Coumarin',
+      'Linalool', 'Hydroxycitronellal', 'Butyl Methoxydibenzoylmethane', 'Limonene', 'Citronellol',
+      'Geraniol', 'Benzyl Benzoate', 'Benzyl Cinnamate', 'Alcohol', 'Citral',
+      'Tris(Tetramethylhydroxypiperidinol) Citrate', 'Benzyl Alcohol', 'CI 60730 (Ext. Violet 2)',
+    ],
+    ingredientsSource: 'https://www.sephora.com/product/carolina-herrera-bad-boy-cobalt-elixir-P510259',
   },
   {
     id: 'ch-very-good-girl-edp',
