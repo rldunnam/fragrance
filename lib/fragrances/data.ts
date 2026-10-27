@@ -4595,7 +4595,7 @@ export const fragrances: Fragrance[] = [
     topNotes: ['Ginger'],
     heartNotes: ['Woodsy Notes'],
     baseNotes: ['Bourbon Vanilla'],
-    rationale: 'The sweetest point of the line. Fiery ginger gives way to a caramel accord and bourbon vanilla over woods — closer to a gourmand than the spicy Eau de Parfum Intense, and the one most often compared to Stronger With You Intensely.',
+    rationale: 'The sweetest point of the line. Fiery ginger gives way to woods and bourbon vanilla — closer to a gourmand than the spicy Eau de Parfum Intense, and the one most often compared to Stronger With You Intensely.',
     intensity: 5,
     longevity: '8-10 hrs',
     sillage: 'Very Strong',
