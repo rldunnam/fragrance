@@ -208,6 +208,12 @@ Report problems; do not fix them.
 - Hugo Boss US and Burberry US (us.burberry.com) also give each size its own
   product page. Price the 100 ml page, the house size in `price-basis.json`.
   (Hugo Boss: batch-29, F-158; Burberry: batch-36, F-209 and F-212.)
+- Ralph Lauren US (ralphlauren.com) preselects no size, and the price it shows
+  before a size is chosen belongs to no particular size. Select the 4.2 oz /
+  125 ml house size and take that price; where the page does not offer 4.2 oz,
+  take the size nearest to it (the larger on a tie) and set `priceSizeMl`. A
+  page that lists that size as unavailable ('Notify me') still gives its
+  listed price. (Decided 2026-10-27, D17; F-214.)
 - Carolina Herrera US preselects a different size on each product page (from
   1.7 oz to 6.8 oz), so it is not priced at the page default. Select the
   3.4 oz / 100 ml house size on the page and take that price. Where the page
