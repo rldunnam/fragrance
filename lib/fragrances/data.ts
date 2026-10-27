@@ -6028,7 +6028,7 @@ export const fragrances: Fragrance[] = [
     topNotes: ['Frankincense', 'Cardamom', 'Elemi', 'Lemon', 'Bergamot', 'Sichuan Pepper'],
     heartNotes: ['Patchouli', 'Anise', 'Coriander', 'Saffron', 'Cumin', 'Orange Blossom', 'Wormwood', 'Geranium', 'Rose'],
     baseNotes: ['Frankincense', 'Vanilla', 'Amber', 'Benzoin', 'Oud', 'Opoponax', 'Birch', 'Labdanum', 'Ambergris', 'Maltol', 'Musk'],
-    rationale: 'From Amouage's Essences collection — spiced cardamom and frankincense over a patchouli, saffron and rose heart, on a resinous base of vanilla, amber, benzoin and oud.',
+    rationale: 'From Amouage\'s Essences collection — spiced cardamom and frankincense over a patchouli, saffron and rose heart, on a resinous base of vanilla, amber, benzoin and oud.',
     intensity: 4,
     longevity: '10-12 hrs',
     sillage: 'Strong',
