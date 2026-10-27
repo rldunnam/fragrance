@@ -1,6 +1,7 @@
 {
   "_note": "Each house's usual bottle size (ml). Prices are taken at the size the source page presents by default (its preselected or suggested purchase size); an entry priced at a different size than its house's value here records that size in priceSizeMl. Add a house only after checking its US range; until then, an entry whose house has no size here records its priced size in priceSizeMl, which is its price basis (decided 2026-10-13, D5, F-107), and scripts/validate-fragrances.mjs reports entries that have neither. Versace's 100 is a convention, not a page default: versace.com/us gives each size its own product page and preselects nothing, so Versace entries are priced on the 100 ml page (decided 2026-10-02, F-062). Jean Paul Gaultier US also gives each size its own page; where its 125 ml is not sold, entries are priced on the 100 ml page with priceSizeMl 100 (decided 2026-10-26, D10). Armaf is 100 (3.4 oz, most of its US range), but its Club de Nuit line is sold at 3.6 oz and priced there with priceSizeMl 105; Armaf is never priced at the page default, because armaf.com lists one fragrance on several pages and often preselects 6.8 oz or more (decided 2026-10-26, D13, revised under F-152).",
   "houses": {
+    "Amouage": 100,
     "Armaf": 100,
     "Azzaro": 100,
     "Burberry": 100,
