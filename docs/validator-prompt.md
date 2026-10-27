@@ -88,6 +88,9 @@ Report problems; do not fix them.
   global sites allowed under this rule in `HOUSE_GLOBAL_HOSTS`.
 - If `formulaCode` is present, confirm it appears on `ingredientsSource`, or on
   `formulaCodeSource` if that is set. (Decided 2026-10-01, F-083.)
+- Chanel US prints a code as the last item of each label, after a ' | '
+  separator, such as 'PS000046A' or 'IL47-1'. It is not an ingredient: store it
+  as `formulaCode` and leave it out of `ingredients`. (Decided 2026-10-27, D16; F-205.)
 - `formulaCodeSource` must be a US product page for the same fragrance and
   concentration, and that page must print the same items in the same order as
   the stored label. Spelling differences (for example "Aqua / Water / Eau") are
