@@ -6821,7 +6821,7 @@ export const fragrances: Fragrance[] = [
     topNotes: ['Bergamot'],
     heartNotes: ['Orange Blossom', 'Ambrofix', 'Patchouli'],
     baseNotes: ['White Musk'],
-    rationale: 'The lightest MYSLF — bergamot over an airy orange blossom, Ambrofix and patchouli heart, drying into white musk rather than vanilla. The most versatile and least sweet entry in the line.',
+    rationale: 'Daniela Andrier\'s lightest MYSLF — bergamot over an airy orange blossom, Ambrofix and patchouli heart, drying into white musk rather than vanilla. The most versatile and least sweet entry in the line.',
     intensity: 3,
     longevity: '7-9 hrs',
     sillage: 'Moderate',
