@@ -5653,7 +5653,7 @@ export const fragrances: Fragrance[] = [
     topNotes: ['Cardamom', 'Nutmeg', 'Elemi'],
     heartNotes: ['Pimento', 'Leather', 'Lavender'],
     baseNotes: ['Vanilla', 'Patchouli', 'Labdanum', 'Rock Rose'],
-    rationale: 'A darker spicier evolution of 9PM — cardamom and nutmeg over leather and lavender with a rich vanilla-labdanum base. Draws comparisons to Le Male Elixir and Khamrah Dukhan. Strong beast-mode performance.',
+    rationale: 'A darker spicier evolution of 9PM — cardamom and nutmeg over leather and lavender with a rich vanilla-labdanum base. Draws comparisons to Le Male Elixir Absolu. Strong beast-mode performance.',
     intensity: 5,
     longevity: '10-12 hrs',
     sillage: 'Very Strong',
