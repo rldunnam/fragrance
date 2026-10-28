@@ -54,7 +54,7 @@ const FAMILIES: FragranceFamily[] = [
         endAngle: 30,
         fragrances: [
           { name: "Dior Homme", house: "Dior", notes: "Iris, cocoa, lavender, vetiver" },
-          { name: "Uomo", house: "Valentino", notes: "Iris, bergamot, leather, vetiver" },
+          { name: "Uomo Intense", house: "Valentino", notes: "Mandarin, iris, tonka, leather" },
           { name: "Reflection Man", house: "Amouage", notes: "Neroli, iris, jasmine, musk" },
         ],
       },
