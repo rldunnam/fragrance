@@ -5966,7 +5966,7 @@ export const fragrances: Fragrance[] = [
     topNotes: ['Litchi', 'Rhubarb', 'Bergamot', 'Nutmeg', 'Black Currant'],
     heartNotes: ['Turkish Rose', 'Peony', 'Musk', 'Petalia', 'Vanilla'],
     baseNotes: ['Cashmeran', 'Incense', 'Cedar', 'Haitian Vetiver', 'Caramel'],
-    rationale: 'The house\'s signature feminine — litchi and rhubarb brightening a Turkish rose heart, finished with cashmeran musk. Widely imitated and still the reference point for the modern fruity-rose.',
+    rationale: 'The house\'s signature feminine — litchi and rhubarb brightening a Turkish rose heart, finished with cashmeran, incense and cedar. Widely imitated and still the reference point for the modern fruity-rose.',
     intensity: 4,
     longevity: '8-10 hrs',
     sillage: 'Strong',
