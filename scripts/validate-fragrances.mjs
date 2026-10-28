@@ -91,6 +91,7 @@ const NOTE_ALIASES = new Map([
   ['oak moss', 'Oakmoss'],
   ['Vetyver', 'Vetiver'],
   ['Rock rose', 'Rock Rose'],
+  ['Animal notes', 'Animal Notes'],
 ])
 const TRADEMARK_RE = /[™®©]/
 
@@ -169,6 +170,7 @@ const US_SOURCE_HOSTS = new Map([
   ['www.sephora.com', /^\/product\//],
   ['www.ulta.com', null],
   ['www.guerlain.com', /^\/us\//],
+  ['www.fredericmalle.com', null],
 ])
 // A storefront-switching query parameter (sephora.com/product/…?country_switch=ca
 // serves the Canadian page from a US-looking path). Any value is rejected: a
