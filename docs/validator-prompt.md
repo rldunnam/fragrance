@@ -235,7 +235,9 @@ Report problems; do not fix them.
   sells the fragrance, but Macy's does, price it at Macy's, at the size the
   page preselects, or at the house size in `price-basis.json` where Macy's
   gives each size its own page or preselects a size it calls a limited
-  edition or a value size. The entry stays `current`. A price that depends on
+  edition or a value size. Where Macy's does not offer the house size, take
+  the size nearest to it (the larger on a tie, as under D18) and set
+  `priceSizeMl`. The entry stays `current`. A price that depends on
   a promo code Macy's applies on the page ('FRIEND applied') is a coupon
   price, as at FragranceNet: store the regular price it strikes through. A
   markdown that needs no code still follows D19. (Decided 2026-10-28, D24;
