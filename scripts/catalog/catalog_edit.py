@@ -159,18 +159,23 @@ class Catalog:
 
     # validate-fragrances.mjs -------------------------------------------
     @staticmethod
-    def _add_map_line(const_name, line):
+    def _add_map_line(const_name, line, before=None):
+        """Append line to the map, or insert it before the `before` marker line inside it."""
         t = _read(VALIDATOR)
         nl = _nl(t)
         start = t.index(f'const {const_name} = new Map([')
         end = t.index('])', start)
         assert line not in t[start:end], f'already present: {line}'
+        if before:
+            end = t.index(before, start, end)
         t = t[:end] + f"  {line}," + nl + t[end:]
         _write(VALIDATOR, t)
 
-    def add_us_source_host(self, host, path_regex=None):
-        """path_regex is JS regex source such as r'^\\/us\\/' or None."""
-        self._add_map_line('US_SOURCE_HOSTS', f"['{host}', {'/' + path_regex + '/' if path_regex else 'null'}]")
+    def add_us_source_host(self, host, path_regex=None, retailer=False):
+        """path_regex is JS regex source such as r'^\\/us\\/' or None. A house site
+        goes at the end of the house block, a retailer at the end of the map."""
+        self._add_map_line('US_SOURCE_HOSTS', f"['{host}', {'/' + path_regex + '/' if path_regex else 'null'}]",
+                           before=None if retailer else '  // major US retailers')
 
     def add_note_alias(self, alias, canonical):
         self._add_map_line('NOTE_ALIASES', f"['{alias}', '{canonical}']")
