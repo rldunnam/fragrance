@@ -1001,7 +1001,7 @@ export const fragrances: Fragrance[] = [
     sillage: 'Moderate',
     projection: 3,
     source: 'https://www.fragrantica.com/perfume/Maison-Martin-Margiela/Jazz-Club-20541.html',
-    // The page prints '875650 18' before the first item, a reference number, not an ingredient; left out.
+    // The page prints '875650 18' before the first item, a reference number, and 'C162585/2' after the last, a code not in formulaCode form (F-320); both left out.
     ingredients: [
       'Alcohol', 'Aqua / Water', 'Parfum / Fragrance', 'Ethylhexyl Methoxycinnamate', 'Coumarin',
       'Limonene', 'Ethylhexyl Salicylate', 'Butyl Methoxydibenzoylmethane', 'Linalool', 'Citral',
@@ -1009,7 +1009,6 @@ export const fragrances: Fragrance[] = [
       'Citronellol', 'CI 19140 / Yellow 5', 'CI 17200 / Red 33', 'CI 42090 / Blue 1',
     ],
     ingredientsSource: 'https://www.maisonmargiela-fragrances.us/fragrances/replica-eau-de-toilette/replica-jazz-club/MM008.html',
-    formulaCode: 'C162585/2',
   },
 
   {
@@ -1584,7 +1583,6 @@ export const fragrances: Fragrance[] = [
     house: 'Coty',
     audience: 'Masculine',
     price: 47,
-    priceSizeMl: 104,
     // Priced from FragranceNet's 3.5 oz as a US listing (D26, F-319).
     concentration: 'EDC',
     family: ['Woody', 'Fresh'],
@@ -1593,7 +1591,7 @@ export const fragrances: Fragrance[] = [
     topNotes: ['Lavender', 'Clary Sage', 'Lemon', 'Bergamot', 'Lime'],
     heartNotes: ['Carnation', 'Geranium', 'Cedar', 'Vetiver', 'Orris Root', 'Patchouli', 'Jasmine'],
     baseNotes: ['Honey', 'Musk', 'Amber', 'Vanilla', 'Tonka Bean'],
-    rationale: 'A 1981 American classic at a drugstore price — lavender, sage and citrus over carnation and woods, drying to honey, vanilla and tonka. Warm, clean and unpretentious.',
+    rationale: 'A 1981 American classic — lavender, sage and citrus over carnation and woods, drying to honey, vanilla and tonka. Warm, clean and unpretentious.',
     intensity: 3,
     longevity: '4-6 hrs',
     sillage: 'Moderate',
@@ -5611,7 +5609,8 @@ export const fragrances: Fragrance[] = [
     audience: 'Masculine',
     price: 45,
     // Priced from Jomashop's 3.4 oz as a US listing (D26, F-319).
-    concentration: 'EDP',
+    concentration: 'Extrait',
+    // Owner decision (F-322): sold as Extrait de Parfum (FragranceX's box image and Jomashop's listing); no Dumont house source found.
     family: ['Amber', 'Fresh'],
     occasion: ['Date Night', 'Everyday'],
     season: ['Spring', 'Fall', 'Winter'],
@@ -6501,12 +6500,25 @@ export const fragrances: Fragrance[] = [
     topNotes: ['Citron', 'Calabrian Bergamot', 'Sicilian Orange'],
     heartNotes: ['Tunisian Neroli', 'Nigerian Ginger', 'Ceylon Cinnamon'],
     baseNotes: ['Chinese Black Tea', 'Ambroxan', 'Guaiac Wood', 'Olibanum'],
-    rationale: 'Citron, bergamot and orange over neroli, ginger and cinnamon, drying to black tea, ambroxan, guaiac wood and olibanum — a citrus-tea freshie with unusual staying power for the category.',
+    rationale: 'Citron, bergamot and orange over neroli, ginger and cinnamon, drying to black tea, ambroxan, guaiac wood and olibanum — a citrus-tea freshie.',
     intensity: 3,
     longevity: '8-10 hrs',
     sillage: 'Strong',
     projection: 4,
     source: 'https://www.fragrantica.com/perfume/Louis-Vuitton/Imagination-67370.html',
+    // Every LV site prints this list cut off at 'CI 47005 (YELLOW'; the last item is completed as 'CI 47005 (Yellow 10)' (D12, owner decision). Nothing after it can be confirmed (F-321).
+    ingredients: [
+      'Alcohol', 'Parfum (Fragrance)', 'Aqua (Water)',
+      'Citrus Aurantium Bergamia (Bergamot) Peel Oil', 'Limonene', 'Linalyl Acetate', 'Linalool',
+      'Pinene', 'Citrus Aurantium Peel Oil', 'Pelargonium Graveolens Oil', 'Citronellol',
+      'Coumarin', 'Butyl Methoxydibenzoylmethane', 'Geranyl Acetate', 'Citral', 'Geraniol',
+      'Terpineol', 'Beta-Caryophyllene', 'Hexadecanolactone', 'Terpinolene',
+      'Citrus Aurantium Flower Oil', 'Cinnamomum Zeylanicum Bark Oil', 'Rose Ketones',
+      'Alpha-Terpinene', 'Cinnamal', 'Farnesol', 'Eugenol', 'Citrus Limon (Lemon) Peel Oil',
+      'Isoeugenol', 'Carvone', 'CI 60730 (Ext. Violet 2)', 'CI 42090 (Blue 1)',
+      'CI 47005 (Yellow 10)',
+    ],
+    ingredientsSource: 'https://us.louisvuitton.com/eng-us/products/imagination-nvprod7340011v/LP0476',
   },
   {
     id: 'marc-jacobs-daisy-edt',

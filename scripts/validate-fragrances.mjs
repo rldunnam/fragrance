@@ -173,6 +173,7 @@ const US_SOURCE_HOSTS = new Map([
   ['www.fredericmalle.com', null],
   ['www.bykilian.com', null],
   ['www.maisonmargiela-fragrances.us', null],
+  ['us.louisvuitton.com', null],
   // major US retailers
   ['www.sephora.com', /^\/product\//],
   ['www.ulta.com', null],
