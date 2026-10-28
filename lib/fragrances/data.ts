@@ -6830,7 +6830,8 @@ export const fragrances: Fragrance[] = [
     name: 'The Lions Club Rugir',
     house: 'Armaf',
     audience: 'Masculine',
-    price: 40,
+    price: 60,
+    // armaf.com shows no size; priced as 3.4 oz, the size Valer's image file name gives the line (owner decision, F-329).
     concentration: 'EDP',
     line: 'The Lions Club',
     inspiredBy: 'Parfums de Marly Layton',
@@ -6852,7 +6853,8 @@ export const fragrances: Fragrance[] = [
     name: 'The Lions Club Feroce',
     house: 'Armaf',
     audience: 'Masculine',
-    price: 40,
+    price: 60,
+    // armaf.com shows no size; priced as 3.4 oz, the size Valer's image file name gives the line (owner decision, F-329).
     concentration: 'EDP',
     line: 'The Lions Club',
     inspiredBy: 'Parfums de Marly Haltane',
@@ -6874,7 +6876,8 @@ export const fragrances: Fragrance[] = [
     name: 'The Lions Club Valer',
     house: 'Armaf',
     audience: 'Masculine',
-    price: 40,
+    price: 65,
+    // armaf.com shows no size; priced as 3.4 oz, the size Valer's image file name gives the line (owner decision, F-329).
     concentration: 'EDP',
     line: 'The Lions Club',
     inspiredBy: 'Parfums de Marly Sedley',
@@ -6896,7 +6899,8 @@ export const fragrances: Fragrance[] = [
     name: 'The Lions Club Monarque',
     house: 'Armaf',
     audience: 'Unisex',
-    price: 40,
+    price: 60,
+    // armaf.com shows no size; priced as 3.4 oz, the size Valer's image file name gives the line (owner decision, F-329).
     concentration: 'EDP',
     line: 'The Lions Club',
     inspiredBy: 'Parfums de Marly Althaïr',
@@ -6918,7 +6922,8 @@ export const fragrances: Fragrance[] = [
     name: 'The Lions Club Majestueux',
     house: 'Armaf',
     audience: 'Masculine',
-    price: 40,
+    price: 65,
+    // armaf.com shows no size; priced as 3.4 oz, the size Valer's image file name gives the line (owner decision, F-329).
     concentration: 'EDP',
     line: 'The Lions Club',
     inspiredBy: 'Parfums de Marly Godolphin',
@@ -6962,10 +6967,12 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'armaf-cdn-intense-man-parfum',
-    name: 'Club de Nuit Intense Man Parfum',
+    name: 'Club de Nuit Intense Man Pure Parfum',
     house: 'Armaf',
     audience: 'Masculine',
-    price: 50,
+    price: 55,
+    priceSizeMl: 148,
+    // armaf.com sells it as 'Club de Nuit Intense Man Pure Parfum', 5 oz only, with no ml shown; 148 ml is 5 US fl oz (F-330).
     concentration: 'Parfum',
     line: 'Club de Nuit Intense Man',
     inspiredBy: 'Creed Aventus',
@@ -6975,7 +6982,7 @@ export const fragrances: Fragrance[] = [
     topNotes: ['Lemon', 'Pineapple', 'Bergamot', 'Black Currant', 'Apple'],
     heartNotes: ['Birch', 'Jasmine', 'Rose'],
     baseNotes: ['Ambergris', 'Musk', 'Patchouli', 'Vanilla'],
-    rationale: 'The 2022 parfum tier — the acrid lemon opening of the EDT sanded down, with more weight in the vanilla and patchouli. Smoother and more expensive-smelling, though some prefer the original\'s bite.',
+    rationale: 'The 2022 Pure Parfum tier — the acrid lemon opening of the EDT sanded down, with more weight in the vanilla and patchouli. Smoother and more expensive-smelling, though some prefer the original\'s bite.',
     intensity: 5,
     longevity: '10-12 hrs',
     sillage: 'Very Strong',
