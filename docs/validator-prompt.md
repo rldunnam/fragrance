@@ -76,6 +76,11 @@ Report problems; do not fix them.
   label, confirm the last item against Sephora or the house site.
 - Use the fragrance's own product page. Gift sets and samplers list several
   labels on one page; don't take a label from one.
+- Where one product page prints a different label for each size SKU, take
+  the label from the SKU at the size the entry is priced at (`priceSizeMl`,
+  or the house size), and cite that SKU's URL when the page has more than
+  one size SKU (e.g. Carolina Herrera US's
+  `?sku=` links). (Decided 2026-10-28, D27; F-326.)
 - Retailer pages can disagree (e.g. an old list on one page, a reformulated one
   on another). Flag the conflict rather than picking one.
 - Where the house's US site prints a shortened label and the house's own
