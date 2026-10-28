@@ -278,7 +278,7 @@ Report problems; do not fix them.
   revised the same day under F-152.)
   The Lion's Club listings state no size anywhere; by owner decision they
   are priced as 3.4 oz, the size Valer's image file name gives (2026-10-28,
-  F-329).)
+  F-329).
 - Flag prices you cannot confirm (except a `discontinued` entry whose source
   page is gone, above), and flag an entry whose house has no size yet and
   that carries no `priceSizeMl`, rather than guessing a size.
