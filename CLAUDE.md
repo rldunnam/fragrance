@@ -65,6 +65,7 @@ Everything in `public/` ships in the image. `pnpm check:public` fails on `eval`,
 - Never invent data. Hold back an entry whose note pyramid can't be verified rather than ship plausible-sounding data.
 - Every catalog patch is independently checked against `docs/validator-prompt.md` before merge. Findings go in `docs/validation-findings.md`, which is append-only: never delete rows. A fix patch closes its rows (`done`/`wontfix`, with the patch named in `Closed in`). `pnpm validate` checks this file, and `|` is not allowed in cells.
 - Re-verification runs in small batches, risk-first: houses with amber/spicy/gourmand entries and known reactions first, fresh-leaning houses last.
+- `scripts/catalog/` holds the Python batch tooling (stdlib only, run from the repo root). `catalog_edit.py` edits entries, side files and ledger rows while keeping the CRLF working copies intact. Run `checks.py` before every catalog commit: it catches alias-key notes, unescaped apostrophes, note case conflicts and mixed newlines, which would otherwise fail only in CI. `unsourced.py` lists entries without a pyramid source by house. Write batch scripts to files, not shell heredocs, which strip backslashes.
 
 ### Invariants enforced by `pnpm validate`
 - **Published ids are permanent.** Supabase user rows reference them, so fix `name`, never `id`. `published-ids.json` is append-only (`pnpm ids:record` for new ids). To remove an id, migrate stored rows first, then list it under `retired` with a reason.
