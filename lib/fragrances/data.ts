@@ -3096,6 +3096,13 @@ export const fragrances: Fragrance[] = [
     projection: 3,
     line: 'Acqua di Giò',
     source: 'https://www.fragrantica.com/perfume/Giorgio-Armani/Acqua-di-Gio-410.html',
+    // Owner decision: Armani US's list, printed with no separators; item breaks follow Sephora P12430's comma-separated print of the same list, as D12 missing separators (F-335).
+    ingredients: [
+      'Alcohol', 'Aqua / Water', 'Parfum / Fragrance', 'BHT', 'Linalool', 'Geraniol', 'Eugenol',
+      'Alpha-Isomethyl Ionone', 'Cinnamyl Alcohol', 'Limonene', 'Citral', 'Citronellol',
+      'Butylphenyl Methylpropional', 'Benzyl Salicylate',
+    ],
+    ingredientsSource: 'https://www.giorgioarmanibeauty-usa.com/A005.html',
   },
   {
     id: 'armani-code-edt',
@@ -3311,6 +3318,14 @@ export const fragrances: Fragrance[] = [
     sillage: 'Light',
     projection: 2,
     source: 'https://www.fragrantica.com/perfume/Burberry/Burberry-Brit-for-Men-1115.html',
+    // Ulta-only label accepted as complete under D28 (F-333); 'Ext.Violet 2' is stored as printed.
+    ingredients: [
+      'Alcohol Denat.', 'Aqua/Water/Eau', 'Parfum/Fragrance', 'Limonene', 'Linalool',
+      'Butyl Methoxydibenzoylmethane', 'Benzyl Salicylate', 'Coumarin', 'Alpha-Isomethyl Ionone',
+      'Hexyl Cinnamal', 'BHT', 'Citral', 'Citronellol', 'Geraniol', 'Ext.Violet 2 (CI 60730)',
+      'Yellow 5 (CI 19140)', 'Red 33 (CI 17200)',
+    ],
+    ingredientsSource: 'https://www.ulta.com/p/brit-men-eau-de-toilette-xlsImpprod640900',
   },
 
   // ─── Carolina Herrera ─────────────────────────────────────────────────────
@@ -4481,6 +4496,15 @@ export const fragrances: Fragrance[] = [
     concentration: 'EDT',
     line: 'Hugo',
     source: 'https://www.fragrantica.com/perfume/Hugo-Boss/Hugo-570.html',
+    // Ulta-only label accepted as complete under D28 (F-333).
+    ingredients: [
+      'Alcohol Denat.', 'Aqua (Water)', 'Parfum (Fragrance)', 'Ethylhexyl Methoxycinnamate',
+      'Diethylamino Hydroxybenzoyl Hexyl Benzoate', 'BHT', 'Limonene', 'Benzyl Salicylate',
+      'Linalool', 'Alpha-Isomethyl Ionone', 'Eugenol', 'Citral', 'Isoeugenol', 'Citronellol',
+      'Geraniol', 'Benzyl Alcohol', 'CI 60730 (Ext. Violet 2)', 'CI 42090 (Blue 1)',
+      'CI 19140 (Yellow 5)',
+    ],
+    ingredientsSource: 'https://www.ulta.com/p/hugo-man-eau-de-toilette-2261',
   },
   {
     id: 'boss-stronger-with-you-edt',
@@ -5236,6 +5260,15 @@ export const fragrances: Fragrance[] = [
     projection: 4,
     concentration: 'EDT',
     source: 'https://www.fragrantica.com/perfume/Givenchy/Pi-39.html',
+    // Ulta-only label accepted as complete under D28 (F-333). D12: line-break hyphens inside three names removed ('Butyle-Ne Glycol' to 'Butylene Glycol', 'Citro-Nellol' to 'Citronellol', 'Gera-Niol' to 'Geraniol') (F-334).
+    ingredients: [
+      'Alcohol', 'Aqua (Water)', 'Parfum (Fragrance)', 'Coumarin', 'Ethylhexyl Methoxycinnamate',
+      'Limonene', 'Linalool', 'Butyl Methoxydibenzoylmethane',
+      'Butylene Glycol Dicaprylate/Dicaprate', 'Citronellol', 'BHT', 'Citral', 'Benzyl Benzoate',
+      'Geraniol', 'Isoeugenol', 'Alpha-Isomethyl Ionone', 'CI 19140 (Yellow 5)', 'Tocopherol',
+      'CI 14700 (Red 4)',
+    ],
+    ingredientsSource: 'https://www.ulta.com/p/pi-eau-de-toilette-6993',
   },
 
   // ---- GUCCI ----
@@ -5424,6 +5457,15 @@ export const fragrances: Fragrance[] = [
     projection: 3,
     line: 'Wanted',
     source: 'https://www.fragrantica.com/perfume/Azzaro/Wanted-38686.html',
+    // Ulta-only label accepted as complete under D28 (F-333); the code '[C2790B]' printed after the last item is not a FORMULA_CODE_RE form and is left out.
+    ingredients: [
+      'Alcohol', 'Parfum/Fragrance', 'Aqua/Water/Eau', 'Benzyl Salicylate',
+      'Ethylhexyl Methoxycinnamate', 'Citronellol', 'Limonene', 'Coumarin',
+      'Butyl Methoxydibenzoylmethane', 'Ethylhexyl Salicylate', 'Geraniol', 'Linalool', 'Eugenol',
+      'Citral', 'Cinnamal', 'Isoeugenol', 'Disodium EDTA', 'BHT', 'CI 15985/Yellow 6',
+      'CI 19140/Yellow 5',
+    ],
+    ingredientsSource: 'https://www.ulta.com/p/wanted-eau-de-toilette-xlsImpprod16661043',
   },
   {
     id: 'azzaro-most-wanted',
@@ -6971,8 +7013,8 @@ export const fragrances: Fragrance[] = [
     house: 'Armaf',
     audience: 'Masculine',
     price: 55,
-    priceSizeMl: 148,
-    // armaf.com sells it as 'Club de Nuit Intense Man Pure Parfum', 5 oz only, with no ml shown; 148 ml is 5 US fl oz (F-330).
+    priceSizeMl: 150,
+    // armaf.com sells it as 'Club de Nuit Intense Man Pure Parfum', 5 oz only, with no ml shown; 150 ml by owner decision, the size non-US sellers give (F-330, F-332).
     concentration: 'Parfum',
     line: 'Club de Nuit Intense Man',
     inspiredBy: 'Creed Aventus',
