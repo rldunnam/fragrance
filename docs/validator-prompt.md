@@ -121,7 +121,9 @@ Report problems; do not fix them.
   gender the release. Where the house's US store states a gender on the
   product page itself (armaf.com's 'Gender' field), that statement is the
   classification; store tags and navigation categories are not. (Decided
-  2026-10-26, D14; F-145.)
+  2026-10-26, D14; F-145.) A product type the house's US store assigns to the
+  product itself (us.parfums-de-marly.com's 'Masculine Fragrance') is also
+  the house classification. (Decided 2026-10-28, D23; F-286.)
 - No existing `id` may change. Flag any id that was renamed rather than kept with a
   corrected `name`.
 - For each newly added entry: confirm the fragrance exists, that it is currently sold
@@ -257,6 +259,14 @@ Report problems; do not fix them.
 
 - Use the house's own wording. "Le Parfum" and "Elixir" flankers are often sold
   as Eau de Parfum Intense or Parfum; the name alone doesn't settle it.
+- Jo Malone's "Cologne Intense" is stored as EDP. (Decided 2026-10-28, D20;
+  F-278.)
+- Amouage's "Essence" (described by the house as 30% perfume oils) is stored
+  as Extrait. (Decided 2026-10-28, D21; F-250.)
+- Where the product page states no concentration, the house's own product
+  images count as its wording: the concentration printed on the box or
+  bottle, or failing that the image's file name. (Decided 2026-10-28, D22;
+  F-274, F-290.)
 
 ## Findings ledger
 
