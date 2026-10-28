@@ -2292,8 +2292,8 @@ export const fragrances: Fragrance[] = [
     name: 'Club Black',
     house: 'Mercedes-Benz',
     audience: 'Masculine',
-    price: 45,
-    // Owner-set price (F-316): no house US store, Sephora, Ulta or Macy's listing.
+    price: 60,
+    // Owner decision (F-316): priced from FragranceX's 3.4 oz EDT listing as a US listing, as for the EDP; no house US store, Sephora, Ulta or Macy's listing.
     concentration: 'EDT',
     family: ['Amber', 'Woody'],
     occasion: ['Date Night', 'Everyday'],
