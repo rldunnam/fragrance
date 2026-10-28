@@ -76,9 +76,10 @@ Report problems; do not fix them.
   label, confirm the last item against Sephora or the house site.
   Where neither Sephora nor the house site prints a list for the fragrance,
   an Ulta label is accepted when the list in the page's product data
-  (its JSON-LD 'Product Ingredients' value) visibly ends: a closing period
-  after the last item, or a code printed after it. The entry carries a
-  comment saying so. (Decided 2026-10-28, D28; F-333.)
+  (its JSON-LD 'Product Ingredients' value) ends with a closing period
+  after the last item, or with a code printed after it. A printed code that
+  is not a FORMULA_CODE_RE form is left out with a comment. The entry
+  carries a comment saying the label rests on this rule. (Decided 2026-10-28, D28; F-333.)
 - Use the fragrance's own product page. Gift sets and samplers list several
   labels on one page; don't take a label from one.
 - Where one product page prints a different label for each size SKU, take

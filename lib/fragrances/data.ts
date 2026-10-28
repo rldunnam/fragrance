@@ -2091,6 +2091,13 @@ export const fragrances: Fragrance[] = [
     projection: 4,
     line: 'Polo Blue',
     source: 'https://www.fragrantica.com/perfume/Ralph-Lauren/Polo-Blue-Eau-de-Parfum-38051.html',
+    // Ulta-only label accepted as complete under D28 (F-333).
+    ingredients: [
+      'Alcohol', 'Aqua / Water', 'Parfum / Fragrance', 'Limonene', 'Linalool', 'T-Butyl Alcohol',
+      'Hexyl Cinnamal', 'Benzyl Salicylate', 'Benzyl Alcohol', 'Geraniol', 'Isoeugenol', 'Citral',
+      'Eugenol', 'Denatonium Benzoate',
+    ],
+    ingredientsSource: 'https://www.ulta.com/p/polo-blue-eau-de-parfum-xlsImpprod14421027',
   },
   {
     id: 'paco-rabanne-pour-homme',
