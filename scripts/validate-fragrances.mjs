@@ -92,6 +92,9 @@ const NOTE_ALIASES = new Map([
   ['Vetyver', 'Vetiver'],
   ['Rock rose', 'Rock Rose'],
   ['Animal notes', 'Animal Notes'],
+  ['Sea water', 'Sea Water'],
+  ['Java vetiver oil', 'Java Vetiver Oil'],
+  ['French labdanum', 'French Labdanum'],
 ])
 const TRADEMARK_RE = /[™®©]/
 
@@ -168,6 +171,8 @@ const US_SOURCE_HOSTS = new Map([
   ['www.xerjoff.com', /^\/en-us\//],
   ['www.guerlain.com', /^\/us\//],
   ['www.fredericmalle.com', null],
+  ['www.bykilian.com', null],
+  ['www.maisonmargiela-fragrances.us', null],
   // major US retailers
   ['www.sephora.com', /^\/product\//],
   ['www.ulta.com', null],

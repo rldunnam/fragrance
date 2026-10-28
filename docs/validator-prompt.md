@@ -242,6 +242,15 @@ Report problems; do not fix them.
   price, as at FragranceNet: store the regular price it strikes through. A
   markdown that needs no code still follows D19. (Decided 2026-10-28, D24;
   Issey Miyake, F-311.)
+- Where a page preselects a refill, price the bottle of the same size that
+  the page also offers; a refill is not the spray bottle. (Decided
+  2026-10-28, D25; Kilian, F-318.)
+- Where the house has no US store and neither Sephora, Ulta nor Macy's sells
+  the fragrance, the entry stays `current` and is priced as a US listing at
+  FragranceX, at its in-stock house-size listing (or the size its page
+  preselects where the house has no size yet). If FragranceX does not have
+  it in stock, take the first in-stock boxed listing in the grey-market order
+  above. (Decided 2026-10-28, D26; Mercedes-Benz F-316, singles F-319.)
 - Carolina Herrera US preselects a different size on each product page (from
   1.7 oz to 6.8 oz), so it is not priced at the page default. Select the
   3.4 oz / 100 ml house size on the page and take that price. Where the page
