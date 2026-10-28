@@ -5998,6 +5998,14 @@ export const fragrances: Fragrance[] = [
     sillage: 'Very Strong',
     projection: 5,
     source: 'https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/La-Belle-Le-Parfum-2024-93892.html',
+    ingredients: [
+      'Alcohol Denat.', 'Parfum (Fragrance)', 'Aqua (Water)', 'Benzyl Salicylate',
+      'Butyl Methoxydibenzoylmethane', 'Alpha-Isomethyl Ionone', 'Linalool', 'Hydroxycitronellal',
+      'Hexyl Cinnamal', 'Coumarin', 'Limonene', 'Cinnamal', 'Cinnamyl Alcohol', 'Citronellol',
+      'Benzyl Benzoate', 'Benzyl Alcohol', 'Citral', 'Farnesol', 'Geraniol',
+      'CI 60730 (Ext. Violet 2)', 'CI 14700 (Red 4)', 'CI 42090 (Blue 1)', 'CI 19140 (Yellow 5)',
+    ],
+    ingredientsSource: 'https://www.jeanpaulgaultier.com/us/en_US/p/range-la-belle/la-belle-le-parfum-eau-de-parfum-intense-000000000065167903',
   },
   {
     id: 'jpg-la-belle-paradise-garden',
@@ -6020,14 +6028,13 @@ export const fragrances: Fragrance[] = [
     sillage: 'Strong',
     projection: 4,
     source: 'https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/La-Belle-Paradise-Garden-88873.html',
-    // Stored as printed: Sephora (all SKUs) and Ulta print the Spanish INCI spellings 'Hidroxicitronelal', 'Linalol', 'Limoneno' and 'Citronelol' (F-323).
     ingredients: [
-      'Alcohol Denat.', 'Parfum (Fragrance)', 'Aqua (Water)', 'Hidroxicitronelal', 'Linalol',
-      'Limoneno', 'Butyl Methoxydibenzoylmethane', 'Coumarin', 'Hexyl Cinnamal', 'Citronelol',
+      'Alcohol Denat.', 'Parfum (Fragrance)', 'Aqua (Water)', 'Hydroxycitronellal', 'Linalool',
+      'Limonene', 'Butyl Methoxydibenzoylmethane', 'Coumarin', 'Hexyl Cinnamal', 'Citronellol',
       'Alpha-Isomethyl Ionone', 'Cinnamal', 'Benzyl Benzoate', 'Benzyl Alcohol', 'Farnesol',
       'Benzyl Salicylate', 'Geraniol', 'Citral', 'CI 60730 (Ext. Violet 2)',
     ],
-    ingredientsSource: 'https://www.sephora.com/product/la-belle-paradise-garden-eau-de-parfum-P516505',
+    ingredientsSource: 'https://www.jeanpaulgaultier.com/us/en_US/p/range-la-belle/la-belle-paradise-garden-eau-de-parfum-000000000065199799',
   },
   {
     id: 'jpg-le-beau-narcisse',
@@ -6059,7 +6066,7 @@ export const fragrances: Fragrance[] = [
       'CI 60730 (Ext. Violet 2)', 'Terpineol', 'Terpinolene', 'Alpha-Terpinene', 'Benzyl Alcohol',
       'CI 19140 (Yellow 5)', 'CI 42090 (Blue 1)', 'CI 14700 (Red 4)',
     ],
-    ingredientsSource: 'https://www.sephora.com/product/le-beau-narcisse-eau-de-parfum-P522639',
+    ingredientsSource: 'https://www.jeanpaulgaultier.com/us/en_US/p/range-le-beau-narcisse/le-beau-narcisse-eau-de-parfum-000000000065228042',
   },
   {
     id: 'paco-invictus-parfum',
@@ -7062,7 +7069,7 @@ export const fragrances: Fragrance[] = [
       'Citral', 'Geraniol', 'Cinnamal', 'CI 42090 (Blue 1)', 'Farnesol', 'CI 14700 (Red 4)',
       'CI 19140 (Yellow 5)',
     ],
-    ingredientsSource: 'https://www.sephora.com/product/le-beau-le-parfum-eau-de-parfum-P517247',
+    ingredientsSource: 'https://www.jeanpaulgaultier.com/us/en_US/p/range-le-beau/le-beau-le-parfum-eau-de-parfum-intense-000000000065180318',
   },
   {
     id: 'jpg-le-male-elixir-absolu',
@@ -7119,15 +7126,14 @@ export const fragrances: Fragrance[] = [
     projection: 3,
     line: 'Le Beau',
     source: 'https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Le-Beau-Paradise-Garden-88836.html',
-    // Owner decision: Ulta's list, as Sephora's page prints La Belle Paradise Garden's label; the last item could not be confirmed on Sephora or the house site. 'Limoneno', 'Linalol' and 'Citronelol' are Ulta's Spanish INCI spellings, stored as printed (F-324).
     ingredients: [
-      'Alcohol Denat.', 'Parfum (Fragrance)', 'Aqua (Water)', 'Limoneno', 'Coumarin',
-      'Butyl Methoxydibenzoylmethane', 'Linalol', 'Alpha-Isomethyl Ionone', 'Eugenol', 'Citral',
-      'Citronelol', 'Alcohol', 'Tris(Tetramethylhydroxypiperidinol) Citrate', 'Cinnamal',
+      'Alcohol Denat.', 'Parfum (Fragrance)', 'Aqua (Water)', 'Limonene', 'Coumarin',
+      'Butyl Methoxydibenzoylmethane', 'Linalool', 'Alpha-Isomethyl Ionone', 'Eugenol', 'Citral',
+      'Citronellol', 'Alcohol', 'Tris(Tetramethylhydroxypiperidinol) Citrate', 'Cinnamal',
       'Geraniol', 'Methyl 2-Octynoate', 'Benzyl Salicylate', 'Farnesol', 'CI 19140 (Yellow 5)',
       'CI 17200 (Red 33)', 'CI 42090 (Blue 1)',
     ],
-    ingredientsSource: 'https://www.ulta.com/p/le-beau-paradise-garden-eau-de-parfum-pimprod2050461',
+    ingredientsSource: 'https://www.jeanpaulgaultier.com/us/en_US/p/range-le-beau/le-beau-paradise-garden-eau-de-parfum-000000000065199801',
   },
   {
     id: 'jpg-la-belle',
@@ -7150,6 +7156,13 @@ export const fragrances: Fragrance[] = [
     projection: 4,
     line: 'La Belle',
     source: 'https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/La-Belle-55786.html',
+    ingredients: [
+      'Alcohol Denat.', 'Parfum (Fragrance)', 'Aqua (Water)', 'Linalool', 'Benzyl Salicylate',
+      'Butyl Methoxydibenzoylmethane', 'Hydroxycitronellal', 'Limonene', 'Citronellol', 'Coumarin',
+      'Cinnamal', 'Alpha-Isomethyl Ionone', 'Citral', 'Farnesol', 'CI 17200 (Red 33)', 'Geraniol',
+      'CI 19140 (Yellow 5)', 'CI 60730 (Ext. Violet 2)', 'CI 42090 (Blue 1)',
+    ],
+    ingredientsSource: 'https://www.jeanpaulgaultier.com/us/en_US/p/range-la-belle/la-belle-eau-de-parfum-000000000065132212',
   },
   {
     id: 'tom-ford-ombre-leather-parfum',
