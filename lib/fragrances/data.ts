@@ -355,6 +355,14 @@ export const fragrances: Fragrance[] = [
     projection: 5,
     source: 'https://www.fragrantica.com/perfume/Viktor-Rolf/Spicebomb-Extreme-30499.html',
     notesFlat: true,
+    ingredients: [
+      'Alcohol', 'Parfum / Fragrance', 'Aqua / Water / Eau', 'Limonene',
+      'Butyl Methoxydibenzoylmethane', 'Coumarin', 'Linalool', 'Ethylhexyl Salicylate', 'Eugenol',
+      'Alpha-Isomethyl Ionone', 'Methyl Anthranilate',
+      'Pentaerythrityl Tetra-Di-T-Butyl Hydroxyhydrocinnamate', 'Citral', 'Citronellol',
+      'Benzyl Benzoate', 'Geraniol', 'Benzyl Alcohol', 'Isoeugenol', 'CI 60730 / Ext. Violet 2',
+    ],
+    ingredientsSource: 'https://us.viktor-rolf.com/fragrance/spicebomb-extreme-eau-de-parfum-VKR_034.html',
   },
   {
     id: 'tom-ford-oud',
@@ -376,6 +384,14 @@ export const fragrances: Fragrance[] = [
     projection: 4,
     source: 'https://www.fragrantica.com/perfume/Tom-Ford/Oud-Wood-1826.html',
     notesFlat: true,
+    ingredients: [
+      'Alcohol Denat.', 'Water Aqua Eau', 'Fragrance (Parfum)',
+      'Tetramethyl Acetyloctahydronaphthalenes', 'Linalool', 'Hydroxycitronellal', 'Coumarin',
+      'Beta-Caryophyllene', 'Farnesol', 'Limonene', 'Cinnamyl Alcohol',
+      'Pogostemon Cablin (Patchouli) Oil', 'Santalol', 'Vanillin', 'Pinene', 'Linalyl Acetate',
+      'Terpineol', 'Camphor',
+    ],
+    ingredientsSource: 'https://www.tomfordbeauty.com/products/oud-wood-eau-de-parfum',
   },
   {
     id: 'prada-lhomme',
@@ -790,6 +806,13 @@ export const fragrances: Fragrance[] = [
     projection: 4,
     line: 'Dylan Blue',
     source: 'https://www.fragrantica.com/perfume/Versace/Versace-Pour-Homme-Dylan-Blue-40031.html',
+    ingredients: [
+      'Alcohol Denat. (SD Alcohol 39-C)', 'Fragrance', 'Water', 'Linalool',
+      'Ethylhexyl Methoxycinnamate', 'Butyl Methoxydibenzoylmethane', 'Ethylhexyl Salicylate',
+      'Limonene', 'Coumarin', 'Citronellol', 'Alpha-Isomethyl Ionone', 'Citral', 'Geraniol',
+      'Farnesol',
+    ],
+    ingredientsSource: 'https://www.sephora.com/product/dylan-blue-P411325',
   },
   {
     id: 'creed-aventus-cologne',
@@ -3455,6 +3478,13 @@ export const fragrances: Fragrance[] = [
     sillage: 'Moderate',
     projection: 3,
     source: 'https://www.fragrantica.com/perfume/Viktor-Rolf/Spicebomb-13857.html',
+    ingredients: [
+      'Alcohol', 'Parfum / Fragrance', 'Aqua / Water / Eau', 'Limonene', 'Coumarin',
+      'Butyl Methoxydibenzoylmethane', 'Linalool', 'Ethylhexyl Salicylate', 'Eugenol',
+      'Citronellol', 'Methyl Anthranilate', 'Citral', 'Geraniol', 'CI 60730 / Ext. Violet 2',
+      'CI 14700 / Red 4',
+    ],
+    ingredientsSource: 'https://us.viktor-rolf.com/fragrance/spicebomb-eau-de-toilette-VKR_030.html',
   },
   {
     id: 'vr-flowerbomb',
@@ -3900,6 +3930,16 @@ export const fragrances: Fragrance[] = [
     concentration: 'EDP',
     line: 'Ombré Leather',
     source: 'https://www.fragrantica.com/perfume/Tom-Ford/Ombre-Leather-2018-50239.html',
+    ingredients: [
+      'Alcohol Denat.', 'Fragrance (Parfum)', 'Water Aqua Eau', 'Hexamethylindanopyran',
+      'Benzyl Salicylate', 'Linalool', 'Alpha-Isomethyl Ionone', 'Hydroxycitronellal',
+      'Benzyl Benzoate', 'Geraniol', 'Limonene', 'Cinnamyl Alcohol', 'Citronellol',
+      'Methyl 2-Octynoate', 'Benzyl Cinnamate', 'Pinene', 'Beta-Caryophyllene', 'Rose Ketones',
+      'Vanillin', 'Linalyl Acetate', 'Geranyl Acetate', 'Camphor',
+      'Tetramethyl Acetyloctahydronaphthalenes', 'Pogostemon Cablin (Patchouli) Oil',
+      'Trimethylbenzenepropanol', 'Terpinolene', 'Hexadecanolactone', 'Juniperus Virginiana Oil',
+    ],
+    ingredientsSource: 'https://www.tomfordbeauty.com/products/ombre-leather-eau-de-parfum',
   },
   {
     id: 'tom-ford-noir',
@@ -4715,6 +4755,13 @@ export const fragrances: Fragrance[] = [
     source: 'https://www.fragrantica.com/perfume/Giorgio-Armani/Emporio-Armani-Stronger-With-You-Sandalwood-102519.html',
     status: 'regional',
     includeReason: 'Middle East exclusive (2025); included by explicit exception as the most hyped entry in the Stronger With You line.',
+    // Regional entry (Middle East exclusive), so Armani Beauty UAE's label.
+    ingredients: [
+      'Alcohol', 'Parfum / Fragrance', 'Aqua / Water / Eau', 'Alpha-Isomethyl Ionone', 'Coumarin',
+      'Eugenol', 'Linalool', 'Citronellol', 'Limonene', 'Isoeugenol', 'Cinnamal',
+    ],
+    ingredientsSource: 'https://www.armanibeauty.ae/en/perfume/mens-perfumes/emporio-armani/stronger-with-you-sandalwood-eau-de-parfum/ww-swy-sandalwood-arm.html',
+    formulaCode: 'F.I.L. N70048485/1',
   },
 
   // ---- DOLCE & GABBANA ----
