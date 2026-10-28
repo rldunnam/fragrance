@@ -262,7 +262,7 @@ export const fragrances: Fragrance[] = [
     line: 'Eros',
     source: 'https://www.fragrantica.com/perfume/Versace/Eros-Eau-de-Parfum-62762.html',
     ingredients: [
-      'Alcohol Denat. (Sd Alcohol 39-C)', 'Parfum (Fragrance)', 'Aqua (Water)', 'Limonene',
+      'Alcohol Denat. (SD Alcohol 39-C)', 'Parfum (Fragrance)', 'Aqua (Water)', 'Limonene',
       'Linalool', 'Coumarin', 'Alpha-Isomethyl Ionone', 'Citral', 'Citronellol', 'Geraniol',
       'Cinnamal', 'Eugenol',
     ],
@@ -4368,7 +4368,7 @@ export const fragrances: Fragrance[] = [
     line: 'Eros',
     source: 'https://www.fragrantica.com/perfume/Versace/Eros-Parfum-70090.html',
     ingredients: [
-      'Alcohol Denat. (Sd Alcohol 39-C)', 'Parfum (Fragrance)', 'Aqua (Water)', 'Limonene',
+      'Alcohol Denat. (SD Alcohol 39-C)', 'Parfum (Fragrance)', 'Aqua (Water)', 'Limonene',
       'Coumarin', 'Linalool', 'Alpha-Isomethyl Ionone', 'Citral', 'Citronellol', 'Geraniol',
       'Cinnamal', 'Eugenol',
     ],
@@ -4395,7 +4395,7 @@ export const fragrances: Fragrance[] = [
     concentration: 'EDP',
     source: 'https://www.fragrantica.com/perfume/Versace/Eros-Flame-52180.html',
     ingredients: [
-      'Alcohol Denat. (Sd Alcohol 39-C)', 'Parfum (Fragrance)', 'Aqua (Water)', 'Limonene',
+      'Alcohol Denat. (SD Alcohol 39-C)', 'Parfum (Fragrance)', 'Aqua (Water)', 'Limonene',
       'Linalool', 'Ethylhexyl Methoxycinnamate', 'Coumarin', 'Alpha-Isomethyl Ionone',
       'Citronellol', 'Citral', 'Butyl Methoxydibenzoylmethane', 'Ethylhexyl Salicylate',
       'Geraniol', 'Isoeugenol',
@@ -4423,7 +4423,7 @@ export const fragrances: Fragrance[] = [
     concentration: 'Parfum',
     source: 'https://www.fragrantica.com/perfume/Versace/Eros-Najim-99116.html',
     ingredients: [
-      'Alcohol Denat. (Sd Alcohol 39-C)', 'Parfum (Fragrance)',
+      'Alcohol Denat. (SD Alcohol 39-C)', 'Parfum (Fragrance)',
       'Tetramethyl Acetyloctahydronaphthalenes', 'Dipropylene Glycol', 'Aqua (Water)',
       'Citrus Limon Peel Oil', 'Linalyl Acetate', 'Limonene', 'Vanillin', 'Hexamethylindanopyran',
       'Pogostemon Cablin Oil', 'Coumarin', 'Pinene', 'Ethylhexyl Methoxycinnamate', 'Linalool',
@@ -6787,6 +6787,14 @@ export const fragrances: Fragrance[] = [
     sillage: 'Moderate',
     projection: 3,
     source: 'https://www.fragrantica.com/perfume/Coach/Coach-for-Men-Eau-de-Parfum-102668.html',
+    // Owner decision: Sephora's list; Ulta prints a different 12-item list (F-339).
+    ingredients: [
+      'Alcohol Denat. (SD Alcohol 39-C)', 'Parfum (Fragrance)', 'Aqua (Water)',
+      'Ethylhexyl Methoxycinnamate', 'Ethylhexyl Salicylate', 'Butyl Methoxydibenzoylmethane',
+      'BHT', 'CI 60730 (Ext. Violet 2)', 'Limonene', 'Butylphenyl Methylpropional', 'Linalool',
+      'Coumarin', 'Citronellol', 'Citral', 'Geraniol',
+    ],
+    ingredientsSource: 'https://www.sephora.com/product/coach-for-men-edp-P522405',
   },
   {
     id: 'afnan-9pm-night-out',
