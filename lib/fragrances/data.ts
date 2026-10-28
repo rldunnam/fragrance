@@ -92,6 +92,12 @@ export const fragrances: Fragrance[] = [
     projection: 4,
     line: 'Y',
     source: 'https://www.fragrantica.com/perfume/Yves-Saint-Laurent/Y-Le-Parfum-2025-102208.html',
+    ingredients: [
+      'Alcohol', 'Parfum / Fragrance', 'Aqua / Water / Eau', 'Limonene', 'Linalool',
+      'Butyl Methoxydibenzoylmethane', 'Citral', 'Citronellol', 'Alpha-Isomethyl Ionone',
+      'Geraniol',
+    ],
+    ingredientsSource: 'https://www.yslbeautyus.com/fragrance/mens-fragrances/y/y-le-parfum/WW-507861YSL.html',
   },
   {
     id: 'aventus',
@@ -3327,6 +3333,18 @@ export const fragrances: Fragrance[] = [
     sillage: 'Moderate',
     projection: 2,
     source: 'https://www.fragrantica.com/perfume/Carolina-Herrera/212-Men-297.html',
+    // The 3.4 oz SKU's list, the priced size (D27, F-326).
+    ingredients: [
+      'Alcohol Denat.', 'Aqua (Water)', 'Parfum (Fragrance)',
+      'Tetramethyl Acetyloctahydronaphthalenes', 'Linalool', 'Linalyl Acetate',
+      'Hexamethylindanopyran', 'Limonene', 'Geraniol', 'Pinene', 'Citrus Aurantium Peel Oil',
+      'Citronellol', 'Citrus Limon Peel Oil', 'Hydroxycitronellal', 'Terpinolene',
+      'Beta-Caryophyllene', 'Benzyl Salicylate', 'Hexyl Cinnamal', 'Coumarin', 'Geranyl Acetate',
+      'Citral', 'Terpineol', 'Camphor', 'Alpha-Terpinene', 'Rose Ketones', 'Benzyl Benzoate',
+      'Carvone', 'Benzyl Alcohol', 'CI 60730 (Ext. Violet 2)', 'CI 42090 (Blue 1)',
+      'CI 19140 (Yellow 5)',
+    ],
+    ingredientsSource: 'https://www.carolinaherrera.com/us/en/p-fragrance/212-nyc-men?sku=000000000065183412',
   },
   {
     id: 'ch-bad-boy-edt',
@@ -3348,6 +3366,21 @@ export const fragrances: Fragrance[] = [
     projection: 4,
     line: 'Bad Boy',
     source: 'https://www.fragrantica.com/perfume/Carolina-Herrera/Bad-Boy-55449.html',
+    // The 3.4 oz SKU's list, the priced size (D27, F-326).
+    ingredients: [
+      'Alcohol Denat.', 'Parfum (Fragrance)', 'Aqua (Water)',
+      'Tetramethyl Acetyloctahydronaphthalenes', 'Linalyl Acetate', 'Coumarin', 'Vanillin',
+      'Linalool', 'Limonene', 'Citrus Aurantium Bergamia (Bergamot) Peel Oil',
+      'Butyl Methoxydibenzoylmethane', 'Alpha-Isomethyl Ionone', 'Citrus Limon Peel Oil',
+      'Lavandula Oil/ Extract', 'Pogostemon Cablin Oil', 'Pinene', 'Geraniol', 'Citral',
+      'Citrus Aurantium Peel Oil', 'Trimethylcyclopentenyl Methylisopentenol', 'Citronellol',
+      'Camphor', 'Rose Ketones', 'Terpineol', 'Mentha Viridis (Spearmint) Leaf Oil',
+      'Beta-Caryophyllene', 'Mentha Piperita (Peppermint) Oil', 'Carvone', 'Geranyl Acetate',
+      'Menthol', 'Methyl 2-Octynoate', 'Alcohol', 'Terpinolene', 'Hydroxycitronellal',
+      'Tris(Tetramethylhydroxypiperidinol) Citrate', 'Alpha-Terpinene', 'Trimethylbenzenepropanol',
+      'CI 60730 (Ext. Violet 2)',
+    ],
+    ingredientsSource: 'https://www.carolinaherrera.com/us/en/p-fragrance/bad-boy?sku=000000000065206727',
   },
   {
     id: 'ch-good-girl-blush',
@@ -4149,6 +4182,15 @@ export const fragrances: Fragrance[] = [
     projection: 3,
     line: 'L\'Homme',
     source: 'https://www.fragrantica.com/perfume/Yves-Saint-Laurent/L-Homme-734.html',
+    // Owner decision: Sephora's list, as YSL US and Ulta print the same list without its Parfum / Fragrance item (F-327).
+    ingredients: [
+      'Alcohol', 'Aqua / Water', 'Parfum / Fragrance', 'Ethylhexyl Methoxycinnamate', 'Limonene',
+      'Butyl Methoxydibenzoylmethane', 'Butylphenyl Methylpropional', 'Coumarin', 'Linalool',
+      'Propylene Glycol', 'Geraniol', 'Alpha-Isomethyl Ionone', 'Citral',
+      'Tris(Tetramethylhydroxypiperidinol) Citrate', 'Isoeugenol', 'Citronellol', 'Disodium EDTA',
+      'Cinnamal', 'CI 15985 / Yellow 6', 'CI 19140 / Yellow 5',
+    ],
+    ingredientsSource: 'https://www.sephora.com/product/l-homme-P180727',
   },
   {
     id: 'ysl-lhomme-edp',
@@ -4224,6 +4266,22 @@ export const fragrances: Fragrance[] = [
     source: 'https://www.fragrantica.com/perfume/Yves-Saint-Laurent/La-Nuit-de-L-Homme-Eau-de-Parfum-2026-125843.html',
     status: 'regional',
     includeReason: 'Launched 2026 in the UK and Europe (YSL UK, Sephora FR/ES); no US listing found on yslbeautyus.com or at major US retailers as of 11 Oct 2026. Included as the current La Nuit EDP and successor to ysl-la-nuit-edp; drop status once a US launch is confirmed.',
+    // Regional entry, so YSL UK's label. Its leading reference number '875507 08 - INGREDIENTS:' is left out (F-325).
+    ingredients: [
+      'Alcohol', 'Aqua / Water / Eau', 'Parfum / Fragrance',
+      'Tetramethyl Acetyloctahydronaphthalenes', 'Acetyl Cedrene',
+      'Citrus Aurantium Bergamia Peel Oil', 'Linalool', 'Linalyl Acetate', 'Carvone', 'Limonene',
+      'Butyl Methoxydibenzoylmethane', 'Coumarin', 'Vanillin', 'Alpha-Isomethyl Ionone', 'Pinene',
+      'Terpineol', 'Citrus Limon Peel Oil', 'Geraniol', 'Juniperus Virginiana Oil',
+      'Geranyl Acetate', 'Pogostemon Cablin Oil', 'Sclareol', 'Rose Ketones', 'Anethole',
+      'Eugenol', 'Isoeugenyl Acetate', 'Cinnamomum Zeylanicum Bark Oil', 'Cinnamyl Alcohol',
+      'Isoeugenol', 'Citral', 'Cinnamal', 'Benzyl Alcohol', 'Lavandula Oil/Extract',
+      'Beta-Caryophyllene', 'Tris(Tetramethylhydroxypiperidinol) Citrate', 'CI 14700 / Red 4',
+      'Terpinolene', 'Hexadecanolactone', 'Alpha-Terpinene', 'Eugenia Caryophyllus Oil',
+      'Benzaldehyde', 'CI 60730 / Ext. Violet 2', 'CI 19140 / Yellow 5',
+    ],
+    ingredientsSource: 'https://www.yslbeauty.co.uk/fragrances/fragrances-for-him/la-nuit-de-l-homme/la-nuit-de-l-homme-eau-de-parfum/WW-50356YSL.html',
+    formulaCode: 'F.I.L. N70085131/1',
   },
 
   // ---- VERSACE ----
@@ -5273,6 +5331,15 @@ export const fragrances: Fragrance[] = [
     projection: 3,
     concentration: 'EDT',
     source: 'https://www.fragrantica.com/perfume/Carolina-Herrera/212-Heroes-65988.html',
+    ingredients: [
+      'Alcohol Denat.', 'Parfum (Fragrance)', 'Aqua (Water)', 'Limonene', 'Linalool',
+      'Benzotriazolyl Dodecyl P-Cresol', 'Coumarin', 'Butylphthalimide', 'Ethylhexyl Salicylate',
+      'Butyl Methoxydibenzoylmethane', 'Isopropylphthalimide', 'Citronellol', 'Hydroxycitronellal',
+      'Citral', 'Benzyl Salicylate', 'Alpha-Isomethyl Ionone', 'Geraniol', 'Benzyl Benzoate',
+      'Eugenol', 'Benzyl Alcohol', 'CI 60730 (Ext. Violet 2)', 'CI 19140 (Yellow 5)',
+      'CI 14700 (Red 4)', 'CI 42090 (Blue 1)',
+    ],
+    ingredientsSource: 'https://www.carolinaherrera.com/us/en/p-fragrance/212-heroes',
   },
 
   // ---- CHANEL ----
@@ -5894,6 +5961,13 @@ export const fragrances: Fragrance[] = [
     sillage: 'Strong',
     projection: 4,
     source: 'https://www.fragrantica.com/perfume/Carolina-Herrera/Very-Good-Girl-65560.html',
+    // The 2.7 oz SKU's list, the priced size (D27, F-326).
+    ingredients: [
+      'Alcohol Denat.', 'Parfum (Fragrance)', 'Aqua (Water)', 'Linalool', 'Limonene', 'Coumarin',
+      'Butyl Methoxydibenzoylmethane', 'Alpha-Isomethyl Ionone', 'Citral', 'Isoeugenol',
+      'Geraniol', 'CI 14700 (Red 4)', 'CI 60730 (Ext. Violet 2)',
+    ],
+    ingredientsSource: 'https://www.carolinaherrera.com/us/en/p-fragrance/very-good-girl?sku=000000000065165902',
   },
   {
     id: 'creed-queen-of-silk',
@@ -5976,6 +6050,13 @@ export const fragrances: Fragrance[] = [
     sillage: 'Moderate',
     projection: 3,
     source: 'https://www.fragrantica.com/perfume/Givenchy/L-Interdit-Eau-de-Toilette-2022-75822.html',
+    ingredients: [
+      'Alcohol', 'Parfum (Fragrance)', 'Aqua (Water)', 'Linalool', 'Limonene',
+      'Butyl Methoxydibenzoylmethane', 'Citronellol', 'Geraniol', 'Benzyl Salicylate',
+      'Alpha-Isomethyl Ionone', 'Citral', 'Eugenol', 'Coumarin', 'Triethyl Citrate',
+      'CI 14700 (Red 4)', 'CI 47005 (Yellow 10)', 'CI 60730 (Ext. Violet 2)',
+    ],
+    ingredientsSource: 'https://www.givenchybeauty.com/us/p/l-interdit-F10100188.html',
   },
   {
     id: 'jpg-la-belle-le-parfum',
