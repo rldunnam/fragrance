@@ -53,9 +53,9 @@ const FAMILIES: FragranceFamily[] = [
         startAngle: 0,
         endAngle: 30,
         fragrances: [
-          { name: "Dior Homme", house: "Dior", notes: "Iris, cocoa, lavender, vetiver" },
+          { name: "Dior Homme Intense", house: "Dior", notes: "Lavender, iris, ambrette, vetiver" },
           { name: "Uomo Intense", house: "Valentino", notes: "Mandarin, iris, tonka, leather" },
-          { name: "Reflection Man", house: "Amouage", notes: "Neroli, iris, jasmine, musk" },
+          { name: "Reflection Man", house: "Amouage", notes: "Neroli, orris, jasmine, sandalwood" },
         ],
       },
       {
@@ -66,8 +66,8 @@ const FAMILIES: FragranceFamily[] = [
         endAngle: 60,
         fragrances: [
           { name: "Neroli Portofino", house: "Tom Ford", notes: "Bergamot, neroli, lavender, amber" },
-          { name: "Initio Atomic Rose", house: "Initio", notes: "Pink pepper, rose, jasmine, musk" },
-          { name: "Dior Homme Sport", house: "Dior", notes: "Blood orange, iris, pepper, cedar" },
+          { name: "Initio Atomic Rose", house: "Initio", notes: "Pink pepper, rose, jasmine, vanilla" },
+          { name: "Delina", house: "Parfums de Marly", notes: "Litchi, rhubarb, Turkish rose, peony" },
         ],
       },
       {
@@ -77,17 +77,17 @@ const FAMILIES: FragranceFamily[] = [
         startAngle: 60,
         endAngle: 90,
         fragrances: [
-          { name: "MYSLF Le Parfum", house: "YSL", notes: "Bergamot, orange blossom, vanilla, patchouli" },
-          { name: "Noir de Noir", house: "Tom Ford", notes: "Black rose, oud, truffle, sandalwood" },
+          { name: "MYSLF Le Parfum", house: "YSL", notes: "Black pepper, orange blossom, vanilla, patchouli" },
+          { name: "Noir de Noir", house: "Tom Ford", notes: "Black rose, saffron, truffle, oud" },
           { name: "Layton", house: "Parfums de Marly", notes: "Apple, lavender, jasmine, vanilla" },
         ],
       },
     ],
     fragrances: [
-      { name: "Dior Homme", house: "Dior", notes: "Iris, cocoa, vetiver" },
+      { name: "Dior Homme Intense", house: "Dior", notes: "Lavender, iris, vetiver" },
       { name: "Neroli Portofino", house: "Tom Ford", notes: "Neroli, bergamot, amber" },
       { name: "MYSLF Le Parfum", house: "YSL", notes: "Orange blossom, vanilla, patchouli" },
-      { name: "Reflection Man", house: "Amouage", notes: "Iris, jasmine, musk" },
+      { name: "Reflection Man", house: "Amouage", notes: "Orris, jasmine, sandalwood" },
     ],
   },
   {
@@ -108,8 +108,8 @@ const FAMILIES: FragranceFamily[] = [
         startAngle: 90,
         endAngle: 120,
         fragrances: [
-          { name: "La Nuit de L'Homme", house: "YSL", notes: "Cardamom, lavender, cedar, coumarin" },
-          { name: "Armani Code Absolu", house: "Giorgio Armani", notes: "Blood orange, cardamom, vanilla, tobacco" },
+          { name: "La Nuit de L'Homme", house: "YSL", notes: "Cardamom, lavender, cedar, vetiver" },
+          { name: "Armani Code", house: "Giorgio Armani", notes: "Mandarin, lavender, tonka, cedar" },
           { name: "Boss Bottled Elixir", house: "Hugo Boss", notes: "Incense, vetiver, patchouli, labdanum" },
         ],
       },
@@ -122,7 +122,7 @@ const FAMILIES: FragranceFamily[] = [
         fragrances: [
           { name: "Oud Wood", house: "Tom Ford", notes: "Oud, rosewood, cardamom, amber" },
           { name: "Althaïr", house: "Parfums de Marly", notes: "Orange blossom, Bourbon vanilla, praline, candied almond" },
-          { name: "Stronger With You Absolutely", house: "Emporio Armani", notes: "Pink pepper, chestnut, vanilla, suede" },
+          { name: "Stronger With You Absolutely", house: "Emporio Armani", notes: "Rum, chestnut, vanilla, patchouli" },
         ],
       },
       {
@@ -132,9 +132,9 @@ const FAMILIES: FragranceFamily[] = [
         startAngle: 150,
         endAngle: 180,
         fragrances: [
-          { name: "Tobacco Vanille", house: "Tom Ford", notes: "Tobacco, vanilla, sandalwood, cacao" },
+          { name: "Tobacco Vanille", house: "Tom Ford", notes: "Tobacco, vanilla, cacao, tonka" },
           { name: "Naxos", house: "Xerjoff", notes: "Honey, tobacco, vanilla, tonka" },
-          { name: "Bad Boy Elixir", house: "Carolina Herrera", notes: "Pepper, styrax, cacao, leather" },
+          { name: "Bad Boy Elixir", house: "Carolina Herrera", notes: "Sage, leather, iris, frankincense" },
         ],
       },
     ],
@@ -164,7 +164,7 @@ const FAMILIES: FragranceFamily[] = [
         endAngle: 210,
         fragrances: [
           { name: "Terre d'Hermès", house: "Hermès", notes: "Orange, flint, cedar, vetiver" },
-          { name: "Bleu de Chanel", house: "Chanel", notes: "Grapefruit, cedar, sandalwood, musk" },
+          { name: "Bleu de Chanel", house: "Chanel", notes: "Grapefruit, cedar, sandalwood, incense" },
           { name: "Acqua di Giò Profondo", house: "Giorgio Armani", notes: "Bergamot, mastic, patchouli, mineral musk" },
         ],
       },
@@ -176,8 +176,8 @@ const FAMILIES: FragranceFamily[] = [
         endAngle: 240,
         fragrances: [
           { name: "Aventus", house: "Creed", notes: "Pineapple, birch, oakmoss, musk" },
-          { name: "Pour Monsieur", house: "Chanel", notes: "Lemon, vetiver, oakmoss, cedar" },
-          { name: "Vetiver", house: "Guerlain", notes: "Vetiver, tobacco, earth, oakmoss" },
+          { name: "Aramis", house: "Aramis", notes: "Artemisia, sage, leather, oakmoss" },
+          { name: "Vetiver", house: "Guerlain", notes: "Vetiver, tobacco, nutmeg, oakmoss" },
         ],
       },
       {
@@ -188,7 +188,7 @@ const FAMILIES: FragranceFamily[] = [
         endAngle: 270,
         fragrances: [
           { name: "Tuscan Leather", house: "Tom Ford", notes: "Raspberry, saffron, leather, suede" },
-          { name: "Layton", house: "Parfums de Marly", notes: "Apple, lavender, vanilla, birch" },
+          { name: "Layton", house: "Parfums de Marly", notes: "Apple, lavender, vanilla, guaiac wood" },
           { name: "Ombré Leather", house: "Tom Ford", notes: "Cardamom, leather, patchouli, amber" },
         ],
       },
@@ -219,7 +219,7 @@ const FAMILIES: FragranceFamily[] = [
         endAngle: 300,
         fragrances: [
           { name: "Sauvage", house: "Dior", notes: "Bergamot, ambroxan, pepper, lavender" },
-          { name: "Versace Pour Homme", house: "Versace", notes: "Neroli, citron, sage, amber" },
+          { name: "Versace Pour Homme", house: "Versace", notes: "Neroli, lemon, sage, amber" },
           { name: "Y", house: "YSL", notes: "Apple, bergamot, sage, cedar" },
         ],
       },
@@ -231,7 +231,7 @@ const FAMILIES: FragranceFamily[] = [
         endAngle: 330,
         fragrances: [
           { name: "Acqua di Giò", house: "Giorgio Armani", notes: "Bergamot, neroli, jasmine, musk" },
-          { name: "Bleu de Chanel", house: "Chanel", notes: "Citrus, grapefruit, cedar, vetiver" },
+          { name: "Bleu de Chanel", house: "Chanel", notes: "Grapefruit, lemon, mint, cedar" },
           { name: "Eau Sauvage", house: "Dior", notes: "Lemon, bergamot, rosemary, vetiver" },
         ],
       },
@@ -242,17 +242,17 @@ const FAMILIES: FragranceFamily[] = [
         startAngle: 330,
         endAngle: 360,
         fragrances: [
-          { name: "Acqua di Giò Profumo", house: "Giorgio Armani", notes: "Bergamot, aquatic, patchouli, incense" },
+          { name: "Acqua di Giò Parfum", house: "Giorgio Armani", notes: "Marine notes, bergamot, rosemary, olibanum" },
           { name: "Cool Water", house: "Davidoff", notes: "Mint, sea water, sandalwood, musk" },
-          { name: "L'Eau d'Issey Pour Homme", house: "Issey Miyake", notes: "Calone, freesia, cedar, musk" },
+          { name: "L'Eau d'Issey Pour Homme", house: "Issey Miyake", notes: "Yuzu, calone, cedar, musk" },
         ],
       },
     ],
     fragrances: [
       { name: "Sauvage", house: "Dior", notes: "Bergamot, ambroxan, pepper" },
-      { name: "Acqua di Giò Profumo", house: "Giorgio Armani", notes: "Bergamot, aquatic, patchouli" },
+      { name: "Acqua di Giò Parfum", house: "Giorgio Armani", notes: "Marine notes, bergamot, olibanum" },
       { name: "Cool Water", house: "Davidoff", notes: "Mint, sea water, sandalwood" },
-      { name: "Versace Pour Homme", house: "Versace", notes: "Neroli, citron, amber" },
+      { name: "Versace Pour Homme", house: "Versace", notes: "Neroli, lemon, amber" },
     ],
   },
 ]
