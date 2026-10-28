@@ -2028,6 +2028,13 @@ export const fragrances: Fragrance[] = [
     projection: 4,
     line: 'Le Beau',
     source: 'https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Le-Beau-55785.html',
+    ingredients: [
+      'Alcohol Denat.', 'Parfum (Fragrance)', 'Aqua (Water)', 'Limonene', 'Coumarin', 'Linalool',
+      'Butyl Methoxydibenzoylmethane', 'Citronellol', 'Alpha-Isomethyl Ionone', 'Benzyl Alcohol',
+      'Citral', 'Geraniol', 'Cinnamal', 'Benzyl Benzoate', 'CI 42090 (Blue 1)', 'CI 14700 (Red 4)',
+      'CI 19140 (Yellow 5)',
+    ],
+    ingredientsSource: 'https://www.jeanpaulgaultier.com/us/en_US/p/range-le-beau/le-beau-eau-de-toilette-000000000065132207',
   },
   {
     id: 'azzaro-chrome-edt',
@@ -2843,6 +2850,14 @@ export const fragrances: Fragrance[] = [
     projection: 4,
     line: 'Scandal Pour Homme',
     source: 'https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Scandal-Pour-Homme-68074.html',
+    ingredients: [
+      'Alcohol Denat.', 'Parfum (Fragrance)', 'Aqua (Water)', 'Limonene',
+      'Butyl Methoxydibenzoylmethane', 'Linalool', 'Coumarin', 'Ethylhexyl Salicylate',
+      'Citronellol', 'Alpha-Isomethyl Ionone', 'Citral', 'Geraniol',
+      'Tris(Tetramethylhydroxypiperidinol) Citrate', 'CI 60730 (Ext. Violet 2)',
+      'CI 19140 (Yellow 5)', 'CI 14700 (Red 4)', 'CI 42090 (Blue 1)',
+    ],
+    ingredientsSource: 'https://www.jeanpaulgaultier.com/us/en_US/p/range-scandal-pour-homme/scandal-pour-homme-eau-de-toilette-000000000065154951',
   },
 
 
@@ -5983,6 +5998,14 @@ export const fragrances: Fragrance[] = [
     sillage: 'Very Strong',
     projection: 5,
     source: 'https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/La-Belle-Le-Parfum-2024-93892.html',
+    ingredients: [
+      'Alcohol Denat.', 'Parfum (Fragrance)', 'Aqua (Water)', 'Benzyl Salicylate',
+      'Butyl Methoxydibenzoylmethane', 'Alpha-Isomethyl Ionone', 'Linalool', 'Hydroxycitronellal',
+      'Hexyl Cinnamal', 'Coumarin', 'Limonene', 'Cinnamal', 'Cinnamyl Alcohol', 'Citronellol',
+      'Benzyl Benzoate', 'Benzyl Alcohol', 'Citral', 'Farnesol', 'Geraniol',
+      'CI 60730 (Ext. Violet 2)', 'CI 14700 (Red 4)', 'CI 42090 (Blue 1)', 'CI 19140 (Yellow 5)',
+    ],
+    ingredientsSource: 'https://www.jeanpaulgaultier.com/us/en_US/p/range-la-belle/la-belle-le-parfum-eau-de-parfum-intense-000000000065167903',
   },
   {
     id: 'jpg-la-belle-paradise-garden',
@@ -6005,6 +6028,13 @@ export const fragrances: Fragrance[] = [
     sillage: 'Strong',
     projection: 4,
     source: 'https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/La-Belle-Paradise-Garden-88873.html',
+    ingredients: [
+      'Alcohol Denat.', 'Parfum (Fragrance)', 'Aqua (Water)', 'Hydroxycitronellal', 'Linalool',
+      'Limonene', 'Butyl Methoxydibenzoylmethane', 'Coumarin', 'Hexyl Cinnamal', 'Citronellol',
+      'Alpha-Isomethyl Ionone', 'Cinnamal', 'Benzyl Benzoate', 'Benzyl Alcohol', 'Farnesol',
+      'Benzyl Salicylate', 'Geraniol', 'Citral', 'CI 60730 (Ext. Violet 2)',
+    ],
+    ingredientsSource: 'https://www.jeanpaulgaultier.com/us/en_US/p/range-la-belle/la-belle-paradise-garden-eau-de-parfum-000000000065199799',
   },
   {
     id: 'jpg-le-beau-narcisse',
@@ -6026,6 +6056,17 @@ export const fragrances: Fragrance[] = [
     sillage: 'Moderate',
     projection: 3,
     source: 'https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Le-Beau-Narcisse-122215.html',
+    ingredients: [
+      'Alcohol Denat.', 'Parfum (Fragrance)', 'Aqua (Water/Eau)',
+      'Tetramethyl Acetyloctahydronaphthalenes', 'Coumarin', 'Vanillin', 'Benzyl Salicylate',
+      'Linalool', 'Citrus Aurantium Bergamia (Bergamot) Peel Oil', 'Butyl Methoxydibenzoylmethane',
+      'Limonene', 'Geraniol', 'Linalyl Acetate', 'Citronellol', 'BHT',
+      'Cananga Odorata Oil/Extract', 'Pinene', 'Pogostemon Cablin Oil', 'Geranyl Acetate',
+      'Beta-Caryophyllene', 'Citral', 'Rose Ketones', 'Benzyl Benzoate', 'Rose Flower Oil/Extract',
+      'CI 60730 (Ext. Violet 2)', 'Terpineol', 'Terpinolene', 'Alpha-Terpinene', 'Benzyl Alcohol',
+      'CI 19140 (Yellow 5)', 'CI 42090 (Blue 1)', 'CI 14700 (Red 4)',
+    ],
+    ingredientsSource: 'https://www.jeanpaulgaultier.com/us/en_US/p/range-le-beau-narcisse/le-beau-narcisse-eau-de-parfum-000000000065228042',
   },
   {
     id: 'paco-invictus-parfum',
@@ -7022,6 +7063,13 @@ export const fragrances: Fragrance[] = [
     sillage: 'Strong',
     projection: 4,
     source: 'https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Le-Beau-Le-Parfum-72158.html',
+    ingredients: [
+      'Alcohol Denat.', 'Parfum (Fragrance)', 'Aqua (Water)', 'Limonene', 'Coumarin',
+      'Alpha-Isomethyl Ionone', 'Butyl Methoxydibenzoylmethane', 'Linalool', 'Citronellol',
+      'Citral', 'Geraniol', 'Cinnamal', 'CI 42090 (Blue 1)', 'Farnesol', 'CI 14700 (Red 4)',
+      'CI 19140 (Yellow 5)',
+    ],
+    ingredientsSource: 'https://www.jeanpaulgaultier.com/us/en_US/p/range-le-beau/le-beau-le-parfum-eau-de-parfum-intense-000000000065180318',
   },
   {
     id: 'jpg-le-male-elixir-absolu',
@@ -7078,6 +7126,14 @@ export const fragrances: Fragrance[] = [
     projection: 3,
     line: 'Le Beau',
     source: 'https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/Le-Beau-Paradise-Garden-88836.html',
+    ingredients: [
+      'Alcohol Denat.', 'Parfum (Fragrance)', 'Aqua (Water)', 'Limonene', 'Coumarin',
+      'Butyl Methoxydibenzoylmethane', 'Linalool', 'Alpha-Isomethyl Ionone', 'Eugenol', 'Citral',
+      'Citronellol', 'Alcohol', 'Tris(Tetramethylhydroxypiperidinol) Citrate', 'Cinnamal',
+      'Geraniol', 'Methyl 2-Octynoate', 'Benzyl Salicylate', 'Farnesol', 'CI 19140 (Yellow 5)',
+      'CI 17200 (Red 33)', 'CI 42090 (Blue 1)',
+    ],
+    ingredientsSource: 'https://www.jeanpaulgaultier.com/us/en_US/p/range-le-beau/le-beau-paradise-garden-eau-de-parfum-000000000065199801',
   },
   {
     id: 'jpg-la-belle',
@@ -7100,6 +7156,13 @@ export const fragrances: Fragrance[] = [
     projection: 4,
     line: 'La Belle',
     source: 'https://www.fragrantica.com/perfume/Jean-Paul-Gaultier/La-Belle-55786.html',
+    ingredients: [
+      'Alcohol Denat.', 'Parfum (Fragrance)', 'Aqua (Water)', 'Linalool', 'Benzyl Salicylate',
+      'Butyl Methoxydibenzoylmethane', 'Hydroxycitronellal', 'Limonene', 'Citronellol', 'Coumarin',
+      'Cinnamal', 'Alpha-Isomethyl Ionone', 'Citral', 'Farnesol', 'CI 17200 (Red 33)', 'Geraniol',
+      'CI 19140 (Yellow 5)', 'CI 60730 (Ext. Violet 2)', 'CI 42090 (Blue 1)',
+    ],
+    ingredientsSource: 'https://www.jeanpaulgaultier.com/us/en_US/p/range-la-belle/la-belle-eau-de-parfum-000000000065132212',
   },
   {
     id: 'tom-ford-ombre-leather-parfum',
