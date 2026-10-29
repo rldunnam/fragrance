@@ -1295,6 +1295,15 @@ export const fragrances: Fragrance[] = [
     sillage: 'Strong',
     projection: 4,
     source: 'https://www.fragrantica.com/perfume/Ralph-Lauren/Polo-890.html',
+    // CVS label accepted under D29 (F-347): its 'Active' and 'Inactive Ingredients' lists hold different items and are joined in printed order.
+    ingredients: [
+      'Alcohol', 'Aqua/Water', 'Parfum/Fragrance', 'Coumarin', 'Eugenol', 'Benzyl Alcohol',
+      'Limonene', 'Linalool', 'Isoeugenol', 'Hydroxycitronellal', 'T-Butyl Alcohol',
+      'Benzyl Salicylate', 'Benzyl Benzoate', 'Citronellol', 'Geraniol', 'Citral',
+      'Hexyl Cinnamal', 'Denatonium Benzoate', 'Benzyl Cinnamate', 'Alpha-Isomethyl Ionone',
+      'CI 42090/Blue 1', 'CI 15985/Yellow 6',
+    ],
+    ingredientsSource: 'https://www.cvs.com/shop/ralph-lauren-polo-eau-de-toilette-2-oz-prodid-293574',
   },
   {
     id: 'davidoff-cool-water',
@@ -1316,6 +1325,14 @@ export const fragrances: Fragrance[] = [
     sillage: 'Moderate',
     projection: 3,
     source: 'https://www.fragrantica.com/perfume/Davidoff/Cool-Water-507.html',
+    // CVS label accepted under D29 (F-347): CVS prints it in two orders, and Walgreens (ID=300417284) confirms the 'Active Ingredients' one stored here.
+    ingredients: [
+      'Alcohol Denat.', 'Aqua/Water/Eau', 'Parfum/Fragrance',
+      'Acrylates/Octylacrylamide Copolymer', 'Alpha-Isomethyl Ionone', 'BHT', 'Citral',
+      'Citronellol', 'Geraniol', 'Hydrolyzed Jojoba Esters', 'Hydroxycitronellal',
+      'Hydroxyisohexyl 3-Cyclohexene Carboxaldehyde', 'Limonene', 'Linalool',
+    ],
+    ingredientsSource: 'https://www.cvs.com/shop/davidoff-cool-water-eau-de-toilette-prodid-7200736',
   },
   {
     id: 'dior-fahrenheit',
@@ -1626,6 +1643,18 @@ export const fragrances: Fragrance[] = [
     sillage: 'Moderate',
     projection: 3,
     source: 'https://www.fragrantica.com/perfume/Coty/Stetson-5506.html',
+    // CVS label accepted under D29 (F-347): its 'Active Ingredients' repeats the start of 'Inactive Ingredients', so the longer list is stored.
+    ingredients: [
+      'Alcohol Denat.', 'Aqua/Water/Eau', 'Parfum/Fragrance', 'Propylene Glycol',
+      'Diisopropyl Adipate', 'C12-15 Alkyl Lactate', 'Ethylhexyl Methoxycinnamate', 'Limonene',
+      'Coumarin', 'Hydroxycitronellal', 'Benzophenone-3', 'Ethylhexyl Salicylate',
+      'Alpha-Isomethyl Ionone', 'Butylphenyl Methylpropional', 'Butyl Methoxydibenzoylmethane',
+      'Geraniol', 'Linalool', 'Citronellol', 'Evernia Furfuracea (Treemoss) Extract',
+      'C12-16 Alcohols', 'Isoeugenol', 'Evernia Prunastri (Oakmoss) Extract', 'Eugenol', 'Citral',
+      'Benzyl Benzoate', 'Tetrasodium EDTA', 'Benzyl Alcohol', 'BHT',
+      'FD&C Yellow No. 5(CI 19140)', 'FD&C Red No. 4(CI 14700)', 'FD&C Blue No. 1(CI 42090)',
+    ],
+    ingredientsSource: 'https://www.cvs.com/shop/stetson-eau-de-cologne-3-5-oz-prodid-281089',
   },
   {
     id: 'paco-1-million-original',
