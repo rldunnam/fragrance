@@ -242,7 +242,7 @@ const FAMILIES: FragranceFamily[] = [
         startAngle: 330,
         endAngle: 360,
         fragrances: [
-          { name: "Acqua di Giò Parfum", house: "Giorgio Armani", notes: "Marine notes, bergamot, rosemary, olibanum" },
+          { name: "Acqua di Giò Eau de Parfum", house: "Giorgio Armani", notes: "Sea notes, mandarin, sage, vetiver" },
           { name: "Cool Water", house: "Davidoff", notes: "Mint, sea water, sandalwood, musk" },
           { name: "L'Eau d'Issey Pour Homme", house: "Issey Miyake", notes: "Yuzu, calone, cedar, musk" },
         ],
@@ -250,7 +250,7 @@ const FAMILIES: FragranceFamily[] = [
     ],
     fragrances: [
       { name: "Sauvage", house: "Dior", notes: "Bergamot, ambroxan, pepper" },
-      { name: "Acqua di Giò Parfum", house: "Giorgio Armani", notes: "Marine notes, bergamot, olibanum" },
+      { name: "Acqua di Giò Eau de Parfum", house: "Giorgio Armani", notes: "Sea notes, mandarin, vetiver" },
       { name: "Cool Water", house: "Davidoff", notes: "Mint, sea water, sandalwood" },
       { name: "Versace Pour Homme", house: "Versace", notes: "Neroli, lemon, amber" },
     ],
