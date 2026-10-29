@@ -80,6 +80,17 @@ Report problems; do not fix them.
   after the last item, or with a code printed after it. A printed code that
   is not a FORMULA_CODE_RE form is left out with a comment. The entry
   carries a comment saying the label rests on this rule. (Decided 2026-10-28, D28; F-333.)
+- Where neither the house site, Sephora nor Ulta prints a list for the
+  fragrance, a CVS (cvs.com) product page's 'Ingredients' list is accepted
+  when it begins with the alcohol, is not alphabetical throughout, and does
+  not end on a separator. CVS's 'Active Ingredients' and 'Inactive
+  Ingredients' headings are template text, not part of the label: when one
+  list repeats the start of the other, store the longer; when they hold
+  different items, join them in printed order; when they hold the same
+  items in different orders, or one is cut short, the label is accepted only
+  if Walgreens prints a list with the same items in the same order as one of
+  them, and that one is stored. The entry carries a comment saying the label
+  rests on this rule. (Decided 2026-10-29, D29; F-347.)
 - Use the fragrance's own product page. Gift sets and samplers list several
   labels on one page; don't take a label from one.
 - Where one product page prints a different label for each size SKU, take
