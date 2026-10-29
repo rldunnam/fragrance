@@ -4482,7 +4482,7 @@ export const fragrances: Fragrance[] = [
     longevity: '10-14 hrs',
     sillage: 'Very Strong',
     projection: 5,
-    concentration: 'Parfum',
+    concentration: 'EDP',
     line: 'Boss Bottled',
     source: 'https://www.fragrantica.com/perfume/Hugo-Boss/Boss-Bottled-Elixir-84074.html',
     // Hugo Boss US prints 'GERANIOL YELLOW 6 (CI 15985)' with no separator; stored as two items (D12).
