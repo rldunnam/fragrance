@@ -1,0 +1,21 @@
+name: Enhancement
+description: An idea or improvement to keep for future consideration
+labels: [enhancement]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What
+      description: What should change or be added?
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why
+      description: The problem it solves or the value it adds.
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Context, links, related issues, or rough ideas for how to do it.

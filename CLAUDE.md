@@ -30,6 +30,7 @@ pnpm check:public && pnpm validate && pnpm exec tsc --noEmit && pnpm lint && pnp
 
 - Start from a clean, up-to-date `main`, with one branch per change.
 - Security fixes go in their own isolated PRs, never mixed with feature or dependency work.
+- Enhancement ideas go in GitHub Issues labelled `enhancement` (plus `later` when not yet committed to), using `.github/ISSUE_TEMPLATE/enhancement.yml`; not in this file or the findings ledger.
 - Rick handles pushes, PRs and merges. Do not `git push`, open PRs, or merge unless asked in the session. The `main` ruleset requires the `changes`, `lint`, `trivy-fs`, and `build-status` checks with no approvals. `build-status` stands in for the build matrix, because a skipped matrix job never reports its per-platform check names. Skipped jobs count as passing, so docs-only PRs still merge. Merge with `gh pr merge --auto --squash --delete-branch`, which waits for the checks; `--admin` is only for emergencies.
 
 ## Architecture
@@ -99,6 +100,6 @@ Fragrantica and some house sites (dior.com confirmed) block plain fetching with 
 - **pnpm only.** Never commit a `package-lock.json`; a stale one caused Trivy false failures. `pnpm-workspace.yaml` holds `overrides` and `allowBuilds` and must stay. `refresh-lockfile.yml` (manual) regenerates `pnpm-lock.yaml` on a PR branch.
 - `.github/workflows/deploy.yml`: PRs run lint/typecheck/validate/check:public and a Trivy fs scan, then build both architectures without pushing; the amd64 image is loaded locally for a Trivy image scan and the smoke test. Pushes to `main` also push by digest, run a Trivy image scan and the smoke test, merge the multi-arch manifest, tag `:test` and `:test-<sha>`, and clean up the registry. `:latest` moves only on a manual run with **release** ticked.
 - Cross-job image digest references use uploaded artifacts, not matrix `outputs:`.
-- SHA-pin all GitHub Actions, with the version in a trailing comment, and never replace a pin with a floating tag. `aquasecurity/trivy-action` has a confirmed tag force-push history. Both workflows are fully pinned and Dependabot watches the `github-actions` ecosystem. Open TODO: consider pinact/step-security for ongoing maintenance.
+- SHA-pin all GitHub Actions, with the version in a trailing comment, and never replace a pin with a floating tag. `aquasecurity/trivy-action` has a confirmed tag force-push history. Both workflows are fully pinned and Dependabot watches the `github-actions` ecosystem.
 - Dependabot merge order: GitHub Actions PRs first, then Docker/devcontainer, then npm PRs one at a time with rebase settle time between each. When reviewing grouped Dependabot PRs, give a clear verdict and a merge sequence, and flag what is most likely to break CI or change behavior.
 - Scanner severity is not exploitability. Check the vendor advisory and whether the code path is reachable before prioritizing.
