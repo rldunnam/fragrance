@@ -1,0 +1,166 @@
+name: Dependabot auto-merge
+
+# Merges eligible Dependabot PRs one at a time, each validated twice:
+#
+#   1. on the PR, against the current tip of main: the PR must be up to date
+#      with main (if not, Dependabot is asked to rebase and the PR re-runs the
+#      full PR pipeline: lint, typecheck, validate, Trivy fs, both builds,
+#      Trivy image scan and the smoke test), and every check on its head
+#      commit must have passed;
+#   2. on main, after the merge: the next PR is not touched until the push run
+#      of "Build and Publish Container" for main's current head has finished
+#      successfully (build, image scan, smoke test, manifest, tags).
+#
+# A red main stops the queue until main is green again.
+#
+# Eligible: Dependabot-authored PRs whose commits are all Dependabot's, whose
+# commit metadata lists no semver-major update, and which do not touch
+# aquasecurity/trivy-action (tag force-push history; always reviewed by hand).
+# Anything else is skipped and left for a human. Order follows the project
+# merge rule: GitHub Actions, then Docker, then devcontainer, then npm, oldest
+# first within each.
+#
+# Triggers: every completed run of the build workflow (PR or main), which is
+# what advances the queue, plus an hourly sweep and a manual run as fallbacks
+# for checks that finish outside that workflow (CodeQL).
+#
+# This workflow never checks out or runs PR code; it only reads PR metadata
+# through the API, so the token it holds is never exposed to a PR's contents.
+#
+# Token: DEPENDABOT_AUTOMERGE_TOKEN, a fine-grained PAT scoped to this repo
+# (Contents, Pull requests and Workflows read/write; Actions read). A PAT is
+# needed for two reasons: merges made with GITHUB_TOKEN do not trigger the
+# push run on main, and Dependabot only obeys "@dependabot rebase" from a
+# user with write access, not from a bot. Stored as both an Actions secret
+# and a Dependabot secret, because runs that a Dependabot event set off only
+# see the Dependabot store.
+
+on:
+  workflow_run:
+    workflows: [ "Build and Publish Container" ]
+    types: [ completed ]
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+# One sweep at a time; a queued sweep replaces any older queued one.
+concurrency:
+  group: dependabot-automerge
+  cancel-in-progress: false
+
+jobs:
+  advance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions: {}
+    env:
+      GH_TOKEN: ${{ secrets.DEPENDABOT_AUTOMERGE_TOKEN }}
+      R: ${{ github.repository }}
+    steps:
+      - name: Merge the next eligible Dependabot PR
+        run: |
+          set -euo pipefail
+
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::error::DEPENDABOT_AUTOMERGE_TOKEN is not set in this secret store."
+            exit 1
+          fi
+
+          main_sha="$(gh api "repos/$R/commits/main" --jq .sha)"
+          main_date="$(gh api "repos/$R/commits/$main_sha" --jq .commit.committer.date)"
+
+          # --- gate: main's own push run must be green at its current head ---
+          run="$(gh run list -R "$R" --workflow deploy.yml --branch main --event push \
+            --limit 1 --json status,conclusion,headSha --jq '.[0] // {}')"
+          if [ "$(jq -r .headSha <<< "$run")" != "$main_sha" ]; then
+            echo "main ${main_sha:0:7} has no push run yet; waiting."; exit 0
+          fi
+          if [ "$(jq -r .status <<< "$run")" != "completed" ]; then
+            echo "main ${main_sha:0:7} is still building; waiting."; exit 0
+          fi
+          if [ "$(jq -r .conclusion <<< "$run")" != "success" ]; then
+            echo "::warning::main ${main_sha:0:7} is not green; the queue is paused until it is."
+            exit 0
+          fi
+
+          # --- candidates in merge order ---
+          candidates="$(gh pr list -R "$R" --author app/dependabot --state open \
+            --json number,headRefName,isDraft --jq '
+              map(select(.isDraft | not)
+                | . + {rank: (.headRefName as $b
+                    | if   ($b | startswith("dependabot/github_actions/")) then 0
+                      elif ($b | startswith("dependabot/docker/"))         then 1
+                      elif ($b | startswith("dependabot/devcontainers/"))  then 2
+                      elif ($b | startswith("dependabot/npm_and_yarn/"))   then 3
+                      else 9 end)})
+              | sort_by(.rank, .number) | .[].number')"
+          [ -n "$candidates" ] || { echo "No open Dependabot PRs."; exit 0; }
+
+          for n in $candidates; do
+            pr="$(gh pr view "$n" -R "$R" \
+              --json headRefOid,commits,statusCheckRollup,mergeable,comments)"
+            head="$(jq -r .headRefOid <<< "$pr")"
+            echo "--- #$n (${head:0:7})"
+
+            # Eligibility: skip anything a human must review.
+            if jq -e '[.commits[].authors[].login] | any(. != "dependabot[bot]")' <<< "$pr" >/dev/null; then
+              echo "  skip: has commits not made by Dependabot"; continue
+            fi
+            body="$(jq -r '[.commits[].messageBody] | join("\n")' <<< "$pr")"
+            if ! grep -q '^updated-dependencies:' <<< "$body"; then
+              echo "  skip: no Dependabot update metadata"; continue
+            fi
+            if grep -q 'update-type: version-update:semver-major' <<< "$body"; then
+              echo "  skip: contains a major update"; continue
+            fi
+            if grep -q 'dependency-name: aquasecurity/trivy-action' <<< "$body"; then
+              echo "  skip: trivy-action is always reviewed by hand"; continue
+            fi
+
+            # Checks on the head commit.
+            failed="$(jq -r '[.statusCheckRollup[]
+              | select((.status // "COMPLETED") == "COMPLETED")
+              | select((.conclusion // .state) as $c
+                  | ["SUCCESS","SKIPPED","NEUTRAL"] | index($c) | not)
+              | (.name // .context)] | join(", ")' <<< "$pr")"
+            if [ -n "$failed" ]; then
+              echo "::warning::#$n has failing checks ($failed); left for review."; continue
+            fi
+
+            # From here on this is the next PR in line: wait on it rather than
+            # jump past it, so merges stay in order.
+            if [ "$(jq -r .mergeable <<< "$pr")" = "CONFLICTING" ]; then
+              echo "  waiting: conflicts with main (Dependabot rebases these itself)"; exit 0
+            fi
+
+            behind="$(gh api "repos/$R/compare/$main_sha...$head" --jq .behind_by)"
+            if [ "$behind" -gt 0 ]; then
+              asked="$(jq --arg since "$main_date" '[.comments[]
+                | select(.createdAt > $since and (.body | startswith("@dependabot rebase")))]
+                | length' <<< "$pr")"
+              if [ "$asked" -eq 0 ]; then
+                gh pr comment "$n" -R "$R" --body "@dependabot rebase"
+                echo "  behind main by $behind; asked Dependabot to rebase"
+              else
+                echo "  behind main by $behind; rebase already requested"
+              fi
+              exit 0
+            fi
+
+            if jq -e '[.statusCheckRollup[] | (.status // "COMPLETED")] | any(. != "COMPLETED")' <<< "$pr" >/dev/null; then
+              echo "  waiting: checks still running"; exit 0
+            fi
+            for req in changes lint trivy-fs build-status; do
+              if ! jq -e --arg r "$req" '[.statusCheckRollup[] | (.name // .context)] | index($r)' <<< "$pr" >/dev/null; then
+                echo "  waiting: required check '$req' has not reported"; exit 0
+              fi
+            done
+
+            gh pr merge "$n" -R "$R" --squash --match-head-commit "$head"
+            echo "  merged; the next PR waits for main's run on the merge commit"
+            exit 0
+          done
+
+          echo "No eligible Dependabot PRs to advance."

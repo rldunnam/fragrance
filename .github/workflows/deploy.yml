@@ -88,7 +88,7 @@ jobs:
 
           # Paths that never reach the image. Keep in step with .dockerignore.
           relevant="$(printf '%s\n' "$changed" | grep -vE \
-            '^(docs/|\.devcontainer/|[^/]+\.md$|\.github/(dependabot\.yml|CODEOWNERS|workflows/refresh-lockfile\.yml)$)' \
+            '^(docs/|\.devcontainer/|[^/]+\.md$|\.github/(dependabot\.yml|CODEOWNERS|workflows/(refresh-lockfile|dependabot-automerge)\.yml)$)' \
             || true)"
 
           if [ -n "$relevant" ]; then
