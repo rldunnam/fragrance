@@ -28,8 +28,10 @@ name: Dependabot auto-merge
 # through the API, so the token it holds is never exposed to a PR's contents.
 #
 # Token: DEPENDABOT_AUTOMERGE_TOKEN, a fine-grained PAT scoped to this repo
-# (Contents, Pull requests and Workflows read/write; Actions read). A PAT is
-# needed for two reasons: merges made with GITHUB_TOKEN do not trigger the
+# (Contents, Pull requests, Issues and Workflows read/write; Actions read).
+# Issues is needed for the rebase comment: gh pr comment goes through the
+# GraphQL addComment mutation, which Pull requests alone does not allow. A
+# PAT is needed for two reasons: merges made with GITHUB_TOKEN do not trigger the
 # push run on main, and Dependabot only obeys "@dependabot rebase" from a
 # user with write access, not from a bot. Stored as both an Actions secret
 # and a Dependabot secret, because runs that a Dependabot event set off only
