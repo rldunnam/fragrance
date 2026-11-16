@@ -3,7 +3,8 @@ name: Dependabot auto-merge
 # Merges eligible Dependabot PRs one at a time, each validated twice:
 #
 #   1. on the PR, against the current tip of main: the PR must be up to date
-#      with main (if not, Dependabot is asked to rebase and the PR re-runs the
+#      with main (if not, Dependabot is asked to rebase, again every 30 minutes
+#      up to three times if it does not respond, and the PR re-runs the
 #      full PR pipeline: lint, typecheck, validate, Trivy fs, both builds,
 #      Trivy image scan and the smoke test), and every check on its head
 #      commit must have passed;
@@ -139,15 +140,27 @@ jobs:
 
             behind="$(gh api "repos/$R/compare/$main_sha...$head" --jq .behind_by)"
             if [ "$behind" -gt 0 ]; then
-              asked="$(jq --arg since "$main_date" '[.comments[]
-                | select(.createdAt > $since and (.body | startswith("@dependabot rebase")))]
-                | length' <<< "$pr")"
-              if [ "$asked" -eq 0 ]; then
-                gh pr comment "$n" -R "$R" --body "@dependabot rebase"
-                echo "  behind main by $behind; asked Dependabot to rebase"
-              else
-                echo "  behind main by $behind; rebase already requested"
+              # Dependabot sometimes drops a rebase request silently (seen on
+              # #194, asked minutes after it opened the PR), so a request that
+              # has gone unanswered for 30 minutes is repeated, up to three
+              # requests per main commit.
+              asks="$(jq -c --arg since "$main_date" '[.comments[]
+                | select(.createdAt > $since and (.body | startswith("@dependabot rebase")))
+                | .createdAt] | sort' <<< "$pr")"
+              count="$(jq length <<< "$asks")"
+              if [ "$count" -gt 0 ]; then
+                last="$(jq -r '.[-1]' <<< "$asks")"
+                age=$(( $(date -u +%s) - $(date -u -d "$last" +%s) ))
+                if [ "$age" -lt 1800 ]; then
+                  echo "  behind main by $behind; rebase requested $((age / 60)) min ago"; exit 0
+                fi
+                if [ "$count" -ge 3 ]; then
+                  echo "::warning::#$n is behind main and Dependabot ignored $count rebase requests; left for a human."
+                  exit 0
+                fi
               fi
+              gh pr comment "$n" -R "$R" --body "@dependabot rebase"
+              echo "  behind main by $behind; asked Dependabot to rebase (request $((count + 1)))"
               exit 0
             fi
 
