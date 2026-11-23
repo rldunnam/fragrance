@@ -221,8 +221,30 @@ both pass.
   test that boots the container and checks `/`, `/collection`, `/quiz`, and
   `/guide`, multi-arch manifest merge, and registry cleanup.
 - **Cutting a release** — Actions → *Build and Publish Container* → *Run
-  workflow* → tick **release**. Identical to a `main` build, but also tags
-  `:latest`.
+  workflow* on `main` → tick **release**. Identical to a `main` build, but also
+  tags `:latest` and then deploys that image, by digest, to Fly.io production
+  (`deploy-production`), followed by a check of the same four routes on
+  https://fragrance.fly.dev. A release run started from another branch moves
+  neither `:latest` nor production.
+
+### Production on Fly.io
+
+`fly.toml` describes the app: one `shared-cpu-1x` machine with 512 MB in `ord`,
+suspended when idle and resumed on the next request, on a shared IPv4 address.
+Fly never builds; it pulls the public GHCR image CI already scanned and
+smoke-tested. The deploy needs one secret, `FLY_API_TOKEN`, an app-scoped deploy
+token stored in the `production` environment (Settings → Environments →
+production), which only `main` may deploy to:
+
+```bash
+fly apps create fragrance
+fly ips allocate-v4 --shared
+fly tokens create deploy --app fragrance --expiry 8760h
+```
+
+The token expires after a year; regenerate it and replace the environment
+secret before then. Production uses the same build-time `NEXT_PUBLIC_*` keys as
+`:test`.
 
 All actions are pinned to commit SHAs with the version in a trailing comment.
 Dependabot maintains both. Do not replace a pin with a floating tag.
