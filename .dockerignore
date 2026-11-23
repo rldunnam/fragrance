@@ -50,9 +50,10 @@ README.md
 docs
 LICENSE
 
-# Scanner config, consumed by CI rather than the build
+# Scanner and deploy config, consumed by CI rather than the build
 .trivyignore
 .trivyignore.yaml
+fly.toml
 
 # Logs
 *.log

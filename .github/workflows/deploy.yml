@@ -1,13 +1,15 @@
 name: Build and Publish Container
 
 # Tagging model:
-#   every push to main   -> :test and :test-<sha>
-#   manual release run   -> the above, plus :latest
-#   pull requests        -> build only, nothing is pushed to GHCR
+#   every push to main            -> :test and :test-<sha>
+#   manual release run on main    -> the above, plus :latest, then a Fly.io
+#                                    production deploy of that same image
+#   pull requests                 -> build only, nothing is pushed to GHCR
 #
-# :latest is deliberately opt-in. main is pushed to directly, so an automatic
-# :latest would mean every commit is a release. Cutting one is a conscious act:
-# Actions -> this workflow -> Run workflow -> tick "release".
+# :latest and production are deliberately opt-in. main is pushed to directly, so
+# an automatic release would mean every commit ships. Cutting one is a conscious
+# act: Actions -> this workflow -> Run workflow (branch: main) -> tick "release".
+# A release run started from any other branch tags :test and :test-<sha> only.
 
 on:
   push:
@@ -17,7 +19,7 @@ on:
   workflow_dispatch:
     inputs:
       release:
-        description: "Also tag this build as :latest"
+        description: "Release: tag :latest and deploy to Fly.io production (main only)"
         type: boolean
         default: false
 
@@ -88,7 +90,7 @@ jobs:
 
           # Paths that never reach the image. Keep in step with .dockerignore.
           relevant="$(printf '%s\n' "$changed" | grep -vE \
-            '^(docs/|\.devcontainer/|[^/]+\.md$|\.github/(dependabot\.yml|CODEOWNERS|workflows/(refresh-lockfile|dependabot-automerge)\.yml)$)' \
+            '^(docs/|\.devcontainer/|[^/]+\.md$|fly\.toml$|\.github/(dependabot\.yml|CODEOWNERS|workflows/(refresh-lockfile|dependabot-automerge)\.yml)$)' \
             || true)"
 
           if [ -n "$relevant" ]; then
@@ -454,14 +456,17 @@ jobs:
           REPO: ghcr.io/${{ github.repository }}
           SHA: ${{ github.sha }}
           RELEASE: ${{ inputs.release }}
+          REF: ${{ github.ref }}
         run: |
           [ "$(ls -A .)" ] || { echo "No digests found, aborting."; exit 1; }
 
           TAGS=( --tag "${REPO}:test" --tag "${REPO}:test-${SHA}" )
 
-          if [ "${RELEASE}" = "true" ]; then
+          if [ "${RELEASE}" = "true" ] && [ "${REF}" = "refs/heads/main" ]; then
             echo "Release run: also tagging :latest"
             TAGS+=( --tag "${REPO}:latest" )
+          elif [ "${RELEASE}" = "true" ]; then
+            echo "::warning::Release ticked on ${REF}, not main: :latest will not be moved"
           else
             echo "Not a release run: :latest will not be moved"
           fi
@@ -493,3 +498,67 @@ jobs:
           package-type: container
           min-versions-to-keep: 5
           delete-only-untagged-versions: true
+
+  # ===========================================================================
+  # Production deploy (Fly.io)
+  # ===========================================================================
+  # Runs only on a manual run from main with "release" ticked, after `merge` has
+  # tagged :latest. Fly never builds: it pulls the public GHCR image by digest,
+  # so production runs exactly the bytes that passed trivy-image and the smoke
+  # test, even if a later push moves :test in the meantime.
+  #
+  # FLY_API_TOKEN is an app-scoped deploy token stored only in the `production`
+  # environment, which is restricted to the main branch. The NEXT_PUBLIC_* keys
+  # are inlined at build time, so production uses the same Clerk and Supabase
+  # keys as :test.
+  deploy-production:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: merge
+    if: github.event_name == 'workflow_dispatch' && inputs.release && github.ref == 'refs/heads/main'
+    environment:
+      name: production
+      url: https://fragrance.fly.dev
+    concurrency:
+      group: fly-production
+      cancel-in-progress: false
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@ed8efb33836e8b2096c7fd3ba1c8afe303ebbff1 # 1.6
+        with:
+          version: 0.5.5
+
+      - name: Resolve the released image digest
+        id: img
+        env:
+          REF: ghcr.io/${{ github.repository }}:test-${{ github.sha }}
+        run: |
+          DIGEST="$(docker buildx imagetools inspect "$REF" --format '{{json .Manifest}}' | jq -r .digest)"
+          [[ "$DIGEST" =~ ^sha256:[0-9a-f]{64}$ ]] || { echo "Could not resolve a digest for $REF"; exit 1; }
+          echo "digest=$DIGEST" >> "$GITHUB_OUTPUT"
+          echo "Deploying $REF ($DIGEST)"
+
+      - name: Deploy to Fly.io
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          IMAGE: ghcr.io/${{ github.repository }}@${{ steps.img.outputs.digest }}
+        run: |
+          [ -n "$FLY_API_TOKEN" ] || { echo "FLY_API_TOKEN is not set in the production environment"; exit 1; }
+          flyctl deploy --image "$IMAGE" --ha=false --wait-timeout 300
+
+      - name: Check the live site
+        env:
+          IMAGE: ghcr.io/${{ github.repository }}@${{ steps.img.outputs.digest }}
+        run: |
+          for p in / /collection /quiz /guide; do
+            curl -fsS -o /dev/null --retry 5 --retry-all-errors --retry-delay 5 \
+              -w "$p %{http_code}\n" "https://fragrance.fly.dev$p"
+          done
+          echo "### Deployed to https://fragrance.fly.dev" >> "$GITHUB_STEP_SUMMARY"
+          echo "\`$IMAGE\`" >> "$GITHUB_STEP_SUMMARY"
