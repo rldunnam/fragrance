@@ -121,6 +121,9 @@ const GLOBAL_HOSTS = new Set(['parfums-de-marly.com', 'www.parfums-de-marly.com'
 // recording that its US site prints the short form.
 const HOUSE_GLOBAL_HOSTS = {
   'Parfums de Marly': new Set(['parfums-de-marly.com', 'www.parfums-de-marly.com']),
+  // D30: a house site on a non-US domain that sells to US addresses in USD is
+  // that house's US site (batch-78, Epicò).
+  'Epicò': new Set(['epicoparfum.it']),
 }
 // A country locale in the path, e.g. dior.com/en_id/ (Indonesia). US paths
 // (en_us, /us/en_US/) pass.

@@ -163,7 +163,10 @@ Report problems; do not fix them.
   and the D31 retailers: price at its preselected size with the store set
   to the United States and USD, or at the house size in `price-basis.json`
   (the nearest size offered, the larger on a tie) where it preselects none.
-  (Decided 2026-11-24, D30.)
+  A label it prints counts as the house US site's label; where its domain
+  is not a US one (epicoparfum.it), it is listed for that house only in
+  `HOUSE_GLOBAL_HOSTS` in the validator script. (Decided 2026-11-24, D30;
+  label clause batch-78.)
 - `status` has two meanings that are easy to confuse (decided 2026-10-02, F-097):
   - `discontinued`: the house no longer sells it anywhere. The entry keeps its
     last available US details: price, priced size, label and their sources.
