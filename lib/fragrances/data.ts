@@ -9144,7 +9144,7 @@ export const fragrances: Fragrance[] = [
     topNotes: [],
     heartNotes: ['Lemon Zest', 'Lemon', 'Whipped Cream', 'Vanilla', 'Butter', 'Sugar', 'Tartine'],
     baseNotes: [],
-    rationale: 'A 2023 lemon dessert: zesty lemon and lemon curd with butter, cream and a pastry note over vanilla. Bright, buttery and light.',
+    rationale: 'A 2023 lemon dessert: lemon zest and lemon with butter, whipped cream and a pastry note over vanilla. Bright, buttery and light.',
     intensity: 2,
     longevity: '5-7 hrs',
     sillage: 'Moderate',

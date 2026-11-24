@@ -301,6 +301,10 @@ Report problems; do not fix them.
   price, as at FragranceNet: store the regular price it strikes through. A
   markdown that needs no code still follows D19. (Decided 2026-10-28, D24;
   Issey Miyake, F-311.)
+- A retailer's marketplace or third-party-seller listing (Ulta Marketplace
+  'mkt' pages, a Macy's listing 'Shipped and sold by <seller>') is not that
+  retailer selling the fragrance, for price (D24) or label; skip it and go
+  on down the order. (Practice since F-314; written down in batch-85, F-408.)
 - Where a page preselects a refill, price the bottle of the same size that
   the page also offers; a refill is not the spray bottle. (Decided
   2026-10-28, D25; Kilian, F-318.)
