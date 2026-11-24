@@ -122,6 +122,9 @@ const HOUSE_GLOBAL_HOSTS = {
 // A country locale in the path, e.g. dior.com/en_id/ (Indonesia). US paths
 // (en_us, /us/en_US/) pass.
 const NON_US_LOCALE_PATH_RE = /\/[a-z]{2}[_-](?!us(?:\/|$))[a-z]{2}(?:\/|$)/i
+// A Wayback Machine snapshot with a 14-digit timestamp; group 1 is the
+// archived URL (D32).
+const WAYBACK_RE = /^https:\/\/web\.archive\.org\/web\/\d{14}\/(https:\/\/\S+)$/
 const SET_PAGE_RE = /(sampler|gift-set|coffret|discovery-set|mini-set|-set-|-set$)/i
 // Formula codes as printed with a label: L'Oréal's "F.I.L. B266362/1",
 // Dior's "#21664", or the code Chanel US prints as the last label item
@@ -385,7 +388,13 @@ for (const { id, body } of entries) {
     err(`${where} ingredientsSource must be an https URL, got "${ingredientsSource}"`)
   }
   if (ingredientsSource && /^https:\/\/\S+$/.test(ingredientsSource)) {
-    const { hostname, pathname, search } = new URL(ingredientsSource)
+    // A discontinued entry may cite a Wayback Machine snapshot of an allowed
+    // US page (D32): the archived URL is what the host checks below test.
+    const archived = ingredientsSource.match(WAYBACK_RE)
+    if (archived && str(body, 'status') !== 'discontinued') {
+      err(`${where} ingredientsSource is a Wayback Machine snapshot — allowed only for discontinued entries (D32)`)
+    }
+    const { hostname, pathname, search } = new URL(archived ? archived[1] : ingredientsSource)
     const regional = str(body, 'status') === 'regional'
     const houseGlobal = HOUSE_GLOBAL_HOSTS[house]?.has(hostname) ?? false
     if (RESELLER_HOST_RE.test(hostname)) {
