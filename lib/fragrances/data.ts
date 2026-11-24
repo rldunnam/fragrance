@@ -8582,13 +8582,13 @@ export const fragrances: Fragrance[] = [
     topNotes: ['Almond', 'Orange Blossom'],
     heartNotes: ['Tobacco', 'Rose Oil'],
     baseNotes: ['Tonka Bean', 'Bourbon Vanilla', 'Amberwood', 'Amyris'],
-    rationale: 'Alexandra Carlin\'s 2021 almond-tonka: bitter almond and orange blossom over tobacco and rose, on tonka, bourbon vanilla and amber woods. Nutty, creamy and warm.',
+    rationale: 'Alexandra Carlin\'s 2021 almond-tonka: almond and orange blossom over tobacco and rose, on tonka, bourbon vanilla and amber woods. Nutty, creamy and warm.',
     intensity: 3,
     longevity: '7-9 hrs',
     sillage: 'Moderate',
     projection: 3,
     source: 'https://www.fragrantica.com/perfume/BDK-Parfums/Velvet-Tonka-68119.html',
-    // D33: 'ETHYLHEXYL METHOXY- CINNAMATE' and 'TRIS(TE- TRAMETHYLHYDROXYPIPERIDI- NOL)CITRATE' rejoined (the missing spaces after 'LINALOOL,', 'CITRAL,' and before 'CITRATE' are as printed); D12: 'EXT VIOLET 2' given its period.
+    // D33: 'ETHYLHEXYL METHOXY- CINNAMATE' and 'TRIS(TE- TRAMETHYLHYDROXYPIPERIDI- NOL)CITRATE' rejoined (the missing space before 'CITRATE' is as printed); D12: 'EXT VIOLET 2' given its period.
     ingredients: [
       'Alcohol Denat.', 'Parfum (Fragrance)', 'Aqua (Water)', 'Limonene', 'Coumarin', 'Linalool',
       'Ethylhexyl Methoxycinnamate', 'Diethylamino Hydroxybenzoyl Hexyl Benzoate',
@@ -8610,7 +8610,7 @@ export const fragrances: Fragrance[] = [
     topNotes: ['Plum', 'Pink Pepper', 'Italian Lemon'],
     heartNotes: ['Turkish Rose', 'Chocolate', 'Cinnamon'],
     baseNotes: ['Tobacco', 'Indonesian Patchouli Leaf', 'Spanish Labdanum'],
-    rationale: 'Julien Rasquinet\'s 2020 tobacco rose: plum and pink pepper over Turkish rose with dark chocolate and cinnamon, on tobacco, patchouli and labdanum. Rich, spiced and long-lasting.',
+    rationale: 'Julien Rasquinet\'s 2020 tobacco rose: plum and pink pepper over Turkish rose with chocolate and cinnamon, on tobacco, patchouli and labdanum. Rich, spiced and long-lasting.',
     intensity: 4,
     longevity: '8-10 hrs',
     sillage: 'Strong',
