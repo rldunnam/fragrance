@@ -8142,4 +8142,28 @@ export const fragrances: Fragrance[] = [
     ingredientsSource: 'https://epicoparfum.it/en/products/almanera',
   },
 
+  // ─── Lancôme ─────────────────────────────────────────────────────────────
+  {
+    id: 'lancome-roses-berberanza',
+    name: 'Rôses Berberanza',
+    house: 'Lancôme',
+    audience: 'Unisex',
+    price: 208,
+    concentration: 'EDP',
+    status: 'discontinued',
+    includeReason: 'Discontinued: Lancôme no longer sells it anywhere (no search results on Lancôme US, France or UK, 24 Nov 2026). Kept at the owner\'s request for its cult following among fans of the Maison Lancôme line. Its last US price, $208 for 3.4 oz, is read from the Lancôme US product page in a Wayback Machine snapshot of 14 Nov 2019 (D32).',
+    family: ['Floral', 'Gourmand'],
+    occasion: ['Date Night', 'Formal'],
+    season: ['Fall', 'Winter'],
+    topNotes: ['Tangerine'],
+    heartNotes: ['Damask Rose', 'Pistachio', 'Raspberry', 'Ginger', 'Green Notes'],
+    baseNotes: ['Honey', 'Hazelnut', 'Rum', 'Vanilla', 'Woody Notes', 'Benzoin', 'Saffron', 'Violet', 'Cedar'],
+    rationale: 'Julien Rasquinet\'s 2017 Maison Lancôme rose: Damask rose with raspberry, pistachio and ginger over a honeyed base of hazelnut, rum, vanilla and saffron. A lush gourmand rose with big projection.',
+    intensity: 4,
+    longevity: '8-10 hrs',
+    sillage: 'Strong',
+    projection: 4,
+    source: 'https://www.fragrantica.com/perfume/Lancome/Roses-Berberanza-45245.html',
+  },
+
 ]
