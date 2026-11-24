@@ -189,6 +189,7 @@ const US_SOURCE_HOSTS = new Map([
   ['www.sephora.com', /^\/product\//],
   ['www.ulta.com', null],
   ['www.cvs.com', /^\/shop\//],
+  ['www.nordstrom.com', /^\/s\//],
 ])
 // A storefront-switching query parameter (sephora.com/product/…?country_switch=ca
 // serves the Canadian page from a US-looking path). Any value is rejected: a

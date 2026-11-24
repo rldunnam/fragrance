@@ -8164,6 +8164,15 @@ export const fragrances: Fragrance[] = [
     sillage: 'Strong',
     projection: 4,
     source: 'https://www.fragrantica.com/perfume/Lancome/Roses-Berberanza-45245.html',
+    ingredients: [
+      'Alcohol', 'Parfum/Fragrance', 'Aqua/Water', 'Benzotriazolyl Dodecyl P-Cresol', 'Limonene',
+      'Alpha-Isomethyl Ionone', 'Benzyl Salicylate', 'Coumarin', 'Benzyl Alcohol',
+      'Benzyl Benzoate', 'Cinnamyl Alcohol', 'Citronellol',
+      'Pentaerythrityl Tetra-Di-T-Butyl Hydroxyhydrocinnamate', 'Linalool', 'Benzyl Cinnamate',
+      'Geraniol', 'Citral', 'Farnesol', 'Tris(Tetramethylhydroxypiperidinol) Citrate', 'Eugenol',
+      'CI 14700/Red 4', 'Isoeugenol', 'CI 60730/Ext. Violet 2', 'CI 15510/Orange 4',
+    ],
+    ingredientsSource: 'https://www.nordstrom.com/s/lancme-maison-lancme-rses-berberanza-eau-de-parfum/4710814',
   },
 
 ]
