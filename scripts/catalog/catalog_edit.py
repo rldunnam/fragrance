@@ -63,6 +63,7 @@ class Catalog:
         self.data = _read(DATA)
         self.nl = _nl(self.data)
         self._ledger = None
+        self._new_ids = []
 
     # data.ts -----------------------------------------------------------
     def _find(self, id_):
@@ -125,6 +126,64 @@ class Catalog:
         assert b.endswith("  },")
         b = b[:-len("  },")] + tail + "  },"
         self.data = self.data[:m.start()] + b + self.data[m.end():]
+
+    FIELD_ORDER = ('id', 'name', 'house', 'audience', 'price', 'priceSizeMl', 'concentration', 'line',
+                   'status', 'includeReason', 'family', 'occasion', 'season', 'topNotes', 'heartNotes',
+                   'baseNotes', 'rationale', 'intensity', 'longevity', 'sillage', 'projection', 'source',
+                   'notesFlat')
+
+    def add(self, fields, label_comment=None, ingredients=None, ingredients_source=None,
+            formula_code=None):
+        """Insert a new entry and record its id in published-ids.json.
+
+        fields: dict of the scalar/list fields in FIELD_ORDER (lists as Python
+        lists, numbers as int, notesFlat as True). The entry goes after the
+        house's last entry, or in a new house section before the closing `]`.
+        The label is appended as in update().
+        """
+        id_ = fields['id']
+        assert f"    id: '{id_}'," not in self.data, f'id exists: {id_}'
+        extra = set(fields) - set(self.FIELD_ORDER)
+        assert not extra, extra
+        lines = ['  {']
+        for k in self.FIELD_ORDER:
+            if k not in fields:
+                continue
+            v = fields[k]
+            if v is True:
+                lit = 'true'
+            elif isinstance(v, (int, float)):
+                lit = str(v)
+            elif isinstance(v, list):
+                lit = '[' + ', '.join(ts_str(x) for x in v) + ']'
+            else:
+                lit = ts_str(v)
+            lines.append(f'    {k}: {lit},')
+        b = self.nl.join(lines) + self.nl
+        if label_comment:
+            b += f"    // {label_comment}" + self.nl
+        if ingredients is not None:
+            b += "    ingredients: [" + self.nl + self.wrap(ingredients) + self.nl + "    ]," + self.nl
+        if ingredients_source:
+            b += f"    ingredientsSource: {ts_str(ingredients_source)}," + self.nl
+        if formula_code:
+            b += f"    formulaCode: {ts_str(formula_code)}," + self.nl
+        b += '  },' + self.nl
+        house = fields['house']
+        nl = re.escape(self.nl)
+        house_line = f"{self.nl}    house: {ts_str(house)},{self.nl}"
+        ends = [m.end() for m in re.finditer(nl + r"  \{" + nl + r"    id: '.*?" + nl + r"  \},", self.data, re.S)
+                if house_line in m.group(0)]
+        if ends:
+            at = ends[-1] + len(self.nl)
+            self.data = self.data[:at] + b + self.data[at:]
+        else:
+            close = self.data.rindex(self.nl + ']')
+            title = f'  // ─── {house} '
+            title += '─' * max(3, 78 - len(title))
+            self.data = (self.data[:close] + self.nl + title + self.nl + b.rstrip('\r\n')
+                         + self.nl + self.data[close:])
+        self._new_ids.append(id_)
 
     def remove(self, id_):
         """Delete an entry (pair it with retire())."""
@@ -218,6 +277,12 @@ class Catalog:
     def save(self):
         check_newlines(self.data, DATA)
         _write(DATA, self.data)
+        if self._new_ids:
+            def rec(d):
+                dup = set(self._new_ids) & set(d['published'])
+                assert not dup, dup
+                d['published'] = sorted(d['published'] + self._new_ids)
+            self._edit_json(PUBLISHED_IDS, rec)
         if self._ledger is not None:
             text = self._ledger_nl.join(self._ledger)
             check_newlines(text, LEDGER)

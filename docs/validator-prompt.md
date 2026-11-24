@@ -155,6 +155,13 @@ Report problems; do not fix them.
   in the US (house US site or a major US retailer), and that its `line` matches an
   existing line in the catalog. Flag entries that look regional-only, discontinued,
   or limited without a `status` and `includeReason`.
+- A niche house sold in the US only through boutiques counts as sold in the
+  US: an authorized US niche retailer (Luckyscent, Twisted Lily or Indigo
+  Perfumery) selling the fragrance, or the house's own site selling it to US
+  addresses in US dollars, makes the entry `current`. Such a house site is
+  the house's US site for price and label, ahead of Sephora, Ulta, Macy's
+  and the D31 retailers: price at its preselected size with the store set
+  to the United States and USD. (Decided 2026-11-24, D30.)
 - `status` has two meanings that are easy to confuse (decided 2026-10-02, F-097):
   - `discontinued`: the house no longer sells it anywhere. The entry keeps its
     last available US details: price, priced size, label and their sources.
@@ -203,6 +210,15 @@ Report problems; do not fix them.
   could not be loaded and do not flag the price; if the page is live, check it
   as usual. A marked-down price with no list price beside it is stored as
   shown, and the ledger says so. (Decided 2026-10-02, F-097.)
+  A `discontinued` entry added after the house stopped selling it takes its
+  last US price, priced size and label from a Wayback Machine snapshot
+  (web.archive.org/web/<14-digit timestamp>/<url>) of the house's US site,
+  else of Sephora, Ulta, Saks, Neiman Marcus or Nordstrom: the latest
+  snapshot that shows a price for the product page, at the size it
+  preselects (the house size where it preselects none). Cite the snapshot
+  URL with its timestamp; `ingredientsSource` may be such a snapshot only on
+  a `discontinued` entry. Check the snapshot as if it were the live page.
+  (Decided 2026-11-24, D32.)
   `ysl-la-nuit-edp` (the 2019 Eau de Parfum) has no source for its last US
   price and no recorded size; its 110 is taken as a 100 ml price, the YSL
   house size, and its `includeReason` says so. Do not flag it for the
@@ -271,7 +287,18 @@ Report problems; do not fix them.
   the page also offers; a refill is not the spray bottle. (Decided
   2026-10-28, D25; Kilian, F-318.)
 - Where the house has no US store and neither Sephora, Ulta nor Macy's sells
-  the fragrance, the entry stays `current` and is priced as a US listing at
+  the fragrance, but an authorized US niche retailer does, price it at the
+  first of Luckyscent, Twisted Lily and Indigo Perfumery that lists it in
+  stock (a sold-out listing only if none is in stock), at the size its page
+  preselects, or at the house size in `price-basis.json` where it preselects
+  none; set `priceSizeMl` as usual. Samples, decants and discovery sets are
+  not the bottle. The same retailer, in the same order, is the label source
+  when no house US site, Sephora or Ulta page prints a list; D12 applies.
+  The entry stays `current` (D30), and grey-market pricing (D26) is used
+  only when none of the three lists it. (Decided 2026-11-24, D31.)
+- Where the house has no US store and neither Sephora, Ulta, Macy's nor a
+  D31 niche retailer sells the fragrance, the entry stays `current` and is
+  priced as a US listing at
   FragranceX, at its in-stock house-size listing (or the size its page
   preselects where the house has no size yet). If FragranceX does not have
   it in stock, take the first in-stock boxed listing in the grey-market order
