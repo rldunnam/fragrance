@@ -185,6 +185,7 @@ const US_SOURCE_HOSTS = new Map([
   ['us.louisvuitton.com', null],
   ['www.carolinaherrera.com', /^\/us\//],
   ['www.givenchybeauty.com', /^\/us\//],
+  ['us.bdkparfums.com', null],
   // major US retailers
   ['www.sephora.com', /^\/product\//],
   ['www.ulta.com', null],
