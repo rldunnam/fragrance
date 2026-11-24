@@ -8857,7 +8857,7 @@ export const fragrances: Fragrance[] = [
   },
   {
     id: 'mfk-gentle-fluidity-gold',
-    name: 'Gentle Fluidity Gold',
+    name: 'Gentle Fluidity Gold Edition',
     house: 'Maison Francis Kurkdjian',
     audience: 'Unisex',
     price: 275,
