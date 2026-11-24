@@ -7635,7 +7635,7 @@ export const fragrances: Fragrance[] = [
     topNotes: [],
     heartNotes: ['Cashmeran', 'Cashmere Musk', 'Pepper', 'White Amber', 'Calabrian Bergamot'],
     baseNotes: [],
-    rationale: 'Fugazzi\'s 2021 first release and most-voted scent: a soft skin-musk built on cashmeran and cashmere musk, lifted by bergamot and a touch of pepper over white amber. Clean, powdery and close to the skin.',
+    rationale: 'Fugazzi\'s most-reviewed scent on Fragrantica, from 2021: a soft skin-musk built on cashmeran and cashmere musk, lifted by bergamot and a touch of pepper over white amber. Clean, powdery and close to the skin.',
     intensity: 2,
     longevity: '6-8 hrs',
     sillage: 'Moderate',

@@ -125,7 +125,7 @@ const NON_US_LOCALE_PATH_RE = /\/[a-z]{2}[_-](?!us(?:\/|$))[a-z]{2}(?:\/|$)/i
 // A Wayback Machine snapshot with a 14-digit timestamp; group 1 is the
 // archived URL (D32).
 const WAYBACK_RE = /^https:\/\/web\.archive\.org\/web\/\d{14}\/(https:\/\/\S+)$/
-const SET_PAGE_RE =/(sampler|gift-set|coffret|discovery-set|mini-set|-set-|-set$)/i
+const SET_PAGE_RE = /(sampler|gift-set|coffret|discovery-set|mini-set|-set-|-set$)/i
 // Formula codes as printed with a label: L'Oréal's "F.I.L. B266362/1",
 // Dior's "#21664", or the code Chanel US prints as the last label item
 // ("PS000046A", "IL47-1"; D16). A bare batch code (e.g. "8YB02-1") is not a
