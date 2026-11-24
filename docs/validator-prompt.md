@@ -266,6 +266,10 @@ Report problems; do not fix them.
   (montblanc.com/en-us) also give each size its own product page. Price the
   100 ml page, the house size in `price-basis.json`. (Hugo Boss: batch-29,
   F-158; Burberry: batch-36, F-209 and F-212; Montblanc: batch-40, F-227.)
+  Maison Francis Kurkdjian US (franciskurkdjian.com/us-en) does the same,
+  one product code per size: price the 2.4 fl.oz. / 70 ml page, the MFK
+  house size, even where a search tile links another size. (Batch-84,
+  F-399 to F-404.)
 - Bvlgari US (bulgari.com/en-us) preselects no size on a multi-size page; the
   'From' price it shows belongs to the smallest size. Select the 100 ml house
   size in `price-basis.json`, or the nearest size offered, the larger on a tie.
