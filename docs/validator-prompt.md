@@ -72,6 +72,14 @@ Report problems; do not fix them.
   the ledger. Do not flag a documented correction; flag an undocumented
   difference, and anything beyond these defects. (Decided 2026-10-26, D12;
   closes F-138. Missing separator added 2026-10-27 under F-187.)
+- A seventh printing defect: one ingredient name split by a print-layout
+  line break, shown as a hyphen and space or a stray space inside the word
+  ('LIMONE- NE', 'ETHYLHEXYL METHOXY- CINNAMATE', 'BENZYL BENZOA TE'), is
+  rejoined ('Limonene', 'Ethylhexyl Methoxycinnamate', 'Benzyl Benzoate')
+  when the joined form is a standard INCI name. Spacing that is not inside a
+  split word (a missing space after a comma or before 'Citrate') is stored
+  as printed. As with D12, each fix is named in a comment on the entry and
+  in the ledger. (Decided 2026-11-24, D33; BDK Parfums US.)
 - Ulta's product page truncates long lists in its display. For any Ulta-sourced
   label, confirm the last item against Sephora or the house site.
   Where neither Sephora nor the house site prints a list for the fragrance,
