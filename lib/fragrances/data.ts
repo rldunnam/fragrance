@@ -8724,7 +8724,7 @@ export const fragrances: Fragrance[] = [
     topNotes: ['Coconut', 'Rum'],
     heartNotes: ['Tobacco', 'Tonka Bean'],
     baseNotes: ['Chinese Cedar', 'Oakmoss'],
-    rationale: 'Jorge Lee\'s 2016 boozy coconut: coconut and rum over tobacco and tonka, on cedar and oakmoss. Sweet, smoky and warm.',
+    rationale: 'Jorge Lee\'s 2016 boozy coconut: coconut and rum over tobacco and tonka, on cedar and oakmoss. Sweet, boozy and warm.',
     intensity: 4,
     longevity: '10-12 hrs',
     sillage: 'Strong',
