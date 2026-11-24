@@ -2807,7 +2807,7 @@ export const fragrances: Fragrance[] = [
     topNotes: [],
     heartNotes: ['Rum', 'Tobacco', 'Cinnamon', 'Saffron', 'Sandalwood', 'Hedione'],
     baseNotes: [],
-    rationale: 'Initio\'s 2016 most-reviewed scent: boozy rum and tobacco warmed with cinnamon and saffron over sandalwood. Dense, sweet-spiced and long-lasting, a cold-weather night scent.',
+    rationale: 'Initio\'s most-reviewed scent (2016): boozy rum and tobacco warmed with cinnamon and saffron over sandalwood. Dense, sweet-spiced and long-lasting, a cold-weather night scent.',
     intensity: 4,
     longevity: '10-12 hrs',
     sillage: 'Strong',
