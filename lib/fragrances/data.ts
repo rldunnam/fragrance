@@ -7943,7 +7943,7 @@ export const fragrances: Fragrance[] = [
     topNotes: ['Virginia Cedar'],
     heartNotes: ['Ambrette'],
     baseNotes: ['Musk', 'Ambrettolide', 'Ambroxan'],
-    rationale: 'Guichard\'s 2019 clean-skin musk: ambrette and ambrettolide over cedar and ambroxan. Soft, radiant and laundry-fresh, an easy signature for any day.',
+    rationale: 'Guichard\'s 2019 skin musk: a cedar opening onto ambrette, ambrettolide and ambroxan. Soft, clean and radiant, an easy signature for any day.',
     intensity: 2,
     longevity: '8-10 hrs',
     sillage: 'Moderate',
