@@ -95,6 +95,8 @@ const NOTE_ALIASES = new Map([
   ['Sea water', 'Sea Water'],
   ['Java vetiver oil', 'Java Vetiver Oil'],
   ['French labdanum', 'French Labdanum'],
+  ['Blackcurrant', 'Black Currant'],
+  ['Lily of the Valley', 'Lily-of-the-Valley'],
 ])
 const TRADEMARK_RE = /[™®©]/
 
