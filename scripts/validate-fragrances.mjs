@@ -99,6 +99,9 @@ const NOTE_ALIASES = new Map([
   ['Lily of the Valley', 'Lily-of-the-Valley'],
   ['Cardamon', 'Cardamom'],
   ['Oolong tea', 'Oolong Tea'],
+  ['Metallic notes', 'Metallic Notes'],
+  ['dark woodsy notes', 'Dark Woodsy Notes'],
+  ['Brown sugar', 'Brown Sugar'],
 ])
 const TRADEMARK_RE = /[™®©]/
 
