@@ -9068,6 +9068,27 @@ export const fragrances: Fragrance[] = [
     projection: 3,
     source: 'https://www.fragrantica.com/perfume/Gritti/Chantilly-47446.html',
   },
+  {
+    id: 'gritti-vanilla-tana',
+    name: 'Vanilla Tanà',
+    house: 'Gritti',
+    audience: 'Unisex',
+    price: 335,
+    concentration: 'Extrait',
+    family: ['Gourmand', 'Amber'],
+    occasion: ['Everyday', 'Date Night'],
+    season: ['Fall', 'Winter'],
+    topNotes: [],
+    heartNotes: ['Vanilla Absolute', 'Vanilla Caviar', 'Vanilla Orchid', 'White Orchid', 'Tonka Bean', 'Sandalwood', 'Amber', 'Baobab', 'White Musk', 'Ylang-Ylang', 'Pink Pepper'],
+    baseNotes: [],
+    rationale: 'Luca Gritti\'s 2025 Madagascar vanilla, inspired by beans macerated in hollow baobab trunks: layered vanillas and white orchid with tonka, sandalwood and amber, lifted by ylang-ylang and pink pepper. Rich and long-lasting.',
+    intensity: 4,
+    longevity: '8-10 hrs',
+    sillage: 'Moderate',
+    projection: 3,
+    source: 'https://www.fragrantica.com/perfume/Gritti/Vanilla-Tana-113211.html',
+    notesFlat: true,
+  },
 
   // ─── Theodoros Kalotinis ─────────────────────────────────────────────────
   {

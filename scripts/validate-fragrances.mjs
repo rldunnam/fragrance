@@ -102,6 +102,7 @@ const NOTE_ALIASES = new Map([
   ['Metallic notes', 'Metallic Notes'],
   ['dark woodsy notes', 'Dark Woodsy Notes'],
   ['Brown sugar', 'Brown Sugar'],
+  ['Ylang Ylang', 'Ylang-Ylang'],
 ])
 const TRADEMARK_RE = /[™®©]/
 
