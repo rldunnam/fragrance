@@ -9081,7 +9081,7 @@ export const fragrances: Fragrance[] = [
     topNotes: [],
     heartNotes: ['Vanilla Absolute', 'Vanilla Caviar', 'Vanilla Orchid', 'White Orchid', 'Tonka Bean', 'Sandalwood', 'Amber', 'Baobab', 'White Musk', 'Ylang-Ylang', 'Pink Pepper'],
     baseNotes: [],
-    rationale: 'Luca Gritti\'s 2025 Madagascar vanilla, inspired by beans aged in hollow baobab trunks: layered vanillas and white orchid with tonka, sandalwood and amber, lifted by ylang-ylang and pink pepper. Rich and long-lasting.',
+    rationale: 'Luca Gritti\'s 2025 Madagascar vanilla, inspired by beans macerated in hollow baobab trunks: layered vanillas and white orchid with tonka, sandalwood and amber, lifted by ylang-ylang and pink pepper. Rich and long-lasting.',
     intensity: 4,
     longevity: '8-10 hrs',
     sillage: 'Moderate',

@@ -326,11 +326,14 @@ Report problems; do not fix them.
   bottle in stock. Price and label are taken from it as from a D31
   retailer, and the entry stays `current`. Decant and rebottling sellers,
   tester or discount listings, foreign stores with a USD storefront and
-  marketplace listings do not count. The boutique used is named in the
-  ledger row; Gritti's Vanilla Tanà is priced at House of Niche
+  marketplace listings do not count. If the boutique's bottle is sold out
+  and no other qualifying boutique has it in stock, D26 applies. The
+  boutique used is named in the ledger row; Gritti's Vanilla Tanà is
+  priced at House of Niche
   (houseofniche.us, Rosemont IL). (Decided 2026-11-24, D34; F-419.)
 - Where the house has no US store and neither Sephora, Ulta, Macy's nor a
-  D31 niche retailer (or a D34 boutique) sells the fragrance, the entry stays `current` and is
+  D31 niche retailer (or a D34 boutique) sells the fragrance, the entry
+  stays `current` and is
   priced as a US listing at
   FragranceX, at its in-stock house-size listing (or the size its page
   preselects where the house has no size yet). If FragranceX does not have
